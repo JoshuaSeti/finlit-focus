@@ -24,6 +24,7 @@ const AdminCarousel = () => {
     title: '',
     subtitle: '',
     description: '',
+    backgroundImageUrl: '',
     ctaText: '',
     ctaLink: '',
     active: true,
@@ -35,6 +36,7 @@ const AdminCarousel = () => {
       title: slide.title,
       subtitle: slide.subtitle,
       description: slide.description,
+      backgroundImageUrl: slide.backgroundImageUrl,
       ctaText: slide.ctaText,
       ctaLink: slide.ctaLink,
       active: slide.active,
@@ -48,6 +50,7 @@ const AdminCarousel = () => {
       title: '',
       subtitle: '',
       description: '',
+      backgroundImageUrl: '',
       ctaText: 'Learn More',
       ctaLink: '/',
       active: true,
@@ -67,7 +70,6 @@ const AdminCarousel = () => {
       const newSlide: CarouselSlide = {
         id: Date.now().toString(),
         ...formData,
-        imageUrl: '/placeholder.svg',
       };
       setSlides(prev => [...prev, newSlide]);
       toast({ title: 'Slide created successfully' });
@@ -135,6 +137,16 @@ const AdminCarousel = () => {
                   rows={3}
                 />
               </div>
+              <div className="space-y-2">
+                <Label htmlFor="backgroundImageUrl">Background Image URL</Label>
+                <Input
+                  id="backgroundImageUrl"
+                  value={formData.backgroundImageUrl}
+                  onChange={(e) => setFormData(prev => ({ ...prev, backgroundImageUrl: e.target.value }))}
+                  placeholder="https://images.unsplash.com/..."
+                />
+                <p className="text-xs text-muted-foreground">Use a high-resolution image URL (1920px wide recommended)</p>
+              </div>
               <div className="grid grid-cols-2 gap-4">
                 <div className="space-y-2">
                   <Label htmlFor="ctaText">Button Text</Label>
@@ -151,7 +163,7 @@ const AdminCarousel = () => {
                     id="ctaLink"
                     value={formData.ctaLink}
                     onChange={(e) => setFormData(prev => ({ ...prev, ctaLink: e.target.value }))}
-                    placeholder="/about"
+                    placeholder="/resources"
                   />
                 </div>
               </div>
@@ -186,8 +198,13 @@ const AdminCarousel = () => {
             <div className="text-muted-foreground cursor-grab">
               <GripVertical size={20} />
             </div>
-            <div className="w-24 h-16 bg-gradient-to-br from-primary/10 to-green-300/10 rounded-lg flex items-center justify-center">
-              <span className="text-2xl font-bold text-primary/30">{index + 1}</span>
+            <div 
+              className="w-32 h-20 rounded-lg bg-cover bg-center bg-muted flex items-center justify-center overflow-hidden"
+              style={{ backgroundImage: slide.backgroundImageUrl ? `url(${slide.backgroundImageUrl})` : undefined }}
+            >
+              {!slide.backgroundImageUrl && (
+                <span className="text-2xl font-bold text-primary/30">{index + 1}</span>
+              )}
             </div>
             <div className="flex-1 min-w-0">
               <h3 className="font-medium text-foreground truncate">{slide.title}</h3>

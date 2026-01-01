@@ -5,7 +5,7 @@ export interface CarouselSlide {
   title: string;
   subtitle: string;
   description: string;
-  imageUrl: string;
+  backgroundImageUrl: string;
   ctaText: string;
   ctaLink: string;
   active: boolean;
@@ -51,9 +51,9 @@ export const mockCarouselSlides: CarouselSlide[] = [
     title: 'Empowering Youth Through Financial Education',
     subtitle: 'Learn it. Earn it. Lead it.',
     description: 'We provide comprehensive financial literacy programs to schools across Zambia and Zimbabwe, helping young people build a foundation for financial success.',
-    imageUrl: '/placeholder.svg',
+    backgroundImageUrl: 'https://images.unsplash.com/photo-1523050854058-8df90110c9f1?w=1920&q=80',
     ctaText: 'Learn More',
-    ctaLink: '/about',
+    ctaLink: '/resources',
     active: true,
   },
   {
@@ -61,7 +61,7 @@ export const mockCarouselSlides: CarouselSlide[] = [
     title: 'Financial Literacy for Every Student',
     subtitle: 'Building Tomorrow\'s Leaders',
     description: 'Our curriculum covers budgeting, saving, investing, and entrepreneurship—essential skills for the modern economy.',
-    imageUrl: '/placeholder.svg',
+    backgroundImageUrl: 'https://images.unsplash.com/photo-1427504494785-3a9ca7044f45?w=1920&q=80',
     ctaText: 'Our Programs',
     ctaLink: '/resources',
     active: true,
@@ -71,7 +71,7 @@ export const mockCarouselSlides: CarouselSlide[] = [
     title: 'Partner With Us',
     subtitle: 'Bring FinLit to Your School',
     description: 'Join the movement to create financially literate communities. Contact us to bring our programs to your institution.',
-    imageUrl: '/placeholder.svg',
+    backgroundImageUrl: 'https://images.unsplash.com/photo-1509062522246-3755977927d7?w=1920&q=80',
     ctaText: 'Contact Us',
     ctaLink: '/contact',
     active: true,

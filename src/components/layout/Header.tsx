@@ -17,35 +17,30 @@ export function Header() {
   const location = useLocation();
 
   return (
-    <header className="fixed top-0 left-0 right-0 z-50 bg-background/80 backdrop-blur-lg border-b border-border/50">
+    <header className="fixed top-0 left-0 right-0 z-50 bg-background/95 backdrop-blur-md border-b border-border/30 shadow-sm">
       <nav className="container mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex h-16 items-center justify-between">
+        <div className="flex h-20 items-center justify-between">
           {/* Logo */}
-          <Link to="/" className="flex items-center gap-2">
-            <img src={finlitLogo} alt="FinLit Logo" className="h-10 w-auto" />
+          <Link to="/" className="flex items-center">
+            <img src={finlitLogo} alt="FinLit - Learn it. Earn it. Lead it." className="h-16 w-auto" />
           </Link>
 
           {/* Desktop Navigation */}
-          <div className="hidden md:flex items-center gap-8">
+          <div className="hidden md:flex items-center gap-10">
             {navLinks.map((link) => (
               <Link
                 key={link.name}
                 to={link.href}
                 className={cn(
-                  "text-sm font-medium transition-colors duration-200 hover:text-primary",
+                  "text-sm font-semibold uppercase tracking-wide transition-colors duration-200 hover:text-primary",
                   location.pathname === link.href
                     ? "text-primary"
-                    : "text-muted-foreground"
+                    : "text-foreground/80"
                 )}
               >
                 {link.name}
               </Link>
             ))}
-            <Link to="/admin">
-              <Button variant="outline" size="sm">
-                Admin
-              </Button>
-            </Link>
           </div>
 
           {/* Mobile Menu Button */}
@@ -67,21 +62,16 @@ export function Header() {
                   key={link.name}
                   to={link.href}
                   className={cn(
-                    "text-base font-medium py-2 transition-colors duration-200",
+                    "text-base font-semibold uppercase tracking-wide py-2 transition-colors duration-200",
                     location.pathname === link.href
                       ? "text-primary"
-                      : "text-muted-foreground hover:text-primary"
+                      : "text-foreground/80 hover:text-primary"
                   )}
                   onClick={() => setMobileMenuOpen(false)}
                 >
                   {link.name}
                 </Link>
               ))}
-              <Link to="/admin" onClick={() => setMobileMenuOpen(false)}>
-                <Button variant="outline" size="sm" className="w-full">
-                  Admin
-                </Button>
-              </Link>
             </div>
           </div>
         )}
