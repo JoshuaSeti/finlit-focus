@@ -65,10 +65,16 @@ export function Footer() {
           </div>
         </div>
 
-        <div className="border-t border-green-800 mt-8 pt-8 text-center">
+        <div className="border-t border-green-800 mt-8 pt-8 flex flex-col sm:flex-row items-center justify-between gap-4">
           <p className="text-sm text-green-300">
             © {new Date().getFullYear()} FinLit. All rights reserved. Learn it. Earn it. Lead it.
           </p>
+          <Link 
+            to="/admin" 
+            className="text-xs text-green-700 hover:text-green-500 transition-colors"
+          >
+            Site Administration
+          </Link>
         </div>
       </div>
     </footer>
