@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Link, useLocation, Outlet } from 'react-router-dom';
+import { Link, useLocation, Outlet, Navigate } from 'react-router-dom';
 import { 
   LayoutDashboard, 
   Images, 
@@ -7,10 +7,15 @@ import {
   MessageSquare, 
   Menu, 
   X,
-  LogOut,
-  Home
+  Home,
+  Users,
+  BookOpen,
+  Bell,
+  FolderOpen,
+  Shield
 } from 'lucide-react';
 import { cn } from '@/lib/utils';
+import { useAuth } from '@/hooks/useAuth';
 import finlitLogo from '@/assets/finlit-logo.png';
 
 const navItems = [
@@ -18,11 +23,34 @@ const navItems = [
   { name: 'Carousel', href: '/admin/carousel', icon: Images },
   { name: 'Blog Posts', href: '/admin/blogs', icon: FileText },
   { name: 'Contact Forms', href: '/admin/contacts', icon: MessageSquare },
+  { name: 'Facilitators', href: '/admin/facilitators', icon: Users },
+  { name: 'Lessons', href: '/admin/lessons', icon: BookOpen },
+  { name: 'Notifications', href: '/admin/notifications', icon: Bell },
+  { name: 'Facilitator Resources', href: '/admin/facilitator-resources', icon: FolderOpen },
+];
+
+const superAdminItems = [
+  { name: 'Admin Accounts', href: '/admin/admins', icon: Shield },
 ];
 
 export function AdminLayout() {
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const location = useLocation();
+  const { user, isAdmin, isSuperAdmin, signOut, isLoading } = useAuth();
+
+  if (isLoading) {
+    return (
+      <div className="min-h-screen flex items-center justify-center bg-muted/30">
+        <div className="animate-spin w-8 h-8 border-4 border-primary border-t-transparent rounded-full" />
+      </div>
+    );
+  }
+
+  if (!user || !isAdmin) {
+    return <Navigate to="/admin/login" replace />;
+  }
+
+  const allNavItems = isSuperAdmin ? [...navItems, ...superAdminItems] : navItems;
 
   return (
     <div className="min-h-screen bg-muted/30 flex">
@@ -49,8 +77,8 @@ export function AdminLayout() {
           </div>
 
           {/* Navigation */}
-          <nav className="flex-1 p-4 space-y-1">
-            {navItems.map((item) => (
+          <nav className="flex-1 p-4 space-y-1 overflow-y-auto">
+            {allNavItems.map((item) => (
               <Link
                 key={item.name}
                 to={item.href}
@@ -77,6 +105,13 @@ export function AdminLayout() {
               <Home size={18} />
               Back to Website
             </Link>
+            <button
+              onClick={() => signOut()}
+              className="w-full flex items-center gap-3 px-3 py-2 rounded-lg text-sm font-medium text-muted-foreground hover:bg-muted hover:text-foreground transition-colors"
+            >
+              <X size={18} />
+              Sign Out
+            </button>
           </div>
         </div>
       </aside>
@@ -93,7 +128,11 @@ export function AdminLayout() {
             {sidebarOpen ? <X size={24} /> : <Menu size={24} />}
           </button>
           <div className="flex-1" />
-          <span className="text-sm text-muted-foreground">Welcome, Admin</span>
+          <div className="flex items-center gap-2">
+            <span className="text-sm text-muted-foreground">
+              {isSuperAdmin ? 'Super Admin' : 'Admin'}
+            </span>
+          </div>
         </header>
 
         {/* Page Content */}

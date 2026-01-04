@@ -1,5 +1,5 @@
-import { useState } from 'react';
-import { Mail, Phone, Calendar, Eye, CheckCircle, Clock, XCircle } from 'lucide-react';
+import { useState, useEffect } from 'react';
+import { Mail, Phone, Calendar, Eye, CheckCircle, Clock } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import {
@@ -8,9 +8,20 @@ import {
   DialogHeader,
   DialogTitle,
 } from '@/components/ui/dialog';
-import { mockContactForms, type ContactForm } from '@/lib/mockData';
+import { supabase } from '@/integrations/supabase/client';
 import { useToast } from '@/hooks/use-toast';
 import { cn } from '@/lib/utils';
+
+interface ContactSubmission {
+  id: string;
+  school_name: string;
+  contact_name: string;
+  email: string;
+  phone: string | null;
+  message: string;
+  status: string;
+  created_at: string;
+}
 
 const statusOptions = [
   { value: 'all', label: 'All Status' },
@@ -21,22 +32,48 @@ const statusOptions = [
 
 const AdminContacts = () => {
   const { toast } = useToast();
-  const [contacts, setContacts] = useState<ContactForm[]>(mockContactForms);
+  const [contacts, setContacts] = useState<ContactSubmission[]>([]);
+  const [isLoading, setIsLoading] = useState(true);
   const [filterStatus, setFilterStatus] = useState('all');
-  const [selectedContact, setSelectedContact] = useState<ContactForm | null>(null);
+  const [selectedContact, setSelectedContact] = useState<ContactSubmission | null>(null);
+
+  useEffect(() => {
+    fetchContacts();
+  }, []);
+
+  const fetchContacts = async () => {
+    const { data, error } = await supabase
+      .from('contact_submissions')
+      .select('*')
+      .order('created_at', { ascending: false });
+
+    if (error) {
+      console.error('Error fetching contacts:', error);
+    } else {
+      setContacts(data || []);
+    }
+    setIsLoading(false);
+  };
 
   const filteredContacts = contacts.filter(c => 
     filterStatus === 'all' || c.status === filterStatus
   );
 
-  const updateStatus = (id: string, status: ContactForm['status']) => {
-    setContacts(prev => prev.map(c => 
-      c.id === id ? { ...c, status } : c
-    ));
-    toast({ title: `Status updated to ${status}` });
+  const updateStatus = async (id: string, status: string) => {
+    const { error } = await supabase
+      .from('contact_submissions')
+      .update({ status })
+      .eq('id', id);
+
+    if (error) {
+      toast({ title: 'Error updating status', variant: 'destructive' });
+    } else {
+      toast({ title: `Status updated to ${status}` });
+      fetchContacts();
+    }
   };
 
-  const getStatusIcon = (status: ContactForm['status']) => {
+  const getStatusIcon = (status: string) => {
     switch (status) {
       case 'new':
         return <Clock size={14} className="text-primary" />;
@@ -44,10 +81,12 @@ const AdminContacts = () => {
         return <Mail size={14} className="text-yellow-600" />;
       case 'resolved':
         return <CheckCircle size={14} className="text-green-600" />;
+      default:
+        return <Clock size={14} className="text-primary" />;
     }
   };
 
-  const getStatusColor = (status: ContactForm['status']) => {
+  const getStatusColor = (status: string) => {
     switch (status) {
       case 'new':
         return 'bg-primary/10 text-primary';
@@ -55,8 +94,18 @@ const AdminContacts = () => {
         return 'bg-yellow-500/10 text-yellow-600';
       case 'resolved':
         return 'bg-green-600/10 text-green-600';
+      default:
+        return 'bg-primary/10 text-primary';
     }
   };
+
+  if (isLoading) {
+    return (
+      <div className="flex items-center justify-center py-12">
+        <div className="animate-spin w-8 h-8 border-4 border-primary border-t-transparent rounded-full" />
+      </div>
+    );
+  }
 
   return (
     <div className="space-y-6">
@@ -117,7 +166,7 @@ const AdminContacts = () => {
               <div className="flex items-start justify-between gap-4">
                 <div className="flex-1">
                   <div className="flex items-center gap-3 mb-2">
-                    <h3 className="font-medium text-foreground">{contact.schoolName}</h3>
+                    <h3 className="font-medium text-foreground">{contact.school_name}</h3>
                     <span className={cn(
                       "flex items-center gap-1 px-2 py-1 rounded-full text-xs font-medium",
                       getStatusColor(contact.status)
@@ -126,7 +175,7 @@ const AdminContacts = () => {
                       {contact.status}
                     </span>
                   </div>
-                  <p className="text-sm text-muted-foreground mb-2">{contact.contactPerson}</p>
+                  <p className="text-sm text-muted-foreground mb-2">{contact.contact_name}</p>
                   <div className="flex flex-wrap items-center gap-4 text-xs text-muted-foreground">
                     <span className="flex items-center gap-1">
                       <Mail size={12} />
@@ -140,10 +189,7 @@ const AdminContacts = () => {
                     )}
                     <span className="flex items-center gap-1">
                       <Calendar size={12} />
-                      {new Date(contact.date).toLocaleDateString()}
-                    </span>
-                    <span className="px-2 py-0.5 bg-muted rounded-full">
-                      {contact.requestType}
+                      {new Date(contact.created_at).toLocaleDateString()}
                     </span>
                   </div>
                 </div>
@@ -158,7 +204,7 @@ const AdminContacts = () => {
                   </Button>
                   <Select
                     value={contact.status}
-                    onValueChange={(value) => updateStatus(contact.id, value as ContactForm['status'])}
+                    onValueChange={(value) => updateStatus(contact.id, value)}
                   >
                     <SelectTrigger className="w-32">
                       <SelectValue />
@@ -187,11 +233,11 @@ const AdminContacts = () => {
               <div className="grid grid-cols-2 gap-4">
                 <div>
                   <p className="text-xs text-muted-foreground mb-1">School/Organization</p>
-                  <p className="font-medium text-foreground">{selectedContact.schoolName}</p>
+                  <p className="font-medium text-foreground">{selectedContact.school_name}</p>
                 </div>
                 <div>
                   <p className="text-xs text-muted-foreground mb-1">Contact Person</p>
-                  <p className="font-medium text-foreground">{selectedContact.contactPerson}</p>
+                  <p className="font-medium text-foreground">{selectedContact.contact_name}</p>
                 </div>
               </div>
               <div className="grid grid-cols-2 gap-4">
@@ -206,17 +252,11 @@ const AdminContacts = () => {
                   <p className="font-medium text-foreground">{selectedContact.phone || 'Not provided'}</p>
                 </div>
               </div>
-              <div className="grid grid-cols-2 gap-4">
-                <div>
-                  <p className="text-xs text-muted-foreground mb-1">Request Type</p>
-                  <p className="font-medium text-foreground">{selectedContact.requestType}</p>
-                </div>
-                <div>
-                  <p className="text-xs text-muted-foreground mb-1">Date Submitted</p>
-                  <p className="font-medium text-foreground">
-                    {new Date(selectedContact.date).toLocaleDateString()}
-                  </p>
-                </div>
+              <div>
+                <p className="text-xs text-muted-foreground mb-1">Date Submitted</p>
+                <p className="font-medium text-foreground">
+                  {new Date(selectedContact.created_at).toLocaleDateString()}
+                </p>
               </div>
               <div>
                 <p className="text-xs text-muted-foreground mb-1">Message</p>
