@@ -1,8 +1,7 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Plus, Edit2, Trash2, GripVertical, Eye, EyeOff } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
-import { Textarea } from '@/components/ui/textarea';
 import { Label } from '@/components/ui/label';
 import { Switch } from '@/components/ui/switch';
 import {
@@ -12,34 +11,64 @@ import {
   DialogTitle,
   DialogTrigger,
 } from '@/components/ui/dialog';
-import { mockCarouselSlides, type CarouselSlide } from '@/lib/mockData';
+import { supabase } from '@/integrations/supabase/client';
 import { useToast } from '@/hooks/use-toast';
+
+interface CarouselSlide {
+  id: string;
+  title: string;
+  subtitle: string | null;
+  background_image_url: string | null;
+  cta_text: string | null;
+  cta_link: string | null;
+  is_active: boolean;
+  display_order: number;
+}
 
 const AdminCarousel = () => {
   const { toast } = useToast();
-  const [slides, setSlides] = useState<CarouselSlide[]>(mockCarouselSlides);
+  const [slides, setSlides] = useState<CarouselSlide[]>([]);
+  const [isLoading, setIsLoading] = useState(true);
   const [isDialogOpen, setIsDialogOpen] = useState(false);
   const [editingSlide, setEditingSlide] = useState<CarouselSlide | null>(null);
   const [formData, setFormData] = useState({
     title: '',
     subtitle: '',
-    description: '',
-    backgroundImageUrl: '',
-    ctaText: '',
-    ctaLink: '',
-    active: true,
+    background_image_url: '',
+    cta_text: '',
+    cta_link: '',
+    is_active: true,
+    display_order: 0,
   });
+
+  useEffect(() => {
+    fetchSlides();
+  }, []);
+
+  const fetchSlides = async () => {
+    const { data, error } = await supabase
+      .from('carousel_slides')
+      .select('*')
+      .order('display_order', { ascending: true });
+
+    if (error) {
+      console.error('Error fetching slides:', error);
+    } else {
+      setSlides(data || []);
+    }
+    setIsLoading(false);
+  };
 
   const openEditDialog = (slide: CarouselSlide) => {
     setEditingSlide(slide);
     setFormData({
       title: slide.title,
-      subtitle: slide.subtitle,
-      description: slide.description,
-      backgroundImageUrl: slide.backgroundImageUrl,
-      ctaText: slide.ctaText,
-      ctaLink: slide.ctaLink,
-      active: slide.active,
+      subtitle: slide.subtitle || '',
+      background_image_url: slide.background_image_url || '',
+      cta_text: slide.cta_text || '',
+      cta_link: slide.cta_link || '',
+      is_active: slide.is_active,
+      display_order: slide.display_order,
     });
     setIsDialogOpen(true);
   };
@@ -49,45 +78,78 @@ const AdminCarousel = () => {
     setFormData({
       title: '',
       subtitle: '',
-      description: '',
-      backgroundImageUrl: '',
-      ctaText: 'Learn More',
-      ctaLink: '/',
-      active: true,
+      background_image_url: '',
+      cta_text: 'Learn More',
+      cta_link: '/',
+      is_active: true,
+      display_order: slides.length,
     });
     setIsDialogOpen(true);
   };
 
-  const handleSave = () => {
+  const handleSave = async () => {
     if (editingSlide) {
-      setSlides(prev => prev.map(s => 
-        s.id === editingSlide.id 
-          ? { ...s, ...formData }
-          : s
-      ));
-      toast({ title: 'Slide updated successfully' });
+      const { error } = await supabase
+        .from('carousel_slides')
+        .update(formData)
+        .eq('id', editingSlide.id);
+
+      if (error) {
+        toast({ title: 'Error updating slide', variant: 'destructive' });
+      } else {
+        toast({ title: 'Slide updated successfully' });
+        fetchSlides();
+      }
     } else {
-      const newSlide: CarouselSlide = {
-        id: Date.now().toString(),
-        ...formData,
-      };
-      setSlides(prev => [...prev, newSlide]);
-      toast({ title: 'Slide created successfully' });
+      const { error } = await supabase
+        .from('carousel_slides')
+        .insert(formData);
+
+      if (error) {
+        toast({ title: 'Error creating slide', variant: 'destructive' });
+      } else {
+        toast({ title: 'Slide created successfully' });
+        fetchSlides();
+      }
     }
     setIsDialogOpen(false);
   };
 
-  const toggleActive = (id: string) => {
-    setSlides(prev => prev.map(s => 
-      s.id === id ? { ...s, active: !s.active } : s
-    ));
-    toast({ title: 'Slide visibility updated' });
+  const toggleActive = async (id: string, currentActive: boolean) => {
+    const { error } = await supabase
+      .from('carousel_slides')
+      .update({ is_active: !currentActive })
+      .eq('id', id);
+
+    if (error) {
+      toast({ title: 'Error updating slide', variant: 'destructive' });
+    } else {
+      toast({ title: 'Slide visibility updated' });
+      fetchSlides();
+    }
   };
 
-  const deleteSlide = (id: string) => {
-    setSlides(prev => prev.filter(s => s.id !== id));
-    toast({ title: 'Slide deleted' });
+  const deleteSlide = async (id: string) => {
+    const { error } = await supabase
+      .from('carousel_slides')
+      .delete()
+      .eq('id', id);
+
+    if (error) {
+      toast({ title: 'Error deleting slide', variant: 'destructive' });
+    } else {
+      toast({ title: 'Slide deleted' });
+      fetchSlides();
+    }
   };
+
+  if (isLoading) {
+    return (
+      <div className="flex items-center justify-center py-12">
+        <div className="animate-spin w-8 h-8 border-4 border-primary border-t-transparent rounded-full" />
+      </div>
+    );
+  }
 
   return (
     <div className="space-y-6">
@@ -128,52 +190,42 @@ const AdminCarousel = () => {
                 />
               </div>
               <div className="space-y-2">
-                <Label htmlFor="description">Description</Label>
-                <Textarea
-                  id="description"
-                  value={formData.description}
-                  onChange={(e) => setFormData(prev => ({ ...prev, description: e.target.value }))}
-                  placeholder="Slide description"
-                  rows={3}
-                />
-              </div>
-              <div className="space-y-2">
-                <Label htmlFor="backgroundImageUrl">Background Image URL</Label>
+                <Label htmlFor="background_image_url">Background Image URL</Label>
                 <Input
-                  id="backgroundImageUrl"
-                  value={formData.backgroundImageUrl}
-                  onChange={(e) => setFormData(prev => ({ ...prev, backgroundImageUrl: e.target.value }))}
+                  id="background_image_url"
+                  value={formData.background_image_url}
+                  onChange={(e) => setFormData(prev => ({ ...prev, background_image_url: e.target.value }))}
                   placeholder="https://images.unsplash.com/..."
                 />
                 <p className="text-xs text-muted-foreground">Use a high-resolution image URL (1920px wide recommended)</p>
               </div>
               <div className="grid grid-cols-2 gap-4">
                 <div className="space-y-2">
-                  <Label htmlFor="ctaText">Button Text</Label>
+                  <Label htmlFor="cta_text">Button Text</Label>
                   <Input
-                    id="ctaText"
-                    value={formData.ctaText}
-                    onChange={(e) => setFormData(prev => ({ ...prev, ctaText: e.target.value }))}
+                    id="cta_text"
+                    value={formData.cta_text}
+                    onChange={(e) => setFormData(prev => ({ ...prev, cta_text: e.target.value }))}
                     placeholder="Learn More"
                   />
                 </div>
                 <div className="space-y-2">
-                  <Label htmlFor="ctaLink">Button Link</Label>
+                  <Label htmlFor="cta_link">Button Link</Label>
                   <Input
-                    id="ctaLink"
-                    value={formData.ctaLink}
-                    onChange={(e) => setFormData(prev => ({ ...prev, ctaLink: e.target.value }))}
+                    id="cta_link"
+                    value={formData.cta_link}
+                    onChange={(e) => setFormData(prev => ({ ...prev, cta_link: e.target.value }))}
                     placeholder="/resources"
                   />
                 </div>
               </div>
               <div className="flex items-center gap-3">
                 <Switch
-                  id="active"
-                  checked={formData.active}
-                  onCheckedChange={(checked) => setFormData(prev => ({ ...prev, active: checked }))}
+                  id="is_active"
+                  checked={formData.is_active}
+                  onCheckedChange={(checked) => setFormData(prev => ({ ...prev, is_active: checked }))}
                 />
-                <Label htmlFor="active">Active</Label>
+                <Label htmlFor="is_active">Active</Label>
               </div>
               <div className="flex justify-end gap-3 pt-4">
                 <Button variant="outline" onClick={() => setIsDialogOpen(false)}>
@@ -200,9 +252,9 @@ const AdminCarousel = () => {
             </div>
             <div 
               className="w-32 h-20 rounded-lg bg-cover bg-center bg-muted flex items-center justify-center overflow-hidden"
-              style={{ backgroundImage: slide.backgroundImageUrl ? `url(${slide.backgroundImageUrl})` : undefined }}
+              style={{ backgroundImage: slide.background_image_url ? `url(${slide.background_image_url})` : undefined }}
             >
-              {!slide.backgroundImageUrl && (
+              {!slide.background_image_url && (
                 <span className="text-2xl font-bold text-primary/30">{index + 1}</span>
               )}
             </div>
@@ -214,10 +266,10 @@ const AdminCarousel = () => {
               <Button
                 variant="ghost"
                 size="icon"
-                onClick={() => toggleActive(slide.id)}
-                title={slide.active ? 'Hide slide' : 'Show slide'}
+                onClick={() => toggleActive(slide.id, slide.is_active)}
+                title={slide.is_active ? 'Hide slide' : 'Show slide'}
               >
-                {slide.active ? <Eye size={18} /> : <EyeOff size={18} />}
+                {slide.is_active ? <Eye size={18} /> : <EyeOff size={18} />}
               </Button>
               <Button
                 variant="ghost"

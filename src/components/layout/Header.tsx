@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
-import { Menu, X } from 'lucide-react';
+import { Menu, X, Users } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import finlitLogo from '@/assets/finlit-logo.png';
 import { cn } from '@/lib/utils';
@@ -41,6 +41,12 @@ export function Header() {
                 {link.name}
               </Link>
             ))}
+            <Link to="/facilitator/login">
+              <Button variant="outline" size="sm" className="gap-2">
+                <Users size={16} />
+                For Facilitators
+              </Button>
+            </Link>
           </div>
 
           {/* Mobile Menu Button */}
@@ -72,6 +78,13 @@ export function Header() {
                   {link.name}
                 </Link>
               ))}
+              <Link
+                to="/facilitator/login"
+                className="text-base font-semibold uppercase tracking-wide py-2 text-primary"
+                onClick={() => setMobileMenuOpen(false)}
+              >
+                For Facilitators
+              </Link>
             </div>
           </div>
         )}

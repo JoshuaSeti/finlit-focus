@@ -12,7 +12,7 @@ export function Footer() {
             <img src={finlitLogo} alt="FinLit Logo" className="h-12 w-auto mb-4 brightness-0 invert" />
             <p className="text-green-200 text-sm max-w-md">
               FinLit is a non-profit organization dedicated to empowering youth through 
-              comprehensive financial literacy education across Zambia and Zimbabwe.
+              comprehensive financial literacy education across Zambia.
             </p>
           </div>
 
@@ -38,6 +38,11 @@ export function Footer() {
               <li>
                 <Link to="/contact" className="text-sm text-green-200 hover:text-green-50 transition-colors">
                   Contact Us
+                </Link>
+              </li>
+              <li>
+                <Link to="/facilitator/login" className="text-sm text-green-200 hover:text-green-50 transition-colors">
+                  Facilitator Portal
                 </Link>
               </li>
             </ul>
@@ -69,12 +74,17 @@ export function Footer() {
           <p className="text-sm text-green-300">
             © {new Date().getFullYear()} FinLit. All rights reserved. Learn it. Earn it. Lead it.
           </p>
-          <Link 
-            to="/admin" 
-            className="text-xs text-green-700 hover:text-green-500 transition-colors"
+          {/* Hidden admin link - triple click to reveal */}
+          <span 
+            className="text-xs text-green-900 hover:text-green-700 transition-colors cursor-default select-none"
+            onClick={(e) => {
+              if (e.detail === 3) {
+                window.location.href = '/admin/login';
+              }
+            }}
           >
-            Site Administration
-          </Link>
+            •
+          </span>
         </div>
       </div>
     </footer>
