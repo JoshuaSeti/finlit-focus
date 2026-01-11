@@ -5,8 +5,8 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { AuthProvider } from "@/hooks/useAuth";
 import Index from "./pages/Index";
-import Blog from "./pages/Blog";
-import Resources from "./pages/Resources";
+import About from "./pages/About";
+import ResourcesAndBlog from "./pages/ResourcesAndBlog";
 import Contact from "./pages/Contact";
 import NotFound from "./pages/NotFound";
 
@@ -25,6 +25,7 @@ import AdminLessons from "./pages/admin/AdminLessons";
 import AdminNotifications from "./pages/admin/AdminNotifications";
 import AdminFacilitatorResources from "./pages/admin/AdminFacilitatorResources";
 import AdminAccounts from "./pages/admin/AdminAccounts";
+import AdminTeamMembers from "./pages/admin/AdminTeamMembers";
 
 // Facilitator pages
 import { FacilitatorLayout } from "./components/facilitator/FacilitatorLayout";
@@ -45,8 +46,8 @@ const App = () => (
           <Routes>
             {/* Public Routes */}
             <Route path="/" element={<Index />} />
-            <Route path="/blog" element={<Blog />} />
-            <Route path="/resources" element={<Resources />} />
+            <Route path="/about" element={<About />} />
+            <Route path="/resources-blog" element={<ResourcesAndBlog />} />
             <Route path="/contact" element={<Contact />} />
             
             {/* Auth Routes */}
@@ -64,6 +65,7 @@ const App = () => (
               <Route path="notifications" element={<AdminNotifications />} />
               <Route path="facilitator-resources" element={<AdminFacilitatorResources />} />
               <Route path="admins" element={<AdminAccounts />} />
+              <Route path="team-members" element={<AdminTeamMembers />} />
             </Route>
             
             {/* Facilitator Routes */}
