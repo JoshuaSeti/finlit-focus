@@ -12,7 +12,8 @@ import {
   BookOpen,
   Bell,
   FolderOpen,
-  Shield
+  Shield,
+  UsersRound
 } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { useAuth } from '@/hooks/useAuth';
@@ -31,6 +32,7 @@ const navItems = [
 
 const superAdminItems = [
   { name: 'Admin Accounts', href: '/admin/admins', icon: Shield },
+  { name: 'Team Members', href: '/admin/team-members', icon: UsersRound },
 ];
 
 export function AdminLayout() {
