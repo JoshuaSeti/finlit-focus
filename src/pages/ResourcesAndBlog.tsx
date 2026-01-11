@@ -2,12 +2,12 @@ import { useState, useEffect } from 'react';
 import { Layout } from '@/components/layout/Layout';
 import { supabase } from '@/integrations/supabase/client';
 import { motion } from 'framer-motion';
-import { Calendar, BookOpen, FileText, Download } from 'lucide-react';
+import { Calendar, BookOpen, FileText, Download, Gamepad2 } from 'lucide-react';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
-
+import { GameSection } from '@/components/games/GameSection';
 interface BlogPost {
   id: string;
   title: string;
@@ -104,7 +104,7 @@ const ResourcesAndBlog = () => {
         <div className="container mx-auto px-4 sm:px-6 lg:px-8">
           <Tabs defaultValue="blog" className="w-full">
             <div className="flex justify-center mb-12">
-              <TabsList className="grid w-full max-w-md grid-cols-2">
+              <TabsList className="grid w-full max-w-xl grid-cols-3">
                 <TabsTrigger value="blog" className="gap-2">
                   <BookOpen className="w-4 h-4" />
                   Blog & News
@@ -112,6 +112,10 @@ const ResourcesAndBlog = () => {
                 <TabsTrigger value="resources" className="gap-2">
                   <FileText className="w-4 h-4" />
                   Resources
+                </TabsTrigger>
+                <TabsTrigger value="games" className="gap-2">
+                  <Gamepad2 className="w-4 h-4" />
+                  Games
                 </TabsTrigger>
               </TabsList>
             </div>
@@ -215,6 +219,10 @@ const ResourcesAndBlog = () => {
                       ))}
                     </motion.div>
                   )}
+                </TabsContent>
+
+                <TabsContent value="games">
+                  <GameSection />
                 </TabsContent>
               </>
             )}
