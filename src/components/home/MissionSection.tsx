@@ -1,10 +1,10 @@
-import { BookOpen, Users, TrendingUp, Globe } from 'lucide-react';
+import { BookOpen, Users, Heart, Target } from 'lucide-react';
 
-const stats = [
-  { icon: Users, value: '10,000+', label: 'Students Reached' },
-  { icon: BookOpen, value: '50+', label: 'Partner Schools' },
-  { icon: TrendingUp, value: '95%', label: 'Completion Rate' },
-  { icon: Globe, value: '2', label: 'Countries' },
+const highlights = [
+  { icon: Users, label: 'Student-Centered Learning' },
+  { icon: BookOpen, label: 'Partner Schools' },
+  { icon: Heart, label: 'Community Impact' },
+  { icon: Target, label: 'Goal-Oriented Programs' },
 ];
 
 const features = [
@@ -44,18 +44,17 @@ export function MissionSection() {
           </p>
         </div>
 
-        {/* Stats Grid */}
+        {/* Highlights Grid */}
         <div className="grid grid-cols-2 lg:grid-cols-4 gap-6 mb-16">
-          {stats.map((stat, index) => (
+          {highlights.map((highlight, index) => (
             <div 
-              key={stat.label}
+              key={highlight.label}
               className={`bg-card rounded-2xl p-6 text-center shadow-soft hover-lift opacity-0 animate-fade-up stagger-${index + 1}`}
             >
               <div className="w-12 h-12 bg-primary/10 rounded-xl flex items-center justify-center mx-auto mb-4">
-                <stat.icon className="w-6 h-6 text-primary" />
+                <highlight.icon className="w-6 h-6 text-primary" />
               </div>
-              <div className="text-3xl font-bold text-foreground mb-1">{stat.value}</div>
-              <div className="text-sm text-muted-foreground">{stat.label}</div>
+              <div className="text-sm font-medium text-muted-foreground">{highlight.label}</div>
             </div>
           ))}
         </div>
