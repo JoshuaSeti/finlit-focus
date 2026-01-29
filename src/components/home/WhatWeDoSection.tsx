@@ -7,25 +7,21 @@ const programs = [
     icon: GraduationCap,
     title: 'School Programs',
     description: 'We deliver curriculum-aligned financial literacy lessons in primary and secondary schools throughout Zambia.',
-    stats: '50+ Schools',
   },
   {
     icon: BookOpen,
     title: 'Educational Resources',
     description: 'We create workbooks, guides, and interactive materials that make learning about money engaging and fun.',
-    stats: '1,000+ Resources',
   },
   {
     icon: Presentation,
     title: 'Teacher Training',
     description: 'We train educators to effectively integrate financial literacy into their teaching practice.',
-    stats: '200+ Teachers',
   },
   {
     icon: Users,
     title: 'Club Facilitation',
     description: 'We support student-led FinLit clubs where young people practice and share financial skills.',
-    stats: '30+ Clubs',
   },
 ];
 
@@ -59,10 +55,7 @@ export function WhatWeDoSection() {
                 <program.icon className="w-8 h-8 text-primary" />
               </div>
               <h3 className="font-semibold text-foreground mb-2">{program.title}</h3>
-              <p className="text-sm text-muted-foreground mb-4">{program.description}</p>
-              <div className="inline-block px-3 py-1 bg-primary/10 rounded-full text-primary text-sm font-medium">
-                {program.stats}
-              </div>
+              <p className="text-sm text-muted-foreground">{program.description}</p>
             </div>
           ))}
         </div>
