@@ -54,13 +54,13 @@ export function Footer() {
             <ul className="space-y-3">
               <li className="flex items-center gap-2 text-sm text-green-200">
                 <Mail size={16} className="text-primary" />
-                <a href="mailto:info@finlit.org" className="hover:text-green-50 transition-colors">
-                  info@finlit.org
+                <a href="mailto:info@finlit-zm.org" className="hover:text-green-50 transition-colors">
+                  info@finlit-zm.org
                 </a>
               </li>
               <li className="flex items-center gap-2 text-sm text-green-200">
                 <Phone size={16} className="text-primary" />
-                <span>+260 97 123 4567</span>
+                <span>+260 965098112</span>
               </li>
               <li className="flex items-start gap-2 text-sm text-green-200">
                 <MapPin size={16} className="text-primary mt-0.5" />
