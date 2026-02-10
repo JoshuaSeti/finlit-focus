@@ -1,15 +1,29 @@
 import { Link } from 'react-router-dom';
-import { ArrowRight, Calendar, User } from 'lucide-react';
+import { ArrowRight, Calendar } from 'lucide-react';
 import { Button } from '@/components/ui/button';
-import { mockBlogPosts } from '@/lib/mockData';
+import { supabase } from '@/integrations/supabase/client';
+import { useQuery } from '@tanstack/react-query';
 
 export function BlogPreview() {
-  const recentPosts = mockBlogPosts.filter(post => post.published).slice(0, 3);
+  const { data: recentPosts = [] } = useQuery({
+    queryKey: ['blog-posts-preview'],
+    queryFn: async () => {
+      const { data, error } = await supabase
+        .from('blog_posts')
+        .select('*')
+        .eq('is_published', true)
+        .order('published_at', { ascending: false })
+        .limit(3);
+      if (error) throw error;
+      return data;
+    },
+  });
+
+  if (recentPosts.length === 0) return null;
 
   return (
     <section className="py-20 bg-background">
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
-        {/* Section Header */}
         <div className="text-center mb-12 opacity-0 animate-fade-up">
           <span className="inline-block px-4 py-2 bg-primary/10 text-primary rounded-full text-sm font-medium mb-4">
             Latest Updates
@@ -22,7 +36,6 @@ export function BlogPreview() {
           </p>
         </div>
 
-        {/* Blog Cards */}
         <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8 mb-12">
           {recentPosts.map((post, index) => (
             <article 
@@ -30,36 +43,42 @@ export function BlogPreview() {
               className={`group bg-card rounded-2xl overflow-hidden shadow-soft hover-lift opacity-0 animate-fade-up stagger-${index + 1}`}
             >
               <div className="aspect-video bg-gradient-to-br from-primary/10 to-green-300/10 relative overflow-hidden">
-                <div className="absolute inset-0 flex items-center justify-center">
-                  <div className="text-6xl font-bold text-primary/20">
-                    {post.category.charAt(0)}
+                {post.image_url ? (
+                  <img src={post.image_url} alt={post.title} className="w-full h-full object-cover" />
+                ) : (
+                  <div className="absolute inset-0 flex items-center justify-center">
+                    <div className="text-6xl font-bold text-primary/20">
+                      {(post.category || 'B').charAt(0)}
+                    </div>
                   </div>
-                </div>
-                <div className="absolute top-4 left-4">
-                  <span className="px-3 py-1 bg-card/90 backdrop-blur-sm rounded-full text-xs font-medium text-foreground">
-                    {post.category}
-                  </span>
-                </div>
+                )}
+                {post.category && (
+                  <div className="absolute top-4 left-4">
+                    <span className="px-3 py-1 bg-card/90 backdrop-blur-sm rounded-full text-xs font-medium text-foreground">
+                      {post.category}
+                    </span>
+                  </div>
+                )}
               </div>
               <div className="p-6">
                 <div className="flex items-center gap-4 text-sm text-muted-foreground mb-3">
-                  <span className="flex items-center gap-1">
-                    <Calendar size={14} />
-                    {new Date(post.date).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })}
-                  </span>
-                  <span className="flex items-center gap-1">
-                    <User size={14} />
-                    {post.author}
-                  </span>
+                  {post.published_at && (
+                    <span className="flex items-center gap-1">
+                      <Calendar size={14} />
+                      {new Date(post.published_at).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })}
+                    </span>
+                  )}
                 </div>
                 <h3 className="text-xl font-semibold text-foreground mb-2 group-hover:text-primary transition-colors">
                   {post.title}
                 </h3>
-                <p className="text-muted-foreground text-sm line-clamp-2">
-                  {post.excerpt}
-                </p>
+                {post.excerpt && (
+                  <p className="text-muted-foreground text-sm line-clamp-2">
+                    {post.excerpt}
+                  </p>
+                )}
                 <Link 
-                  to={`/blog/${post.id}`}
+                  to="/resources-blog"
                   className="inline-flex items-center gap-1 mt-4 text-primary text-sm font-medium hover:gap-2 transition-all"
                 >
                   Read More <ArrowRight size={14} />
@@ -69,9 +88,8 @@ export function BlogPreview() {
           ))}
         </div>
 
-        {/* View All Button */}
         <div className="text-center">
-          <Link to="/blog">
+          <Link to="/resources-blog">
             <Button variant="outline" size="lg">
               View All Posts
             </Button>
