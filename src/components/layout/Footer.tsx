@@ -74,17 +74,9 @@ export function Footer() {
           <p className="text-sm text-green-300">
             © {new Date().getFullYear()} FinLit. All rights reserved. Learn it. Earn it. Lead it.
           </p>
-          {/* Hidden admin link - triple click to reveal */}
-          <span 
-            className="text-xs text-green-900 hover:text-green-700 transition-colors cursor-default select-none"
-            onClick={(e) => {
-              if (e.detail === 3) {
-                window.location.href = '/admin/login';
-              }
-            }}
-          >
-            •
-          </span>
+          <Link to="/admin/login" className="text-xs text-green-400 hover:text-green-200 transition-colors">
+            Admin
+          </Link>
         </div>
       </div>
     </footer>
