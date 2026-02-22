@@ -88,56 +88,20 @@ const AdminFacilitators = () => {
   const handleCreateFacilitator = async () => {
     setIsSubmitting(true);
 
-    // Create user in auth
-    const { data: authData, error: authError } = await supabase.auth.signUp({
-      email: formData.email,
-      password: formData.password,
-      options: {
-        emailRedirectTo: `${window.location.origin}/facilitator/login`,
-        data: {
-          full_name: formData.fullName,
-        },
+    const { data, error: fnError } = await supabase.functions.invoke('create-user', {
+      body: {
+        email: formData.email,
+        password: formData.password,
+        fullName: formData.fullName,
+        role: 'facilitator',
+        schoolName: formData.schoolName,
       },
     });
 
-    if (authError) {
+    if (fnError || data?.error) {
       toast({
         title: 'Error creating facilitator',
-        description: authError.message,
-        variant: 'destructive',
-      });
-      setIsSubmitting(false);
-      return;
-    }
-
-    if (!authData.user) {
-      toast({
-        title: 'Error creating facilitator',
-        description: 'User creation failed',
-        variant: 'destructive',
-      });
-      setIsSubmitting(false);
-      return;
-    }
-
-    // Update profile with school name
-    await supabase
-      .from('profiles')
-      .update({ school_name: formData.schoolName, full_name: formData.fullName })
-      .eq('user_id', authData.user.id);
-
-    // Add facilitator role
-    const { error: roleError } = await supabase
-      .from('user_roles')
-      .insert({
-        user_id: authData.user.id,
-        role: 'facilitator',
-      });
-
-    if (roleError) {
-      toast({
-        title: 'Error assigning role',
-        description: roleError.message,
+        description: data?.error || fnError?.message || 'Unknown error',
         variant: 'destructive',
       });
     } else {
