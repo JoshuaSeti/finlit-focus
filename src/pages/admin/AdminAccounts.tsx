@@ -97,55 +97,19 @@ const AdminAccounts = () => {
   const handleCreateAdmin = async () => {
     setIsSubmitting(true);
 
-    const { data: authData, error: authError } = await supabase.auth.signUp({
-      email: formData.email,
-      password: formData.password,
-      options: {
-        emailRedirectTo: `${window.location.origin}/admin/login`,
-        data: {
-          full_name: formData.fullName,
-        },
+    const { data, error: fnError } = await supabase.functions.invoke('create-user', {
+      body: {
+        email: formData.email,
+        password: formData.password,
+        fullName: formData.fullName,
+        role: formData.role,
       },
     });
 
-    if (authError) {
+    if (fnError || data?.error) {
       toast({
         title: 'Error creating admin',
-        description: authError.message,
-        variant: 'destructive',
-      });
-      setIsSubmitting(false);
-      return;
-    }
-
-    if (!authData.user) {
-      toast({
-        title: 'Error creating admin',
-        description: 'User creation failed',
-        variant: 'destructive',
-      });
-      setIsSubmitting(false);
-      return;
-    }
-
-    // Update profile
-    await supabase
-      .from('profiles')
-      .update({ full_name: formData.fullName })
-      .eq('user_id', authData.user.id);
-
-    // Add admin role
-    const { error: roleError } = await supabase
-      .from('user_roles')
-      .insert({
-        user_id: authData.user.id,
-        role: formData.role,
-      });
-
-    if (roleError) {
-      toast({
-        title: 'Error assigning role',
-        description: roleError.message,
+        description: data?.error || fnError?.message || 'Unknown error',
         variant: 'destructive',
       });
     } else {
