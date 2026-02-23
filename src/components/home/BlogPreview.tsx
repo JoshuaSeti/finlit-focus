@@ -78,7 +78,7 @@ export function BlogPreview() {
                   </p>
                 )}
                 <Link 
-                  to="/resources-blog"
+                  to={`/blog/${post.id}`}
                   className="inline-flex items-center gap-1 mt-4 text-primary text-sm font-medium hover:gap-2 transition-all"
                 >
                   Read More <ArrowRight size={14} />
