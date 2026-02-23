@@ -1,8 +1,9 @@
 import { useState, useEffect } from 'react';
+import { Link } from 'react-router-dom';
 import { Layout } from '@/components/layout/Layout';
 import { supabase } from '@/integrations/supabase/client';
 import { motion } from 'framer-motion';
-import { Calendar, BookOpen, FileText, Download, Gamepad2 } from 'lucide-react';
+import { Calendar, BookOpen, FileText, Download, Gamepad2, ArrowRight } from 'lucide-react';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
@@ -169,6 +170,11 @@ const ResourcesAndBlog = () => {
                                 </CardDescription>
                               )}
                             </CardHeader>
+                            <CardContent>
+                              <Link to={`/blog/${post.id}`} className="inline-flex items-center gap-1 text-primary text-sm font-medium hover:gap-2 transition-all">
+                                Read Full Post <ArrowRight className="w-4 h-4" />
+                              </Link>
+                            </CardContent>
                           </Card>
                         </motion.div>
                       ))}

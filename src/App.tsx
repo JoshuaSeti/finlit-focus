@@ -8,6 +8,7 @@ import { Analytics } from "@vercel/analytics/react";
 import Index from "./pages/Index";
 import About from "./pages/About";
 import ResourcesAndBlog from "./pages/ResourcesAndBlog";
+import BlogPost from "./pages/BlogPost";
 import Contact from "./pages/Contact";
 import NotFound from "./pages/NotFound";
 
@@ -50,6 +51,7 @@ const App = () => (
             <Route path="/" element={<Index />} />
             <Route path="/about" element={<About />} />
             <Route path="/resources-blog" element={<ResourcesAndBlog />} />
+            <Route path="/blog/:id" element={<BlogPost />} />
             <Route path="/contact" element={<Contact />} />
             
             {/* Auth Routes */}
