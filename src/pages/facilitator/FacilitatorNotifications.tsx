@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import { Bell, Calendar } from 'lucide-react';
 import { supabase } from '@/integrations/supabase/client';
+import { RichText } from '@/components/ui/rich-text';
 
 interface Notification {
   id: string;
@@ -62,7 +63,7 @@ const FacilitatorNotifications = () => {
                 </div>
                 <div className="flex-1">
                   <h3 className="font-semibold text-foreground mb-1">{notification.title}</h3>
-                  <p className="text-muted-foreground text-sm mb-2">{notification.message}</p>
+                  <RichText html={notification.message} className="text-muted-foreground text-sm mb-2" />
                   <div className="flex items-center gap-1 text-xs text-muted-foreground">
                     <Calendar size={12} />
                     {new Date(notification.created_at).toLocaleDateString('en-GB', {

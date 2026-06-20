@@ -63,7 +63,7 @@ const FacilitatorResources = () => {
               </div>
               <h3 className="font-semibold text-foreground mb-1">{resource.title}</h3>
               {resource.description && (
-                <p className="text-sm text-muted-foreground mb-4">{resource.description}</p>
+                <RichText html={resource.description} className="text-sm text-muted-foreground mb-4" />
               )}
               {resource.resource_type && (
                 <span className="inline-block px-2 py-1 bg-muted rounded-full text-xs text-muted-foreground mb-4">
