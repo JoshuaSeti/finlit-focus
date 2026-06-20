@@ -208,7 +208,7 @@ const ResourcesAndBlog = () => {
                               </div>
                               <CardTitle className="text-lg">{resource.title}</CardTitle>
                               {resource.description && (
-                                <CardDescription>{resource.description}</CardDescription>
+                                <CardDescription>{stripHtml(resource.description)}</CardDescription>
                               )}
                             </CardHeader>
                             {resource.file_url && (

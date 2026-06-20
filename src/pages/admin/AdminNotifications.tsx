@@ -4,6 +4,7 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
 import { RichTextEditor } from '@/components/ui/rich-text-editor';
+import { stripHtml } from '@/components/ui/rich-text';
 import { Label } from '@/components/ui/label';
 import { Switch } from '@/components/ui/switch';
 import {
@@ -212,7 +213,7 @@ const AdminNotifications = () => {
                   </div>
                   <div>
                     <h3 className="font-medium text-foreground">{notification.title}</h3>
-                    <p className="text-sm text-muted-foreground">{notification.message}</p>
+                    <p className="text-sm text-muted-foreground line-clamp-2">{stripHtml(notification.message)}</p>
                     <p className="text-xs text-muted-foreground mt-1">
                       {new Date(notification.created_at).toLocaleDateString()}
                     </p>
