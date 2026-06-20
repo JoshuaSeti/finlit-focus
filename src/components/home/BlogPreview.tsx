@@ -75,7 +75,7 @@ export function BlogPreview() {
                 </h3>
                 {post.excerpt && (
                   <p className="text-muted-foreground text-sm line-clamp-2">
-                    {post.excerpt}
+                    {stripHtml(post.excerpt)}
                   </p>
                 )}
                 <Link 

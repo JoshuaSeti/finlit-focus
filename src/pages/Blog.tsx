@@ -4,6 +4,7 @@ import { Layout } from '@/components/layout/Layout';
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
 import { supabase } from '@/integrations/supabase/client';
+import { stripHtml } from '@/components/ui/rich-text';
 
 const categories = ['All', 'News', 'Tips', 'Research', 'Success Stories'];
 
@@ -38,7 +39,7 @@ const Blog = () => {
 
   const filteredPosts = posts.filter(post => {
     const matchesSearch = post.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
-                         (post.excerpt?.toLowerCase().includes(searchTerm.toLowerCase()) ?? false);
+                         (stripHtml(post.excerpt).toLowerCase().includes(searchTerm.toLowerCase()));
     const matchesCategory = selectedCategory === 'All' || post.category === selectedCategory;
     return matchesSearch && matchesCategory;
   });
@@ -106,7 +107,7 @@ const Blog = () => {
                       </span>
                     </div>
                     <h2 className="text-xl font-semibold text-foreground mb-2 group-hover:text-primary transition-colors">{post.title}</h2>
-                    <p className="text-muted-foreground text-sm line-clamp-2">{post.excerpt}</p>
+                    <p className="text-muted-foreground text-sm line-clamp-2">{stripHtml(post.excerpt)}</p>
                     <button className="inline-flex items-center gap-1 mt-4 text-primary text-sm font-medium hover:gap-2 transition-all">
                       Read More <ArrowRight size={14} />
                     </button>
