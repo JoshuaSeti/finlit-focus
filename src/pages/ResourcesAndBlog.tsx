@@ -3,13 +3,14 @@ import { Link } from 'react-router-dom';
 import { Layout } from '@/components/layout/Layout';
 import { supabase } from '@/integrations/supabase/client';
 import { motion } from 'framer-motion';
-import { Calendar, BookOpen, FileText, Download, Gamepad2, ArrowRight } from 'lucide-react';
+import { Calendar, BookOpen, FileText, Download, Gamepad2, ArrowRight, ExternalLink } from 'lucide-react';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
+import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog';
 import { GameSection } from '@/components/games/GameSection';
-import { stripHtml } from '@/components/ui/rich-text';
+import { RichText, stripHtml } from '@/components/ui/rich-text';
 interface BlogPost {
   id: string;
   title: string;
@@ -25,6 +26,7 @@ interface Resource {
   id: string;
   title: string;
   description: string | null;
+  content: string | null;
   file_url: string | null;
   resource_type: string | null;
   created_at: string;
