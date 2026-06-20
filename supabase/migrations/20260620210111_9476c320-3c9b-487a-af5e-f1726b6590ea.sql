@@ -1,0 +1,1 @@
+ALTER TABLE public.facilitator_resources ADD COLUMN IF NOT EXISTS content text;
