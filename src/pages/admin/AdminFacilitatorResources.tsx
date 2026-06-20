@@ -20,6 +20,7 @@ interface Resource {
   id: string;
   title: string;
   description: string | null;
+  content: string | null;
   file_url: string | null;
   resource_type: string | null;
   is_active: boolean;
@@ -34,6 +35,7 @@ const AdminFacilitatorResources = () => {
   const [formData, setFormData] = useState({
     title: '',
     description: '',
+    content: '',
     file_url: '',
     resource_type: '',
     is_active: true,
