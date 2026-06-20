@@ -49,6 +49,7 @@ const ResourcesAndBlog = () => {
   const [blogs, setBlogs] = useState<BlogPost[]>([]);
   const [resources, setResources] = useState<Resource[]>([]);
   const [isLoading, setIsLoading] = useState(true);
+  const [selectedResource, setSelectedResource] = useState<Resource | null>(null);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -213,14 +214,27 @@ const ResourcesAndBlog = () => {
                                 <CardDescription>{stripHtml(resource.description)}</CardDescription>
                               )}
                             </CardHeader>
-                            {resource.file_url && (
-                              <CardContent>
-                                <Button asChild variant="outline" size="sm" className="gap-2">
-                                  <a href={resource.file_url} target="_blank" rel="noopener noreferrer">
-                                    <Download className="w-4 h-4" />
-                                    Download
-                                  </a>
-                                </Button>
+                            {(resource.content || resource.file_url) && (
+                              <CardContent className="flex flex-wrap gap-2">
+                                {resource.content && (
+                                  <Button
+                                    variant="default"
+                                    size="sm"
+                                    className="gap-2"
+                                    onClick={() => setSelectedResource(resource)}
+                                  >
+                                    <ExternalLink className="w-4 h-4" />
+                                    Read
+                                  </Button>
+                                )}
+                                {resource.file_url && (
+                                  <Button asChild variant="outline" size="sm" className="gap-2">
+                                    <a href={resource.file_url} target="_blank" rel="noopener noreferrer">
+                                      <Download className="w-4 h-4" />
+                                      Download
+                                    </a>
+                                  </Button>
+                                )}
                               </CardContent>
                             )}
                           </Card>
