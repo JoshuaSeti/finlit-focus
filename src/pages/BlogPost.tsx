@@ -5,6 +5,7 @@ import { useQuery } from '@tanstack/react-query';
 import { Calendar, ArrowLeft } from 'lucide-react';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
+import { RichText } from '@/components/ui/rich-text';
 
 const BlogPost = () => {
   const { id } = useParams<{ id: string }>();
@@ -71,9 +72,8 @@ const BlogPost = () => {
                   className="w-full rounded-2xl mb-8 object-cover max-h-96"
                 />
               )}
-              <div className="prose prose-lg max-w-none text-foreground/90 whitespace-pre-line">
-                {post.content}
-              </div>
+              <RichText html={post.content} className="prose-lg text-foreground/90" />
+
             </article>
           )}
         </div>

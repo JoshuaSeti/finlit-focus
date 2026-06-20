@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import { BookOpen, Download, ExternalLink } from 'lucide-react';
 import { Button } from '@/components/ui/button';
+import { RichText, stripHtml } from '@/components/ui/rich-text';
 import { supabase } from '@/integrations/supabase/client';
 
 interface Lesson {
