@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import { FolderOpen, Download, FileText } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { supabase } from '@/integrations/supabase/client';
+import { RichText } from '@/components/ui/rich-text';
 
 interface Resource {
   id: string;
