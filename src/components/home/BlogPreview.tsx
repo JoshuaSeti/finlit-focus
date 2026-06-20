@@ -3,6 +3,7 @@ import { ArrowRight, Calendar } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { supabase } from '@/integrations/supabase/client';
 import { useQuery } from '@tanstack/react-query';
+import { stripHtml } from '@/components/ui/rich-text';
 
 export function BlogPreview() {
   const { data: recentPosts = [] } = useQuery({
