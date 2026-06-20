@@ -9,6 +9,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/com
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { GameSection } from '@/components/games/GameSection';
+import { stripHtml } from '@/components/ui/rich-text';
 interface BlogPost {
   id: string;
   title: string;
@@ -166,7 +167,7 @@ const ResourcesAndBlog = () => {
                               <CardTitle className="line-clamp-2">{post.title}</CardTitle>
                               {post.excerpt && (
                                 <CardDescription className="line-clamp-3">
-                                  {post.excerpt}
+                                  {stripHtml(post.excerpt)}
                                 </CardDescription>
                               )}
                             </CardHeader>
@@ -207,7 +208,7 @@ const ResourcesAndBlog = () => {
                               </div>
                               <CardTitle className="text-lg">{resource.title}</CardTitle>
                               {resource.description && (
-                                <CardDescription>{resource.description}</CardDescription>
+                                <CardDescription>{stripHtml(resource.description)}</CardDescription>
                               )}
                             </CardHeader>
                             {resource.file_url && (

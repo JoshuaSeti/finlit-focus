@@ -3,6 +3,8 @@ import { Plus, Edit2, Trash2, Eye, EyeOff, Bell } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
+import { RichTextEditor } from '@/components/ui/rich-text-editor';
+import { stripHtml } from '@/components/ui/rich-text';
 import { Label } from '@/components/ui/label';
 import { Switch } from '@/components/ui/switch';
 import {
@@ -167,12 +169,11 @@ const AdminNotifications = () => {
               </div>
               <div className="space-y-2">
                 <Label htmlFor="message">Message</Label>
-                <Textarea
-                  id="message"
+                <RichTextEditor
                   value={formData.message}
-                  onChange={(e) => setFormData(prev => ({ ...prev, message: e.target.value }))}
+                  onChange={(value) => setFormData(prev => ({ ...prev, message: value }))}
                   placeholder="Notification message"
-                  rows={4}
+                  minHeight={160}
                 />
               </div>
               <div className="flex items-center gap-3">
@@ -212,7 +213,7 @@ const AdminNotifications = () => {
                   </div>
                   <div>
                     <h3 className="font-medium text-foreground">{notification.title}</h3>
-                    <p className="text-sm text-muted-foreground">{notification.message}</p>
+                    <p className="text-sm text-muted-foreground line-clamp-2">{stripHtml(notification.message)}</p>
                     <p className="text-xs text-muted-foreground mt-1">
                       {new Date(notification.created_at).toLocaleDateString()}
                     </p>
