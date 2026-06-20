@@ -3,6 +3,7 @@ import { Plus, Edit2, Trash2, Eye, EyeOff, Calendar } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
+import { RichTextEditor } from '@/components/ui/rich-text-editor';
 import { Label } from '@/components/ui/label';
 import { Switch } from '@/components/ui/switch';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
@@ -208,22 +209,20 @@ const AdminBlogs = () => {
               </div>
               <div className="space-y-2">
                 <Label htmlFor="excerpt">Excerpt</Label>
-                <Textarea
-                  id="excerpt"
+                <RichTextEditor
                   value={formData.excerpt}
-                  onChange={(e) => setFormData(prev => ({ ...prev, excerpt: e.target.value }))}
+                  onChange={(value) => setFormData(prev => ({ ...prev, excerpt: value }))}
                   placeholder="Brief summary for blog listing"
-                  rows={2}
+                  minHeight={100}
                 />
               </div>
               <div className="space-y-2">
                 <Label htmlFor="content">Content</Label>
-                <Textarea
-                  id="content"
+                <RichTextEditor
                   value={formData.content}
-                  onChange={(e) => setFormData(prev => ({ ...prev, content: e.target.value }))}
+                  onChange={(value) => setFormData(prev => ({ ...prev, content: value }))}
                   placeholder="Full blog post content..."
-                  rows={8}
+                  minHeight={260}
                 />
               </div>
               <div className="flex items-center gap-3">

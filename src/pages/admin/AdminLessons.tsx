@@ -3,6 +3,7 @@ import { Plus, Edit2, Trash2, Eye, EyeOff, GripVertical } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
+import { RichTextEditor } from '@/components/ui/rich-text-editor';
 import { Label } from '@/components/ui/label';
 import { Switch } from '@/components/ui/switch';
 import {
@@ -178,22 +179,20 @@ const AdminLessons = () => {
               </div>
               <div className="space-y-2">
                 <Label htmlFor="description">Description</Label>
-                <Textarea
-                  id="description"
+                <RichTextEditor
                   value={formData.description}
-                  onChange={(e) => setFormData(prev => ({ ...prev, description: e.target.value }))}
+                  onChange={(value) => setFormData(prev => ({ ...prev, description: value }))}
                   placeholder="Brief description"
-                  rows={2}
+                  minHeight={100}
                 />
               </div>
               <div className="space-y-2">
                 <Label htmlFor="content">Content</Label>
-                <Textarea
-                  id="content"
+                <RichTextEditor
                   value={formData.content}
-                  onChange={(e) => setFormData(prev => ({ ...prev, content: e.target.value }))}
-                  placeholder="Full lesson content (supports HTML)"
-                  rows={8}
+                  onChange={(value) => setFormData(prev => ({ ...prev, content: value }))}
+                  placeholder="Full lesson content"
+                  minHeight={280}
                 />
               </div>
               <div className="space-y-2">
