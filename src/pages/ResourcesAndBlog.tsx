@@ -252,6 +252,27 @@ const ResourcesAndBlog = () => {
           </Tabs>
         </div>
       </section>
+
+      <Dialog open={!!selectedResource} onOpenChange={(open) => !open && setSelectedResource(null)}>
+        <DialogContent className="max-w-2xl max-h-[85vh] overflow-y-auto">
+          <DialogHeader>
+            <DialogTitle>{selectedResource?.title}</DialogTitle>
+          </DialogHeader>
+          {selectedResource?.content && (
+            <RichText html={selectedResource.content} className="prose-base" />
+          )}
+          {selectedResource?.file_url && (
+            <div className="pt-4 border-t border-border">
+              <Button asChild variant="outline" size="sm" className="gap-2">
+                <a href={selectedResource.file_url} target="_blank" rel="noopener noreferrer">
+                  <Download className="w-4 h-4" />
+                  Download file
+                </a>
+              </Button>
+            </div>
+          )}
+        </DialogContent>
+      </Dialog>
     </Layout>
   );
 };
