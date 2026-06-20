@@ -149,7 +149,7 @@ export function OurPeopleSection() {
                 </p>
                 {member.bio && (
                   <p className="text-muted-foreground text-sm line-clamp-3">
-                    {member.bio}
+                    {stripHtml(member.bio)}
                   </p>
                 )}
               </div>
