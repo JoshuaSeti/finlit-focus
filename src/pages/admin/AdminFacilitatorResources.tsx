@@ -64,6 +64,7 @@ const AdminFacilitatorResources = () => {
     setFormData({
       title: resource.title,
       description: resource.description || '',
+      content: resource.content || '',
       file_url: resource.file_url || '',
       resource_type: resource.resource_type || '',
       is_active: resource.is_active,
@@ -76,6 +77,7 @@ const AdminFacilitatorResources = () => {
     setFormData({
       title: '',
       description: '',
+      content: '',
       file_url: '',
       resource_type: '',
       is_active: true,
