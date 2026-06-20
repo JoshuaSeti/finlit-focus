@@ -69,7 +69,7 @@ const FacilitatorLessons = () => {
                   <div>
                     <h3 className="font-semibold text-foreground mb-1">{lesson.title}</h3>
                     {lesson.description && (
-                      <p className="text-sm text-muted-foreground">{lesson.description}</p>
+                      <p className="text-sm text-muted-foreground line-clamp-2">{stripHtml(lesson.description)}</p>
                     )}
                   </div>
                 </div>
@@ -107,9 +107,7 @@ const FacilitatorLessons = () => {
               <h2 className="text-xl font-bold text-foreground">{selectedLesson.title}</h2>
             </div>
             <div className="p-6">
-              <div className="prose prose-sm max-w-none">
-                <div dangerouslySetInnerHTML={{ __html: selectedLesson.content || '' }} />
-              </div>
+              <RichText html={selectedLesson.content} />
             </div>
             <div className="p-6 border-t border-border flex justify-end">
               <Button onClick={() => setSelectedLesson(null)}>Close</Button>
