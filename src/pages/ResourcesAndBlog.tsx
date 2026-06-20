@@ -3,13 +3,14 @@ import { Link } from 'react-router-dom';
 import { Layout } from '@/components/layout/Layout';
 import { supabase } from '@/integrations/supabase/client';
 import { motion } from 'framer-motion';
-import { Calendar, BookOpen, FileText, Download, Gamepad2, ArrowRight } from 'lucide-react';
+import { Calendar, BookOpen, FileText, Download, Gamepad2, ArrowRight, ExternalLink } from 'lucide-react';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
+import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog';
 import { GameSection } from '@/components/games/GameSection';
-import { stripHtml } from '@/components/ui/rich-text';
+import { RichText, stripHtml } from '@/components/ui/rich-text';
 interface BlogPost {
   id: string;
   title: string;
@@ -25,6 +26,7 @@ interface Resource {
   id: string;
   title: string;
   description: string | null;
+  content: string | null;
   file_url: string | null;
   resource_type: string | null;
   created_at: string;
@@ -47,6 +49,7 @@ const ResourcesAndBlog = () => {
   const [blogs, setBlogs] = useState<BlogPost[]>([]);
   const [resources, setResources] = useState<Resource[]>([]);
   const [isLoading, setIsLoading] = useState(true);
+  const [selectedResource, setSelectedResource] = useState<Resource | null>(null);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -211,14 +214,27 @@ const ResourcesAndBlog = () => {
                                 <CardDescription>{stripHtml(resource.description)}</CardDescription>
                               )}
                             </CardHeader>
-                            {resource.file_url && (
-                              <CardContent>
-                                <Button asChild variant="outline" size="sm" className="gap-2">
-                                  <a href={resource.file_url} target="_blank" rel="noopener noreferrer">
-                                    <Download className="w-4 h-4" />
-                                    Download
-                                  </a>
-                                </Button>
+                            {(resource.content || resource.file_url) && (
+                              <CardContent className="flex flex-wrap gap-2">
+                                {resource.content && (
+                                  <Button
+                                    variant="default"
+                                    size="sm"
+                                    className="gap-2"
+                                    onClick={() => setSelectedResource(resource)}
+                                  >
+                                    <ExternalLink className="w-4 h-4" />
+                                    Read
+                                  </Button>
+                                )}
+                                {resource.file_url && (
+                                  <Button asChild variant="outline" size="sm" className="gap-2">
+                                    <a href={resource.file_url} target="_blank" rel="noopener noreferrer">
+                                      <Download className="w-4 h-4" />
+                                      Download
+                                    </a>
+                                  </Button>
+                                )}
                               </CardContent>
                             )}
                           </Card>
@@ -236,6 +252,27 @@ const ResourcesAndBlog = () => {
           </Tabs>
         </div>
       </section>
+
+      <Dialog open={!!selectedResource} onOpenChange={(open) => !open && setSelectedResource(null)}>
+        <DialogContent className="max-w-2xl max-h-[85vh] overflow-y-auto">
+          <DialogHeader>
+            <DialogTitle>{selectedResource?.title}</DialogTitle>
+          </DialogHeader>
+          {selectedResource?.content && (
+            <RichText html={selectedResource.content} className="prose-base" />
+          )}
+          {selectedResource?.file_url && (
+            <div className="pt-4 border-t border-border">
+              <Button asChild variant="outline" size="sm" className="gap-2">
+                <a href={selectedResource.file_url} target="_blank" rel="noopener noreferrer">
+                  <Download className="w-4 h-4" />
+                  Download file
+                </a>
+              </Button>
+            </div>
+          )}
+        </DialogContent>
+      </Dialog>
     </Layout>
   );
 };

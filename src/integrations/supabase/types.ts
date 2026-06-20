@@ -127,6 +127,7 @@ export type Database = {
       }
       facilitator_resources: {
         Row: {
+          content: string | null
           created_at: string
           description: string | null
           file_url: string | null
@@ -137,6 +138,7 @@ export type Database = {
           updated_at: string
         }
         Insert: {
+          content?: string | null
           created_at?: string
           description?: string | null
           file_url?: string | null
@@ -147,6 +149,7 @@ export type Database = {
           updated_at?: string
         }
         Update: {
+          content?: string | null
           created_at?: string
           description?: string | null
           file_url?: string | null

@@ -20,6 +20,7 @@ interface Resource {
   id: string;
   title: string;
   description: string | null;
+  content: string | null;
   file_url: string | null;
   resource_type: string | null;
   is_active: boolean;
@@ -34,6 +35,7 @@ const AdminFacilitatorResources = () => {
   const [formData, setFormData] = useState({
     title: '',
     description: '',
+    content: '',
     file_url: '',
     resource_type: '',
     is_active: true,
@@ -62,6 +64,7 @@ const AdminFacilitatorResources = () => {
     setFormData({
       title: resource.title,
       description: resource.description || '',
+      content: resource.content || '',
       file_url: resource.file_url || '',
       resource_type: resource.resource_type || '',
       is_active: resource.is_active,
@@ -74,6 +77,7 @@ const AdminFacilitatorResources = () => {
     setFormData({
       title: '',
       description: '',
+      content: '',
       file_url: '',
       resource_type: '',
       is_active: true,
@@ -183,7 +187,17 @@ const AdminFacilitatorResources = () => {
                 />
               </div>
               <div className="space-y-2">
-                <Label htmlFor="file_url">File URL</Label>
+                <Label htmlFor="content">Content (optional)</Label>
+                <RichTextEditor
+                  value={formData.content}
+                  onChange={(value) => setFormData(prev => ({ ...prev, content: value }))}
+                  placeholder="Full text content of the resource. Leave blank if the resource is a downloadable file only."
+                  minHeight={240}
+                />
+                <p className="text-xs text-muted-foreground">Provide written content here, a downloadable file URL below, or both.</p>
+              </div>
+              <div className="space-y-2">
+                <Label htmlFor="file_url">File URL (optional)</Label>
                 <Input
                   id="file_url"
                   value={formData.file_url}
@@ -197,7 +211,7 @@ const AdminFacilitatorResources = () => {
                   id="resource_type"
                   value={formData.resource_type}
                   onChange={(e) => setFormData(prev => ({ ...prev, resource_type: e.target.value }))}
-                  placeholder="PDF, Video, Template, etc."
+                  placeholder="Article, PDF, Video, Template, etc."
                 />
               </div>
               <div className="flex items-center gap-3">
