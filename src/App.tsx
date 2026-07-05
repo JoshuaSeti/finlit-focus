@@ -9,6 +9,8 @@ import Index from "./pages/Index";
 import About from "./pages/About";
 import ResourcesAndBlog from "./pages/ResourcesAndBlog";
 import BlogPost from "./pages/BlogPost";
+import Programs from "./pages/Programs";
+import ProgramApply from "./pages/ProgramApply";
 import Contact from "./pages/Contact";
 import NotFound from "./pages/NotFound";
 
@@ -28,6 +30,9 @@ import AdminNotifications from "./pages/admin/AdminNotifications";
 import AdminFacilitatorResources from "./pages/admin/AdminFacilitatorResources";
 import AdminAccounts from "./pages/admin/AdminAccounts";
 import AdminTeamMembers from "./pages/admin/AdminTeamMembers";
+import AdminPrograms from "./pages/admin/AdminPrograms";
+import AdminApplications from "./pages/admin/AdminApplications";
+import AdminAnnouncements from "./pages/admin/AdminAnnouncements";
 
 // Facilitator pages
 import { FacilitatorLayout } from "./components/facilitator/FacilitatorLayout";
@@ -52,6 +57,8 @@ const App = () => (
             <Route path="/about" element={<About />} />
             <Route path="/resources-blog" element={<ResourcesAndBlog />} />
             <Route path="/blog/:id" element={<BlogPost />} />
+            <Route path="/programs" element={<Programs />} />
+            <Route path="/programs/:slug" element={<ProgramApply />} />
             <Route path="/contact" element={<Contact />} />
             
             {/* Auth Routes */}
@@ -68,6 +75,9 @@ const App = () => (
               <Route path="lessons" element={<AdminLessons />} />
               <Route path="notifications" element={<AdminNotifications />} />
               <Route path="facilitator-resources" element={<AdminFacilitatorResources />} />
+              <Route path="programs" element={<AdminPrograms />} />
+              <Route path="applications" element={<AdminApplications />} />
+              <Route path="announcements" element={<AdminAnnouncements />} />
               <Route path="admins" element={<AdminAccounts />} />
               <Route path="team-members" element={<AdminTeamMembers />} />
             </Route>
