@@ -14,6 +14,39 @@ export type Database = {
   }
   public: {
     Tables: {
+      announcements: {
+        Row: {
+          created_at: string
+          created_by: string | null
+          id: string
+          is_active: boolean
+          link_label: string | null
+          link_url: string | null
+          message: string
+          updated_at: string
+        }
+        Insert: {
+          created_at?: string
+          created_by?: string | null
+          id?: string
+          is_active?: boolean
+          link_label?: string | null
+          link_url?: string | null
+          message: string
+          updated_at?: string
+        }
+        Update: {
+          created_at?: string
+          created_by?: string | null
+          id?: string
+          is_active?: boolean
+          link_label?: string | null
+          link_url?: string | null
+          message?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
       blog_posts: {
         Row: {
           category: string | null
@@ -248,6 +281,107 @@ export type Database = {
           school_name?: string | null
           updated_at?: string
           user_id?: string
+        }
+        Relationships: []
+      }
+      program_applications: {
+        Row: {
+          applicant_email: string
+          applicant_name: string
+          applicant_phone: string | null
+          created_at: string
+          id: string
+          program_id: string
+          responses: Json
+          reviewed_at: string | null
+          reviewed_by: string | null
+          reviewer_notes: string | null
+          status: string
+          updated_at: string
+        }
+        Insert: {
+          applicant_email: string
+          applicant_name: string
+          applicant_phone?: string | null
+          created_at?: string
+          id?: string
+          program_id: string
+          responses?: Json
+          reviewed_at?: string | null
+          reviewed_by?: string | null
+          reviewer_notes?: string | null
+          status?: string
+          updated_at?: string
+        }
+        Update: {
+          applicant_email?: string
+          applicant_name?: string
+          applicant_phone?: string | null
+          created_at?: string
+          id?: string
+          program_id?: string
+          responses?: Json
+          reviewed_at?: string | null
+          reviewed_by?: string | null
+          reviewer_notes?: string | null
+          status?: string
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "program_applications_program_id_fkey"
+            columns: ["program_id"]
+            isOneToOne: false
+            referencedRelation: "programs"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      programs: {
+        Row: {
+          application_fields: Json
+          close_at: string | null
+          created_at: string
+          created_by: string | null
+          description: string | null
+          hero_image_url: string | null
+          id: string
+          is_accepting_applications: boolean
+          is_active: boolean
+          open_at: string | null
+          slug: string
+          title: string
+          updated_at: string
+        }
+        Insert: {
+          application_fields?: Json
+          close_at?: string | null
+          created_at?: string
+          created_by?: string | null
+          description?: string | null
+          hero_image_url?: string | null
+          id?: string
+          is_accepting_applications?: boolean
+          is_active?: boolean
+          open_at?: string | null
+          slug: string
+          title: string
+          updated_at?: string
+        }
+        Update: {
+          application_fields?: Json
+          close_at?: string | null
+          created_at?: string
+          created_by?: string | null
+          description?: string | null
+          hero_image_url?: string | null
+          id?: string
+          is_accepting_applications?: boolean
+          is_active?: boolean
+          open_at?: string | null
+          slug?: string
+          title?: string
+          updated_at?: string
         }
         Relationships: []
       }

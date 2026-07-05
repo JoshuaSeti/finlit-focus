@@ -13,7 +13,10 @@ import {
   Bell,
   FolderOpen,
   Shield,
-  UsersRound
+  UsersRound,
+  GraduationCap,
+  ClipboardList,
+  Megaphone
 } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { useAuth } from '@/hooks/useAuth';
@@ -28,9 +31,12 @@ const navItems = [
   { name: 'Lessons', href: '/admin/lessons', icon: BookOpen },
   { name: 'Notifications', href: '/admin/notifications', icon: Bell },
   { name: 'Facilitator Resources', href: '/admin/facilitator-resources', icon: FolderOpen },
+  { name: 'Applications', href: '/admin/applications', icon: ClipboardList },
 ];
 
 const superAdminItems = [
+  { name: 'Programs', href: '/admin/programs', icon: GraduationCap },
+  { name: 'Announcement Bar', href: '/admin/announcements', icon: Megaphone },
   { name: 'Admin Accounts', href: '/admin/admins', icon: Shield },
   { name: 'Team Members', href: '/admin/team-members', icon: UsersRound },
 ];
