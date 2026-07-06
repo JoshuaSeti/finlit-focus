@@ -42,6 +42,7 @@ const AdminBlogs = () => {
     title: '',
     excerpt: '',
     content: '',
+    image_url: '',
     category: '',
     is_published: false,
   });
@@ -70,6 +71,7 @@ const AdminBlogs = () => {
       title: post.title,
       excerpt: post.excerpt || '',
       content: post.content || '',
+      image_url: post.image_url || '',
       category: post.category || '',
       is_published: post.is_published,
     });
@@ -82,6 +84,7 @@ const AdminBlogs = () => {
       title: '',
       excerpt: '',
       content: '',
+      image_url: '',
       category: '',
       is_published: false,
     });
@@ -217,12 +220,22 @@ const AdminBlogs = () => {
                 />
               </div>
               <div className="space-y-2">
+                <Label htmlFor="image_url">Hero Image URL</Label>
+                <Input
+                  id="image_url"
+                  value={formData.image_url}
+                  onChange={(e) => setFormData(prev => ({ ...prev, image_url: e.target.value }))}
+                  placeholder="https://... (shown in previews and at top of post)"
+                />
+              </div>
+              <div className="space-y-2">
                 <Label htmlFor="content">Content</Label>
-                <RichTextEditor
+                <Textarea
+                  id="content"
                   value={formData.content}
-                  onChange={(value) => setFormData(prev => ({ ...prev, content: value }))}
-                  placeholder="Full blog post content..."
-                  minHeight={260}
+                  onChange={(e) => setFormData(prev => ({ ...prev, content: e.target.value }))}
+                  placeholder="Full blog post content. HTML tags are supported."
+                  className="min-h-[260px] font-mono text-sm"
                 />
               </div>
               <div className="flex items-center gap-3">

@@ -179,20 +179,22 @@ const AdminLessons = () => {
               </div>
               <div className="space-y-2">
                 <Label htmlFor="description">Description</Label>
-                <RichTextEditor
+                <Textarea
+                  id="description"
                   value={formData.description}
-                  onChange={(value) => setFormData(prev => ({ ...prev, description: value }))}
-                  placeholder="Brief description"
-                  minHeight={100}
+                  onChange={(e) => setFormData(prev => ({ ...prev, description: e.target.value }))}
+                  placeholder="Brief description. HTML tags are supported."
+                  className="min-h-[100px]"
                 />
               </div>
               <div className="space-y-2">
                 <Label htmlFor="content">Content</Label>
-                <RichTextEditor
+                <Textarea
+                  id="content"
                   value={formData.content}
-                  onChange={(value) => setFormData(prev => ({ ...prev, content: value }))}
-                  placeholder="Full lesson content"
-                  minHeight={280}
+                  onChange={(e) => setFormData(prev => ({ ...prev, content: e.target.value }))}
+                  placeholder="Full lesson content. HTML tags are supported."
+                  className="min-h-[280px] font-mono text-sm"
                 />
               </div>
               <div className="space-y-2">

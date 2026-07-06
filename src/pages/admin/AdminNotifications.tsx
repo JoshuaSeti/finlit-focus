@@ -169,11 +169,12 @@ const AdminNotifications = () => {
               </div>
               <div className="space-y-2">
                 <Label htmlFor="message">Message</Label>
-                <RichTextEditor
+                <Textarea
+                  id="message"
                   value={formData.message}
-                  onChange={(value) => setFormData(prev => ({ ...prev, message: value }))}
-                  placeholder="Notification message"
-                  minHeight={160}
+                  onChange={(e) => setFormData(prev => ({ ...prev, message: e.target.value }))}
+                  placeholder="Notification message. HTML tags are supported."
+                  className="min-h-[160px]"
                 />
               </div>
               <div className="flex items-center gap-3">

@@ -188,11 +188,12 @@ const AdminFacilitatorResources = () => {
               </div>
               <div className="space-y-2">
                 <Label htmlFor="content">Content (optional)</Label>
-                <RichTextEditor
+                <Textarea
+                  id="content"
                   value={formData.content}
-                  onChange={(value) => setFormData(prev => ({ ...prev, content: value }))}
-                  placeholder="Full text content of the resource. Leave blank if the resource is a downloadable file only."
-                  minHeight={240}
+                  onChange={(e) => setFormData(prev => ({ ...prev, content: e.target.value }))}
+                  placeholder="Full text content of the resource. HTML tags are supported. Leave blank if the resource is a downloadable file only."
+                  className="min-h-[240px] font-mono text-sm"
                 />
                 <p className="text-xs text-muted-foreground">Provide written content here, a downloadable file URL below, or both.</p>
               </div>

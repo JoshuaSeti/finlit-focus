@@ -232,11 +232,12 @@ const AdminTeamMembers = () => {
               </div>
               <div className="space-y-2">
                 <Label htmlFor="bio">Bio</Label>
-                <RichTextEditor
+                <Textarea
+                  id="bio"
                   value={formData.bio}
-                  onChange={(value) => setFormData({ ...formData, bio: value })}
-                  placeholder="Brief description..."
-                  minHeight={140}
+                  onChange={(e) => setFormData({ ...formData, bio: e.target.value })}
+                  placeholder="Brief description. HTML tags are supported."
+                  className="min-h-[140px]"
                 />
               </div>
               <div className="space-y-2">
