@@ -18,7 +18,10 @@ export function Header() {
   const location = useLocation();
 
   return (
-    <header className="fixed top-0 left-0 right-0 z-50 bg-background/95 backdrop-blur-md border-b border-border/30 shadow-sm">
+    <header
+      className="fixed left-0 right-0 z-50 bg-background/95 backdrop-blur-md border-b border-border/30 shadow-sm"
+      style={{ top: 'var(--announcement-h, 0px)' }}
+    >
       <nav className="container mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex h-20 items-center justify-between">
           {/* Logo */}
