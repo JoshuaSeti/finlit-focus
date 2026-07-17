@@ -15,7 +15,7 @@ const ALLOWED_TAGS = [
   'blockquote', 'pre', 'code', 'kbd', 'samp', 'q', 'cite', 'abbr',
   'a', 'img', 'figure', 'figcaption', 'picture', 'source', 'video', 'audio',
   'hr', 'table', 'thead', 'tbody', 'tfoot', 'tr', 'th', 'td', 'caption', 'colgroup', 'col',
-  'details', 'summary', 'style',
+  'details', 'summary', 'style', 'iframe',
 ];
 
 const ALLOWED_ATTR = [
@@ -23,6 +23,8 @@ const ALLOWED_ATTR = [
   'width', 'height', 'align', 'valign', 'colspan', 'rowspan', 'span',
   'controls', 'autoplay', 'loop', 'muted', 'poster', 'preload', 'type',
   'name', 'lang', 'dir', 'role', 'tabindex', 'open',
+  'frameborder', 'allow', 'allowfullscreen', 'referrerpolicy', 'loading', 'sandbox',
+
 ];
 
 /** Sanitized, styled HTML renderer. Supports inline CSS and <style> blocks for advanced styling. */
@@ -31,11 +33,12 @@ export function RichText({ html, className, as: Tag = 'div' }: RichTextProps) {
   const clean = DOMPurify.sanitize(html, {
     ALLOWED_TAGS,
     ALLOWED_ATTR,
-    ADD_TAGS: ['style'],
-    ADD_ATTR: ['style'],
+    ADD_TAGS: ['style', 'iframe'],
+    ADD_ATTR: ['style', 'allow', 'allowfullscreen', 'frameborder', 'referrerpolicy'],
     ALLOW_DATA_ATTR: true,
     FORCE_BODY: true,
   });
+
   return (
     <Tag
       className={cn('rich-text prose prose-sm max-w-none', className)}
