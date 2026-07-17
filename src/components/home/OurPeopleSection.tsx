@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import { motion } from 'framer-motion';
 import { Users } from 'lucide-react';
 import { supabase } from '@/integrations/supabase/client';
-import { stripHtml } from '@/components/ui/rich-text';
+import { RichText } from '@/components/ui/rich-text';
 
 interface TeamMember {
   id: string;
@@ -149,9 +149,10 @@ export function OurPeopleSection() {
                   {member.role}
                 </p>
                 {member.bio && (
-                  <p className="text-muted-foreground text-sm line-clamp-3">
-                    {stripHtml(member.bio)}
-                  </p>
+                  <RichText
+                    html={member.bio}
+                    className="text-muted-foreground text-sm line-clamp-3"
+                  />
                 )}
               </div>
             </motion.div>

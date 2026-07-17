@@ -69,7 +69,7 @@ const FacilitatorLessons = () => {
                   <div>
                     <h3 className="font-semibold text-foreground mb-1">{lesson.title}</h3>
                     {lesson.description && (
-                      <p className="text-sm text-muted-foreground line-clamp-2">{stripHtml(lesson.description)}</p>
+                      <RichText html={lesson.description} className="text-sm text-muted-foreground line-clamp-2" />
                     )}
                   </div>
                 </div>
