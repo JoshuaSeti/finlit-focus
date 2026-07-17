@@ -33,11 +33,12 @@ export function RichText({ html, className, as: Tag = 'div' }: RichTextProps) {
   const clean = DOMPurify.sanitize(html, {
     ALLOWED_TAGS,
     ALLOWED_ATTR,
-    ADD_TAGS: ['style'],
-    ADD_ATTR: ['style'],
+    ADD_TAGS: ['style', 'iframe'],
+    ADD_ATTR: ['style', 'allow', 'allowfullscreen', 'frameborder', 'referrerpolicy'],
     ALLOW_DATA_ATTR: true,
     FORCE_BODY: true,
   });
+
   return (
     <Tag
       className={cn('rich-text prose prose-sm max-w-none', className)}
