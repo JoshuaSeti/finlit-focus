@@ -149,9 +149,10 @@ export function OurPeopleSection() {
                   {member.role}
                 </p>
                 {member.bio && (
-                  <p className="text-muted-foreground text-sm line-clamp-3">
-                    {stripHtml(member.bio)}
-                  </p>
+                  <RichText
+                    html={member.bio}
+                    className="text-muted-foreground text-sm line-clamp-3"
+                  />
                 )}
               </div>
             </motion.div>
