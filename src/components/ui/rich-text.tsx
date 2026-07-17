@@ -15,7 +15,7 @@ const ALLOWED_TAGS = [
   'blockquote', 'pre', 'code', 'kbd', 'samp', 'q', 'cite', 'abbr',
   'a', 'img', 'figure', 'figcaption', 'picture', 'source', 'video', 'audio',
   'hr', 'table', 'thead', 'tbody', 'tfoot', 'tr', 'th', 'td', 'caption', 'colgroup', 'col',
-  'details', 'summary', 'style',
+  'details', 'summary', 'style', 'iframe',
 ];
 
 const ALLOWED_ATTR = [
@@ -23,6 +23,8 @@ const ALLOWED_ATTR = [
   'width', 'height', 'align', 'valign', 'colspan', 'rowspan', 'span',
   'controls', 'autoplay', 'loop', 'muted', 'poster', 'preload', 'type',
   'name', 'lang', 'dir', 'role', 'tabindex', 'open',
+  'frameborder', 'allow', 'allowfullscreen', 'referrerpolicy', 'loading', 'sandbox',
+
 ];
 
 /** Sanitized, styled HTML renderer. Supports inline CSS and <style> blocks for advanced styling. */
