@@ -67,7 +67,9 @@ export function AdminLayout() {
     return <Navigate to="/admin/login" replace />;
   }
 
-  const allNavItems = isSuperAdmin ? [...navItems, ...superAdminItems] : navItems;
+  const allNavItems = isSuperAdmin
+    ? [...navItems, ...learningItems, ...superAdminItems]
+    : [...navItems, ...learningItems];
 
   return (
     <div className="min-h-screen bg-muted/30 flex">
