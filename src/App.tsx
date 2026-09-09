@@ -33,6 +33,17 @@ import AdminTeamMembers from "./pages/admin/AdminTeamMembers";
 import AdminPrograms from "./pages/admin/AdminPrograms";
 import AdminApplications from "./pages/admin/AdminApplications";
 import AdminAnnouncements from "./pages/admin/AdminAnnouncements";
+import AdminCourses from "./pages/admin/learning/AdminCourses";
+import AdminCourseEditor from "./pages/admin/learning/AdminCourseEditor";
+import AdminFieldLibrary from "./pages/admin/learning/AdminFieldLibrary";
+import AdminQuestionBank from "./pages/admin/learning/AdminQuestionBank";
+import AdminEngineSettings from "./pages/admin/learning/AdminEngineSettings";
+import AdminLearners from "./pages/admin/learning/AdminLearners";
+import AdminLearningAnalytics from "./pages/admin/learning/AdminLearningAnalytics";
+
+// Learner pages
+import LearnCatalog from "./pages/learn/LearnCatalog";
+import CourseRunner from "./pages/learn/CourseRunner";
 
 // Facilitator pages
 import { FacilitatorLayout } from "./components/facilitator/FacilitatorLayout";
