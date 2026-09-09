@@ -140,7 +140,7 @@ const CourseRunner = () => {
   }, [slug, user]);
 
   useEffect(() => {
-    if (!authLoading && !user) navigate('/facilitator/login');
+    if (!authLoading && !user) navigate('/sandbox/login');
   }, [authLoading, user, navigate]);
 
   useEffect(() => {
@@ -427,7 +427,7 @@ const CourseRunner = () => {
   return (
     <Layout>
       <div className="container mx-auto px-4 py-12 max-w-3xl">
-        <Link to="/learn" className="text-sm text-muted-foreground flex items-center gap-1 hover:text-foreground">
+        <Link to="/sandbox" className="text-sm text-muted-foreground flex items-center gap-1 hover:text-foreground">
           <ArrowLeft size={14} /> All courses
         </Link>
         <h1 className="text-3xl font-bold text-foreground mt-2">{course.title}</h1>
@@ -550,7 +550,7 @@ const CourseRunner = () => {
           <div className="mt-8 space-y-4">
             <h2 className="text-2xl font-semibold text-foreground">Course complete</h2>
             <p className="text-muted-foreground">Every skill in this course has been checked and passed.</p>
-            <Link to="/learn"><Button size="lg">Back to courses</Button></Link>
+            <Link to="/sandbox"><Button size="lg">Back to courses</Button></Link>
           </div>
         )}
       </div>
