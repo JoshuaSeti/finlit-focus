@@ -34,6 +34,15 @@ const navItems = [
   { name: 'Applications', href: '/admin/applications', icon: ClipboardList },
 ];
 
+const learningItems = [
+  { name: 'Courses', href: '/admin/learning/courses', icon: GraduationCap },
+  { name: 'Skill Library', href: '/admin/learning/fields', icon: BookOpen },
+  { name: 'Question Bank', href: '/admin/learning/questions', icon: ClipboardList },
+  { name: 'Learners', href: '/admin/learning/learners', icon: UsersRound },
+  { name: 'Learning Analytics', href: '/admin/learning/analytics', icon: LayoutDashboard },
+  { name: 'Assessment Settings', href: '/admin/learning/settings', icon: Shield },
+];
+
 const superAdminItems = [
   { name: 'Programs', href: '/admin/programs', icon: GraduationCap },
   { name: 'Announcement Bar', href: '/admin/announcements', icon: Megaphone },
@@ -58,7 +67,9 @@ export function AdminLayout() {
     return <Navigate to="/admin/login" replace />;
   }
 
-  const allNavItems = isSuperAdmin ? [...navItems, ...superAdminItems] : navItems;
+  const allNavItems = isSuperAdmin
+    ? [...navItems, ...learningItems, ...superAdminItems]
+    : [...navItems, ...learningItems];
 
   return (
     <div className="min-h-screen bg-muted/30 flex">

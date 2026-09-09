@@ -33,6 +33,17 @@ import AdminTeamMembers from "./pages/admin/AdminTeamMembers";
 import AdminPrograms from "./pages/admin/AdminPrograms";
 import AdminApplications from "./pages/admin/AdminApplications";
 import AdminAnnouncements from "./pages/admin/AdminAnnouncements";
+import AdminCourses from "./pages/admin/learning/AdminCourses";
+import AdminCourseEditor from "./pages/admin/learning/AdminCourseEditor";
+import AdminFieldLibrary from "./pages/admin/learning/AdminFieldLibrary";
+import AdminQuestionBank from "./pages/admin/learning/AdminQuestionBank";
+import AdminEngineSettings from "./pages/admin/learning/AdminEngineSettings";
+import AdminLearners from "./pages/admin/learning/AdminLearners";
+import AdminLearningAnalytics from "./pages/admin/learning/AdminLearningAnalytics";
+
+// Learner pages
+import LearnCatalog from "./pages/learn/LearnCatalog";
+import CourseRunner from "./pages/learn/CourseRunner";
 
 // Facilitator pages
 import { FacilitatorLayout } from "./components/facilitator/FacilitatorLayout";
@@ -59,6 +70,8 @@ const App = () => (
             <Route path="/blog/:id" element={<BlogPost />} />
             <Route path="/programs" element={<Programs />} />
             <Route path="/programs/:slug" element={<ProgramApply />} />
+            <Route path="/learn" element={<LearnCatalog />} />
+            <Route path="/learn/:slug" element={<CourseRunner />} />
             <Route path="/contact" element={<Contact />} />
             
             {/* Auth Routes */}
@@ -80,6 +93,13 @@ const App = () => (
               <Route path="announcements" element={<AdminAnnouncements />} />
               <Route path="admins" element={<AdminAccounts />} />
               <Route path="team-members" element={<AdminTeamMembers />} />
+              <Route path="learning/courses" element={<AdminCourses />} />
+              <Route path="learning/courses/:id" element={<AdminCourseEditor />} />
+              <Route path="learning/fields" element={<AdminFieldLibrary />} />
+              <Route path="learning/questions" element={<AdminQuestionBank />} />
+              <Route path="learning/settings" element={<AdminEngineSettings />} />
+              <Route path="learning/learners" element={<AdminLearners />} />
+              <Route path="learning/analytics" element={<AdminLearningAnalytics />} />
             </Route>
             
             {/* Facilitator Routes */}
