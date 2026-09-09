@@ -70,8 +70,11 @@ const App = () => (
             <Route path="/blog/:id" element={<BlogPost />} />
             <Route path="/programs" element={<Programs />} />
             <Route path="/programs/:slug" element={<ProgramApply />} />
-            <Route path="/learn" element={<LearnCatalog />} />
-            <Route path="/learn/:slug" element={<CourseRunner />} />
+            <Route path="/sandbox" element={<LearnCatalog />} />
+            <Route path="/sandbox/login" element={<SandboxAuth />} />
+            <Route path="/sandbox/:slug" element={<CourseRunner />} />
+            <Route path="/learn" element={<Navigate to="/sandbox" replace />} />
+            <Route path="/learn/:slug" element={<Navigate to="/sandbox" replace />} />
             <Route path="/contact" element={<Contact />} />
             
             {/* Auth Routes */}

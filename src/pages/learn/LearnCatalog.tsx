@@ -75,9 +75,10 @@ const LearnCatalog = () => {
   return (
     <Layout>
       <div className="container mx-auto px-4 py-16">
-        <h1 className="text-3xl md:text-4xl font-bold text-foreground">Courses</h1>
+        <h1 className="text-3xl md:text-4xl font-bold text-foreground">Sandbox</h1>
         <p className="text-muted-foreground mt-2 max-w-2xl">
-          Core courses build the fundamentals. Electives go deeper into a specific area once you have the core level behind you.
+          Free, self-paced financial literacy courses open to everyone. Core courses build the fundamentals; electives go
+          deeper into a specific area once you have the matching core level behind you.
         </p>
 
         {loading ? (
