@@ -17,7 +17,7 @@ const LearnCatalog = () => {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    if (!isLoading && !user) navigate('/facilitator/login');
+    if (!isLoading && !user) navigate('/sandbox/login');
   }, [isLoading, user, navigate]);
 
   useEffect(() => {
@@ -57,7 +57,7 @@ const LearnCatalog = () => {
           {c.description && <p className="text-sm text-muted-foreground line-clamp-3">{c.description}</p>}
           <div className="mt-auto pt-2">
             {unlocked ? (
-              <Link to={`/learn/${c.slug}`}>
+              <Link to={`/sandbox/${c.slug}`}>
                 <Button className="w-full">{state ? 'Continue' : 'Start course'}</Button>
               </Link>
             ) : (
