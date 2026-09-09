@@ -144,7 +144,7 @@ const AdminCourseEditor = () => {
   };
 
   /* ----- lessons ----- */
-  const openLesson = (l?: LessonRow) =>
+  const openLesson = (l?: LessonRow) => {
     setLessonDraft(
       l ?? {
         title: '',
@@ -155,7 +155,9 @@ const AdminCourseEditor = () => {
         comprehension_enabled: null,
         comprehension_count: null,
       },
-    ) || setLessonOpen(true);
+    );
+    setLessonOpen(true);
+  };
 
   const saveLesson = async () => {
     if (!lessonDraft?.title || !lessonDraft.field_id) return;
