@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Calmest players — FinLit Zambia</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,wght@0,400;0,500;0,600;0,700;0,800;1,400&family=DM+Mono:wght@500&display=swap" rel="stylesheet">
+<style>
+:root{
+  --g:#22C55E;--gd:#15803D;--gx:#14532D;--gl:#F0FDF4;--gm:#DCFCE7;
+  --ink:#111827;--ink2:#374151;--ink3:#6B7280;--bg:#F8FAFC;--w:#ffffff;--bd:#E5E7EB;--bd2:#F3F4F6;
+  --red:#DC2626;--ff:'DM Sans',system-ui,sans-serif;--fm:'DM Mono',monospace;
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+body{font-family:var(--ff);background:var(--bg);color:var(--ink);line-height:1.55;padding-bottom:40px}
+.topbar{background:var(--w);border-bottom:1px solid var(--bd);padding:16px 20px;display:flex;align-items:center;gap:12px;position:sticky;top:0;z-index:10}
+.back{color:var(--ink3);text-decoration:none;font-size:20px}
+.topbar h1{font-size:16px;font-weight:800}
+.body{padding:16px 20px;max-width:640px;margin:0 auto}
+.hero{background:var(--w);border:1px solid var(--bd);border-radius:18px;padding:18px;margin-bottom:16px;text-align:center}
+.hero h2{font-size:22px;font-weight:800;letter-spacing:-.02em;margin-bottom:4px}
+.hero p{font-size:14px;color:var(--ink3)}
+.me{background:var(--gl);border:1.5px solid var(--g);border-radius:18px;padding:16px;margin-bottom:16px;text-align:center}
+.me b{display:block;font-size:26px;font-weight:800;color:var(--gx);letter-spacing:-.02em}
+.me span{font-size:14px;color:var(--ink2)}
+.me.no{background:#FFFBEB;border-color:#FCD34D}.me.no b{color:#92400E;font-size:18px}
+.row{background:var(--w);border:1px solid var(--bd);border-radius:14px;padding:12px 14px;margin-bottom:8px;display:flex;align-items:center;gap:12px}
+.row.me-row{border:2px solid var(--g);background:var(--gl)}
+.rk{width:30px;font-family:var(--fm);font-weight:800;font-size:15px;color:var(--ink3);text-align:center;flex:none}
+.av{font-size:26px;width:34px;text-align:center;flex:none}
+.nm{flex:1;min-width:0;font-weight:700;font-size:15px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.nm small{display:block;font-weight:500;font-size:12.5px;color:var(--ink3)}
+.badge{display:inline-block;margin-left:6px;font-size:11px;font-weight:800;color:var(--gd);background:var(--gm);padding:2px 8px;border-radius:99px}
+.sc{font-family:var(--fm);font-weight:800;font-size:15px;white-space:nowrap}
+.empty{text-align:center;padding:40px 20px;color:var(--ink3);font-size:14px}
+.note{font-size:12.5px;color:var(--ink3);text-align:center;margin-top:14px;line-height:1.5}
+</style>
+<link rel="stylesheet" href="css/apple.css">
+</head>
+<body>
+<div class="topbar"><a href="index.html" class="back">←</a><h1>Calmest players</h1></div>
+<div class="body">
+  <div class="hero"><h2 id="grp">…</h2><p id="sub">Ranked by how calm they stay, never by how rich they get.</p></div>
+  <div id="me"></div>
+  <div id="rows"></div>
+  <div class="note">Rank is the average stress over the last <span id="win">14</span> days. To be ranked you need a few days of play and a few decisions, so doing nothing cannot win.</div>
+</div>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="js/nav.js"></script>
+<script src="js/supabase-client.js"></script>
+<script src="js/utils.js"></script>
+<script src="js/stress.js"></script>
+<script>
+const STORY = { student: 'Students', trader: 'Market traders', salaried: 'Salaried workers', farmer: 'Smallholder farmers' };
+const CHAPTER = ['Starting out', 'Making ends meet', 'Protecting and growing', 'Navigating the system', 'Securing the future'];
+function esc(s) { return String(s == null ? '' : s).replace(/[&<>"]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c])); }
+
+(async function init() {
+  const user = await requireAuth(); if (!user) return;
+  const { data, error } = await supabase.rpc('stress_board');
+  if (error || !data || data.error) { document.getElementById('rows').innerHTML = '<div class="empty">The leaderboard is not available yet.</div>'; return; }
+  document.getElementById('win').textContent = data.window_days;
+  const g = data.group || {};
+  document.getElementById('grp').textContent = (STORY[g.backstory] || 'Players') + ' · ' + (CHAPTER[g.chapter] || 'Chapter ' + g.chapter);
+  const me = data.me || {};
+  const meEl = document.getElementById('me');
+  if (me.ranked) {
+    meEl.innerHTML = '<div class="me"><b>#' + me.rank + ' of ' + me.of + '</b><span>' +
+      (me.calmer_than != null ? 'Calmer than ' + me.calmer_than + '% of players · ' : '') + 'average stress ' + me.avg + '</span></div>';
+  } else {
+    meEl.innerHTML = '<div class="me no"><b>Not ranked yet</b><span>You need ' + me.need_days + ' days of play (you have ' + (me.days || 0) +
+      ') and ' + me.need_choices + ' decisions (you have ' + (me.choices || 0) + ').</span></div>';
+  }
+  const top = data.top || [];
+  document.getElementById('rows').innerHTML = top.length ? top.map(r => {
+    const b = StressMeter.BANDS[StressMeter.bandFor(r.avg)];
+    const name = r.bankrupt ? StressMeter.BANDS.bankrupt.label : esc(r.name || 'Player');
+    return '<div class="row' + (r.me ? ' me-row' : '') + '"><div class="rk">' + r.rank + '</div><div class="av">' + (r.avatar ? esc(r.avatar) : '·') + '</div>' +
+      '<div class="nm">' + name + (r.comeback ? '<span class="badge">Comeback ✨</span>' : '') + '<small>' + esc(b.label) + '</small></div>' +
+      '<div class="sc" style="color:' + b.color + '">' + r.avg + '</div></div>';
+  }).join('') : '<div class="empty">No one in this group is ranked yet. Keep playing and be the first.</div>';
+})();
+</script>
+</body>
+</html>

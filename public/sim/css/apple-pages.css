@@ -1,0 +1,89 @@
+/* Page-specific Apple-style rules. Loaded after css/apple.css. Each page's <body> carries a pg-* class. */
+
+/* ── sign in ── */
+.pg-login{padding:24px 20px;background:var(--bg)}
+.pg-login .card{border:0;border-radius:26px;box-shadow:0 2px 6px rgba(0,0,0,.04),0 18px 48px rgba(0,0,0,.08)}
+.pg-login .card-hdr{background:none;color:var(--ink);padding:30px 26px 4px}
+.pg-login .card-hdr .kicker{color:var(--g);font-size:13px;letter-spacing:.02em;text-transform:none;font-weight:600}
+.pg-login .card-hdr h1{font-size:30px;font-weight:700;letter-spacing:-.03em;line-height:1.1;margin-bottom:8px}
+.pg-login .card-hdr p{color:var(--ink3);font-size:15px;line-height:1.45}
+.pg-login .card-body{padding:20px 26px 26px}
+.pg-login .tabs{background:var(--fill);border-radius:10px;padding:2px;gap:0;margin-bottom:20px}
+.pg-login .tab{min-height:36px;font-size:15px;font-weight:600;border-radius:8px;color:var(--ink)}
+.pg-login .tab.active{background:#fff;color:var(--ink);box-shadow:0 1px 3px rgba(0,0,0,.12),0 0 0 .5px rgba(0,0,0,.04)}
+.pg-login .remember span{font-size:15px;color:var(--ink2)}
+.pg-login .remember input{width:22px;height:22px}
+.pg-login .foot-note{font-size:13px;color:var(--ink3);text-align:center;line-height:1.5;margin-top:16px}
+.pg-login .btn-primary{background:var(--g)}
+.pg-login .btn-primary:hover{background:var(--gd)}
+.pg-login .btn-primary:disabled{background:var(--fill);color:var(--ink3)}
+
+/* ── character creation ── */
+.pg-character{padding:calc(16px + env(safe-area-inset-top,0px)) 16px 48px}
+.pg-character .hdr{background:none;color:var(--ink);padding:8px 6px 4px;box-shadow:none;margin-bottom:12px}
+.pg-character .kicker{color:var(--g);font-size:13px;letter-spacing:.02em;text-transform:none;font-weight:600}
+.pg-character .hdr h1{font-size:32px;font-weight:700;letter-spacing:-.03em;line-height:1.1;margin-bottom:8px}
+.pg-character .hdr p{color:var(--ink3);font-size:15px;line-height:1.45}
+.pg-character .card{padding:16px;margin-bottom:12px}
+.pg-character .card h2{font-size:13px;font-weight:600;color:var(--ink3);letter-spacing:.04em;margin-bottom:10px}
+.pg-character input[type=text]{border:0;background:var(--fill);min-height:48px;font-size:17px;border-radius:12px;padding:12px 14px}
+.pg-character input[type=text]:focus{box-shadow:0 0 0 2px var(--g);background:var(--fill)}
+.pg-character .avs button,.pg-character .bgs button{border:0;background:var(--fill)}
+.pg-character .avs button.on,.pg-character .bgs button.on{background:var(--gl);box-shadow:inset 0 0 0 2px var(--g)}
+.pg-character .bgs button{border-radius:14px;padding:14px;min-height:52px}
+.pg-character .bgs b{font-size:16px;font-weight:600}
+.pg-character .bgs span{font-size:14px}
+.pg-character .btn{box-shadow:none;border-radius:14px;min-height:52px;font-weight:600;font-size:17px;background:var(--g)}
+.pg-character .btn:disabled{background:var(--fill);color:var(--ink3)}
+.pg-character .preview .av{background:var(--gl)}
+.pg-character .preview .nm{font-size:20px;font-weight:700;letter-spacing:-.02em}
+.pg-character .preview .bs{font-size:14px}
+
+/* ── ventures ── */
+.pg-ventures .vc-name{font-size:17px;font-weight:600;letter-spacing:-.01em}
+.pg-ventures .vc-cat{font-size:13px}
+.pg-ventures .vc-value{font-family:var(--ff);font-size:21px;font-weight:700;letter-spacing:-.02em;font-variant-numeric:tabular-nums}
+.pg-ventures .vc-pl div{border-radius:12px;font-size:12px;padding:10px 12px}
+.pg-ventures .vc-pl b{font-family:var(--ff);font-size:16px;font-weight:600;font-variant-numeric:tabular-nums}
+.pg-ventures .vc-btn{border:0;background:var(--fill);color:var(--ink)}
+.pg-ventures .vc-btn.income{background:var(--gl);color:var(--gd)}
+.pg-ventures .vc-btn.expense{background:var(--redl);color:#C4271D}
+.pg-ventures .vc-note{font-size:13px;margin-top:6px}
+.pg-ventures .btn-secondary{background:var(--fill);color:var(--ink)}
+
+/* ── invest ── */
+.pg-trade .list-item{border:0;box-shadow:var(--shadow);border-radius:16px;padding:14px 16px;min-height:60px}
+.pg-trade .list-item:active{background:var(--bd2)}
+.pg-trade .li-ticker{font-size:17px;font-weight:600}
+.pg-trade .li-name{font-size:14px}
+.pg-trade .li-price{font-family:var(--ff);font-size:17px;font-weight:600;font-variant-numeric:tabular-nums;color:var(--ink)}
+.pg-trade .side-toggle{background:var(--fill);border-radius:10px;padding:2px;gap:0}
+.pg-trade .side-btn{border:0;background:none;min-height:36px;font-size:15px;font-weight:600;border-radius:8px;color:var(--ink)}
+.pg-trade .side-btn.active-buy{background:#fff;color:var(--gd);box-shadow:0 1px 3px rgba(0,0,0,.12)}
+.pg-trade .side-btn.active-sell{background:#fff;color:var(--red);box-shadow:0 1px 3px rgba(0,0,0,.12)}
+.pg-trade .total-row{border-top:.5px solid var(--bd);font-size:16px;padding:12px 0}
+.pg-trade .total-row .v{font-family:var(--ff);font-weight:600;font-variant-numeric:tabular-nums}
+.pg-trade .close-panel{font-size:20px;min-width:44px;min-height:44px}
+.pg-trade .topbar .cash-pill{background:var(--gl);color:var(--gd);border-radius:99px;padding:6px 12px;min-width:0;font-size:15px;font-weight:600;margin-left:0}
+
+/* ── my yungsta ── */
+.pg-profile{padding:calc(12px + env(safe-area-inset-top,0px)) 16px calc(100px + env(safe-area-inset-bottom,0px))}
+.pg-profile .top{margin-bottom:10px;align-items:baseline}
+.pg-profile .top h1{font-size:34px;font-weight:700;letter-spacing:-.03em}
+.pg-profile .top .back,.pg-profile .back{color:var(--g);font-size:26px;text-decoration:none;width:auto;margin-right:4px}
+.pg-profile .hero{background:var(--w);color:var(--ink);box-shadow:var(--shadow);border-radius:24px}
+.pg-profile .hero .av{background:var(--gl)}
+.pg-profile .hero .nm{font-size:24px;font-weight:700;letter-spacing:-.02em}
+.pg-profile .hero .bs{color:var(--ink3);font-size:15px}
+.pg-profile .hero .arch{background:var(--gold);color:#8A5300;font-size:15px;font-weight:600}
+.pg-profile .hero .blurb{color:var(--ink2);font-size:16px;line-height:1.45}
+.pg-profile .hero a.edit{color:var(--g);font-size:15px;font-weight:600}
+.pg-profile .card{padding:18px}
+.pg-profile .card h2{font-size:13px;font-weight:600;letter-spacing:.04em}
+.pg-profile .tr-h{font-size:16px;font-weight:600}
+.pg-profile .tr-d{font-size:13px}
+.pg-profile .bar{height:8px}
+.pg-profile .stat{background:var(--bd2);box-shadow:none}
+.pg-profile .stat b{font-size:22px;font-weight:700}
+.pg-profile .stat span{font-size:12px}
+.pg-profile .ev{font-size:15px}

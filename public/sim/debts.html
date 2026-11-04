@@ -1,0 +1,344 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Debts — FinLit Zambia</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,wght@0,400;0,500;0,600;0,700;0,800;1,400&family=DM+Mono:wght@500&display=swap" rel="stylesheet">
+<style>
+:root{
+  --g:#22C55E;--gd:#15803D;--gx:#14532D;--gl:#F0FDF4;--gm:#DCFCE7;
+  --ink:#111827;--ink2:#374151;--ink3:#6B7280;--bg:#F8FAFC;--w:#ffffff;--bd:#E5E7EB;--bd2:#F3F4F6;
+  --red:#DC2626;--redl:#FEF2F2;--gold:#FDF8EC;--gol:#C9A83C;
+  --ff:'DM Sans',system-ui,sans-serif;--fm:'DM Mono',monospace;
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+body{font-family:var(--ff);background:var(--bg);color:var(--ink);line-height:1.55;padding-bottom:40px}
+
+.topbar{background:var(--w);border-bottom:1px solid var(--bd);padding:16px 20px;
+  display:flex;align-items:center;gap:12px;position:sticky;top:0;z-index:10}
+.back{color:var(--ink3);text-decoration:none;font-size:20px}
+.topbar h1{font-size:16px;font-weight:800;flex:1}
+.new-btn{background:var(--red);color:#fff;border:none;border-radius:20px;
+  padding:7px 14px;font-size:12px;font-weight:700;cursor:pointer;font-family:inherit}
+
+.body{padding:16px 20px;max-width:640px;margin:0 auto}
+
+.warn{background:var(--gold);border-left:4px solid var(--gol);color:#7a5500;
+  border-radius:10px;padding:12px 14px;font-size:12.5px;line-height:1.6;margin-bottom:16px}
+
+.debt-card{background:var(--w);border:1px solid var(--bd);border-radius:15px;
+  padding:16px 17px;margin-bottom:12px}
+.dc-hdr{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:8px}
+.dc-lender{font-size:14px;font-weight:800;text-transform:capitalize}
+.dc-rate{font-size:11px;color:var(--ink3)}
+.dc-balance{font-family:var(--fm);font-size:16px;font-weight:800;color:var(--red)}
+.dc-repay-btn{width:100%;margin-top:10px;padding:9px;border-radius:9px;border:1.5px solid var(--g);
+  background:var(--gl);color:var(--gx);font-family:inherit;font-weight:700;font-size:12.5px;cursor:pointer}
+
+.empty{text-align:center;padding:50px 20px;color:var(--ink3);font-size:13px}
+
+.modal-backdrop{display:none;position:fixed;inset:0;background:rgba(17,24,39,.4);z-index:20}
+.modal-backdrop.show{display:block}
+.modal{display:none;position:fixed;bottom:0;left:0;right:0;background:var(--w);
+  border-radius:20px 20px 0 0;padding:22px 20px 28px;z-index:21;max-width:640px;margin:0 auto}
+.modal.show{display:block}
+.modal h2{font-size:15px;font-weight:800;margin-bottom:16px}
+
+.field{margin-bottom:14px}
+.field label{display:block;font-size:12px;font-weight:700;color:var(--ink2);margin-bottom:6px}
+.field input,.field select{width:100%;padding:11px 13px;border:1.5px solid var(--bd);
+  border-radius:10px;font-size:14px;font-family:inherit;color:var(--ink);background:var(--bg)}
+.field input:focus,.field select:focus{outline:none;border-color:var(--g);background:var(--w)}
+.field-note{font-size:11px;color:var(--ink3);margin-top:4px}
+
+.btn{width:100%;padding:12px;border-radius:11px;border:none;font-family:inherit;
+  font-size:14px;font-weight:700;cursor:pointer;background:var(--gd);color:#fff;margin-top:4px}
+.btn-secondary{background:none;color:var(--ink3);margin-top:8px}
+
+.msg{font-size:12px;border-radius:8px;padding:9px 12px;margin-bottom:12px;display:none}
+.msg.show{display:block}
+.msg.error{background:var(--redl);color:#7a1010}
+
+.lesson{display:flex;gap:10px;align-items:center;background:var(--gl);border:1px solid var(--gm);border-radius:12px;padding:10px 12px;margin-bottom:14px;font-size:13px;color:var(--gx);text-decoration:none}
+.lesson b{font-weight:800}
+.sum{background:var(--w);border:1px solid var(--bd);border-radius:15px;padding:14px 16px;margin-bottom:14px}
+.sum-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.sum-k{font-size:11px;color:var(--ink3);font-weight:700;text-transform:uppercase;letter-spacing:.6px}
+.sum-v{font-family:var(--fm);font-size:17px;font-weight:800}
+.due-bar{display:flex;align-items:center;gap:10px;background:var(--redl);color:#7a1010;border-radius:12px;padding:10px 12px;margin-top:12px;font-size:13px}
+.due-bar button{margin-left:auto;background:var(--red);color:#fff;border:0;border-radius:10px;padding:8px 12px;font:700 12.5px var(--ff);cursor:pointer}
+.auto{display:flex;align-items:center;gap:10px;margin-top:12px;font-size:13px;color:var(--ink2)}
+.auto input{width:20px;height:20px;accent-color:var(--g)}
+.plan{background:var(--w);border:1px solid var(--bd);border-radius:15px;padding:16px;margin-bottom:14px}
+.plan h2{font-size:15px;font-weight:800;margin-bottom:4px}
+.plan p.sub{font-size:12.5px;color:var(--ink3);margin-bottom:12px}
+.strat{display:grid;gap:8px;margin:10px 0 12px}
+.strat label{display:block;border:1.5px solid var(--bd);border-radius:12px;padding:10px 12px;cursor:pointer;font-size:13px;line-height:1.4}
+.strat label b{display:block;font-size:14px}
+.strat input{position:absolute;opacity:0;pointer-events:none}
+.strat input:checked+label{border-color:var(--g);background:var(--gl)}
+.cmp{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin:10px 0}
+.cmp div{background:var(--bd2);border-radius:12px;padding:10px;text-align:center;font-size:12px;color:var(--ink3)}
+.cmp div.best{background:var(--gm);color:var(--gx)}
+.cmp b{display:block;font-family:var(--fm);font-size:14px;color:var(--ink)}
+.cmp span{display:block;margin-top:2px}
+.save{font-size:13px;color:var(--gx);background:var(--gl);border-radius:10px;padding:9px 11px;margin:8px 0}
+.badge{display:inline-block;font-size:10.5px;font-weight:800;letter-spacing:.4px;text-transform:uppercase;padding:2px 8px;border-radius:99px;background:var(--bd2);color:var(--ink3);margin-left:6px}
+.badge.red{background:var(--redl);color:#7a1010}.badge.gold{background:var(--gold);color:#7a5500}
+.dc-row{display:flex;gap:8px;margin-top:10px}
+.dc-row button{flex:1;padding:9px;border-radius:9px;border:1.5px solid var(--bd);background:var(--w);color:var(--ink2);font:700 12.5px var(--ff);cursor:pointer}
+.dc-row button.pri{border-color:var(--g);background:var(--gl);color:var(--gx)}
+.dc-row button.dan{border-color:#FCA5A5;background:var(--redl);color:#7a1010}
+.dc-meta{font-size:12px;color:var(--ink3);margin-top:6px;line-height:1.5}
+.bar{height:8px;border-radius:99px;background:var(--bd2);margin-top:10px;overflow:hidden}.bar i{display:block;height:100%;background:var(--g)}
+table.sched{width:100%;border-collapse:collapse;font-size:12.5px;font-family:var(--fm)}
+table.sched th,table.sched td{padding:6px 4px;text-align:right;border-bottom:1px solid var(--bd2)}
+table.sched th:first-child,table.sched td:first-child{text-align:left}
+.quote{background:var(--bd2);border-radius:12px;padding:10px 12px;font-size:13px;line-height:1.6;margin-bottom:12px}
+.quote b{font-family:var(--fm)}
+.ok{background:var(--gl);color:var(--gx)}
+.msg.ok.show{display:block}
+
+</style>
+<link rel="stylesheet" href="css/apple.css">
+</head>
+<body>
+<div class="topbar"><a href="index.html" class="back">←</a><h1>Debts</h1><button class="new-btn" onclick="openNewDebt()">+ Borrow</button></div>
+<div class="body">
+  <a class="lesson" id="lessonLink" target="_blank" rel="noopener"><span>📘</span><span><b>Module 1.2 · Credit and Debt Management.</b> The rates, the cost formula and the Avalanche vs Snowball methods here come from this lesson.</span></a>
+  <div class="sum" id="summary"></div>
+  <div class="plan" id="planCard" hidden></div>
+  <div id="debtList"></div>
+</div>
+
+<div class="modal-backdrop" id="newBackdrop" onclick="closeModals()"></div>
+<div class="modal" id="newModal">
+  <h2>Borrow money</h2>
+  <div class="msg" id="newMsg"></div>
+  <div class="field"><label for="product">Lender</label><select id="product" onchange="onProduct()"></select></div>
+  <div class="field"><label for="loanAmount">Amount (K)</label><input type="number" id="loanAmount" min="1" step="50" oninput="onQuote()"></div>
+  <div class="field" id="termField"><label for="term">Term</label><select id="term" onchange="onQuote()"></select></div>
+  <div class="field-note" id="limitNote" style="margin:-6px 0 10px"></div>
+  <div class="quote" id="quote">Enter an amount to see what it really costs.</div>
+  <button class="btn" onclick="createDebt()">Take the loan</button>
+  <button class="btn btn-secondary" onclick="closeModals()">Cancel</button>
+</div>
+
+<div class="modal-backdrop" id="repayBackdrop" onclick="closeModals()"></div>
+<div class="modal" id="repayModal">
+  <h2>Repay</h2>
+  <div class="msg" id="repayMsg"></div>
+  <div class="field"><label for="repayAmount">Amount (K)</label><input type="number" id="repayAmount" min="1" step="10"><div class="field-note" id="repayNote"></div></div>
+  <button class="btn" onclick="confirmRepay()">Pay</button>
+  <button class="btn btn-secondary" onclick="closeModals()">Cancel</button>
+</div>
+
+<div class="modal-backdrop" id="schedBackdrop" onclick="closeModals()"></div>
+<div class="modal" id="schedModal" style="max-height:80vh;overflow:auto">
+  <h2>Payment schedule</h2>
+  <div class="field-note" id="schedNote" style="margin-bottom:10px"></div>
+  <table class="sched" id="schedTable"></table>
+  <button class="btn btn-secondary" onclick="closeModals()">Close</button>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="js/nav.js"></script>
+<script src="js/supabase-client.js"></script>
+<script src="js/utils.js"></script>
+<script src="js/story-client.js"></script>
+<script>
+const LESSON_BASE = 'https://finlitmodules.netlify.app/';
+document.getElementById('lessonLink').href = LESSON_BASE + 'module-1-2-full.html';
+let OV = null, activeDebtId = null, cmpTimer = null, strategy = 'avalanche';
+const esc = s => String(s == null ? '' : s).replace(/[&<>"]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
+const K = n => fmtKwacha(Number(n) || 0);
+function inTime(ts) {
+  if (!ts) return '';
+  const h = (new Date(ts) - Date.now()) / 36e5;
+  if (h <= 0) return 'now';
+  if (h < 1) return 'in ' + Math.max(1, Math.round(h * 60)) + ' min';
+  if (h < 48) return 'in ' + Math.round(h) + ' hours';
+  return 'in ' + Math.round(h / 24) + ' days';
+}
+
+(async function init() { await loadAll(); })();
+
+async function loadAll() {
+  const user = await requireAuth(); if (!user) return;
+  const { data, error } = await supabase.rpc('debt_overview');
+  if (error || !data || data.error) { document.getElementById('debtList').innerHTML = '<div class="empty">Debts is not available yet.</div>'; return; }
+  OV = data; strategy = OV.strategy || 'avalanche';
+  renderSummary(); renderDebts(); renderPlan();
+}
+
+function renderSummary() {
+  const active = OV.debts.filter(d => d.status === 'active');
+  const owed = active.reduce((a, d) => a + Number(d.balance), 0);
+  document.getElementById('summary').innerHTML =
+    '<div class="sum-grid"><div><div class="sum-k">Cash</div><div class="sum-v">' + K(OV.cash) + '</div></div>' +
+    '<div><div class="sum-k">You owe</div><div class="sum-v" style="color:var(--red)">' + K(owed) + '</div></div>' +
+    '<div><div class="sum-k">Minimums a month</div><div class="sum-v">' + K(OV.monthly_min) + '</div></div>' +
+    '<div><div class="sum-k">Debts</div><div class="sum-v">' + active.length + '</div></div></div>' +
+    (Number(OV.due_total) > 0 ? '<div class="due-bar"><span>⏰ <b>' + K(OV.due_total) + '</b> is due now</span><button onclick="payDue()">Pay what is due</button></div>' : '') +
+    '<label class="auto"><input type="checkbox" id="autopay" ' + (OV.autopay ? 'checked' : '') + ' onchange="savePrefs()"> Pay what is due automatically when I have the cash (a standing order)</label>';
+}
+
+function renderDebts() {
+  const el = document.getElementById('debtList');
+  if (!OV.debts.length) { el.innerHTML = '<div class="empty">No debts. Borrowing is not bad by itself. This is where you will see what it costs.</div>'; return; }
+  const active = OV.debts.filter(d => d.status === 'active'), past = OV.debts.filter(d => d.status !== 'active');
+  el.innerHTML = active.map(d => {
+    const paid = d.principal > 0 ? Math.max(0, Math.min(100, Math.round(100 * (1 - d.balance / Math.max(d.balance, d.principal))))) : 0;
+    const sched = d.structure === 'installment', bullet = d.structure === 'bullet';
+    return '<div class="debt-card"><div class="dc-hdr"><div><div class="dc-lender">' + esc(d.label) +
+      (d.story_managed ? '<span class="badge gold">Story loan</span>' : '') + (d.overdue ? '<span class="badge red">Overdue</span>' : (Number(d.due_amount) > 0 ? '<span class="badge red">Due</span>' : '')) + '</div>' +
+      '<div class="dc-rate">' + Number(d.rate) + '% a year · borrowed ' + K(d.principal) + (d.term_months ? ' · ' + d.term_months + (d.term_months === 1 ? ' month' : ' months') : '') + '</div></div>' +
+      '<div class="dc-balance">' + K(d.balance) + '</div></div>' +
+      (sched ? '<div class="dc-meta">Monthly payment <b>' + K(d.installment) + '</b> · ' + d.months_left + ' payments left · next ' + inTime(d.next_due_at) + '</div>' :
+       bullet ? '<div class="dc-meta">One payment of the whole balance, due ' + inTime(d.next_due_at) + (d.rollovers ? ' · renewed ' + d.rollovers + ' time' + (d.rollovers > 1 ? 's' : '') : '') + '</div>' :
+       d.story_managed ? '<div class="dc-meta">This loan is repaid when the story asks for it.</div>' : '<div class="dc-meta">No interest and no schedule. Trust is the cost.</div>') +
+      (Number(d.due_amount) > 0 ? '<div class="dc-meta" style="color:#7a1010"><b>' + K(d.due_amount) + '</b> due' + (d.missed_count ? ' · ' + d.missed_count + ' missed' : '') + '. A late fee is added if it is not paid in time.</div>' : '') +
+      '<div class="bar"><i style="width:' + paid + '%"></i></div>' +
+      '<div class="dc-row"><button class="pri" onclick="openRepay(' + d.id + ',' + d.balance + ',' + (Number(d.due_amount) || 0) + ')">Repay</button>' +
+      ((sched || bullet) ? '<button onclick="openSchedule(' + d.id + ')">Schedule</button>' : '') +
+      (d.can_rollover ? '<button class="dan" onclick="rollover(' + d.id + ',' + d.rollover_fee + ')">Renew (+' + K(d.rollover_fee) + ')</button>' : '') + '</div></div>';
+  }).join('') + past.map(d => '<div class="debt-card" style="opacity:.6"><div class="dc-hdr"><div><div class="dc-lender">' + esc(d.label) + '</div><div class="dc-rate">' + esc(d.status) + ' · borrowed ' + K(d.principal) + '</div></div><div class="dc-balance" style="color:var(--ink3)">' + K(d.status === 'defaulted' ? d.balance : 0) + '</div></div></div>').join('');
+}
+
+// ── payoff plan: the lesson's Avalanche vs Snowball tool, on the learner's real debts ──
+function renderPlan() {
+  const el = document.getElementById('planCard');
+  const planDebts = OV.debts.filter(d => d.status === 'active' && !d.story_managed && Number(d.balance) > 0.01 && d.structure !== 'flexible');
+  if (planDebts.length < 1) { el.hidden = true; return; }
+  el.hidden = false;
+  const min = Math.ceil(Number(OV.monthly_min) || 0);
+  el.innerHTML = '<h2>Pay down your debts</h2><p class="sub">Choose a monthly budget and a method. Minimums go to every debt first, then the rest goes to one priority debt (Module 1.2).</p>' +
+    '<div class="field"><label for="budget">Monthly budget for debt (K)</label><input type="number" id="budget" min="' + min + '" step="50" value="' + min + '" oninput="onBudget()"><div class="field-note">The least you can put in is ' + K(min) + ' (all the minimums).</div></div>' +
+    '<div class="strat">' +
+    stratOpt('avalanche', 'Avalanche: highest rate first', 'Costs the least interest overall.') +
+    stratOpt('snowball', 'Snowball: smallest balance first', 'Clears a debt sooner, which keeps you motivated.') +
+    stratOpt('minimum', 'Minimums only', 'Pay only what is required, nothing extra.') + '</div>' +
+    '<div id="cmp"></div><div class="msg" id="planMsg"></div>' +
+    '<button class="btn" id="runPlan" onclick="runPlan()">Run this month\'s plan</button>';
+  el.querySelectorAll('input[name=strat]').forEach(r => r.addEventListener('change', () => { strategy = r.value; }));
+  onBudget();
+}
+function stratOpt(k, t, d) {
+  return '<div><input type="radio" name="strat" id="st-' + k + '" value="' + k + '" ' + (strategy === k ? 'checked' : '') + '><label for="st-' + k + '"><b>' + t + '</b>' + d + '</label></div>';
+}
+function onBudget() { clearTimeout(cmpTimer); cmpTimer = setTimeout(compare, 250); }
+async function compare() {
+  const b = parseFloat(document.getElementById('budget').value) || 0;
+  const el = document.getElementById('cmp'); if (!el) return;
+  const { data } = await supabase.rpc('debt_plan', { p_budget: b });
+  if (!data || data.error) { el.innerHTML = data && data.error === 'below_minimums' ? '<div class="msg error show">Your budget has to cover all the minimums (' + K(data.min_total) + ').</div>' : ''; return; }
+  const col = (k, t) => { const r = data[k]; const best = k !== 'minimum' && Number(r.total_interest) === Math.min(Number(data.avalanche.total_interest), Number(data.snowball.total_interest));
+    return '<div class="' + (best ? 'best' : '') + '"><b>' + t + '</b><span>' + (r.months == null ? 'never' : r.months + ' mo') + '</span><span>interest ' + K(r.total_interest) + '</span>' + (k === 'minimum' ? '' : '<span>first debt gone: month ' + (r.first_cleared_month || '-') + '</span>') + '</div>'; };
+  el.innerHTML = '<div class="cmp">' + col('minimum', 'Minimums') + col('avalanche', 'Avalanche') + col('snowball', 'Snowball') + '</div>' +
+    (Number(data.extra_saves_vs_minimum) > 0 ? '<div class="save">Paying more than the minimums saves about <b>' + K(data.extra_saves_vs_minimum) + '</b> in interest.' + (Number(data.avalanche_saves) > 0 ? ' Avalanche saves <b>' + K(data.avalanche_saves) + '</b> more than Snowball here.' : '') + '</div>' : '');
+  const next = OV.plan_next_at; const btn = document.getElementById('runPlan');
+  btn.disabled = !!next; btn.textContent = next ? 'Next plan ' + inTime(next) : "Run this month's plan";
+}
+async function runPlan() {
+  const b = parseFloat(document.getElementById('budget').value) || 0, m = document.getElementById('planMsg');
+  m.className = 'msg';
+  const { data, error } = await supabase.rpc('debt_execute_plan', { p_budget: b, p_strategy: strategy });
+  if (error || !data || data.error) {
+    m.className = 'msg error show';
+    m.textContent = !data ? 'Could not run the plan.' : data.error === 'insufficient_cash' ? 'You need ' + K(data.needed) + ' in cash for this plan.' : data.error === 'below_minimums' ? 'Your budget has to cover the minimums (' + K(data.min_total) + ').' : data.error === 'already_done' ? 'You already ran this month\'s plan. Next one ' + inTime(data.next_at) + '.' : 'Could not run the plan.';
+    return;
+  }
+  m.className = 'msg ok show'; m.textContent = 'Paid ' + K(data.paid) + ' with the ' + strategy + ' method.';
+  await loadAll();
+}
+
+async function payDue() {
+  const { data } = await supabase.rpc('debt_pay_due');
+  if (data && Number(data.still_due) > 0) toast('Paid what you could. ' + K(data.still_due) + ' is still due: you need more cash.');
+  await loadAll();
+}
+async function savePrefs() {
+  const a = document.getElementById('autopay').checked;
+  await supabase.rpc('debt_set_prefs', { p_strategy: strategy, p_autopay: a });
+}
+async function rollover(id, fee) {
+  if (!confirm('Renew this loan for one more month? A fee of ' + fmtKwacha(fee) + ' is added to what you owe. This is how payday loans trap people.')) return;
+  const { data } = await supabase.rpc('debt_rollover', { p_debt_id: id });
+  if (!data || data.error) toast('Could not renew this loan.');
+  await loadAll();
+}
+function toast(t) { if (window.StoryClient && StoryClient.toast) return StoryClient.toast(t); alert(t); }
+
+// ── borrow ──
+function openNewDebt() {
+  const sel = document.getElementById('product');
+  sel.innerHTML = OV.products.map(p => '<option value="' + p.product + '">' + esc(p.label) + ' · ' + Number(p.rate) + '% a year</option>').join('');
+  document.getElementById('loanAmount').value = '';
+  document.getElementById('newMsg').className = 'msg';
+  onProduct();
+  document.getElementById('newBackdrop').classList.add('show'); document.getElementById('newModal').classList.add('show');
+}
+function prod() { return OV.products.find(p => p.product === document.getElementById('product').value); }
+function onProduct() {
+  const p = prod(); const tf = document.getElementById('termField'), ts = document.getElementById('term');
+  if (p.terms && p.terms.length > 1) { tf.style.display = ''; ts.innerHTML = p.terms.map(t => '<option value="' + t + '"' + (t === p.term_default ? ' selected' : '') + '>' + t + ' months</option>').join(''); }
+  else { tf.style.display = 'none'; ts.innerHTML = '<option value="' + (p.term_default || '') + '"></option>'; }
+  const lim = p.product === 'payday' ? OV.payday_left : (OV.limits || {})[p.product === 'family' ? 'informal' : p.product];
+  document.getElementById('limitNote').textContent = (lim !== undefined ? 'You can borrow up to ' + fmtKwacha(lim) + ' from this lender right now. ' : '') + (p.note || '');
+  onQuote();
+}
+let qTimer = null;
+function onQuote() { clearTimeout(qTimer); qTimer = setTimeout(quote, 200); }
+async function quote() {
+  const p = prod(), amt = parseFloat(document.getElementById('loanAmount').value), el = document.getElementById('quote');
+  if (!p || !amt || amt <= 0) { el.textContent = 'Enter an amount to see what it really costs.'; return; }
+  const term = parseInt(document.getElementById('term').value) || null;
+  const { data: q } = await supabase.rpc('debt_quote', { p_product: p.product, p_amount: amt, p_term_months: term });
+  if (!q || q.error) { el.textContent = 'Choose a valid amount and term.'; return; }
+  if (q.structure === 'flexible') { el.innerHTML = 'No interest. No schedule. Pay it back when you can, and keep your word.'; return; }
+  el.innerHTML = 'Interest = Principal × Rate × Years = ' + fmtKwacha(amt) + ' × ' + q.rate + '% × ' + (q.term_months / 12).toFixed(2) + ' = <b>' + fmtKwacha(q.total_interest) + '</b><br>' +
+    (q.structure === 'installment' ? 'Monthly payment: <b>' + fmtKwacha(q.monthly_payment) + '</b> for ' + q.term_months + ' months<br>' : 'One payment at the end: <b>' + fmtKwacha(q.total_repay) + '</b>' + (q.rollover_fee_pct ? ' (renewing adds a ' + q.rollover_fee_pct + '% fee)' : '') + '<br>') +
+    'Total to repay if you pay as quoted: <b>' + fmtKwacha(q.total_repay) + '</b><br><span style="color:var(--ink3);font-size:12px">In this game, interest is charged each month on what you still owe, so paying early costs less.</span>';
+}
+async function createDebt() {
+  const m = document.getElementById('newMsg'); m.className = 'msg';
+  const p = prod(), amt = parseFloat(document.getElementById('loanAmount').value), term = parseInt(document.getElementById('term').value) || null;
+  if (!amt || amt <= 0) { m.textContent = 'Enter an amount greater than zero.'; m.className = 'msg show error'; return; }
+  const { data: res, error } = await supabase.rpc('debt_borrow', { p_product: p.product, p_amount: amt, p_term_months: term });
+  if (error || !res || res.error) {
+    const e = res && res.error;
+    m.textContent = e === 'over_limit' ? 'This lender will only lend you ' + fmtKwacha(res.limit) + ' right now.' : e === 'locked' ? 'Debts is not unlocked yet.' : e === 'bad_term' ? 'That term is not offered.' : 'Could not take the loan. Please try again.';
+    m.className = 'msg show error'; return;
+  }
+  closeModals(); await loadAll();
+}
+
+// ── repay and schedule ──
+function openRepay(id, balance, due) {
+  activeDebtId = id;
+  const r = document.getElementById('repayAmount'); r.value = due > 0 ? Math.ceil(due) : ''; r.max = balance;
+  document.getElementById('repayNote').textContent = due > 0 ? 'Due now: ' + fmtKwacha(due) + '. You owe ' + fmtKwacha(balance) + ' in total.' : 'You owe ' + fmtKwacha(balance) + '. Paying extra reduces the interest you are charged.';
+  document.getElementById('repayMsg').className = 'msg';
+  document.getElementById('repayBackdrop').classList.add('show'); document.getElementById('repayModal').classList.add('show');
+}
+async function confirmRepay() {
+  const m = document.getElementById('repayMsg'); m.className = 'msg';
+  const amt = parseFloat(document.getElementById('repayAmount').value);
+  if (!amt || amt <= 0) { m.textContent = 'Enter an amount greater than zero.'; m.className = 'msg show error'; return; }
+  const { data: res, error } = await supabase.rpc('sim_repay', { p_debt_id: activeDebtId, p_amount: amt });
+  if (error || !res || res.error) { m.textContent = res && res.error === 'insufficient_cash' ? 'You only have ' + fmtKwacha(res.cash) + ' in cash.' : 'Could not record the repayment. Please try again.'; m.className = 'msg show error'; return; }
+  closeModals(); await loadAll();
+}
+async function openSchedule(id) {
+  const { data } = await supabase.rpc('debt_schedule', { p_debt_id: id });
+  const rows = (data && data.rows) || [];
+  document.getElementById('schedNote').textContent = rows.length ? 'If you only make the scheduled payments, you would pay about ' + fmtKwacha(data.total_interest) + ' more in interest over ' + data.months + ' months.' : 'No schedule for this loan.';
+  document.getElementById('schedTable').innerHTML = '<tr><th>Month</th><th>Interest</th><th>Payment</th><th>Left</th></tr>' +
+    rows.map(r => '<tr><td>' + r.month + '</td><td>' + Number(r.interest).toFixed(0) + '</td><td>' + Number(r.payment).toFixed(0) + '</td><td>' + Number(r.balance).toFixed(0) + '</td></tr>').join('');
+  document.getElementById('schedBackdrop').classList.add('show'); document.getElementById('schedModal').classList.add('show');
+}
+function closeModals() { ['newBackdrop','newModal','repayBackdrop','repayModal','schedBackdrop','schedModal'].forEach(id => document.getElementById(id).classList.remove('show')); }
+</script>
+</body>
+</html>

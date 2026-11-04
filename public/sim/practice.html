@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Practice with your yungsta</title>
+<link rel="stylesheet" href="css/apple.css">
+<style>
+.pe{max-width:640px;margin:0 auto;padding:20px 18px 28px}
+.pe-kicker{font-size:13px;font-weight:600;color:var(--g);letter-spacing:.02em}
+.pe h1{font-size:28px;font-weight:700;letter-spacing:-.03em;line-height:1.1;margin:4px 0 6px}
+.pe-sub{font-size:15px;color:var(--ink3);line-height:1.45;margin-bottom:16px}
+.pe-steps{background:var(--bg);border-radius:18px;overflow:hidden;margin-bottom:14px}
+.pe-step{display:flex;align-items:center;gap:12px;min-height:52px;padding:10px 14px;position:relative;font-size:16px}
+.pe-step+.pe-step::before{content:"";position:absolute;top:0;left:50px;right:0;height:.5px;background:var(--bd)}
+.pe-dot{width:26px;height:26px;border-radius:50%;border:2px solid #C7C7CC;flex:none;display:flex;align-items:center;justify-content:center;background:#fff}
+.pe-step.done .pe-dot{background:var(--g);border-color:var(--g)}
+.pe-step.done .pe-dot::after{content:"";width:12px;height:7px;border-left:2.5px solid #fff;border-bottom:2.5px solid #fff;transform:rotate(-45deg) translate(1px,-1px)}
+.pe-step small{display:block;font-size:13px;color:var(--ink3)}
+.pe-state{font-size:15px;color:var(--ink2);line-height:1.5;margin-bottom:12px}
+.pe-done{background:var(--gl);border-radius:18px;padding:18px;text-align:center;margin-top:6px}
+.pe-done h2{font-size:22px;font-weight:700;letter-spacing:-.02em;color:var(--gx);margin-bottom:4px}
+.pe-done p{font-size:15px;color:var(--ink2);line-height:1.45}
+.pe-no{background:#FFF8EB;border-radius:18px;padding:16px;font-size:15px;color:#8A5300;line-height:1.45}
+.pe-keep-btn{background:none;border:0;color:var(--g);font-size:15px;font-weight:600;padding:12px 0;cursor:pointer}
+.pe-keep{background:var(--bg);border-radius:18px;padding:16px;margin-top:6px}
+.pe-keep p{font-size:14px;color:var(--ink3);line-height:1.45;margin-bottom:12px}
+</style>
+</head>
+<body class="pg-practice">
+<div class="pe">
+  <div class="pe-kicker" id="peKicker">Practice with your yungsta</div>
+  <h1 id="peTitle">Getting ready…</h1>
+  <p class="pe-sub" id="peSub">A few quick calls with your yungsta, using what this lesson just taught.</p>
+  <div class="pe-steps" id="peSteps" hidden></div>
+  <div class="pe-state" id="peState">Getting your yungsta ready…</div>
+  <div class="pe-done" id="peDone" hidden><h2>Practice complete</h2><p id="peDoneText"></p></div>
+  <div class="mi" id="peMirror" hidden></div>
+  <div class="pe-no" id="peNo" hidden></div>
+  <button class="pe-keep-btn" id="peKeepBtn" hidden onclick="document.getElementById('peKeep').hidden=false;this.hidden=true">Keep my progress on other phones</button>
+  <div class="pe-keep" id="peKeep" hidden>
+    <p>Add an email and a password to keep your yungsta if you change phone or clear your browser. You can skip this.</p>
+    <div class="msg" id="keepMsg"></div>
+    <div class="field"><label for="keepEmail">Email</label><input type="email" id="keepEmail" autocomplete="email"></div>
+    <div class="field"><label for="keepPass">Password (6 or more characters)</label><input type="password" id="keepPass" autocomplete="new-password"></div>
+    <button class="btn" onclick="saveProgress()">Save my progress</button>
+  </div>
+</div>
+
+<script>
+// Read the lesson before the story client tidies the address bar (it removes ?lesson= but keeps this one)
+const LESSON = new URLSearchParams(window.location.search).get('practice');
+</script>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="js/supabase-client.js"></script>
+<script src="js/embed.js"></script>
+<script src="js/utils.js"></script>
+<script src="js/story-client.js"></script>
+<script src="js/mirror.js"></script>
+<script>
+const $ = id => document.getElementById(id);
+function post(t, d) { if (window.Embed) Embed.post(t, d || {}); }
+function unavailable(msg, reason) {
+  $('peState').hidden = true; $('peSteps').hidden = true;
+  $('peNo').hidden = false; $('peNo').textContent = msg;
+  post('practice-unavailable', { lesson: LESSON, reason: reason || 'unknown' });
+}
+let finished = false, pollTimer = null;
+
+(async function init() {
+  if (!LESSON || !/^[a-z0-9-]{1,8}$/.test(LESSON)) { unavailable('No lesson was selected for practice.', 'lesson'); return; }
+  const user = await requireAuth();
+  if (!user) { unavailable('Practice is not available right now. You can still finish the lesson and your certificate.', 'auth'); return; }
+  const { data: profile } = await supabase.from('sim_profiles').select('backstory,relationship,character_name').eq('id', user.id).single();
+  if (profile && (!profile.backstory || !profile.relationship || !profile.character_name)) {
+    window.location.replace('character.html?embed=1&next=practice.html&practice=' + encodeURIComponent(LESSON)); return;
+  }
+  const { data, error } = await supabase.rpc('practice_start', { p_lesson: LESSON });
+  if (error || !data || data.error) { unavailable('Practice is not available right now. You can still finish the lesson and your certificate.', 'rpc'); return; }
+  if (user.is_anonymous) $('peKeepBtn').hidden = false;
+  render(data);
+  // the question cards may have checked before this round existed: ask them to look again now
+  if (!data.done && window.StoryClient) { try { StoryClient.refresh(); } catch (e) {} }
+  if (!data.done) pollTimer = setInterval(poll, 3000);
+})();
+
+async function poll() {
+  const { data } = await supabase.rpc('practice_status', { p_lesson: LESSON });
+  if (data && !data.error) render(data);
+  if (!finished && window.StoryClient && !document.body.classList.contains('story-on')) { try { StoryClient.refresh(); } catch (e) {} }
+}
+
+function render(d) {
+  if (finished) return;
+  $('peTitle').textContent = d.title ? d.title : 'Lesson ' + String(LESSON).toUpperCase().replace('-', '.');
+  $('peKicker').textContent = 'Practice with your yungsta · Module ' + String(LESSON).toUpperCase().replace('-', '.');
+  const q = d.questions || { total: 0, answered: 0 }, s = d.scenario || { has: false, done: false };
+  const rows = [];
+  for (let i = 1; i <= q.total; i++) rows.push({ t: 'Question ' + i, s: 'Your yungsta asks, you teach', done: i <= q.answered });
+  if (s.has) rows.push({ t: 'A real-life moment', s: 'Decide what your yungsta should do', done: !!s.done });
+  const steps = $('peSteps');
+  steps.hidden = !rows.length;
+  steps.innerHTML = rows.map(r => '<div class="pe-step' + (r.done ? ' done' : '') + '"><span class="pe-dot"></span><span>' + r.t + '<small>' + r.s + '</small></span></div>').join('');
+  if (d.done) { finish(d); return; }
+  $('peState').hidden = false;
+  $('peState').textContent = d.answered === 0
+    ? 'Your yungsta has a question for you. It opens in a moment.'
+    : (d.answered + ' of ' + d.total + ' done. Keep going: the next one opens after you tap Continue.');
+}
+
+function finish(d) {
+  finished = true; clearInterval(pollTimer);
+  $('peState').hidden = true; $('peDone').hidden = false;
+  const q = d.questions || { total: 0, correct: 0 };
+  $('peDoneText').textContent = q.total ? 'You taught your yungsta ' + q.correct + ' of ' + q.total + ' correctly' + (d.scenario && d.scenario.has ? ' and made the call in a real-life moment.' : '.') + ' Go back to the lesson to continue.' : 'Go back to the lesson to continue.';
+  post('practice-complete', { lesson: LESSON, available: d.available !== false, questions: q });
+  // the lesson is already marked complete above; this step is optional and never holds anything back
+  if (window.Mirror) Mirror.mountPractice($('peMirror'), LESSON);
+}
+
+async function saveProgress() {
+  const m = $('keepMsg'); m.className = 'msg';
+  const email = $('keepEmail').value.trim(), password = $('keepPass').value;
+  if (!email || password.length < 6) { m.textContent = 'Enter an email and a password of at least 6 characters.'; m.className = 'msg show error'; return; }
+  const { error } = await supabase.auth.updateUser({ email: email, password: password });
+  if (error) { m.textContent = 'Could not save: ' + error.message; m.className = 'msg show error'; return; }
+  m.textContent = 'Saved. Check your email to confirm it. Next time, log in with that email.'; m.className = 'msg show ok';
+}
+</script>
+</body>
+</html>
