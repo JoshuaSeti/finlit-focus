@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Your Financial Character — FinLit Zambia</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,wght@0,400;0,500;0,600;0,700;0,800;1,400&family=DM+Mono:wght@500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/apple.css">
+</head>
+<body>
+
+<header class="lh">
+  <div class="lh-top"><a class="lh-back" href="/modules">Lessons</a><button class="logout-btn" onclick="logOut()">Log out</button></div>
+  <h1 class="lh-title" id="displayName">Loading…</h1>
+  <div class="lh-sub" id="mentorLine"></div>
+</header>
+
+<div class="body">
+
+  <div id="stressCard"></div>
+
+  <div id="mirrorCard" hidden></div>
+
+  <div class="save-card ios-list" id="saveCard" hidden>
+    <button type="button" class="ios-row" id="saveToggle" aria-expanded="false"><span class="ic b">💾</span><span class="t">Save your progress<small>Add an email so you never lose your yungsta</small></span><i class="chev"></i></button>
+    <div class="save-form">
+      <div class="msg" id="saveMsg"></div>
+      <div class="field"><label for="saveEmail">Email</label><input type="email" id="saveEmail" autocomplete="email" placeholder="you@example.com"></div>
+      <div class="field"><label for="savePass">Password</label><input type="password" id="savePass" autocomplete="new-password" placeholder="At least 6 characters"></div>
+      <button type="button" class="btn" id="saveBtn">Save my progress</button>
+    </div>
+  </div>
+
+
+  <section class="nw-card" aria-label="Net worth">
+    <div class="nw-label">Net worth</div>
+    <div class="nw-value" id="netWorthValue">K 0.00</div>
+    <div class="nw-change" id="netWorthChange"></div>
+    <canvas id="nwChart" role="img" aria-label="Net worth over time"></canvas>
+  </section>
+
+  <div class="ios-title">Your money</div>
+  <div class="ios-list">
+    <a class="ios-row" href="history.html"><span class="ic">💵</span><span class="t">Cash at hand</span><span class="v" id="cashValue">—</span><i class="chev"></i></a>
+    <a class="ios-row" href="trade.html" data-feature="trade"><span class="ic b">📈</span><span class="t">Investments</span><span class="v" id="investValue">—</span><i class="chev"></i></a>
+    <a class="ios-row" href="ventures.html"><span class="ic o">🏪</span><span class="t">Ventures</span><span class="v" id="ventureValue">—</span><i class="chev"></i></a>
+    <a class="ios-row" href="debts.html" data-feature="debts"><span class="ic r">📋</span><span class="t">Debt owed</span><span class="v neg" id="debtValue">—</span><i class="chev"></i></a>
+  </div>
+
+  <div class="ios-title">Reputation</div>
+  <div class="ios-list">
+    <div class="ios-row"><span class="rep-badge" id="repScore">—</span><span class="t"><small>Financial reputation</small><b id="repLabel">Loading…</b></span></div>
+  </div>
+
+  <div class="ios-title">Explore</div>
+  <div class="ios-list">
+    <a class="ios-row" href="profile.html"><span class="ic p">🧭</span><span class="t">My yungsta<small>Who they are becoming</small></span><i class="chev"></i></a>
+    <a class="ios-row" href="leaderboard.html"><span class="ic o">🏆</span><span class="t">Calmest players<small>Ranked by calm, not cash</small></span><i class="chev"></i></a>
+    <a class="ios-row" href="history.html"><span class="ic b">🧾</span><span class="t">History<small>Full transaction log</small></span><i class="chev"></i></a>
+  </div>
+
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="js/nav.js"></script>
+<script src="js/supabase-client.js"></script>
+<script src="js/utils.js"></script>
+<script src="js/story-client.js"></script>
+<script src="js/stress.js"></script>
+<script src="js/mirror.js"></script>
+<script>
+(async function init() {
+  const user = await requireAuth();
+  if (!user) return; // requireAuth already redirected to login
+
+  // ── Guest account: offer to attach an email so progress is never lost ──
+  if (user.is_anonymous) {
+    const card = document.getElementById('saveCard');
+    card.hidden = false;
+    document.getElementById('saveToggle').onclick = function () {
+      const open = card.classList.toggle('open'); this.setAttribute('aria-expanded', open);
+    };
+    document.getElementById('saveBtn').onclick = async function () {
+      const m = document.getElementById('saveMsg'), b = this;
+      const email = document.getElementById('saveEmail').value.trim(), password = document.getElementById('savePass').value;
+      const say = (t, k) => { m.textContent = t; m.className = 'msg show ' + k; };
+      if (!email || password.length < 6) { say('Enter your email and a password of at least 6 characters.', 'error'); return; }
+      b.disabled = true;
+      try {
+        const { error } = await supabase.auth.updateUser({ email, password }, { emailRedirectTo: location.origin + '/sim/index.html' });
+        if (error) throw error;
+        say('Almost done. Open the email we just sent and tap the link to confirm. Your yungsta stays exactly as it is.', 'ok');
+      } catch (e) { say(e.message || 'Something went wrong. Try again.', 'error'); }
+      b.disabled = false;
+    };
+  }
+  if (window.Mirror) Mirror.mountDue(document.getElementById('mirrorCard'));
+  if (window.StoryClient) await StoryClient.collect();
+  if (window.StressMeter) { try { await StressMeter.mount('stressCard'); } catch (e) {} }
+
+  // ── Profile + cash ──────────────────────────────────────────
+  const { data: profile } = await supabase
+    .from('sim_profiles')
+    .select('display_name, character_name, relationship, avatar, backstory, cash_balance, reputation_score')
+    .eq('id', user.id)
+    .single();
+
+  if (profile && (!profile.backstory || !profile.relationship || !profile.character_name)) { window.location.replace('character.html' + window.location.search); return; }
+  document.getElementById('displayName').textContent =
+    (profile?.avatar || '') + ' ' + (profile?.character_name || 'Your yungsta');
+  const mentorLine = document.getElementById('mentorLine');
+  if (mentorLine) mentorLine.textContent = 'Guided by ' + (profile?.display_name || 'you');
+  document.getElementById('cashValue').textContent = fmtKwacha(profile?.cash_balance);
+
+  const repScore = profile?.reputation_score ?? 50;
+  document.getElementById('repScore').textContent = Math.round(repScore);
+  document.getElementById('repLabel').textContent = reputationLabel(repScore);
+
+  // ── Holdings value ──────────────────────────────────────────
+  const { data: holdings } = await supabase
+    .from('holdings')
+    .select('quantity, instruments(current_price)')
+    .eq('profile_id', user.id);
+
+  const investTotal = (holdings || []).reduce(
+    (sum, h) => sum + (Number(h.quantity) * Number(h.instruments?.current_price || 0)), 0
+  );
+  document.getElementById('investValue').textContent = fmtKwacha(investTotal);
+
+  // Ventures value: working capital plus profit kept inside the business
+  const { data: ventures } = await supabase
+    .from('ventures')
+    .select('capital, starting_capital, retained')
+    .eq('profile_id', user.id)
+    .eq('status', 'active');
+
+  let ventureTotal = 0;
+  (ventures || []).forEach(v => {
+    ventureTotal += Number(v.capital ?? v.starting_capital) + Number(v.retained || 0);
+  });
+  document.getElementById('ventureValue').textContent = fmtKwacha(ventureTotal);
+
+  // ── Outstanding debt ────────────────────────────────────────
+  const { data: debts } = await supabase
+    .from('debts')
+    .select('outstanding_balance')
+    .eq('profile_id', user.id)
+    .eq('status', 'active');
+
+  const debtTotal = (debts || []).reduce((s, d) => s + Number(d.outstanding_balance), 0);
+  document.getElementById('debtValue').textContent = '-' + fmtKwacha(debtTotal);
+
+  // ── Net worth ───────────────────────────────────────────────
+  const netWorth = Number(profile?.cash_balance || 0) + investTotal + ventureTotal - debtTotal;
+  document.getElementById('netWorthValue').textContent = fmtKwacha(netWorth);
+
+  // ── Net worth history + change vs. 7 days ago ──────────────
+  const { data: snapshots } = await supabase
+    .from('net_worth_snapshots')
+    .select('snapshot_date, net_worth')
+    .eq('profile_id', user.id)
+    .order('snapshot_date', { ascending: true })
+    .limit(90);
+
+  if (snapshots && snapshots.length >= 2) {
+    const first = Number(snapshots[0].net_worth);
+    const changePct = first !== 0 ? ((netWorth - first) / Math.abs(first)) * 100 : 0;
+    const el = document.getElementById('netWorthChange');
+    el.textContent = fmtPct(changePct) + ' since you started';
+    el.classList.add(changePct >= 0 ? 'up' : 'down');
+    drawChart(snapshots.map(s => Number(s.net_worth)).concat([netWorth]));
+  } else {
+    document.getElementById('netWorthChange').textContent = 'Your history will build up as you play.';
+    drawChart([netWorth]);
+  }
+})();
+
+// Minimal dependency-free line chart — replace with Chart.js later if
+// you want richer interaction (tooltips, zoom). Kept plain here so the
+// repo has zero extra dependencies beyond Supabase.
+function drawChart(values) {
+  const canvas = document.getElementById('nwChart');
+  const ctx = canvas.getContext('2d');
+  const dpr = window.devicePixelRatio || 1;
+  const w = canvas.clientWidth, h = canvas.clientHeight;
+  canvas.width = w * dpr; canvas.height = h * dpr;
+  ctx.scale(dpr, dpr);
+
+  if (values.length < 2) values = [values[0] || 0, values[0] || 0];
+  const min = Math.min(...values), max = Math.max(...values);
+  const range = (max - min) || 1;
+  const pad = 8;
+
+  ctx.beginPath();
+  values.forEach((v, i) => {
+    const x = pad + (i / (values.length - 1)) * (w - pad * 2);
+    const y = h - pad - ((v - min) / range) * (h - pad * 2);
+    i === 0 ? ctx.moveTo(x, y) : ctx.lineTo(x, y);
+  });
+  ctx.strokeStyle = '#16A34A';
+  ctx.lineWidth = 2.5;
+  ctx.lineJoin = 'round';
+  ctx.stroke();
+
+  // Soft fill under the line
+  ctx.lineTo(w - pad, h);
+  ctx.lineTo(pad, h);
+  ctx.closePath();
+  ctx.fillStyle = 'rgba(22,163,74,0.12)';
+  ctx.fill();
+}
+</script>
+</body>
+</html>

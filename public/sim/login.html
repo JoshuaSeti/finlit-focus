@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Your Financial Character — FinLit Zambia</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,wght@0,400;0,500;0,600;0,700;0,800;1,400&family=DM+Mono:wght@500&display=swap" rel="stylesheet">
+<style>
+:root{
+  --g:#22C55E;--gd:#15803D;--gx:#14532D;--gl:#F0FDF4;--gm:#DCFCE7;
+  --gol:#C9A83C;--gold:#FDF8EC;--ink:#111827;--ink2:#374151;--ink3:#6B7280;
+  --bg:#F8FAFC;--w:#ffffff;--bd:#E5E7EB;--bd2:#F3F4F6;
+  --red:#DC2626;--redl:#FEF2F2;
+  --ff:'DM Sans',system-ui,sans-serif;--fm:'DM Mono',monospace;
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+body{font-family:var(--ff);background:var(--bg);color:var(--ink);min-height:100vh;
+  display:flex;align-items:center;justify-content:center;padding:24px;line-height:1.55}
+
+.card{width:100%;max-width:400px;background:var(--w);border:1px solid var(--bd);
+  border-radius:20px;overflow:hidden;box-shadow:0 4px 24px rgba(20,83,45,.08)}
+
+.card-hdr{background:linear-gradient(140deg,var(--gx) 0%,#0a2617 100%);
+  color:#fff;padding:28px 26px 24px}
+.card-hdr .kicker{font-size:10px;font-weight:700;letter-spacing:2px;
+  text-transform:uppercase;color:var(--gol);margin-bottom:6px}
+.card-hdr h1{font-size:21px;font-weight:800;letter-spacing:-.3px;margin-bottom:6px}
+.card-hdr p{font-size:12.5px;color:rgba(255,255,255,.68);line-height:1.6}
+
+.card-body{padding:26px}
+
+.tabs{display:flex;gap:6px;background:var(--bd2);border-radius:11px;padding:4px;margin-bottom:22px}
+.tab{flex:1;text-align:center;padding:9px 0;border-radius:8px;font-size:13px;font-weight:700;
+  color:var(--ink3);cursor:pointer;transition:all .15s;border:none;background:none;font-family:inherit}
+.tab.active{background:var(--w);color:var(--gx);box-shadow:0 1px 3px rgba(0,0,0,.08)}
+
+.field{margin-bottom:15px}
+.field label{display:block;font-size:12px;font-weight:700;color:var(--ink2);margin-bottom:6px}
+.field input{width:100%;padding:11px 13px;border:1.5px solid var(--bd);border-radius:10px;
+  font-size:14px;font-family:inherit;color:var(--ink);background:var(--bg);transition:border-color .15s}
+.field input:focus{outline:none;border-color:var(--g);background:var(--w)}
+
+.remember{display:flex;align-items:center;gap:9px;margin:18px 0;cursor:pointer}
+.remember input{width:17px;height:17px;accent-color:var(--gd);cursor:pointer}
+.remember span{font-size:12.5px;color:var(--ink2)}
+
+.btn{width:100%;padding:12px;border-radius:11px;border:none;font-family:inherit;
+  font-size:14px;font-weight:700;cursor:pointer;transition:all .15s}
+.btn-primary{background:var(--gd);color:#fff}
+.btn-primary:hover{background:var(--gx)}
+.btn-primary:disabled{background:var(--bd);color:var(--ink3);cursor:not-allowed}
+
+.msg{font-size:12.5px;border-radius:9px;padding:10px 13px;margin-bottom:15px;display:none;line-height:1.55}
+.msg.show{display:block}
+.msg.error{background:var(--redl);color:#7a1010}
+.msg.info{background:var(--gl);color:var(--gx)}
+
+.foot-note{text-align:center;font-size:11px;color:var(--ink3);margin-top:18px;line-height:1.6}
+</style>
+<link rel="stylesheet" href="css/apple.css">
+<link rel="stylesheet" href="css/apple-pages.css">
+</head>
+<body class="pg-login">
+
+<div class="card">
+  <div class="card-hdr">
+    <div class="kicker">FinLit Zambia · Sandbox Tool</div>
+    <h1>Your Financial Character</h1>
+    <p>Your FinLit account. One login for the lessons and this practice tool — track fake cash, investments, ventures, and debt as you learn.</p>
+  </div>
+
+  <div class="card-body">
+    <div class="tabs">
+      <button class="tab active" id="tabLogin" onclick="switchTab('login')">Log in</button>
+      <button class="tab" id="tabSignup" onclick="switchTab('signup')">Sign up</button>
+    </div>
+
+    <div class="msg" id="msg"></div>
+
+    <form id="authForm">
+      <div class="field" id="nameField" style="display:none">
+        <label for="displayName">What is your name?</label>
+        <input type="text" id="displayName" placeholder="e.g. Chanda" autocomplete="name">
+      </div>
+
+      <div class="field">
+        <label for="email">Email</label>
+        <input type="email" id="email" placeholder="you@example.com" autocomplete="email" required>
+      </div>
+
+      <div class="field">
+        <label for="password">Password</label>
+        <input type="password" id="password" placeholder="At least 6 characters" autocomplete="current-password" required minlength="6">
+      </div>
+
+      <label class="remember">
+        <input type="checkbox" id="rememberMe" checked>
+        <span>Keep me logged in on this device</span>
+      </label>
+
+      <button type="submit" class="btn btn-primary" id="submitBtn">Log in</button>
+    </form>
+
+    <button type="button" class="btn" id="googleBtn" style="margin-top:14px;display:flex;align-items:center;justify-content:center;gap:10px;background:#fff;color:#102017;border:1.5px solid #cfd9d2"><svg width="18" height="18" viewBox="0 0 48 48" aria-hidden="true"><path fill="#EA4335" d="M24 9.5c3.5 0 6.6 1.2 9.1 3.6l6.8-6.8C35.8 2.4 30.3 0 24 0 14.6 0 6.5 5.4 2.6 13.2l7.9 6.2C12.4 13.6 17.7 9.5 24 9.5z"/><path fill="#4285F4" d="M46.5 24.5c0-1.6-.1-3.1-.4-4.5H24v9h12.7c-.6 3-2.3 5.5-4.8 7.2l7.5 5.8c4.4-4.1 7.1-10.1 7.1-17.5z"/><path fill="#FBBC05" d="M10.5 28.6A14.5 14.5 0 0 1 9.5 24c0-1.6.3-3.2.8-4.6l-7.9-6.2A24 24 0 0 0 0 24c0 3.9.9 7.5 2.6 10.8l7.9-6.2z"/><path fill="#34A853" d="M24 48c6.5 0 11.9-2.1 15.9-5.8l-7.5-5.8c-2.1 1.4-4.8 2.3-8.4 2.3-6.3 0-11.6-4.1-13.5-9.9l-7.9 6.2C6.5 42.6 14.6 48 24 48z"/></svg> Continue with Google</button>
+
+    <p class="foot-note" id="forgotRow"><a href="#" id="forgot" style="color:var(--g);font-weight:600;text-decoration:none">Forgot your password?</a></p>
+
+    <p class="foot-note">This is a practice tool with fake money only.<br>The same account unlocks your FinLit lessons.</p>
+    <p class="foot-note"><a href="/modules" style="color:var(--g);font-weight:600;text-decoration:none">&lsaquo; Back to lessons</a></p>
+  </div>
+</div>
+
+<!-- Supabase client library -->
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script>
+// ── Configuration ──────────────────────────────────────────────
+// Replace with your actual Supabase project values (Settings → API).
+// The anon key is safe to expose publicly — Row Level Security (see
+// schema.sql) is what actually protects each learner's data.
+const SUPABASE_URL = 'https://xzuroroziigcxctumjsr.supabase.co';
+const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Inh6dXJvcm96aWlnY3hjdHVtanNyIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODk1MDA2MDgsImV4cCI6MjEwNTA3NjYwOH0.kqWBBe3nZ19Bcr5tsd8HqTNAwnY2vKTeBksFxZ--ods';
+
+// The CDN script above already creates a global named `supabase` (that's
+// where .createClient comes from) — so we overwrite it with a plain
+// assignment instead of `const`, which would throw "Identifier 'supabase'
+// has already been declared" and abort this whole script.
+window.supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+
+// ── UI state ───────────────────────────────────────────────────
+let mode = 'login'; // or 'signup'
+
+function switchTab(next) {
+  mode = next;
+  document.getElementById('tabLogin').classList.toggle('active', next === 'login');
+  document.getElementById('tabSignup').classList.toggle('active', next === 'signup');
+  document.getElementById('nameField').style.display = next === 'signup' ? 'block' : 'none';
+  document.getElementById('submitBtn').textContent = next === 'signup' ? 'Create my account' : 'Log in';
+  document.getElementById('forgotRow').style.display = next === 'signup' ? 'none' : 'block';
+  hideMsg();
+}
+
+function showMsg(text, kind) {
+  const el = document.getElementById('msg');
+  el.textContent = text;
+  el.className = 'msg show ' + kind;
+}
+function hideMsg() {
+  document.getElementById('msg').className = 'msg';
+}
+
+// ── Persistent session logic ──────────────────────────────────
+// "Keep me logged in" controls WHERE Supabase stores the session token:
+// localStorage (survives closing the browser) vs sessionStorage (cleared
+// when the tab/browser closes). We never store the password itself —
+// only a session token that proves this browser is authenticated.
+function getStorageChoice() {
+  const remember = document.getElementById('rememberMe').checked;
+  return remember ? window.localStorage : window.sessionStorage;
+}
+
+// ── Form submit ──────────────────────────────────────────────
+document.getElementById('authForm').addEventListener('submit', async (e) => {
+  e.preventDefault();
+  hideMsg();
+
+  const email = document.getElementById('email').value.trim();
+  const password = document.getElementById('password').value;
+  const submitBtn = document.getElementById('submitBtn');
+  submitBtn.disabled = true;
+
+  try {
+    if (mode === 'signup') {
+      const displayName = document.getElementById('displayName').value.trim() || 'Learner';
+
+      // A guest (someone who practised in a lesson first) keeps their yungsta: attach the email to the guest account.
+      const { data: { session: cur } } = await supabase.auth.getSession();
+      if (cur && cur.user.is_anonymous) {
+        const { error: upErr } = await supabase.auth.updateUser({ email, password, data: { display_name: displayName } }, { emailRedirectTo: location.origin + '/sim/index.html' });
+        if (upErr) throw upErr;
+        const { data: { session: s2 } } = await supabase.auth.refreshSession();
+        if (s2 && !s2.user.is_anonymous) { window.location.href = 'index.html' + window.location.search; return; }
+        showMsg('Almost done. Open the email we sent and tap the link to confirm. Your progress is kept.', 'info');
+        return;
+      }
+      const { data, error } = await supabase.auth.signUp({
+        email, password, options: { data: { display_name: displayName } }
+      });
+      if (error) throw error;
+      // The profile row (and its 10,000 starting cash) is created by the database itself.
+
+      if (data.session) { window.location.href = 'index.html' + window.location.search; return; }
+      showMsg('Account created! Log in below to get started.', 'info');
+      switchTab('login');
+    } else {
+      const { data, error } = await supabase.auth.signInWithPassword({ email, password });
+      if (error) throw error;
+
+      // Move the session into the chosen storage so "remember me" persists
+      // (or doesn't) across browser restarts.
+      if (data.session) {
+        const storage = getStorageChoice();
+        storage.setItem(
+          'finlit-sim-session',
+          JSON.stringify(data.session)
+        );
+      }
+
+      window.location.href = 'index.html' + window.location.search;
+    }
+  } catch (err) {
+    showMsg(err.message || 'Something went wrong. Try again.', 'error');
+  } finally {
+    submitBtn.disabled = false;
+  }
+});
+
+// ── Continue with Google (a guest who practised first keeps their progress) ──
+document.getElementById('googleBtn').addEventListener('click', async () => {
+  const back = location.origin + '/sim/index.html';
+  const { data: { session: cur } } = await supabase.auth.getSession();
+  if (cur && cur.user.is_anonymous && supabase.auth.linkIdentity) {
+    const { error } = await supabase.auth.linkIdentity({ provider: 'google', options: { redirectTo: back } });
+    if (!error) return;
+  }
+  const { error } = await supabase.auth.signInWithOAuth({ provider: 'google', options: { redirectTo: back } });
+  if (error) showMsg(error.message, 'error');
+});
+
+// ── Forgot password: email a link to /reset.html ─────────────
+document.getElementById('forgot').addEventListener('click', async (e) => {
+  e.preventDefault();
+  const email = document.getElementById('email').value.trim();
+  if (!email) return showMsg('Type your email above first, then tap Forgot your password.', 'error');
+  const { error } = await supabase.auth.resetPasswordForEmail(email, { redirectTo: location.origin + '/reset.html' });
+  if (error) return showMsg(error.message, 'error');
+  showMsg('If that email has an account, we have sent a link. Open it to choose a new password. Check spam too.', 'info');
+});
+
+// ── On page load: if a valid session already exists, skip straight
+// to the dashboard instead of showing the login form again. ──────
+(async function checkExistingSession() {
+  const { data: { session } } = await supabase.auth.getSession();
+  if (session && !session.user.is_anonymous) {
+    window.location.href = 'index.html' + window.location.search;
+  }
+})();
+</script>
+</body>
+</html>

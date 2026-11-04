@@ -1,0 +1,4019 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+ <link rel="icon" type="image/png" href="https://www.finlit-zm.org/assets/finlit-logo-CiIwviF6.png">
+<script>
+window.TallyConfig = {
+  "formId": "GxjKMk",
+  "popup": {
+    "emoji": {
+      "text": "👋",
+      "animation": "wave"
+    },
+    "layout": "modal",
+    "open": {
+      "trigger": "exit"
+    }
+  }
+};
+</script>
+
+<script async src="https://tally.so/widgets/embed.js"></script>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,wght@0,400;0,500;0,600;0,700;0,800;1,400&family=DM+Mono:wght@500&display=swap" rel="stylesheet">
+  <title>Module 2.1 — Basics of Investing (Including the LuSE) — FinLit Zambia</title>
+  <style>
+    :root {
+      --g: #22C55E;
+      --gd: #15803D;
+      --gx: #14532D;
+      --gl: #F0FDF4;
+      --gm: #DCFCE7;
+      --gol: #C9A83C;
+      --gold: #FDF8EC;
+      --ink: #111827;
+      --ink2: #374151;
+      --ink3: #6B7280;
+      --bg: #F8FAFC;
+      --w: #ffffff;
+      --bd: #E5E7EB;
+      --bd2: #F3F4F6;
+      --red: #DC2626;
+      --redl: #FEF2F2;
+      --redm: #FCA5A5;
+      --blu: #1D4ED8;
+      --blul: #EFF6FF;
+      --blum: #93C5FD;
+      --pur: #7C3AED;
+      --purl: #F5F3FF;
+      --ff: 'DM Sans', system-ui, sans-serif;
+      --fm: 'DM Mono', monospace;
+      --r12: 12px;
+      --r16: 16px;
+      --shadow: 0 1px 3px rgba(0, 0, 0, .06), 0 1px 2px rgba(0, 0, 0, .04);
+      --shadow-md: 0 4px 12px rgba(0, 0, 0, .08);
+    }
+
+    *,
+    *::before,
+    *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0
+    }
+
+    html {
+      scroll-behavior: smooth;
+      -webkit-text-size-adjust: 100%
+    }
+
+    body {
+      font-family: var(--ff);
+      background: var(--bg);
+      color: var(--ink);
+      line-height: 1.65;
+      overflow-x: hidden;
+      min-height: 100vh
+    }
+
+    /* ── SECTION SYSTEM ── */
+    .section {
+      display: none;
+      padding: 24px 20px 32px;
+      max-width: 680px;
+      margin: 0 auto
+    }
+
+   .section:target {
+  display: block;
+  animation: rise .35s ease both
+}
+
+/* ── COVER PAGE — page one, shown until a section is opened ── */
+body:not(:has(.section:target)) .cover {
+  display: flex;
+}
+body:not(:has(.section:target)) .dots,
+body:not(:has(.section:target)) .fl-rail,
+body:not(:has(.section:target)) .fl-rail-backdrop,
+body:not(:has(.section:target)) .fl-rail-panel,
+body:not(:has(.section:target)) .fl-resume-banner {
+  display: none
+}
+
+    @keyframes rise {
+      from {
+        opacity: 0;
+        transform: translateY(14px)
+      }
+
+      to {
+        opacity: 1;
+        transform: none
+      }
+    }
+
+    /* ── DOTS NAV ── */
+    .dots {
+      display: flex;
+      justify-content: center;
+      gap: 7px;
+      padding: 13px 0;
+      background: var(--w);
+      border-bottom: 1px solid var(--bd);
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      box-shadow: 0 1px 0 rgba(0, 0, 0, .04)
+    }
+
+    .nd {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: var(--bd);
+      display: inline-block;
+      transition: all .25s;
+      text-decoration: none;
+      flex-shrink: 0
+    }
+
+    body:not(:has(.section:target)) .nd-0,
+    body:has(#s0:target) .nd-0,
+    body:has(#s1:target) .nd-1,
+    body:has(#s2:target) .nd-2,
+    body:has(#s3:target) .nd-3,
+    body:has(#s4:target) .nd-4,
+    body:has(#s5:target) .nd-5,
+    body:has(#s6:target) .nd-6 {
+      background: var(--g);
+      width: 26px;
+      border-radius: 4px
+    }
+
+      /* ── COVER (book-style opening page, replaces the old hero) ── */
+  .cover {
+  display: none;
+  flex-direction: column;
+  position: relative;
+  overflow: hidden;
+  padding: 24px 20px 32px;
+  max-width: 680px;
+  min-height: 560px;
+  margin: 0 auto;
+  background:
+    radial-gradient(ellipse 900px 620px at 12% -8%, rgba(255,255,255,0.9) 0%, rgba(255,255,255,0) 55%),
+    linear-gradient(175deg, #F7FBF7 0%, #F1F8F2 46%, #E9F3EA 100%);
+}
+ 
+    .cover .grain {
+      position: absolute; inset: 0;
+      z-index: 3;
+      opacity: 0.035;
+      pointer-events: none;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+    }
+ 
+    .cover .vignette {
+      position: absolute; inset: 0;
+      z-index: 2;
+      pointer-events: none;
+      background: radial-gradient(ellipse 120% 100% at 50% 45%, transparent 55%, rgba(10,30,16,0.05) 100%);
+    }
+ 
+    .cover .orb {
+      position: absolute;
+      border-radius: 50%;
+      pointer-events: none;
+    }
+    .cover .orb-1 {
+      width: 340px; height: 340px;
+      background: radial-gradient(circle, rgba(34,197,94,0.20) 0%, rgba(34,197,94,0.05) 45%, transparent 72%);
+      filter: blur(70px);
+      bottom: -140px; left: -90px;
+      animation: d1 30s cubic-bezier(.45,0,.55,1) infinite alternate;
+    }
+    .cover .orb-2 {
+      width: 270px; height: 270px;
+      background: radial-gradient(circle, rgba(20,83,45,0.16) 0%, transparent 70%);
+      filter: blur(56px);
+      bottom: -95px; right: -70px;
+      animation: d2 37s cubic-bezier(.45,0,.55,1) infinite alternate;
+    }
+    .cover .orb-3 {
+      width: 200px; height: 200px;
+      background: radial-gradient(circle, rgba(48,209,88,0.13) 0%, transparent 70%);
+      filter: blur(42px);
+      bottom: -55px; left: 40%;
+      animation: d3 23s cubic-bezier(.45,0,.55,1) infinite alternate;
+    }
+    .cover .orb-4 {
+      width: 170px; height: 170px;
+      background: radial-gradient(circle, rgba(201,168,60,0.09) 0%, transparent 72%);
+      filter: blur(40px);
+      top: 4%; right: 2%;
+      animation: d4 42s cubic-bezier(.45,0,.55,1) infinite alternate;
+    }
+    .cover .orb-5 {
+      width: 130px; height: 130px;
+      background: radial-gradient(circle, rgba(74,222,128,0.12) 0%, transparent 70%);
+      filter: blur(32px);
+      top: 30%; right: 8%;
+      animation: d5 33s cubic-bezier(.45,0,.55,1) infinite alternate;
+    }
+    .cover .orb-6 {
+      width: 90px; height: 90px;
+      background: radial-gradient(circle, rgba(201,168,60,0.07) 0%, transparent 70%);
+      filter: blur(24px);
+      top: 16%; left: 4%;
+      animation: d6 25s cubic-bezier(.45,0,.55,1) infinite alternate;
+    }
+    .cover .orb-glow {
+      width: 310px; height: 190px;
+      background: radial-gradient(ellipse, rgba(255,255,255,0.55) 0%, transparent 70%);
+      filter: blur(50px);
+      top: 8%; left: -4%;
+      animation: none;
+    }
+ 
+    @keyframes d1 { from{transform:translate(0,0) scale(1)}    to{transform:translate(58px,-46px) scale(1.07)} }
+    @keyframes d2 { from{transform:translate(0,0) scale(1)}    to{transform:translate(-40px,-54px) scale(1.05)} }
+    @keyframes d3 { from{transform:translateY(0) scale(1)}     to{transform:translateY(-34px) scale(1.09)} }
+    @keyframes d4 { from{transform:translate(0,0) scale(1)}    to{transform:translate(-30px,30px) scale(0.93)} }
+    @keyframes d5 { from{transform:translate(0,0) scale(1)}    to{transform:translate(-20px,36px) scale(1.08)} }
+    @keyframes d6 { from{transform:translate(0,0) scale(1)}    to{transform:translate(22px,24px) scale(0.96)} }
+ 
+    .cover-tag {
+      position: absolute;
+      top: 22px; right: 26px;
+      z-index: 20;
+      font-size: 10px; font-weight: 700;
+      letter-spacing: 2.2px; text-transform: uppercase;
+      color: rgba(122,95,0,0.55);
+      display: flex; align-items: center; gap: 8px;
+      opacity: 0;
+      animation: aFadeIn 0.8s 0.15s ease forwards;
+    }
+    .cover-tag::before {
+      content: '';
+      width: 13px; height: 1px;
+      background: rgba(154,119,0,0.28);
+    }
+ 
+    .cover-content {
+  position: relative;
+  z-index: 10;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 32px 0 0 0;
+}
+ 
+    .cover-headline {
+      font-size: clamp(30px, 7vw, 48px);
+      font-weight: 800;
+      line-height: 0.97;
+      letter-spacing: -2.4px;
+      color: #17181A;
+      margin-bottom: 3px;
+      opacity: 0;
+      text-shadow: 0 1px 0 rgba(255,255,255,0.4);
+      animation: aFadeUp 0.9s 0.32s cubic-bezier(.16,1,.3,1) forwards;
+    }
+ 
+    .cover-headline-accent {
+      display: block;
+      font-size: clamp(30px, 7vw, 48px);
+      font-weight: 800;
+      line-height: 0.97;
+      letter-spacing: -2.4px;
+      background: linear-gradient(120deg, #123D22 8%, #1D7A3F 46%, #2FCB63 92%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      margin-bottom: 24px;
+      opacity: 0;
+      animation: aFadeUp 0.9s 0.46s cubic-bezier(.16,1,.3,1) forwards;
+    }
+ 
+    .cover-subline {
+      font-size: clamp(13px, 2.2vw, 17px);
+      font-weight: 400;
+      color: rgba(29,29,31,0.36);
+      letter-spacing: -0.1px;
+      opacity: 0;
+      animation: aFadeUp 0.8s 0.58s cubic-bezier(.16,1,.3,1) forwards;
+    }
+ 
+   .cover-bottom-bar {
+  position: relative;
+  z-index: 10;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 18px;
+  padding: 20px 0 6px 0;
+  border-top: 1px solid rgba(20,83,45,0.10);
+  opacity: 0;
+  animation: aFadeUp 0.8s 0.72s cubic-bezier(.16,1,.3,1) forwards;
+}
+ 
+    .cover-pills {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+ 
+    .pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      background: rgba(255,255,255,0.46);
+      backdrop-filter: blur(18px) saturate(150%);
+      -webkit-backdrop-filter: blur(18px) saturate(150%);
+      border: 1px solid rgba(255,255,255,0.60);
+      border-top-color: rgba(255,255,255,0.92);
+      box-shadow:
+        inset 0 1px 0 rgba(255,255,255,0.8),
+        inset 0 -6px 10px -8px rgba(20,83,45,0.10),
+        0 3px 12px rgba(20,60,35,0.05);
+      border-radius: 99px;
+      padding: 7px 14px;
+      font-size: 12px; font-weight: 600;
+      color: rgba(24,26,24,0.58);
+      white-space: nowrap;
+      transition: transform 0.25s cubic-bezier(.16,1,.3,1), box-shadow 0.25s ease;
+    }
+ 
+    .cta-btn {
+      position: relative;
+      display: inline-flex;
+      align-items: center;
+      gap: 9px;
+      background: rgba(255,255,255,0.52);
+      backdrop-filter: blur(26px) saturate(190%);
+      -webkit-backdrop-filter: blur(26px) saturate(190%);
+      border: 1px solid rgba(255,255,255,0.70);
+      border-top-color: rgba(255,255,255,0.97);
+      box-shadow:
+        inset 0 1.5px 0 rgba(255,255,255,0.92),
+        inset 0 -1px 0 rgba(0,0,0,0.045),
+        0 6px 24px rgba(18,61,34,0.12),
+        0 1.5px 6px rgba(0,0,0,0.05);
+      color: #123D22;
+      text-decoration: none;
+      padding: 13.5px 27px;
+      border-radius: 99px;
+      font-size: 14.5px; font-weight: 700;
+      font-family: inherit;
+      letter-spacing: -0.2px;
+      overflow: hidden;
+      white-space: nowrap;
+      flex-shrink: 0;
+      cursor: pointer;
+      transition:
+        transform 0.32s cubic-bezier(.22,1,.36,1),
+        box-shadow 0.32s cubic-bezier(.22,1,.36,1),
+        background 0.25s ease;
+    }
+ 
+    .cta-btn::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 6%; right: 6%;
+      height: 52%;
+      background: linear-gradient(to bottom, rgba(255,255,255,0.68), rgba(255,255,255,0));
+      border-radius: 99px;
+      pointer-events: none;
+      z-index: 1;
+    }
+ 
+    .cta-btn::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      border-radius: 99px;
+      pointer-events: none;
+      z-index: 1;
+      box-shadow: inset 0 0 0 1px rgba(255,255,255,0.35);
+      mask: linear-gradient(115deg, rgba(0,0,0,1) 0%, transparent 40%);
+      -webkit-mask: linear-gradient(115deg, rgba(0,0,0,1) 0%, transparent 40%);
+    }
+ 
+    .cta-btn:hover {
+      background: rgba(255,255,255,0.72);
+      transform: translateY(-2px) scale(1.03);
+      box-shadow:
+        inset 0 1.5px 0 rgba(255,255,255,1),
+        inset 0 -1px 0 rgba(0,0,0,0.03),
+        0 14px 40px rgba(18,61,34,0.16),
+        0 2px 8px rgba(0,0,0,0.06);
+    }
+    .cta-btn:active {
+      transform: scale(0.97) translateY(1px);
+      transition-duration: 0.1s;
+    }
+    .cta-btn:focus-visible,
+    .pill:focus-visible {
+      outline: 2px solid #1D7A3F;
+      outline-offset: 3px;
+    }
+ 
+    .btn-text { position: relative; z-index: 2; }
+    .btn-arrow {
+      position: relative; z-index: 2;
+      font-size: 13px; opacity: 0.6;
+      transition: transform 0.25s cubic-bezier(.22,1,.36,1), opacity 0.25s ease;
+    }
+    .cta-btn:hover .btn-arrow { transform: translateX(3px); opacity: 1; }
+ 
+    @keyframes aFadeUp {
+      from { opacity: 0; transform: translateY(16px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+    @keyframes aFadeIn {
+      from { opacity: 0; }
+      to   { opacity: 1; }
+    }
+ 
+    @media (prefers-reduced-motion: reduce) {
+      .cover .orb { animation: none; }
+    }
+ 
+    @media (max-width: 600px) {
+      .cover { margin: 0 auto; min-height: 460px; }
+      .cover-tag { top: 16px; right: 18px; }
+      .cover-content { padding: 20px 0px 0 0px; }
+      .cover-headline { letter-spacing: -1.6px; }
+      .cover-headline-accent { letter-spacing: -1.6px; margin-bottom: 18px; }
+    .cover-bottom-bar {
+  position: relative;
+  z-index: 10;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 12px;
+  padding: 14px 0 6px 0; 
+  border-top: 1px solid rgba(20,83,45,0.10);
+  opacity: 0;
+  animation: aFadeUp 0.8s 0.72s cubic-bezier(.16,1,.3,1) forwards;
+}
+      .cta-btn {
+        width: 100%;
+        justify-content: center;
+        padding: 14px 24px;
+      }
+      .cover .orb-4, .cover .orb-5, .cover .orb-6, .cover .orb-glow { display: none; }
+    }
+ 
+    @media (max-width: 380px) {
+      .cover-headline, .cover-headline-accent { letter-spacing: -1.2px; }
+      .pill { font-size: 11px; padding: 6px 11px; }
+    }
+
+    /* ── LABELS ── */
+    .kicker {
+      font-size: 10.5px;
+      font-weight: 700;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: var(--gd);
+      margin-bottom: 5px;
+      display: flex;
+      align-items: center;
+      gap: 8px
+    }
+
+    .kicker::after {
+      content: '';
+      flex: 1;
+      height: 2px;
+      background: linear-gradient(90deg, var(--gol), transparent);
+      max-width: 28px
+    }
+
+    .sh2 {
+      font-size: clamp(19px, 4vw, 25px);
+      font-weight: 800;
+      letter-spacing: -.4px;
+      line-height: 1.2;
+      margin-bottom: 12px;
+      color: var(--ink)
+    }
+
+    .slead {
+      font-size: 13.5px;
+      color: var(--ink2);
+      line-height: 1.78;
+      margin-bottom: 18px
+    }
+
+    .sec-timer {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      background: var(--gl);
+      border: 1px solid var(--gm);
+      color: var(--gd);
+      border-radius: 20px;
+      padding: 3px 11px;
+      font-size: 11px;
+      font-weight: 700;
+      margin-bottom: 16px
+    }
+
+    /* ── STORY CARD ── */
+    .story {
+      background: var(--w);
+      border: 1px solid var(--bd);
+      border-radius: var(--r16);
+      overflow: hidden;
+      margin-bottom: 16px;
+      box-shadow: var(--shadow-md)
+    }
+
+    .story-hdr {
+      background: linear-gradient(135deg, var(--gd), var(--gx));
+      padding: 16px 18px;
+      display: flex;
+      align-items: center;
+      gap: 13px
+    }
+
+    .story-av {
+      width: 50px;
+      height: 50px;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, .15);
+      border: 2px solid rgba(255, 255, 255, .28);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 22px;
+      flex-shrink: 0
+    }
+
+    .story-nm {
+      font-size: 15px;
+      font-weight: 700;
+      color: #fff;
+      margin-bottom: 1px
+    }
+
+    .story-tg {
+      font-size: 11px;
+      color: rgba(255, 255, 255, .65);
+      font-style: italic
+    }
+
+    .story-body {
+      padding: 17px 19px;
+      font-size: 13.5px;
+      color: var(--ink2);
+      line-height: 1.82
+    }
+
+    .story-body strong {
+      color: var(--ink);
+      font-weight: 700
+    }
+
+    .story-body em {
+      color: var(--gd);
+      font-weight: 500
+    }
+
+    /* ── BOXES ── */
+    .box {
+      border-radius: var(--r12);
+      padding: 13px 17px;
+      margin-bottom: 13px;
+      font-size: 13px;
+      line-height: 1.68
+    }
+
+    .box b {
+      display: block;
+      font-size: 10px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 1.2px;
+      margin-bottom: 5px
+    }
+
+    .box.green {
+      background: var(--gl);
+      border-left: 4px solid var(--g);
+      color: var(--gx)
+    }
+
+    .box.gold {
+      background: var(--gold);
+      border-left: 4px solid var(--gol);
+      color: #7a5500
+    }
+
+    .box.red {
+      background: var(--redl);
+      border-left: 4px solid var(--red);
+      color: #7a1010
+    }
+
+    .box.blue {
+      background: var(--blul);
+      border-left: 4px solid var(--blu);
+      color: #0f2040
+    }
+
+    .box.ink {
+      background: var(--bd2);
+      border-left: 4px solid var(--ink3);
+      color: var(--ink2)
+    }
+
+    .box.pur {
+      background: var(--purl);
+      border-left: 4px solid var(--pur);
+      color: #3b0764
+    }
+
+    /* ── CONCEPT CARDS ── */
+    .cc {
+      background: var(--w);
+      border: 1px solid var(--bd);
+      border-radius: var(--r12);
+      padding: 15px 17px;
+      margin-bottom: 11px;
+      position: relative;
+      overflow: hidden;
+      box-shadow: var(--shadow)
+    }
+
+    .cc::before {
+      content: '';
+      position: absolute;
+      left: 0;
+      top: 0;
+      width: 4px;
+      height: 100%;
+      background: var(--g)
+    }
+
+    .cc.gold::before {
+      background: var(--gol)
+    }
+
+    .cc.blue::before {
+      background: var(--blu)
+    }
+
+    .cc.red::before {
+      background: var(--red)
+    }
+
+    .cc.pur::before {
+      background: var(--pur)
+    }
+
+    .cc.dark::before {
+      background: var(--gx)
+    }
+
+    .cc-ic {
+      font-size: 20px;
+      margin-bottom: 7px;
+      display: block
+    }
+
+    .cc-t {
+      font-size: 13.5px;
+      font-weight: 700;
+      color: var(--ink);
+      margin-bottom: 4px
+    }
+
+    .cc-b {
+      font-size: 12.5px;
+      color: var(--ink2);
+      line-height: 1.68
+    }
+
+    /* ── TERM DEFINITION ── */
+    .term-card {
+      background: var(--w);
+      border: 1px solid var(--bd);
+      border-radius: var(--r16);
+      overflow: hidden;
+      margin-bottom: 20px;
+      box-shadow: var(--shadow-md)
+    }
+
+    .term-hdr {
+      background: linear-gradient(135deg, var(--gx), #0a2617);
+      padding: 14px 18px;
+      display: flex;
+      align-items: flex-start;
+      gap: 13px
+    }
+
+    .term-icon {
+      font-size: 24px;
+      flex-shrink: 0;
+      margin-top: 2px
+    }
+
+    .term-word {
+      font-size: 18px;
+      font-weight: 800;
+      color: #fff;
+      letter-spacing: -.3px;
+      margin-bottom: 2px
+    }
+
+    .term-phonetic {
+      font-size: 11px;
+      color: rgba(255, 255, 255, .5);
+      font-family: var(--fm);
+      letter-spacing: 1px
+    }
+
+    .term-body {
+      padding: 16px 18px
+    }
+
+    .term-def {
+      font-size: 14px;
+      font-weight: 600;
+      color: var(--ink);
+      line-height: 1.65;
+      margin-bottom: 12px;
+      padding-bottom: 12px;
+      border-bottom: 1px solid var(--bd2)
+    }
+
+    .term-zambia {
+      font-size: 13px;
+      color: var(--ink2);
+      line-height: 1.78;
+      margin-bottom: 12px
+    }
+
+    .term-zambia strong {
+      color: var(--gd);
+      font-weight: 700
+    }
+
+    .term-formula {
+      background: var(--bd2);
+      border-radius: 8px;
+      padding: 10px 14px;
+      font-family: var(--fm);
+      font-size: 12px;
+      color: var(--ink);
+      margin-bottom: 12px;
+      line-height: 1.6
+    }
+
+    .term-example {
+      background: var(--gl);
+      border-radius: 8px;
+      padding: 11px 14px;
+      font-size: 12.5px;
+      color: var(--gx);
+      line-height: 1.68
+    }
+
+    .term-example b {
+      display: block;
+      font-size: 10px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      margin-bottom: 4px;
+      color: var(--gd)
+    }
+
+    /* ── VISUAL BAR ── */
+    .vis-bar-wrap {
+      margin: 12px 0
+    }
+
+    .vis-bar-label {
+      font-size: 11px;
+      color: var(--ink3);
+      margin-bottom: 4px;
+      display: flex;
+      justify-content: space-between
+    }
+
+    .vis-bar-track {
+      height: 14px;
+      background: var(--bd2);
+      border-radius: 7px;
+      overflow: hidden;
+      position: relative
+    }
+
+    .vis-bar-fill {
+      height: 100%;
+      border-radius: 7px;
+      transition: width .6s ease
+    }
+
+    .vb-green {
+      background: linear-gradient(90deg, var(--gd), var(--g))
+    }
+
+    .vb-gold {
+      background: linear-gradient(90deg, #a16207, var(--gol))
+    }
+
+    .vb-red {
+      background: linear-gradient(90deg, #991b1b, var(--red))
+    }
+
+    .vb-blue {
+      background: linear-gradient(90deg, #1e40af, #3b82f6)
+    }
+
+    .vb-pur {
+      background: linear-gradient(90deg, #5b21b6, var(--pur))
+    }
+
+    /* ── COMPARISON TABLE ── */
+    .ctable {
+      border: 1px solid var(--bd);
+      border-radius: var(--r12);
+      overflow: hidden;
+      margin: 14px 0
+    }
+
+    .ctable table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 12.5px
+    }
+
+    .ctable th {
+      background: var(--gx);
+      color: #fff;
+      font-size: 10.5px;
+      letter-spacing: .5px;
+      font-weight: 700;
+      padding: 9px 14px;
+      text-align: left
+    }
+
+    .ctable td {
+      padding: 9px 14px;
+      border-bottom: 1px solid var(--bd2);
+      color: var(--ink2);
+      vertical-align: top;
+      line-height: 1.55
+    }
+
+    .ctable tr:last-child td {
+      border-bottom: none
+    }
+
+    .ctable tr:nth-child(even) td {
+      background: #FAFAFA
+    }
+
+    /* ── TIMELINE ── */
+    .timeline {
+      margin: 14px 0
+    }
+
+    .tl-item {
+      display: flex;
+      gap: 14px;
+      margin-bottom: 4px
+    }
+
+    .tl-left {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 0;
+      flex-shrink: 0;
+      width: 40px
+    }
+
+    .tl-dot {
+      width: 28px;
+      height: 28px;
+      border-radius: 50%;
+      background: var(--gd);
+      color: #fff;
+      font-size: 11px;
+      font-weight: 800;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0
+    }
+
+    .tl-line {
+      flex: 1;
+      width: 2px;
+      background: var(--bd);
+      margin: 2px 0
+    }
+
+    .tl-item:last-child .tl-line {
+      display: none
+    }
+
+    .tl-content {
+      background: var(--w);
+      border: 1px solid var(--bd);
+      border-radius: var(--r12);
+      padding: 12px 14px;
+      margin-bottom: 8px;
+      flex: 1
+    }
+
+    .tl-year {
+      font-size: 10px;
+      font-weight: 700;
+      color: var(--ink3);
+      font-family: var(--fm);
+      letter-spacing: 1px;
+      margin-bottom: 3px
+    }
+
+    .tl-text {
+      font-size: 13px;
+      color: var(--ink2);
+      line-height: 1.6
+    }
+
+    .tl-text strong {
+      color: var(--ink);
+      font-weight: 700
+    }
+
+    /* ── QUIZ ── */
+    .qz-card {
+      background: var(--w);
+      border: 1px solid var(--bd);
+      border-radius: var(--r16);
+      overflow: hidden;
+      margin-bottom: 13px;
+      box-shadow: var(--shadow)
+    }
+
+    .qz-hd {
+      background: linear-gradient(135deg, #7C3AED, #5b21b6);
+      padding: 11px 18px;
+      display: flex;
+      align-items: center;
+      gap: 9px
+    }
+
+    .qz-n {
+      background: rgba(255, 255, 255, .2);
+      color: #fff;
+      width: 26px;
+      height: 26px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 800;
+      font-size: 12.5px;
+      flex-shrink: 0
+    }
+
+    .qz-ht {
+      font-size: 13.5px;
+      font-weight: 700;
+      color: #fff
+    }
+
+    .qz-body {
+      padding: 15px 18px
+    }
+
+    .qz-q {
+      font-size: 13.5px;
+      font-weight: 600;
+      color: var(--ink);
+      margin-bottom: 11px;
+      line-height: 1.55
+    }
+
+    .qr {
+      position: absolute;
+      opacity: 0;
+      width: 0;
+      height: 0;
+      pointer-events: none
+    }
+
+    .qo {
+      display: block;
+      border: 1.5px solid var(--bd);
+      border-radius: 9px;
+      padding: 9px 13px;
+      font-size: 13px;
+      cursor: pointer;
+      color: var(--ink2);
+      transition: all .15s;
+      font-weight: 500;
+      margin-bottom: 7px;
+      background: var(--bg)
+    }
+
+    .qfb {
+      border-radius: 8px;
+      padding: 9px 13px;
+      font-size: 12.5px;
+      margin-bottom: 7px;
+      display: none;
+      line-height: 1.62;
+      font-weight: 500
+    }
+
+    .right:checked+.qo {
+      border-color: var(--g);
+      background: var(--gm);
+      color: var(--gx);
+      font-weight: 700
+    }
+
+    .right:checked+.qo+.qfb {
+      display: block;
+      background: var(--gm);
+      color: var(--gx);
+      border-left: 3px solid var(--g)
+    }
+
+    .qr:not(.right):checked+.qo {
+      border-color: var(--red);
+      background: var(--redl);
+      color: var(--red);
+      font-weight: 700
+    }
+
+    .qr:not(.right):checked+.qo+.qfb {
+      display: block;
+      background: var(--redl);
+      color: var(--red);
+      border-left: 3px solid var(--red)
+    }
+
+    /* ── GLOSSARY INDEX ── */
+    .gloss-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 8px;
+      margin-bottom: 18px
+    }
+
+    .gloss-item {
+      background: var(--w);
+      border: 1px solid var(--bd);
+      border-radius: 10px;
+      padding: 10px 13px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      text-decoration: none;
+      color: var(--ink);
+      transition: all .15s
+    }
+
+    .gloss-item:hover {
+      border-color: var(--g);
+      background: var(--gl)
+    }
+
+    .gloss-icon {
+      font-size: 18px;
+      flex-shrink: 0
+    }
+
+    .gloss-word {
+      font-size: 13px;
+      font-weight: 700;
+      color: var(--ink);
+      display: block
+    }
+
+    .gloss-tagline {
+      font-size: 11px;
+      color: var(--ink3);
+      line-height: 1.3
+    }
+
+    /* ── NAV ── */
+    .sec-nav {
+      display: flex;
+      gap: 9px;
+      justify-content: space-between;
+      margin-top: 22px;
+      padding-top: 18px;
+      border-top: 1px solid var(--bd)
+    }
+
+    .btn {
+      position: relative;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      border-radius: 999px;
+      cursor: pointer;
+      font-family: inherit;
+      font-weight: 700;
+      font-size: 14px;
+      padding: 12px 24px;
+      overflow: hidden;
+      isolation: isolate;
+      border: none;
+      text-decoration: none;
+      transition: transform .22s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow .25s ease
+    }
+
+    .btn::after {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 8%;
+      right: 8%;
+      height: 46%;
+      border-radius: 999px 999px 60% 60%;
+      background: linear-gradient(to bottom, rgba(255, 255, 255, .72), rgba(255, 255, 255, 0));
+      pointer-events: none;
+      z-index: 1
+    }
+
+    .btn span {
+      position: relative;
+      z-index: 2
+    }
+
+    .btn:hover {
+      transform: translateY(-2px) scale(1.015)
+    }
+
+    .btn-p {
+      color: #14532D;
+      background: rgba(220, 252, 231, 0.55);
+      border: 1.5px solid rgba(34, 197, 94, 0.22);
+      border-top-color: rgba(255, 255, 255, 0.90);
+      box-shadow: 0 1.5px 0 rgba(255, 255, 255, 0.95) inset, 0 4px 16px rgba(34, 197, 94, 0.12)
+    }
+
+    .btn-s {
+      color: #6B7280;
+      background: rgba(243, 244, 246, 0.60);
+      border: 1.5px solid rgba(0, 0, 0, 0.07);
+      border-top-color: rgba(255, 255, 255, 0.92);
+      box-shadow: 0 1.5px 0 rgba(255, 255, 255, 0.95) inset, 0 4px 12px rgba(0, 0, 0, 0.06)
+    }
+
+    .btn-dis {
+      color: #D1D5DB;
+      background: rgba(243, 244, 246, 0.35);
+      border: 1.5px solid rgba(0, 0, 0, 0.05);
+      pointer-events: none
+    }
+
+    .btn-dis::after {
+      display: none
+    }
+
+    .div {
+      height: 1px;
+      background: var(--bd);
+      margin: 18px 0
+    }
+
+    @media(max-width:480px) {
+      .gloss-grid {
+        grid-template-columns: 1fr
+      }
+    }
+
+    /* ── PROGRESS ENGINE UI (Apple-style: restrained, soft, neutral) ── */
+    .nd-visited {
+      background: var(--gd) !important;
+      position: relative
+    }
+
+    .nd-visited::after {
+      content: '';
+      position: absolute;
+      top: -10px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 4px;
+      height: 4px;
+      border-radius: 50%;
+      background: var(--gd);
+      opacity: .5
+    }
+
+    .fl-resume-banner {
+      display: none;
+      align-items: center;
+      gap: 12px;
+      background: #fff;
+      border: 1px solid rgba(0, 0, 0, .06);
+      border-radius: 14px;
+      padding: 13px 16px;
+      margin: 16px 20px 0;
+      max-width: 640px;
+      margin-left: auto;
+      margin-right: auto;
+      font-size: 13px;
+      font-weight: 500;
+      color: var(--ink);
+      box-shadow: 0 1px 2px rgba(0, 0, 0, .03), 0 8px 24px -8px rgba(0, 0, 0, .08)
+    }
+
+    .fl-resume-banner .fl-resume-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: var(--g);
+      flex-shrink: 0;
+      box-shadow: 0 0 0 4px var(--gl)
+    }
+
+    .fl-resume-banner a {
+      margin-left: auto;
+      background: var(--ink);
+      color: #fff;
+      text-decoration: none;
+      font-weight: 600;
+      font-size: 12.5px;
+      padding: 7px 16px;
+      border-radius: 999px;
+      flex-shrink: 0;
+      transition: opacity .15s
+    }
+
+    .fl-resume-banner a:hover {
+      opacity: .82
+    }
+
+    /* ── RECALL CHECK (Apple-style: clean card, subtle accent) ── */
+    .fl-recall {
+      background: #fff;
+      border: 1px solid rgba(0, 0, 0, .06);
+      border-radius: 16px;
+      padding: 18px 20px;
+      margin: 22px 0;
+      box-shadow: 0 1px 2px rgba(0, 0, 0, .03), 0 10px 28px -12px rgba(0, 0, 0, .07)
+    }
+
+    .fl-recall-tag {
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: .2px;
+      color: var(--pur);
+      margin-bottom: 10px;
+      display: flex;
+      align-items: center;
+      gap: 6px
+    }
+
+    .fl-recall-q {
+      font-size: 14px;
+      font-weight: 600;
+      color: var(--ink);
+      margin-bottom: 12px;
+      line-height: 1.5;
+      letter-spacing: -.1px
+    }
+
+    .fl-recall-opt {
+      display: block;
+      border: 1px solid rgba(0, 0, 0, .08);
+      border-radius: 11px;
+      padding: 11px 14px;
+      font-size: 13.5px;
+      cursor: pointer;
+      color: var(--ink2);
+      background: #FBFBFC;
+      margin-bottom: 8px;
+      transition: all .15s;
+      font-weight: 450
+    }
+
+    .fl-recall-opt:hover {
+      background: #F5F5F7;
+      border-color: rgba(0, 0, 0, .12)
+    }
+
+    .fl-recall-fb {
+      display: none;
+      border-radius: 11px;
+      padding: 11px 14px;
+      font-size: 13px;
+      margin-top: 6px;
+      line-height: 1.6;
+      font-weight: 450
+    }
+
+    .fl-recall-fb.show {
+      display: block
+    }
+
+    .fl-recall-fb.correct {
+      background: var(--gl);
+      color: var(--gx)
+    }
+
+    .fl-recall-fb.wrong {
+      background: #FBF2F1;
+      color: #9A3B32
+    }
+
+    /* ── QUIZ RESULTS SUMMARY (Apple-style: neutral card, large refined type) ── */
+    .fl-quiz-results {
+      background: #fff;
+      border: 1px solid rgba(0, 0, 0, .06);
+      border-radius: 18px;
+      padding: 26px 24px;
+      text-align: center;
+      margin-bottom: 20px;
+      box-shadow: 0 1px 2px rgba(0, 0, 0, .03), 0 12px 32px -14px rgba(0, 0, 0, .09)
+    }
+
+    .fl-quiz-results-score {
+      font-size: 40px;
+      font-weight: 700;
+      font-family: var(--ff);
+      color: var(--ink);
+      letter-spacing: -1px
+    }
+
+    .fl-quiz-results-pct {
+      font-size: 12.5px;
+      color: var(--ink3);
+      margin-top: 4px;
+      font-weight: 450
+    }
+
+    .fl-quiz-results-msg {
+      font-size: 13px;
+      color: var(--ink2);
+      margin-top: 14px;
+      padding-top: 14px;
+      border-top: 1px solid rgba(0, 0, 0, .06);
+      line-height: 1.55;
+      font-weight: 450
+    }
+
+    /* ── LOCKED QUIZ QUESTIONS (Khan Academy-style, one attempt) ── */
+    .qz-card.fl-locked .qo {
+      cursor: not-allowed
+    }
+
+    .qz-card.fl-locked input:disabled+.qo {
+      opacity: .4;
+      cursor: not-allowed
+    }
+
+    .qz-card.fl-locked input:checked:disabled+.qo {
+      opacity: 1
+    }
+
+    .fl-lock-tag {
+      display: none;
+      align-items: center;
+      gap: 6px;
+      font-size: 11px;
+      font-weight: 500;
+      color: var(--ink3);
+      margin-top: 12px;
+      padding-top: 12px;
+      border-top: 1px solid rgba(0, 0, 0, .06)
+    }
+
+    .qz-card.fl-locked .fl-lock-tag {
+      display: flex
+    }
+
+    .fl-retake-wrap {
+      text-align: center;
+      margin: 4px 0 24px
+    }
+
+    #fl-retake-quiz {
+      display: none;
+      background: var(--ink);
+      color: #fff;
+      border: none;
+      border-radius: 999px;
+      padding: 13px 28px;
+      font-weight: 600;
+      font-size: 13.5px;
+      font-family: var(--ff);
+      cursor: pointer;
+      align-items: center;
+      gap: 8px;
+      letter-spacing: -.1px;
+      transition: opacity .15s, transform .15s
+    }
+
+    #fl-retake-quiz:hover {
+      opacity: .85;
+      transform: translateY(-1px)
+    }
+
+    /* ── SIDE RAIL (replaces top progress bar) ──
+         A slim always-visible strip on the right edge — thin enough
+         to survive small phone screens without stealing reading width.
+         Tap/click to expand into a floating detail panel. ── */
+    .fl-rail {
+      position: fixed;
+      top: 50%;
+      right: 8px;
+      transform: translateY(-50%);
+      width: 10px;
+      display: flex;
+      flex-direction: column;
+      gap: 5px;
+      z-index: 150;
+      cursor: pointer;
+      padding: 8px 6px;
+      border-radius: 10px;
+      transition: background .2s
+    }
+
+    .fl-rail:hover {
+      background: rgba(255, 255, 255, .9);
+      box-shadow: 0 4px 20px rgba(0, 0, 0, .1)
+    }
+
+    .fl-rail-seg {
+      width: 10px;
+      height: 16px;
+      border-radius: 5px;
+      background: rgba(0, 0, 0, .1);
+      transition: background .3s, transform .2s
+    }
+
+    .fl-rail-seg.fl-seg-done {
+      background: var(--g)
+    }
+
+    .fl-rail-seg.fl-seg-current {
+      background: var(--ink3);
+      transform: scaleX(1.4)
+    }
+
+    .fl-rail-seg-quiz {
+      margin-top: 3px;
+      border-top: 2px solid rgba(0, 0, 0, .12);
+      padding-top: 8px;
+      height: 20px
+    }
+
+    .fl-rail-seg-quiz.fl-seg-partial {
+      background: var(--gol)
+    }
+
+    .fl-rail-seg-quiz.fl-seg-pass {
+      background: var(--g)
+    }
+
+    .fl-rail-seg-quiz.fl-seg-fail {
+      background: #D97355
+    }
+
+    .fl-rail-backdrop {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(17, 24, 39, .32);
+      backdrop-filter: blur(2px);
+      z-index: 160
+    }
+
+    .fl-rail-backdrop.open {
+      display: block
+    }
+
+    .fl-rail-panel {
+      position: fixed;
+      top: 50%;
+      right: -320px;
+      transform: translateY(-50%);
+      width: 280px;
+      max-width: calc(100vw - 40px);
+      background: #fff;
+      border-radius: 20px;
+      box-shadow: 0 20px 60px -12px rgba(0, 0, 0, .25);
+      z-index: 161;
+      padding: 20px;
+      transition: right .3s cubic-bezier(.32, .72, 0, 1)
+    }
+
+    .fl-rail-panel.open {
+      right: 20px
+    }
+
+    .fl-rail-panel-hd {
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: .3px;
+      color: var(--ink3);
+      margin-bottom: 14px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center
+    }
+
+    .fl-rail-panel-close {
+      cursor: pointer;
+      color: var(--ink3);
+      font-size: 16px;
+      line-height: 1;
+      padding: 2px 6px;
+      border-radius: 6px
+    }
+
+    .fl-rail-panel-close:hover {
+      background: var(--bd2)
+    }
+
+    .fl-rail-item {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 8px 4px;
+      font-size: 13px;
+      color: var(--ink2);
+      font-weight: 450;
+      border-radius: 8px;
+      text-decoration: none
+    }
+
+    .fl-rail-item:hover {
+      background: var(--bd2)
+    }
+
+    .fl-rail-item-dot {
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+      background: rgba(0, 0, 0, .12);
+      flex-shrink: 0
+    }
+
+    .fl-rail-item.fl-done .fl-rail-item-dot {
+      background: var(--g)
+    }
+
+    .fl-rail-item.fl-done {
+      color: var(--ink)
+    }
+
+    .fl-rail-quiz-block {
+      margin-top: 10px;
+      padding-top: 14px;
+      border-top: 1px solid rgba(0, 0, 0, .06)
+    }
+
+    .fl-rail-quiz-label {
+      font-size: 11px;
+      color: var(--ink3);
+      margin-bottom: 4px
+    }
+
+    .fl-rail-quiz-val {
+      font-size: 22px;
+      font-weight: 700;
+      color: var(--ink);
+      letter-spacing: -.5px
+    }
+
+    @media(max-width:480px) {
+      .fl-rail {
+        right: 4px
+      }
+    }
+
+    /* ── DIAGNOSE IT — multi-select case-study assessment ── */
+    .fl-diag {
+      background: #fff;
+      border: 1px solid rgba(0, 0, 0, .06);
+      border-radius: 18px;
+      padding: 22px 22px 20px;
+      margin: 24px 0;
+      box-shadow: 0 1px 2px rgba(0, 0, 0, .03), 0 14px 34px -16px rgba(0, 0, 0, .1)
+    }
+
+    .fl-diag-tag {
+      font-size: 11px;
+      font-weight: 600;
+      color: var(--pur);
+      margin-bottom: 6px
+    }
+
+    .fl-diag-title {
+      font-size: 16px;
+      font-weight: 700;
+      color: var(--ink);
+      margin-bottom: 4px;
+      letter-spacing: -.2px
+    }
+
+    .fl-diag-brief {
+      font-size: 13px;
+      color: var(--ink3);
+      margin-bottom: 16px;
+      line-height: 1.5
+    }
+
+    .fl-diag-instruction {
+      font-size: 12.5px;
+      color: var(--ink2);
+      background: #F8F8FA;
+      border-radius: 10px;
+      padding: 9px 13px;
+      margin-bottom: 14px;
+      font-weight: 500
+    }
+
+    .fl-diag-item {
+      display: flex;
+      align-items: flex-start;
+      gap: 11px;
+      padding: 12px 14px;
+      border: 1px solid rgba(0, 0, 0, .08);
+      border-radius: 12px;
+      margin-bottom: 8px;
+      cursor: pointer;
+      transition: all .15s;
+      background: #FBFBFC
+    }
+
+    .fl-diag-item:hover {
+      border-color: rgba(0, 0, 0, .16)
+    }
+
+    .fl-diag-checkbox {
+      width: 18px;
+      height: 18px;
+      border-radius: 6px;
+      border: 1.5px solid rgba(0, 0, 0, .18);
+      flex-shrink: 0;
+      margin-top: 1px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all .15s;
+      background: #fff
+    }
+
+    .fl-diag-item.fl-checked .fl-diag-checkbox {
+      background: var(--ink);
+      border-color: var(--ink)
+    }
+
+    .fl-diag-checkbox::after {
+      content: '';
+      width: 5px;
+      height: 9px;
+      border: solid #fff;
+      border-width: 0 2px 2px 0;
+      transform: rotate(45deg) scale(0);
+      transition: transform .15s
+    }
+
+    .fl-diag-item.fl-checked .fl-diag-checkbox::after {
+      transform: rotate(45deg) scale(1)
+    }
+
+    .fl-diag-text {
+      font-size: 13.5px;
+      color: var(--ink2);
+      line-height: 1.5;
+      font-weight: 450
+    }
+
+    .fl-diag-item.fl-locked {
+      cursor: default;
+      pointer-events: none
+    }
+
+    .fl-diag-item.fl-result-correct {
+      background: var(--gl);
+      border-color: var(--gm)
+    }
+
+    .fl-diag-item.fl-result-missed {
+      background: #FFF7ED;
+      border-color: #FED7AA
+    }
+
+    .fl-diag-item.fl-result-wrong {
+      background: #FBF2F1;
+      border-color: #F3D2CE
+    }
+
+    .fl-diag-item-note {
+      font-size: 11.5px;
+      margin-top: 4px;
+      font-weight: 600
+    }
+
+    .fl-diag-item.fl-result-correct .fl-diag-item-note {
+      color: var(--gd)
+    }
+
+    .fl-diag-item.fl-result-missed .fl-diag-item-note {
+      color: #B45309
+    }
+
+    .fl-diag-item.fl-result-wrong .fl-diag-item-note {
+      color: #9A3B32
+    }
+
+    .fl-diag-submit {
+      background: var(--ink);
+      color: #fff;
+      border: none;
+      border-radius: 999px;
+      padding: 12px 24px;
+      font-weight: 600;
+      font-size: 13.5px;
+      font-family: var(--ff);
+      cursor: pointer;
+      margin-top: 6px;
+      transition: opacity .15s
+    }
+
+    .fl-diag-submit:hover {
+      opacity: .85
+    }
+
+    .fl-diag-submit:disabled {
+      opacity: .35;
+      cursor: not-allowed
+    }
+
+    .fl-diag-result-banner {
+      display: none;
+      margin-top: 14px;
+      padding: 13px 16px;
+      border-radius: 12px;
+      background: #F5F3FF;
+      font-size: 13px;
+      color: var(--ink);
+      font-weight: 500
+    }
+
+    .fl-diag-result-banner.show {
+      display: block
+    }
+
+    .fl-diag-result-banner b {
+      font-size: 15px
+    }
+
+    /* ── SORT IT — tap-to-rank assessment ── */
+    .fl-sort {
+      background: #fff;
+      border: 1px solid rgba(0, 0, 0, .06);
+      border-radius: 18px;
+      padding: 22px 22px 20px;
+      margin: 24px 0;
+      box-shadow: 0 1px 2px rgba(0, 0, 0, .03), 0 14px 34px -16px rgba(0, 0, 0, .1)
+    }
+
+    .fl-sort-tag {
+      font-size: 11px;
+      font-weight: 600;
+      color: var(--blu);
+      margin-bottom: 6px
+    }
+
+    .fl-sort-title {
+      font-size: 16px;
+      font-weight: 700;
+      color: var(--ink);
+      margin-bottom: 4px;
+      letter-spacing: -.2px
+    }
+
+    .fl-sort-brief {
+      font-size: 13px;
+      color: var(--ink3);
+      margin-bottom: 16px;
+      line-height: 1.5
+    }
+
+    .fl-sort-item {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 12px 14px;
+      border: 1px solid rgba(0, 0, 0, .08);
+      border-radius: 12px;
+      margin-bottom: 8px;
+      cursor: pointer;
+      transition: all .15s;
+      background: #FBFBFC
+    }
+
+    .fl-sort-item:hover {
+      border-color: rgba(0, 0, 0, .16)
+    }
+
+    .fl-sort-badge {
+      width: 26px;
+      height: 26px;
+      border-radius: 50%;
+      border: 1.5px dashed rgba(0, 0, 0, .18);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 12px;
+      font-weight: 700;
+      color: var(--ink3);
+      flex-shrink: 0;
+      transition: all .2s
+    }
+
+    .fl-sort-item.fl-ranked .fl-sort-badge {
+      background: var(--ink);
+      border: none;
+      border-style: solid;
+      color: #fff
+    }
+
+    .fl-sort-text {
+      font-size: 13.5px;
+      color: var(--ink2);
+      font-weight: 450
+    }
+
+    .fl-sort-item.fl-locked {
+      cursor: default;
+      pointer-events: none
+    }
+
+    .fl-sort-item.fl-sort-correct {
+      background: var(--gl);
+      border-color: var(--gm)
+    }
+
+    .fl-sort-item.fl-sort-correct .fl-sort-badge {
+      background: var(--gd)
+    }
+
+    .fl-sort-item.fl-sort-off {
+      background: #FFF7ED;
+      border-color: #FED7AA
+    }
+
+    .fl-sort-item.fl-sort-off .fl-sort-badge {
+      background: #B45309
+    }
+
+    .fl-sort-controls {
+      display: flex;
+      gap: 10px;
+      align-items: center;
+      margin-top: 6px
+    }
+
+    .fl-sort-reset {
+      font-size: 12.5px;
+      color: var(--ink3);
+      cursor: pointer;
+      text-decoration: underline;
+      text-underline-offset: 2px
+    }
+
+    .fl-sort-result-banner {
+      display: none;
+      margin-top: 14px;
+      padding: 13px 16px;
+      border-radius: 12px;
+      background: var(--blul);
+      font-size: 13px;
+      color: var(--ink);
+      font-weight: 500
+    }
+
+    .fl-sort-result-banner.show {
+      display: block
+    }
+
+    .fl-sort-result-banner b {
+      font-size: 15px
+    }
+
+    /* ── ESTIMATE IT — numeric guess with tolerance ── */
+    .fl-est {
+      background: #fff;
+      border: 1px solid rgba(0, 0, 0, .06);
+      border-radius: 18px;
+      padding: 22px 22px 20px;
+      margin: 24px 0;
+      box-shadow: 0 1px 2px rgba(0, 0, 0, .03), 0 14px 34px -16px rgba(0, 0, 0, .1)
+    }
+
+    .fl-est-tag {
+      font-size: 11px;
+      font-weight: 600;
+      color: var(--gd);
+      margin-bottom: 6px
+    }
+
+    .fl-est-title {
+      font-size: 16px;
+      font-weight: 700;
+      color: var(--ink);
+      margin-bottom: 10px;
+      letter-spacing: -.2px
+    }
+
+    .fl-est-q {
+      font-size: 13.5px;
+      color: var(--ink2);
+      line-height: 1.6;
+      margin-bottom: 16px
+    }
+
+    .fl-est-input-row {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 14px
+    }
+
+    .fl-est-prefix {
+      font-size: 15px;
+      font-weight: 700;
+      color: var(--ink3)
+    }
+
+    .fl-est-input {
+      flex: 1;
+      max-width: 180px;
+      border: 1.5px solid rgba(0, 0, 0, .12);
+      border-radius: 12px;
+      padding: 11px 14px;
+      font-size: 16px;
+      font-weight: 600;
+      font-family: var(--fm);
+      color: var(--ink);
+      outline: none;
+      transition: border-color .15s
+    }
+
+    .fl-est-input:focus {
+      border-color: var(--g)
+    }
+
+    .fl-est-input:disabled {
+      background: var(--bd2);
+      color: var(--ink3)
+    }
+
+    .fl-est-result-banner {
+      display: none;
+      margin-top: 6px;
+      padding: 15px 17px;
+      border-radius: 14px;
+      font-size: 13px;
+      line-height: 1.6
+    }
+
+    .fl-est-result-banner.show {
+      display: block
+    }
+
+    .fl-est-result-banner.fl-est-excellent {
+      background: var(--gl);
+      color: var(--gx)
+    }
+
+    .fl-est-result-banner.fl-est-close {
+      background: #FFF7ED;
+      color: #92400E
+    }
+
+    .fl-est-result-banner.fl-est-off {
+      background: #FBF2F1;
+      color: #9A3B32
+    }
+
+    .fl-est-result-banner b {
+      font-size: 16px;
+      display: block;
+      margin-bottom: 3px
+    }
+
+    /* ── EXPLAIN IT — free-text reflection with keyword feedback ── */
+    .fl-exp {
+      background: #fff;
+      border: 1px solid rgba(0, 0, 0, .06);
+      border-radius: 18px;
+      padding: 22px 22px 20px;
+      margin: 24px 0;
+      box-shadow: 0 1px 2px rgba(0, 0, 0, .03), 0 14px 34px -16px rgba(0, 0, 0, .1)
+    }
+
+    .fl-exp-tag {
+      font-size: 11px;
+      font-weight: 600;
+      color: #B45309;
+      margin-bottom: 6px
+    }
+
+    .fl-exp-title {
+      font-size: 16px;
+      font-weight: 700;
+      color: var(--ink);
+      margin-bottom: 10px;
+      letter-spacing: -.2px
+    }
+
+    .fl-exp-q {
+      font-size: 13.5px;
+      color: var(--ink2);
+      line-height: 1.6;
+      margin-bottom: 14px
+    }
+
+    .fl-exp-textarea {
+      width: 100%;
+      min-height: 90px;
+      border: 1.5px solid rgba(0, 0, 0, .12);
+      border-radius: 14px;
+      padding: 13px 15px;
+      font-size: 13.5px;
+      font-family: var(--ff);
+      color: var(--ink);
+      resize: vertical;
+      outline: none;
+      transition: border-color .15s;
+      line-height: 1.55;
+      margin-bottom: 12px
+    }
+
+    .fl-exp-textarea:focus {
+      border-color: var(--gol)
+    }
+
+    .fl-exp-textarea:disabled {
+      background: var(--bd2);
+      color: var(--ink2)
+    }
+
+    .fl-exp-result-banner {
+      display: none;
+      margin-top: 4px;
+      padding: 15px 17px;
+      border-radius: 14px;
+      background: var(--gold);
+      font-size: 13px;
+      color: #7a5500;
+      line-height: 1.6
+    }
+
+    .fl-exp-result-banner.show {
+      display: block
+    }
+
+    .fl-exp-result-banner b {
+      font-size: 14px;
+      display: block;
+      margin-bottom: 4px;
+      color: #7a5500
+    }
+
+    /* ── DECIDE IT — branching decision simulator ── */
+    .fl-decide {
+      background: linear-gradient(150deg, var(--gx) 0%, #0a2617 100%);
+      border-radius: 22px;
+      padding: 28px 24px 26px;
+      margin: 26px 0;
+      color: #fff;
+      position: relative;
+      overflow: hidden
+    }
+
+    .fl-decide::before {
+      content: '';
+      position: absolute;
+      right: -60px;
+      top: -60px;
+      width: 220px;
+      height: 220px;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(34, 197, 94, .14), transparent 70%);
+      pointer-events: none
+    }
+
+    .fl-decide-tag {
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: var(--gol);
+      margin-bottom: 8px;
+      position: relative
+    }
+
+    .fl-decide-title {
+      font-size: 20px;
+      font-weight: 800;
+      letter-spacing: -.3px;
+      margin-bottom: 8px;
+      position: relative
+    }
+
+    .fl-decide-intro {
+      font-size: 13.5px;
+      color: rgba(255, 255, 255, .72);
+      line-height: 1.65;
+      margin-bottom: 18px;
+      position: relative
+    }
+
+    .fl-decide-step {
+      display: none;
+      position: relative
+    }
+
+    .fl-decide-step.active {
+      display: block;
+      animation: fl-decide-in .4s ease both
+    }
+
+    @keyframes fl-decide-in {
+      from {
+        opacity: 0;
+        transform: translateY(10px)
+      }
+
+      to {
+        opacity: 1;
+        transform: none
+      }
+    }
+
+    .fl-decide-progress {
+      font-family: var(--fm);
+      font-size: 10.5px;
+      color: rgba(255, 255, 255, .5);
+      margin-bottom: 10px;
+      letter-spacing: .5px
+    }
+
+    .fl-decide-scenario {
+      font-size: 14.5px;
+      font-weight: 600;
+      line-height: 1.6;
+      margin-bottom: 16px
+    }
+
+    .fl-decide-opt {
+      display: block;
+      width: 100%;
+      text-align: left;
+      background: rgba(255, 255, 255, .08);
+      border: 1px solid rgba(255, 255, 255, .14);
+      border-radius: 13px;
+      padding: 13px 16px;
+      font-size: 13.5px;
+      color: #fff;
+      font-family: var(--ff);
+      cursor: pointer;
+      margin-bottom: 9px;
+      transition: all .18s;
+      line-height: 1.5
+    }
+
+    .fl-decide-opt:hover {
+      background: rgba(255, 255, 255, .16);
+      transform: translateX(2px)
+    }
+
+    .fl-decide-consequence {
+      background: rgba(255, 255, 255, .1);
+      border-left: 3px solid var(--gol);
+      border-radius: 10px;
+      padding: 13px 15px;
+      font-size: 13px;
+      line-height: 1.62;
+      margin-bottom: 16px;
+      color: rgba(255, 255, 255, .92)
+    }
+
+    .fl-decide-next {
+      background: #fff;
+      color: var(--gx);
+      border: none;
+      border-radius: 999px;
+      padding: 11px 22px;
+      font-weight: 700;
+      font-size: 13px;
+      font-family: var(--ff);
+      cursor: pointer
+    }
+
+    .fl-decide-outcome {
+      text-align: center;
+      padding: 6px 0
+    }
+
+    .fl-decide-outcome-badge {
+      display: inline-block;
+      font-family: var(--fm);
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      padding: 5px 14px;
+      border-radius: 20px;
+      margin-bottom: 14px
+    }
+
+    .fl-decide-outcome-badge.strong {
+      background: var(--gm);
+      color: var(--gx)
+    }
+
+    .fl-decide-outcome-badge.developing {
+      background: var(--gold);
+      color: #7a5500
+    }
+
+    .fl-decide-outcome-badge.risk {
+      background: #FBD9D2;
+      color: #7a1c10
+    }
+
+    .fl-decide-outcome-msg {
+      font-size: 13.5px;
+      line-height: 1.7;
+      color: rgba(255, 255, 255, .88);
+      text-align: left
+    }
+
+    /* ── CERTIFICATE GATE ── */
+    .fl-cert {
+      background: #fff;
+      border: 1px solid rgba(0, 0, 0, .06);
+      border-radius: 20px;
+      padding: 26px 24px;
+      margin: 20px 0;
+      box-shadow: 0 1px 2px rgba(0, 0, 0, .03), 0 16px 40px -18px rgba(0, 0, 0, .12)
+    }
+
+    .fl-cert-tag {
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: .3px;
+      color: var(--gol);
+      margin-bottom: 6px
+    }
+
+    .fl-cert-title {
+      font-size: 18px;
+      font-weight: 800;
+      color: var(--ink);
+      margin-bottom: 4px;
+      letter-spacing: -.3px
+    }
+
+    .fl-cert-sub {
+      font-size: 12.5px;
+      color: var(--ink3);
+      margin-bottom: 18px
+    }
+
+    .fl-cert-check-item {
+      display: flex;
+      align-items: center;
+      gap: 11px;
+      padding: 10px 0;
+      border-bottom: 1px solid rgba(0, 0, 0, .05);
+      font-size: 13px
+    }
+
+    .fl-cert-check-item:last-of-type {
+      border-bottom: none
+    }
+
+    .fl-cert-check-icon {
+      width: 22px;
+      height: 22px;
+      border-radius: 50%;
+      flex-shrink: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 11px;
+      font-weight: 800;
+      background: var(--bd2);
+      color: var(--ink3)
+    }
+
+    .fl-cert-check-item.fl-cert-pass .fl-cert-check-icon {
+      background: var(--gd);
+      color: #fff
+    }
+
+    .fl-cert-check-label {
+      color: var(--ink2);
+      font-weight: 500;
+      flex: 1
+    }
+
+    .fl-cert-check-item.fl-cert-pass .fl-cert-check-label {
+      color: var(--ink)
+    }
+
+    .fl-cert-check-status {
+      font-family: var(--fm);
+      font-size: 11px;
+      color: var(--ink3)
+    }
+
+    .fl-cert-locked-msg {
+      margin-top: 16px;
+      background: var(--bd2);
+      border-radius: 12px;
+      padding: 12px 15px;
+      font-size: 12.5px;
+      color: var(--ink3);
+      text-align: center
+    }
+
+    .fl-cert-unlock {
+      margin-top: 18px;
+      padding-top: 18px;
+      border-top: 1px solid rgba(0, 0, 0, .06);
+      text-align: center
+    }
+
+    .fl-cert-unlock-msg {
+      font-size: 13px;
+      color: var(--gd);
+      font-weight: 600;
+      margin-bottom: 12px
+    }
+
+    .fl-cert-name-input {
+      border: 1.5px solid rgba(0, 0, 0, .12);
+      border-radius: 12px;
+      padding: 11px 15px;
+      font-size: 14px;
+      font-family: var(--ff);
+      width: 100%;
+      max-width: 280px;
+      margin-bottom: 12px;
+      outline: none
+    }
+
+    .fl-cert-name-input:focus {
+      border-color: var(--g)
+    }
+
+    .fl-cert-claim-btn {
+      display: block;
+      margin: 0 auto;
+      background: var(--gx);
+      color: #fff;
+      border: none;
+      border-radius: 999px;
+      padding: 13px 28px;
+      font-weight: 700;
+      font-size: 13.5px;
+      font-family: var(--ff);
+      cursor: pointer
+    }
+
+    /* ── CERTIFICATE DOCUMENT (revealed once claimed) ── */
+    .fl-cert-doc {
+      display: none;
+      margin-top: 20px;
+      border: 2px solid var(--gol);
+      border-radius: 16px;
+      padding: 36px 28px;
+      text-align: center;
+      background: linear-gradient(150deg, var(--gold) 0%, #fff 60%);
+      position: relative
+    }
+
+    .fl-cert-doc.show {
+      display: block
+    }
+
+    .fl-cert-doc-kicker {
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 2.5px;
+      text-transform: uppercase;
+      color: var(--gol);
+      margin-bottom: 14px
+    }
+
+    .fl-cert-doc-org {
+      font-size: 13px;
+      font-weight: 700;
+      color: var(--gx);
+      margin-bottom: 22px
+    }
+
+    .fl-cert-doc-presented {
+      font-size: 11px;
+      color: var(--ink3);
+      letter-spacing: .5px;
+      text-transform: uppercase;
+      margin-bottom: 8px
+    }
+
+    .fl-cert-doc-name {
+      font-size: 28px;
+      font-weight: 800;
+      color: var(--ink);
+      margin-bottom: 18px;
+      letter-spacing: -.5px;
+      border-bottom: 2px solid var(--gol);
+      display: inline-block;
+      padding-bottom: 10px
+    }
+
+    .fl-cert-doc-body {
+      font-size: 13.5px;
+      color: var(--ink2);
+      line-height: 1.7;
+      max-width: 380px;
+      margin: 0 auto 20px
+    }
+
+    .fl-cert-doc-date {
+      font-family: var(--fm);
+      font-size: 11px;
+      color: var(--ink3)
+    }
+
+    .fl-cert-print-btn {
+      margin-top: 20px;
+      background: var(--ink);
+      color: #fff;
+      border: none;
+      border-radius: 999px;
+      padding: 12px 26px;
+      font-weight: 600;
+      font-size: 13px;
+      font-family: var(--ff);
+      cursor: pointer
+    }
+
+    @media print {
+      body * {
+        visibility: hidden
+      }
+
+      .fl-cert-doc,
+      .fl-cert-doc * {
+        visibility: visible
+      }
+
+      .fl-cert-doc {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        border: 4px solid var(--gol)
+      }
+
+      .fl-cert-print-btn {
+        display: none
+      }
+    }
+    .cert-backdrop{position:fixed;inset:0;background:rgba(0,0,0,.55);backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px);z-index:900;opacity:0;pointer-events:none;transition:opacity .3s ease}
+    .cert-backdrop.open{opacity:1;pointer-events:all}
+    .cert-sheet{position:fixed;bottom:0;left:0;right:0;z-index:901;background:#F5F5F7;border-radius:20px 20px 0 0;height:94vh;transform:translateY(100%);transition:transform .4s cubic-bezier(.32,0,.67,0);display:flex;flex-direction:column;padding-bottom:env(safe-area-inset-bottom,0px)}
+    .cert-sheet.open{transform:translateY(0);transition-timing-function:cubic-bezier(.33,1,.68,1)}
+    .cert-sheet-handle{width:36px;height:4px;border-radius:2px;background:#C7C7CC;position:absolute;top:10px;left:50%;transform:translateX(-50%)}
+    .cert-sheet-bar{flex-shrink:0;padding:12px 20px 10px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid #E5E5EA;background:#F5F5F7;border-radius:20px 20px 0 0;position:relative}
+    .cert-sheet-title{font-size:15px;font-weight:700;color:#1D1D1F;letter-spacing:-.2px}
+    .cert-sheet-close{width:28px;height:28px;border-radius:50%;background:#E5E5EA;border:none;cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:13px;color:#6E6E73;transition:background .15s;flex-shrink:0}
+    .cert-sheet-close:hover{background:#D1D1D6}
+    .cert-fallback{flex-shrink:0;text-align:center;font:500 13px/1.2 -apple-system,BlinkMacSystemFont,'SF Pro Text',Inter,Arial,sans-serif;color:#6E6E73;padding:10px 12px;text-decoration:none;background:#F5F5F7;border-top:1px solid #E5E5EA}
+.cert-fallback:active{opacity:.6}
+.cert-iframe{flex:1;border:none;width:100%;background:#F5F5F7}
+
+    /* ══ FIX: DISCUSSION QUESTIONS (.dq) — was never in the base template ══ */
+    .terms{display:grid;grid-template-columns:1fr 1fr;gap:9px;margin-bottom:14px}
+    .term{background:#fff;border:1px solid rgba(0,0,0,.06);border-radius:12px;padding:12px 14px}
+    .term-w{font-family:var(--ff);font-size:13px;font-weight:700;color:var(--gd,#15803D);margin-bottom:3px}
+    .term-d{font-family:var(--ff);font-size:11.5px;color:var(--ink2,#374151);line-height:1.55}
+    .dq{display:flex;gap:11px;align-items:flex-start;margin-bottom:10px;padding:13px 15px;background:#fff;border-radius:14px;border:1px solid rgba(0,0,0,.06)}
+    .dq-n{background:var(--gx,#14532D);color:#fff;width:24px;height:24px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:11.5px;font-weight:800;flex-shrink:0;font-family:var(--ff)}
+    .dq-t{font-family:var(--ff);font-size:13px;color:var(--ink,#111827);line-height:1.6;padding-top:2px}
+
+    /* ══ FIX: END-OF-MODULE ACTIONS — Community Wall single button (Padlet Game removed as default) ══ */
+    .fl-end-actions{display:block;margin-top:18px}
+    .fl-end-btn{font-family:var(--ff);border-radius:16px;padding:18px 16px;text-align:center;text-decoration:none;cursor:pointer;border:none;transition:all .2s;position:relative;overflow:hidden;display:flex;flex-direction:column;align-items:center;gap:6px;width:100%}
+    .fl-end-btn:hover{transform:translateY(-2px)}
+    .fl-end-btn-icon{font-size:26px;line-height:1}
+    .fl-end-btn-title{font-size:13.5px;font-weight:800;letter-spacing:-.2px}
+    .fl-end-btn-sub{font-size:10.5px;font-weight:500}
+    .fl-end-btn-live{position:absolute;top:10px;right:10px;font-size:9px;font-weight:700;padding:2px 8px;border-radius:10px}
+    .fl-end-btn.wall{background:#fff;border:1px solid rgba(0,0,0,.06);box-shadow:0 1px 2px rgba(0,0,0,.03),0 10px 28px -12px rgba(0,0,0,.09)}
+    .fl-end-btn.wall .fl-end-btn-title{color:var(--ink,#111827)}
+    .fl-end-btn.wall .fl-end-btn-sub{color:var(--ink3,#6B7280)}
+    .fl-end-btn.wall .fl-end-btn-live{background:var(--gl,#F0FDF4);color:var(--gd,#15803D)}
+    .fl-end-btn.game{background:linear-gradient(135deg,#22C55E,#16A34A)}
+    .fl-end-btn.game .fl-end-btn-title{color:#fff}
+    .fl-end-btn.game .fl-end-btn-sub{color:rgba(255,255,255,.75)}
+    .fl-end-btn.game .fl-end-btn-live{background:rgba(255,255,255,.2);color:#fff}
+    /* Optional: modules that DO want both buttons back can add this override */
+    .fl-end-actions.two-up{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+    @media(max-width:420px){.fl-end-actions.two-up{grid-template-columns:1fr}}
+    .fl-panel-backdrop{position:fixed;inset:0;background:rgba(0,0,0,.55);backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px);z-index:900;opacity:0;pointer-events:none;transition:opacity .3s ease}
+    .fl-panel-backdrop.open{opacity:1;pointer-events:all}
+    .fl-panel{position:fixed;bottom:0;left:0;right:0;z-index:901;background:#F5F5F7;border-radius:20px 20px 0 0;height:88vh;transform:translateY(100%);transition:transform .4s cubic-bezier(.32,0,.67,0);display:flex;flex-direction:column;padding-bottom:env(safe-area-inset-bottom,0px)}
+    .fl-panel.open{transform:translateY(0);transition-timing-function:cubic-bezier(.33,1,.68,1)}
+    .fl-panel-bar{flex-shrink:0;padding:14px 20px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid #E5E5EA;background:#F5F5F7;border-radius:20px 20px 0 0;position:relative}
+    .fl-panel-title{font-family:var(--ff);font-size:15px;font-weight:700;color:var(--ink,#111827)}
+    .fl-panel-close{width:28px;height:28px;border-radius:50%;background:#E5E5EA;border:none;cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:13px;color:var(--ink3,#6B7280)}
+    #fl-practice-panel{height:94vh}
+.fl-practice-pbody{flex:1;min-height:0;display:flex;flex-direction:column;background:#fff;overflow:auto}
+.fl-practice-pbody iframe{flex:1;width:100%;min-height:0;border:0;background:#fff}
+.fl-practice-pbody .fl-practice-note{margin:18px 16px 12px}
+.fl-practice-pbody .fl-practice-go{width:calc(100% - 32px);margin:0 16px}
+.fl-practice-pbody .fl-practice-go.alt{margin-top:8px}
+.fl-practice-code{font-size:11px;color:#9CA3AF;margin-top:6px}
+.fl-panel-iframe{flex:1;border:none;width:100%;background:#fff}
+
+
+
+.fl-port{
+  background:#fff;border:1px solid rgba(0,0,0,.06);border-radius:20px;
+  padding:26px 24px;box-shadow:0 1px 2px rgba(0,0,0,.03),0 16px 40px -18px rgba(0,0,0,.12);
+  margin:20px 0;
+}
+.fl-port-tag{font-family:var(--ff);font-size:11px;font-weight:600;letter-spacing:.3px;color:var(--gol,#C9A83C);margin-bottom:6px}
+.fl-port-title{font-family:var(--ff);font-size:18px;font-weight:800;color:var(--ink,#111827);margin-bottom:4px;letter-spacing:-.3px}
+.fl-port-sub{font-family:var(--ff);font-size:12.5px;color:var(--ink3,#6B7280);margin-bottom:18px;line-height:1.6}
+.fl-port-divider{border-top:1px solid rgba(0,0,0,.06);padding-top:18px;margin-top:4px}
+
+.fl-port-field{margin-bottom:16px}
+.fl-port-label{font-family:var(--ff);display:block;font-size:11px;font-weight:600;color:var(--ink3,#6B7280);margin-bottom:7px;letter-spacing:.2px}
+.fl-port-input-wrap{position:relative}
+.fl-port-currency{position:absolute;left:15px;top:50%;transform:translateY(-50%);font-family:var(--ff);font-size:14px;font-weight:700;color:var(--ink3,#6B7280);pointer-events:none}
+.fl-port-input{
+  border:1.5px solid rgba(0,0,0,.12);border-radius:12px;padding:12px 14px 12px 32px;
+  font-size:15px;font-weight:500;width:100%;outline:none;
+  color:var(--ink,#111827);background:#fff;transition:border-color .2s;
+  font-family:var(--fm);-webkit-appearance:none;
+}
+.fl-port-input::placeholder{color:#AEAEB2;font-weight:400;font-family:var(--ff)}
+.fl-port-input:focus{border-color:var(--g,#22C55E)}
+
+.fl-port-slider-group{margin-bottom:16px}
+.fl-port-slider-hdr{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:8px}
+.fl-port-slider-name{font-family:var(--ff);font-size:13px;font-weight:700;color:var(--ink2,#374151);display:flex;align-items:center;gap:6px}
+.fl-port-slider-dot{width:8px;height:8px;border-radius:50%;flex-shrink:0}
+.fl-port-slider-dot.savings{background:#3B82F6}
+.fl-port-slider-dot.tbill{background:#22C55E}
+.fl-port-slider-dot.luse{background:#166534}
+.fl-port-slider-dot.property{background:#C9A83C}
+.fl-port-slider-val{font-family:var(--ff);font-size:13px;font-weight:800;color:var(--ink,#111827);font-variant-numeric:tabular-nums}
+.fl-port-slider-amt{font-family:var(--ff);font-size:11px;color:var(--ink3,#6B7280);font-variant-numeric:tabular-nums;margin-left:4px;font-weight:500}
+.fl-port-slider{width:100%;-webkit-appearance:none;appearance:none;height:6px;border-radius:3px;background:var(--bd2,#F3F4F6);outline:none;cursor:pointer}
+.fl-port-slider::-webkit-slider-thumb{-webkit-appearance:none;appearance:none;width:20px;height:20px;border-radius:50%;background:#fff;cursor:pointer;box-shadow:0 1px 4px rgba(0,0,0,.2);transition:transform .15s}
+.fl-port-slider::-webkit-slider-thumb:active{transform:scale(1.15)}
+.fl-port-slider.savings::-webkit-slider-thumb{border:3px solid #3B82F6}
+.fl-port-slider.tbill::-webkit-slider-thumb{border:3px solid #22C55E}
+.fl-port-slider.luse::-webkit-slider-thumb{border:3px solid #166534}
+.fl-port-slider.property::-webkit-slider-thumb{border:3px solid #C9A83C}
+.fl-port-slider::-moz-range-thumb{width:20px;height:20px;border-radius:50%;background:#fff;cursor:pointer;box-shadow:0 1px 4px rgba(0,0,0,.2)}
+
+.fl-port-bar{display:flex;height:14px;border-radius:7px;overflow:hidden;margin:16px 0 8px;gap:2px}
+.fl-port-bar-seg{transition:flex .3s ease}
+.fl-port-bar-seg.savings{background:#3B82F6}
+.fl-port-bar-seg.tbill{background:#22C55E}
+.fl-port-bar-seg.luse{background:#166534}
+.fl-port-bar-seg.property{background:#C9A83C}
+
+.fl-port-total-row{display:flex;justify-content:space-between;align-items:center;padding-top:6px;margin-bottom:16px}
+.fl-port-total-label{font-family:var(--ff);font-size:12px;color:var(--ink3,#6B7280);font-weight:600}
+.fl-port-total-val{font-family:var(--ff);font-size:14px;font-weight:800;color:var(--ink,#111827);font-variant-numeric:tabular-nums}
+.fl-port-total-val.zero{color:var(--gd,#15803D)}
+
+.fl-port-results{margin-top:18px;padding-top:18px;border-top:1px solid rgba(0,0,0,.06)}
+
+.fl-port-projection{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:14px}
+.fl-port-proj-card{border-radius:14px;padding:16px 14px;background:var(--gl,#F0FDF4);border:1px solid rgba(21,128,61,.15)}
+.fl-port-proj-label{font-family:var(--ff);font-size:10.5px;font-weight:700;letter-spacing:.5px;text-transform:uppercase;color:var(--gd,#15803D);margin-bottom:8px}
+.fl-port-proj-val{font-family:var(--ff);font-size:20px;font-weight:800;letter-spacing:-.5px;line-height:1;color:var(--gd,#15803D)}
+.fl-port-proj-sub{font-family:var(--ff);font-size:11px;color:var(--gd,#15803D);margin-top:4px;opacity:.75}
+
+.fl-port-risk-row{
+  display:flex;justify-content:space-between;align-items:center;
+  border-radius:12px;padding:14px 16px;margin-bottom:2px;
+}
+.fl-port-risk-label{font-family:var(--ff);font-size:12px;font-weight:600}
+.fl-port-risk-val{font-family:var(--ff);font-size:14px;font-weight:800}
+
+.fl-port-explainer{font-family:var(--ff);font-size:12px;color:var(--ink3,#6B7280);line-height:1.65;margin-top:14px;padding-top:14px;border-top:1px dashed rgba(0,0,0,.06)}
+.fl-port-explainer b{color:var(--ink2,#374151);font-weight:600}
+
+.fl-port-used-badge{font-family:var(--ff);display:none;align-items:center;gap:6px;font-size:12.5px;font-weight:600;color:var(--gd,#15803D);margin-top:14px}
+.fl-port-used-badge.show{display:flex}
+
+@media(max-width:400px){.fl-port-projection{grid-template-columns:1fr}}
+
+
+
+.fl-dial{
+  background:#fff;border:1px solid rgba(0,0,0,.06);border-radius:20px;
+  padding:26px 24px;box-shadow:0 1px 2px rgba(0,0,0,.03),0 16px 40px -18px rgba(0,0,0,.12);
+  margin:20px 0;
+}
+.fl-dial-tag{font-family:var(--ff);font-size:11px;font-weight:600;letter-spacing:.3px;color:var(--gol,#C9A83C);margin-bottom:6px}
+.fl-dial-title{font-family:var(--ff);font-size:18px;font-weight:800;color:var(--ink,#111827);margin-bottom:4px;letter-spacing:-.3px}
+.fl-dial-sub{font-family:var(--ff);font-size:12.5px;color:var(--ink3,#6B7280);margin-bottom:18px;line-height:1.6}
+.fl-dial-divider{border-top:1px solid rgba(0,0,0,.06);padding-top:22px;margin-top:4px}
+
+.fl-dial-wrap{position:relative;width:220px;height:130px;margin:0 auto 8px}
+.fl-dial-needle{
+  position:absolute;bottom:6px;left:50%;
+  width:3px;height:96px;background:var(--ink,#111827);
+  transform-origin:bottom center;border-radius:2px 2px 0 0;
+  transition:transform 1s cubic-bezier(.34,1.56,.64,1);
+  transform:translateX(-50%) rotate(0deg);
+}
+.fl-dial-center{
+  position:absolute;bottom:0;left:50%;transform:translateX(-50%);
+  width:14px;height:14px;border-radius:50%;
+  background:var(--ink,#111827);border:3px solid #fff;
+  box-shadow:0 0 0 2px var(--ink,#111827);
+}
+.fl-dial-active-label{
+  text-align:center;font-family:var(--ff);font-size:15px;font-weight:800;
+  color:var(--ink,#111827);margin-bottom:2px;min-height:20px;
+}
+.fl-dial-active-desc{
+  text-align:center;font-family:var(--ff);font-size:12px;color:var(--ink3,#6B7280);
+  margin-bottom:20px;min-height:16px;
+}
+
+/* Investment chip grid */
+.fl-dial-chips{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:4px}
+.fl-dial-chip{
+  font-family:var(--ff);text-align:left;
+  padding:11px 13px;border-radius:12px;font-size:12.5px;font-weight:700;
+  cursor:pointer;transition:all .2s;border:1.5px solid rgba(0,0,0,.1);
+  background:#fff;color:var(--ink2,#374151);
+  display:flex;align-items:center;gap:8px;
+}
+.fl-dial-chip:hover{border-color:rgba(0,0,0,.2)}
+.fl-dial-chip.active{color:#fff}
+.fl-dial-chip-dot{width:8px;height:8px;border-radius:50%;flex-shrink:0}
+
+.fl-dial-used-badge{font-family:var(--ff);display:none;align-items:center;justify-content:center;gap:6px;font-size:12.5px;font-weight:600;color:var(--gd,#15803D);margin-top:16px}
+.fl-dial-used-badge.show{display:flex}
+
+@media(max-width:380px){.fl-dial-chips{grid-template-columns:1fr}}
+
+
+
+.fl-tbill{
+  background:#fff;border:1px solid rgba(0,0,0,.06);border-radius:20px;
+  padding:26px 24px;box-shadow:0 1px 2px rgba(0,0,0,.03),0 16px 40px -18px rgba(0,0,0,.12);
+  margin:20px 0;
+}
+.fl-tbill-tag{font-family:var(--ff);font-size:11px;font-weight:600;letter-spacing:.3px;color:var(--gol,#C9A83C);margin-bottom:6px}
+.fl-tbill-title{font-family:var(--ff);font-size:18px;font-weight:800;color:var(--ink,#111827);margin-bottom:4px;letter-spacing:-.3px}
+.fl-tbill-sub{font-family:var(--ff);font-size:12.5px;color:var(--ink3,#6B7280);margin-bottom:18px;line-height:1.6}
+.fl-tbill-divider{border-top:1px solid rgba(0,0,0,.06);padding-top:18px;margin-top:4px}
+
+.fl-tbill-field{margin-bottom:16px}
+.fl-tbill-label{font-family:var(--ff);display:block;font-size:11px;font-weight:600;color:var(--ink3,#6B7280);margin-bottom:7px;letter-spacing:.2px}
+.fl-tbill-input-wrap{position:relative}
+.fl-tbill-currency{position:absolute;left:15px;top:50%;transform:translateY(-50%);font-family:var(--ff);font-size:14px;font-weight:700;color:var(--ink3,#6B7280);pointer-events:none}
+.fl-tbill-input{
+  border:1.5px solid rgba(0,0,0,.12);border-radius:12px;padding:12px 14px 12px 32px;
+  font-size:15px;font-weight:500;width:100%;outline:none;
+  color:var(--ink,#111827);background:#fff;transition:border-color .2s;
+  font-family:var(--fm);-webkit-appearance:none;
+}
+.fl-tbill-input::placeholder{color:#AEAEB2;font-weight:400;font-family:var(--ff)}
+.fl-tbill-input:focus{border-color:var(--g,#22C55E)}
+
+.fl-tbill-tenor-row{display:flex;gap:8px;margin-bottom:4px}
+.fl-tbill-tenor-chip{
+  flex:1;font-family:var(--ff);font-size:12px;font-weight:700;text-align:center;
+  padding:11px 6px;border-radius:12px;cursor:pointer;
+  border:1.5px solid rgba(0,0,0,.1);background:#fff;color:var(--ink2,#374151);transition:all .15s;
+}
+.fl-tbill-tenor-chip:hover{border-color:rgba(0,0,0,.2)}
+.fl-tbill-tenor-chip.active{background:var(--gx,#14532D);border-color:var(--gx,#14532D);color:#fff}
+.fl-tbill-tenor-rate{display:block;font-size:10px;font-weight:500;opacity:.7;margin-top:2px}
+
+.fl-tbill-results{margin-top:18px;padding-top:18px;border-top:1px solid rgba(0,0,0,.06);display:none}
+.fl-tbill-results.show{display:block;animation:fl-tbill-in .35s ease both}
+@keyframes fl-tbill-in{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
+
+.fl-tbill-row{display:flex;justify-content:space-between;align-items:center;padding:9px 0;font-size:13px}
+.fl-tbill-row + .fl-tbill-row{border-top:1px dashed rgba(0,0,0,.06)}
+.fl-tbill-row-label{font-family:var(--ff);color:var(--ink2,#374151);display:flex;align-items:center;gap:6px}
+.fl-tbill-row-label .fl-tbill-info{
+  width:14px;height:14px;border-radius:50%;background:var(--bd2,#F3F4F6);
+  color:var(--ink3,#6B7280);font-size:9px;font-weight:700;
+  display:inline-flex;align-items:center;justify-content:center;cursor:help;
+}
+.fl-tbill-row-val{font-family:var(--ff);font-weight:700;color:var(--ink,#111827);font-variant-numeric:tabular-nums}
+
+.fl-tbill-row.mature{
+  background:var(--gl,#F0FDF4);margin:12px -24px -26px;padding:16px 24px;
+  border-top:1px solid rgba(0,0,0,.06);border-radius:0 0 20px 20px;
+}
+.fl-tbill-row.mature .fl-tbill-row-label{color:var(--gd,#15803D);font-weight:700;font-size:13.5px}
+.fl-tbill-row.mature .fl-tbill-row-val{color:var(--gd,#15803D);font-size:18px;font-weight:800}
+
+.fl-tbill-explainer{font-family:var(--ff);font-size:12px;color:var(--ink3,#6B7280);line-height:1.65;margin-top:16px;padding-top:16px;border-top:1px dashed rgba(0,0,0,.06)}
+.fl-tbill-explainer b{color:var(--ink2,#374151);font-weight:600}
+
+.fl-tbill-used-badge{font-family:var(--ff);display:none;align-items:center;gap:6px;font-size:12.5px;font-weight:600;color:var(--gd,#15803D);margin-top:14px}
+.fl-tbill-used-badge.show{display:flex}
+
+
+  
+    /* ── Practice with your yungsta (embedded simulator) ── */
+    .fl-practice{background:#fff;border:1px solid #E5E7EB;border-radius:16px;margin:18px 0;overflow:hidden;box-shadow:0 1px 3px rgba(0,0,0,.06)}
+    .fl-practice-hd{display:flex;align-items:center;gap:12px;padding:14px 16px}
+    .fl-practice-ic{font-size:26px;flex:none}
+    .fl-practice-t{font-size:15px;font-weight:800;color:#111827}
+    .fl-practice-s{font-size:12.5px;color:#6B7280;line-height:1.5;margin-top:2px}
+    .fl-practice-chip{margin-left:auto;flex:none;font-size:11px;font-weight:800;letter-spacing:.3px;text-transform:uppercase;padding:4px 10px;border-radius:99px;background:#FEF3C7;color:#92400E}
+    .fl-practice-chip.done{background:#DCFCE7;color:#14532D}.fl-practice-chip.skipped{background:#F3F4F6;color:#6B7280}
+    .fl-practice-body{padding:0 16px 16px}
+    .fl-practice-go{width:100%;min-height:50px;border:0;border-radius:14px;background:#16A34A;color:#fff;font:700 16px 'DM Sans',system-ui,sans-serif;cursor:pointer}
+    .fl-practice-go.alt{background:#F3F4F6;color:#374151;margin-top:8px}
+    .fl-practice-note{font-size:13.5px;color:#374151;line-height:1.55;background:#F9FAFB;border-radius:12px;padding:12px 14px;margin-bottom:10px}
+</style>
+
+
+
+</head><body>
+
+<!-- ══ COVER ══ -->
+<div class="cover" id="s-cover">
+  <div class="orb orb-glow"></div><div class="orb orb-1"></div><div class="orb orb-2"></div>
+  <div class="orb orb-3"></div><div class="orb orb-4"></div><div class="orb orb-5"></div><div class="orb orb-6"></div>
+  <div class="vignette"></div><div class="grain"></div>
+  <span class="cover-tag">Phase 2 — Building & Protecting Wealth</span>
+  <div class="cover-content">
+    <h1 class="cover-headline">Basics of</h1>
+    <span class="cover-headline-accent">Investing.</span>
+    <p class="cover-subline">Module 2.1</p>
+  </div>
+  <div class="cover-bottom-bar">
+    <div class="cover-pills">
+      <span class="pill">📊 3 real calculators</span>
+      <span class="pill">⏱ 6 minutes</span>
+      <span class="pill">🎯 The investment ladder</span>
+      <span class="pill">🎯 5 sections</span>
+    </div>
+    <a href="#s0" class="cta-btn"><span class="btn-text">Begin Module</span><span class="btn-arrow">→</span></a>
+  </div>
+</div>
+
+<div class="dots">
+  <a href="#s0" class="nd nd-0" title="Chama's Story"></a>
+  <a href="#s1" class="nd nd-1" title="Risk & Return"></a>
+  <a href="#s2" class="nd nd-2" title="Treasury Bills"></a>
+  <a href="#s3" class="nd nd-3" title="Build a Portfolio"></a>
+  <a href="#s4" class="nd nd-4" title="Quiz"></a>
+</div>
+
+<div class="fl-rail" id="fl-rail" onclick="FLRail.toggle()">
+  <div class="fl-rail-seg" data-seg="s0"></div><div class="fl-rail-seg" data-seg="s1"></div>
+  <div class="fl-rail-seg" data-seg="s2"></div><div class="fl-rail-seg" data-seg="s3"></div>
+  <div class="fl-rail-seg" data-seg="s4"></div>
+  <div class="fl-rail-seg fl-rail-seg-quiz" id="fl-rail-quiz-seg"></div>
+</div>
+<div class="fl-rail-backdrop" id="fl-rail-backdrop" onclick="FLRail.close()"></div>
+<div class="fl-rail-panel" id="fl-rail-panel">
+  <div class="fl-rail-panel-hd"><span>Your Progress</span><span class="fl-rail-panel-close" onclick="FLRail.close()">✕</span></div>
+  <a href="#s0" class="fl-rail-item" data-item="s0"><span class="fl-rail-item-dot"></span>Chama's Story</a>
+  <a href="#s1" class="fl-rail-item" data-item="s1"><span class="fl-rail-item-dot"></span>Risk & Return</a>
+  <a href="#s2" class="fl-rail-item" data-item="s2"><span class="fl-rail-item-dot"></span>Treasury Bills</a>
+  <a href="#s3" class="fl-rail-item" data-item="s3"><span class="fl-rail-item-dot"></span>Build a Portfolio</a>
+  <a href="#s4" class="fl-rail-item" data-item="s4"><span class="fl-rail-item-dot"></span>Quiz</a>
+  <div class="fl-rail-quiz-block"><div class="fl-rail-quiz-label">Quiz score</div><div class="fl-rail-quiz-val" id="fl-rail-quiz-val">Not started</div></div>
+</div>
+<div class="fl-resume-banner" id="fl-resume-banner"><span class="fl-resume-dot"></span><span>Welcome back — continue where you left off</span><a href="#s0" id="fl-resume-link">Resume</a></div>
+
+<!-- ══ S0 — CHAMA'S STORY ══ -->
+<div class="section" id="s0">
+  <div style="margin:0 0 24px">
+    <div style="display:flex;align-items:center;gap:8px;margin-bottom:12px">
+      <div style="height:1px;flex:1;background:linear-gradient(to right,#E5E7EB,transparent)"></div>
+      <span style="font-size:10px;font-weight:700;color:#9CA3AF;letter-spacing:2px;text-transform:uppercase">Module Video</span>
+      <div style="height:1px;flex:1;background:linear-gradient(to left,#E5E7EB,transparent)"></div>
+    </div>
+    <div style="border-radius:16px;overflow:hidden;box-shadow:0 8px 32px rgba(0,0,0,0.12),0 2px 8px rgba(0,0,0,0.08),0 0 0 1.5px rgba(34,197,94,0.15)">
+      <div style="position:relative;width:100%;padding-bottom:56.25%;height:0;background:#0a0a0a">
+        <iframe src="https://www.youtube.com/embed/WBFzLn11WNg?rel=0&modestbranding=1&color=white" title="FinLit Zambia — Module 2.1 Video" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen style="position:absolute;top:0;left:0;width:100%;height:100%;border:none"></iframe>
+      </div>
+      <div style="background:#fff;padding:12px 16px;display:flex;align-items:center;gap:10px;border-top:1px solid #F3F4F6">
+        <div style="width:32px;height:32px;border-radius:8px;background:#F0FDF4;border:1px solid #D1FAE5;display:flex;align-items:center;justify-content:center;font-size:15px;flex-shrink:0">🎬</div>
+        <div style="flex:1"><div style="font-size:12.5px;font-weight:700;color:#111827;margin-bottom:1px">Watch before you teach</div><div style="font-size:11px;color:#9CA3AF">Overview only · Full content is inside the module</div></div>
+      </div>
+      <div style="background:#FDF8EC;border-top:1px solid rgba(201,168,60,0.25);padding:10px 16px;display:flex;gap:10px;align-items:flex-start">
+        <span style="font-size:14px;flex-shrink:0">📌</span>
+        <div style="font-size:11.5px;color:#7a5c00;line-height:1.65"><strong style="font-weight:700">Note:</strong> This video was produced using an AI-powered tool and is a supplementary overview only. Some details may be simplified — always treat the module as your primary preparation source.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="sec-timer">Opening</div>
+  <div class="kicker">The Opening Problem</div>
+  <h2 class="sh2">Chama kept all her savings in cash for three years. Inflation quietly ate a third of its value.</h2>
+  <p class="slead">Saving protects what you have. Investing is what makes it grow faster than prices rise. This module walks the ladder from safest to riskiest — and gives you the exact tools to build a portfolio that matches your own risk tolerance.</p>
+
+  <details style="margin:16px 0;border-radius:20px;overflow:hidden;box-shadow:0 2px 20px rgba(0,0,0,.08),0 0 0 1px rgba(0,0,0,.06)">
+    <summary style="background:rgba(255,255,255,.72);backdrop-filter:blur(20px) saturate(180%);padding:14px 18px;cursor:pointer;list-style:none;display:flex;align-items:center;gap:12px;font-weight:700;font-size:13.5px;color:var(--ink)">
+      <span>👩‍🏫</span> Facilitator Note — Opening (4 min)
+    </summary>
+    <div style="background:#fff;padding:16px 18px;font-size:12.5px;color:var(--ink2);line-height:1.75">
+      <strong>Opening question:</strong> "If you kept K1,000 in cash under your mattress for 3 years, would you still be able to buy the same things with it?" Most say yes — this is the exact misconception Chama's story corrects. Cash loses real value every year inflation exceeds 0%.<br><br>
+      <strong>Key framing:</strong> This module doesn't push any single investment — it builds the judgment to compare risk and return across several real, accessible Zambian options.
+    </div>
+  </details>
+
+  <div class="story">
+    <div class="story-hdr">
+      <div class="story-av">C</div>
+      <div><div class="story-nm">Chama Musonda</div><div class="story-tg">26 · Nurse · Kabwe</div></div>
+    </div>
+    <div class="story-body">
+      Chama saved K400 every month for three years — K14,400 total, sitting safely in a savings account earning almost nothing. She felt responsible. Disciplined, even.<br><br>
+      Then a colleague mentioned Treasury Bills — the same government-backed safety Chama valued, but actually earning a real return. Chama realised she hadn't lost her money to theft or fraud. She'd lost purchasing power to inflation, quietly, every single month, without ever noticing.<br><br>
+      <strong>This module is about making your money's safety and its growth work together, not against each other.</strong>
+    </div>
+  </div>
+
+  <div class="box green"><b>🎯 By end of this module:</b>(1) Compare risk and return across savings, Treasury Bills, government bonds, and LuSE shares. (2) Calculate a real T-Bill return including withholding tax. (3) Build and evaluate a diversified investment portfolio matched to your own risk tolerance.</div>
+
+  <div class="box gold"><b>💡 The Investment Ladder</b>Emergency fund (Module 1.3) → Treasury Bills → Government Bonds → LuSE Shares. Each step up trades some safety for higher expected return. Never skip the emergency fund step.</div>
+
+  <div class="sec-nav"><span class="btn btn-dis"><span>← Back</span></span><a href="#s1" class="btn btn-p"><span>Risk & Return →</span></a></div>
+</div>
+
+<!-- ══ S1 — RISK & RETURN DIAL ══ -->
+<div class="section" id="s1">
+  <div class="sec-timer">Interactive</div>
+  <div class="kicker">Core Concept 1</div>
+  <h2 class="sh2">Where Does Each Investment Sit on the Risk Spectrum?</h2>
+  <p class="slead">Every investment trades safety for potential growth somewhere along this line. There's no universally "best" position — only the position that matches your own goals and timeline.</p>
+
+  <details style="margin:16px 0;border-radius:20px;overflow:hidden;box-shadow:0 2px 20px rgba(0,0,0,.08),0 0 0 1px rgba(0,0,0,.06)">
+    <summary style="background:rgba(255,255,255,.72);backdrop-filter:blur(20px) saturate(180%);padding:14px 18px;cursor:pointer;list-style:none;display:flex;align-items:center;gap:12px;font-weight:700;font-size:13.5px;color:var(--ink)">
+      <span>👩‍🏫</span> Facilitator Note — Risk Spectrum (5 min)
+    </summary>
+    <div style="background:#fff;padding:16px 18px;font-size:12.5px;color:var(--ink2);line-height:1.75">
+      <strong>Key point:</strong> risk and return move together — you cannot get LuSE-level returns with savings-account-level safety. Anyone offering that combination is describing a scam, not an investment (a direct callback to Module U4's crypto scam framework).
+    </div>
+  </details>
+
+  <div class="fl-dial" id="fl-dial-tool">
+  <div class="fl-dial-tag">FinLit Zambia · Interactive Risk Map</div>
+  <div class="fl-dial-title">Where Does It Sit on the Spectrum?</div>
+  <div class="fl-dial-sub">Tap an investment type below. Watch the needle move to show where it really sits between low and high risk.</div>
+
+  <div class="fl-dial-divider">
+    <div class="fl-dial-wrap">
+      <svg width="220" height="130" viewBox="0 0 220 130" style="position:absolute;inset:0">
+        <path d="M15 118 A95 95 0 0 1 85 30" fill="none" stroke="#22C55E" stroke-width="16" stroke-linecap="round"/>
+        <path d="M85 30 A95 95 0 0 1 135 30" fill="none" stroke="#C9A83C" stroke-width="16" stroke-linecap="round"/>
+        <path d="M135 30 A95 95 0 0 1 205 118" fill="none" stroke="#EF4444" stroke-width="16" stroke-linecap="round"/>
+        <text x="15" y="128" font-family="DM Sans" font-size="10" font-weight="700" fill="#15803D">LOW</text>
+        <text x="97" y="16" font-family="DM Sans" font-size="10" font-weight="700" fill="#92400E" text-anchor="middle">MEDIUM</text>
+        <text x="205" y="128" font-family="DM Sans" font-size="10" font-weight="700" fill="#B91C1C" text-anchor="end">HIGH</text>
+      </svg>
+      <div class="fl-dial-needle" id="fl-dial-needle"></div>
+      <div class="fl-dial-center"></div>
+    </div>
+
+    <div class="fl-dial-active-label" id="fl-dial-active-label">Tap an investment to begin</div>
+    <div class="fl-dial-active-desc" id="fl-dial-active-desc">&nbsp;</div>
+
+    <div class="fl-dial-chips">
+      <button class="fl-dial-chip" data-key="savings" onclick="FLRiskDial.select('savings', this)">
+        <span class="fl-dial-chip-dot" style="background:#22C55E"></span>Savings Account
+      </button>
+      <button class="fl-dial-chip" data-key="tbill" onclick="FLRiskDial.select('tbill', this)">
+        <span class="fl-dial-chip-dot" style="background:#22C55E"></span>Treasury Bills
+      </button>
+      <button class="fl-dial-chip" data-key="bonds" onclick="FLRiskDial.select('bonds', this)">
+        <span class="fl-dial-chip-dot" style="background:#C9A83C"></span>Government Bonds
+      </button>
+      <button class="fl-dial-chip" data-key="property" onclick="FLRiskDial.select('property', this)">
+        <span class="fl-dial-chip-dot" style="background:#C9A83C"></span>Property
+      </button>
+      <button class="fl-dial-chip" data-key="luse" onclick="FLRiskDial.select('luse', this)">
+        <span class="fl-dial-chip-dot" style="background:#C9A83C"></span>LuSE Shares
+      </button>
+      <button class="fl-dial-chip" data-key="crypto" onclick="FLRiskDial.select('crypto', this)">
+        <span class="fl-dial-chip-dot" style="background:#EF4444"></span>Cryptocurrency
+      </button>
+    </div>
+
+    <div class="fl-dial-used-badge" id="fl-dial-used-badge">
+      ✅ Explored — counts toward your certificate
+    </div>
+  </div>
+</div>
+
+  <div class="sec-nav"><a href="#s0" class="btn btn-s"><span>← Back</span></a><a href="#s2" class="btn btn-p"><span>Treasury Bills →</span></a></div>
+</div>
+
+<!-- ══ S2 — TREASURY BILLS ══ -->
+<div class="section" id="s2">
+  <div class="sec-timer">Interactive</div>
+  <div class="kicker">Core Concept 2</div>
+  <h2 class="sh2">Treasury Bills — Government-Backed, Real Returns</h2>
+  <p class="slead">T-Bills are short-term government debt — you're lending money to the Zambian government for a fixed period, at a fixed rate, with virtually no default risk.</p>
+
+  <details style="margin:16px 0;border-radius:20px;overflow:hidden;box-shadow:0 2px 20px rgba(0,0,0,.08),0 0 0 1px rgba(0,0,0,.06)">
+    <summary style="background:rgba(255,255,255,.72);backdrop-filter:blur(20px) saturate(180%);padding:14px 18px;cursor:pointer;list-style:none;display:flex;align-items:center;gap:12px;font-weight:700;font-size:13.5px;color:var(--ink)">
+      <span>👩‍🏫</span> Facilitator Note — T-Bills (7 min)
+    </summary>
+    <div style="background:#fff;padding:16px 18px;font-size:12.5px;color:var(--ink2);line-height:1.75">
+      <strong>Rates change every 2 weeks at auction — emphasise this explicitly.</strong> The rates shown are representative of the 2025-2026 range, not a permanent fixed number. Always check boz.zm for the live current rate before actually investing.<br><br>
+      <strong>The withholding tax step is the part most people miss</strong> — a 15% tax applies to T-Bill interest for domestic individual investors. Walk through the gross-to-net calculation explicitly.
+    </div>
+  </details>
+
+  <div class="cc blue"><div class="cc-ic">🏛️</div><div class="cc-t">4 Available Tenors</div><div class="cc-b">T-Bills come in 91-day, 182-day, 273-day, and 364-day terms. Longer terms typically pay higher rates, but lock your money up longer. Minimum investment: K1.</div></div>
+
+  <div class="fl-tbill" id="fl-tbill-calc">
+  <div class="fl-tbill-tag">FinLit Zambia · Interactive Calculator</div>
+  <div class="fl-tbill-title">Treasury Bill Yield Calculator</div>
+  <div class="fl-tbill-sub">Enter an amount and choose a tenor. See exactly what you'd receive at maturity — and the effective annual yield.</div>
+
+  <div class="fl-tbill-divider">
+    <div class="fl-tbill-field">
+      <label class="fl-tbill-label">Investment Amount</label>
+      <div class="fl-tbill-input-wrap">
+        <span class="fl-tbill-currency">K</span>
+        <input type="number" class="fl-tbill-input" id="fl-tbill-amount" placeholder="5,000" inputmode="numeric" oninput="FLTBill.calculate()">
+      </div>
+    </div>
+
+    <label class="fl-tbill-label">Tenor</label>
+    <div class="fl-tbill-tenor-row">
+      <div class="fl-tbill-tenor-chip" data-days="91" data-rate="13.0" onclick="FLTBill.setTenor(this)">
+        91-day<span class="fl-tbill-tenor-rate">~13.0%</span>
+      </div>
+      <div class="fl-tbill-tenor-chip" data-days="182" data-rate="14.0" onclick="FLTBill.setTenor(this)">
+        182-day<span class="fl-tbill-tenor-rate">~14.0%</span>
+      </div>
+      <div class="fl-tbill-tenor-chip" data-days="273" data-rate="14.5" onclick="FLTBill.setTenor(this)">
+        273-day<span class="fl-tbill-tenor-rate">~14.5%</span>
+      </div>
+      <div class="fl-tbill-tenor-chip active" data-days="364" data-rate="15.0" onclick="FLTBill.setTenor(this)">
+        364-day<span class="fl-tbill-tenor-rate">~15.0%</span>
+      </div>
+    </div>
+    <div style="font-family:var(--ff);font-size:10.5px;color:var(--ink3,#6B7280);text-align:center;margin:8px 0 4px;line-height:1.5">⚠️ Representative rates based on recent 2025-2026 BoZ auctions — T-Bill yields are reset every 2 weeks at auction. Always verify the live rate at boz.zm before investing.</div>
+
+    <div class="fl-tbill-results" id="fl-tbill-results">
+      <div class="fl-tbill-row">
+        <div class="fl-tbill-row-label">Amount Invested</div>
+        <div class="fl-tbill-row-val" id="fl-tbill-out-amount">K 0</div>
+      </div>
+      <div class="fl-tbill-row">
+        <div class="fl-tbill-row-label">
+          Quoted Rate
+          <span class="fl-tbill-info" title="The rate quoted at auction for this tenor — based on recent Bank of Zambia auction results">i</span>
+        </div>
+        <div class="fl-tbill-row-val" id="fl-tbill-out-rate">0%</div>
+      </div>
+      <div class="fl-tbill-row">
+        <div class="fl-tbill-row-label">Interest Earned (Gross)</div>
+        <div class="fl-tbill-row-val" id="fl-tbill-out-interest">K 0</div>
+      </div>
+      <div class="fl-tbill-row">
+        <div class="fl-tbill-row-label">
+          Less: Withholding Tax (15%)
+          <span class="fl-tbill-info" title="Domestic individuals pay 15% withholding tax on T-Bill interest income">i</span>
+        </div>
+        <div class="fl-tbill-row-val" id="fl-tbill-out-tax" style="color:#DC2626">− K 0</div>
+      </div>
+      <div class="fl-tbill-row mature">
+        <div class="fl-tbill-row-label">Value at Maturity (Net)</div>
+        <div class="fl-tbill-row-val" id="fl-tbill-out-maturity">K 0</div>
+      </div>
+
+      <div class="fl-tbill-explainer">
+        <b>What this means:</b> <span id="fl-tbill-explainer-text">Enter an amount above to see your T-Bill return.</span>
+      </div>
+
+      <div class="fl-tbill-used-badge" id="fl-tbill-used-badge">
+        ✅ Calculator used — counts toward your certificate
+      </div>
+    </div>
+  </div>
+</div>
+
+  <div class="sec-nav"><a href="#s1" class="btn btn-s"><span>← Back</span></a><a href="#s3" class="btn btn-p"><span>Build a Portfolio →</span></a></div>
+</div>
+
+<!-- ══ S3 — PORTFOLIO BUILDER ══ -->
+<div class="section" id="s3">
+  <div class="sec-timer">Interactive</div>
+  <div class="kicker">Core Concept 3</div>
+  <h2 class="sh2">Build Your Own Diversified Portfolio</h2>
+  <p class="slead">Diversification — spreading money across different risk levels — reduces your exposure to any single investment failing. Build your own mix and see the projected outcome.</p>
+
+  <details style="margin:16px 0;border-radius:20px;overflow:hidden;box-shadow:0 2px 20px rgba(0,0,0,.08),0 0 0 1px rgba(0,0,0,.06)">
+    <summary style="background:rgba(255,255,255,.72);backdrop-filter:blur(20px) saturate(180%);padding:14px 18px;cursor:pointer;list-style:none;display:flex;align-items:center;gap:12px;font-weight:700;font-size:13.5px;color:var(--ink)">
+      <span>👩‍🏫</span> Facilitator Note — Portfolio Building (7 min)
+    </summary>
+    <div style="background:#fff;padding:16px 18px;font-size:12.5px;color:var(--ink2);line-height:1.75">
+      <strong>There's no single "correct" portfolio.</strong> A 19-year-old with 40 years to retirement can reasonably hold more LuSE exposure than someone 5 years from needing the money. Ask students to justify their own split, not just build one.<br><br>
+      <strong>Return assumptions used here</strong> (savings ~6%, T-Bills ~14%, LuSE ~20%, property ~10%) are representative long-run figures, cross-checked against Module U2's verified LASI performance data and Module 4.1's cited savings rate — not guaranteed future returns.
+    </div>
+  </details>
+
+  <div class="fl-port" id="fl-port-builder">
+  <div class="fl-port-tag">FinLit Zambia · Interactive Portfolio Tool</div>
+  <div class="fl-port-title">Build Your Own Portfolio</div>
+  <div class="fl-port-sub">Allocate your money across 4 asset classes. See a projected 10-year outcome based on realistic Zambian historical returns.</div>
+
+  <div class="fl-port-divider">
+    <div class="fl-port-field">
+      <label class="fl-port-label">Amount to Invest</label>
+      <div class="fl-port-input-wrap">
+        <span class="fl-port-currency">K</span>
+        <input type="number" class="fl-port-input" id="fl-port-amount" placeholder="10,000" value="10000" inputmode="numeric" oninput="FLPortfolio.render()">
+      </div>
+    </div>
+
+    <!-- Savings -->
+    <div class="fl-port-slider-group">
+      <div class="fl-port-slider-hdr">
+        <div class="fl-port-slider-name"><span class="fl-port-slider-dot savings"></span>Savings Account <span style="color:var(--ink4,#9CA3AF);font-weight:500">~6%/yr</span></div>
+        <div><span class="fl-port-slider-val" id="fl-port-savings-pct">25%</span><span class="fl-port-slider-amt" id="fl-port-savings-amt">K 0</span></div>
+      </div>
+      <input type="range" class="fl-port-slider savings" id="fl-port-savings-slider" min="0" max="100" value="25" oninput="FLPortfolio.onSliderChange('savings')">
+    </div>
+
+    <!-- T-Bills -->
+    <div class="fl-port-slider-group">
+      <div class="fl-port-slider-hdr">
+        <div class="fl-port-slider-name"><span class="fl-port-slider-dot tbill"></span>Treasury Bills <span style="color:var(--ink4,#9CA3AF);font-weight:500">~14%/yr</span></div>
+        <div><span class="fl-port-slider-val" id="fl-port-tbill-pct">25%</span><span class="fl-port-slider-amt" id="fl-port-tbill-amt">K 0</span></div>
+      </div>
+      <input type="range" class="fl-port-slider tbill" id="fl-port-tbill-slider" min="0" max="100" value="25" oninput="FLPortfolio.onSliderChange('tbill')">
+    </div>
+
+    <!-- LuSE -->
+    <div class="fl-port-slider-group">
+      <div class="fl-port-slider-hdr">
+        <div class="fl-port-slider-name"><span class="fl-port-slider-dot luse"></span>LuSE Shares <span style="color:var(--ink4,#9CA3AF);font-weight:500">~20%/yr</span></div>
+        <div><span class="fl-port-slider-val" id="fl-port-luse-pct">25%</span><span class="fl-port-slider-amt" id="fl-port-luse-amt">K 0</span></div>
+      </div>
+      <input type="range" class="fl-port-slider luse" id="fl-port-luse-slider" min="0" max="100" value="25" oninput="FLPortfolio.onSliderChange('luse')">
+    </div>
+
+    <!-- Property -->
+    <div class="fl-port-slider-group" style="margin-bottom:4px">
+      <div class="fl-port-slider-hdr">
+        <div class="fl-port-slider-name"><span class="fl-port-slider-dot property"></span>Property <span style="color:var(--ink4,#9CA3AF);font-weight:500">~10%/yr</span></div>
+        <div><span class="fl-port-slider-val" id="fl-port-property-pct">25%</span><span class="fl-port-slider-amt" id="fl-port-property-amt">K 0</span></div>
+      </div>
+      <input type="range" class="fl-port-slider property" id="fl-port-property-slider" min="0" max="100" value="25" oninput="FLPortfolio.onSliderChange('property')">
+    </div>
+
+    <div class="fl-port-bar">
+      <div class="fl-port-bar-seg savings" id="fl-port-bar-savings" style="flex:25"></div>
+      <div class="fl-port-bar-seg tbill" id="fl-port-bar-tbill" style="flex:25"></div>
+      <div class="fl-port-bar-seg luse" id="fl-port-bar-luse" style="flex:25"></div>
+      <div class="fl-port-bar-seg property" id="fl-port-bar-property" style="flex:25"></div>
+    </div>
+
+    <div class="fl-port-total-row">
+      <div class="fl-port-total-label">Total allocated</div>
+      <div class="fl-port-total-val zero" id="fl-port-total">100%</div>
+    </div>
+
+    <div class="fl-port-results">
+      <div class="fl-port-projection">
+        <div class="fl-port-proj-card">
+          <div class="fl-port-proj-label">Projected in 10 years</div>
+          <div class="fl-port-proj-val" id="fl-port-proj-value">K 0</div>
+          <div class="fl-port-proj-sub" id="fl-port-proj-return">weighted blended return</div>
+        </div>
+        <div class="fl-port-proj-card" style="background:var(--bd2,#F3F4F6);border-color:transparent">
+          <div class="fl-port-proj-label" style="color:var(--ink3,#6B7280)">Total Growth</div>
+          <div class="fl-port-proj-val" style="color:var(--ink2,#374151)" id="fl-port-proj-growth">K 0</div>
+          <div class="fl-port-proj-sub" style="color:var(--ink3,#6B7280)">above your original amount</div>
+        </div>
+      </div>
+
+      <div class="fl-port-risk-row" id="fl-port-risk-row">
+        <div class="fl-port-risk-label">Portfolio Risk Level</div>
+        <div class="fl-port-risk-val" id="fl-port-risk-val">Balanced</div>
+      </div>
+
+      <div class="fl-port-explainer">
+        <b>What this means:</b> <span id="fl-port-explainer-text">Adjust the sliders above to see how allocation changes your outcome.</span>
+      </div>
+
+      <div class="fl-port-used-badge" id="fl-port-used-badge">
+        ✅ Portfolio built — counts toward your certificate
+      </div>
+    </div>
+  </div>
+</div>
+
+  <div class="sec-nav"><a href="#s2" class="btn btn-s"><span>← Back</span></a><a href="#s4" class="btn btn-p"><span>Quiz →</span></a></div>
+</div>
+
+<!-- ══ S4 — QUIZ + CERT ══ -->
+<div class="section" id="s4">
+  <div class="sec-timer">Assessment</div>
+  <div class="kicker">Check Your Understanding</div>
+  <h2 class="sh2">Quick Fire — 5 Questions</h2>
+
+  <div class="fl-quiz-results" id="fl-quiz-results-display" style="display:none">
+    <div class="fl-quiz-results-score" id="fl-quiz-score-display">0/5</div>
+    <div class="fl-quiz-results-pct" id="fl-quiz-pct-display"></div>
+    <div class="fl-quiz-results-msg" id="fl-quiz-msg-display"></div>
+  </div>
+
+  <div class="qz-card"><div class="qz-hd"><div class="qz-n">1</div><div class="qz-ht">Question 1 of 5</div></div><div class="qz-body">
+  <div class="qz-q">Why did Chama lose purchasing power even though her savings balance never decreased?</div>
+  <input type="radio" name="q1" id="q1a" class="qr" onchange="answerQuiz(this,'q1',false)"><label for="q1a" class="qo"><span>Her bank charged hidden fees</span></label><div class="qfb">❌ The story is about inflation, not bank fees.</div>
+  <input type="radio" name="q1" id="q1b" class="qr right" onchange="answerQuiz(this,'q1',true)"><label for="q1b" class="qo"><span>Inflation reduced what her fixed kwacha amount could buy over time</span></label><div class="qfb">✅ Correct! Her balance stayed the same number, but that number could buy less every year.</div>
+  <input type="radio" name="q1" id="q1c" class="qr" onchange="answerQuiz(this,'q1',false)"><label for="q1c" class="qo"><span>She was scammed</span></label><div class="qfb">❌ No scam occurred — this is the quiet, ordinary effect of inflation.</div>
+  <input type="radio" name="q1" id="q1d" class="qr" onchange="answerQuiz(this,'q1',false)"><label for="q1d" class="qo"><span>The kwacha appreciated against the dollar</span></label><div class="qfb">❌ Currency appreciation would work in the opposite direction.</div>
+  </div></div>
+
+  <div class="qz-card"><div class="qz-hd"><div class="qz-n">2</div><div class="qz-ht">Question 2 of 5</div></div><div class="qz-body">
+  <div class="qz-q">You invest K5,000 in a 182-day T-Bill at a 14% annualised rate. Approximately how much gross interest do you earn over the 182 days (before tax)?</div>
+  <input type="radio" name="q2" id="q2a" class="qr" onchange="answerQuiz(this,'q2',false)"><label for="q2a" class="qo"><span>K700 — the full annual rate applied directly</span></label><div class="qfb">❌ 14% is an annualised rate — you must adjust it for the actual 182-day holding period.</div>
+  <input type="radio" name="q2" id="q2b" class="qr right" onchange="answerQuiz(this,'q2',true)"><label for="q2b" class="qo"><span>~K349 — K5,000 × 14% × (182÷365)</span></label><div class="qfb">✅ Correct! The annualised rate is scaled down to the actual number of days you hold the bill.</div>
+  <input type="radio" name="q2" id="q2c" class="qr" onchange="answerQuiz(this,'q2',false)"><label for="q2c" class="qo"><span>K5,700 — principal plus a flat 14%</span></label><div class="qfb">❌ This treats the annual rate as if it applied to the full period, not adjusted for 182 days.</div>
+  <input type="radio" name="q2" id="q2d" class="qr" onchange="answerQuiz(this,'q2',false)"><label for="q2d" class="qo"><span>K0 — T-Bills only pay out at the 364-day tenor</span></label><div class="qfb">❌ All four tenors pay interest at maturity, including 182-day bills.</div>
+  </div></div>
+
+  <div class="qz-card"><div class="qz-hd"><div class="qz-n">3</div><div class="qz-ht">Question 3 of 5</div></div><div class="qz-body">
+  <div class="qz-q">What percentage withholding tax applies to T-Bill interest for a domestic individual investor?</div>
+  <input type="radio" name="q3" id="q3a" class="qr" onchange="answerQuiz(this,'q3',false)"><label for="q3a" class="qo"><span>0% — T-Bills are entirely tax-free</span></label><div class="qfb">❌ A 15% withholding tax applies — T-Bills are not tax-free.</div>
+  <input type="radio" name="q3" id="q3b" class="qr right" onchange="answerQuiz(this,'q3',true)"><label for="q3b" class="qo"><span>15%</span></label><div class="qfb">✅ Correct! This is deducted from the interest earned, not the principal — always calculate your NET return.</div>
+  <input type="radio" name="q3" id="q3c" class="qr" onchange="answerQuiz(this,'q3',false)"><label for="q3c" class="qo"><span>30%</span></label><div class="qfb">❌ 30% is not the correct T-Bill withholding rate.</div>
+  <input type="radio" name="q3" id="q3d" class="qr" onchange="answerQuiz(this,'q3',false)"><label for="q3d" class="qo"><span>37% — same as the top PAYE band</span></label><div class="qfb">❌ T-Bill withholding tax is a separate, lower rate from PAYE bands.</div>
+  </div></div>
+
+  <div class="qz-card"><div class="qz-hd"><div class="qz-n">4</div><div class="qz-ht">Question 4 of 5</div></div><div class="qz-body">
+  <div class="qz-q">Why does diversification (spreading money across savings, T-Bills, and LuSE shares) reduce risk?</div>
+  <input type="radio" name="q4" id="q4a" class="qr" onchange="answerQuiz(this,'q4',false)"><label for="q4a" class="qo"><span>It guarantees higher total returns</span></label><div class="qfb">❌ Diversification manages risk — it doesn't guarantee higher returns.</div>
+  <input type="radio" name="q4" id="q4b" class="qr right" onchange="answerQuiz(this,'q4',true)"><label for="q4b" class="qo"><span>If one investment performs poorly, the others may offset the loss, reducing overall exposure to any single failure</span></label><div class="qfb">✅ Correct! This is the core principle behind spreading risk across multiple asset types.</div>
+  <input type="radio" name="q4" id="q4c" class="qr" onchange="answerQuiz(this,'q4',false)"><label for="q4c" class="qo"><span>It eliminates all investment risk entirely</span></label><div class="qfb">❌ No investment strategy eliminates risk completely.</div>
+  <input type="radio" name="q4" id="q4d" class="qr" onchange="answerQuiz(this,'q4',false)"><label for="q4d" class="qo"><span>It avoids the need for an emergency fund</span></label><div class="qfb">❌ An emergency fund (Module 1.3) remains essential regardless of portfolio diversification.</div>
+  </div></div>
+
+  <div class="qz-card"><div class="qz-hd"><div class="qz-n">5</div><div class="qz-ht">Question 5 of 5</div></div><div class="qz-body">
+  <div class="qz-q">Someone offers an investment promising LuSE-level returns with savings-account-level safety and no risk of loss. What should you conclude?</div>
+  <input type="radio" name="q5" id="q5a" class="qr" onchange="answerQuiz(this,'q5',false)"><label for="q5a" class="qo"><span>This is a rare but genuine opportunity</span></label><div class="qfb">❌ Risk and return move together — this combination doesn't exist legitimately.</div>
+  <input type="radio" name="q5" id="q5b" class="qr right" onchange="answerQuiz(this,'q5',true)"><label for="q5b" class="qo"><span>This is almost certainly fraudulent — high return with no risk is not a real combination</span></label><div class="qfb">✅ Correct! This is the exact same red flag covered in Module U4's crypto scam framework — applies to any investment claim.</div>
+  <input type="radio" name="q5" id="q5c" class="qr" onchange="answerQuiz(this,'q5',false)"><label for="q5c" class="qo"><span>It depends on which broker is offering it</span></label><div class="qfb">❌ The mathematical impossibility of the claim doesn't change based on who's offering it.</div>
+  <input type="radio" name="q5" id="q5d" class="qr" onchange="answerQuiz(this,'q5',false)"><label for="q5d" class="qo"><span>This is only possible through a REIT</span></label><div class="qfb">❌ REITs (Module U1) don't offer this risk-free high-return combination either.</div>
+  </div></div>
+
+  <div style="text-align:center;margin:16px 0"><button id="fl-retake-quiz" class="btn btn-s" style="display:none" onclick="resetQuiz()"><span>↺ Retake Quiz</span></button></div>
+
+  <div class="kicker" style="margin-top:24px">Discussion Questions</div>
+  <div class="dq"><div class="dq-n">1</div><div class="dq-t">Chama didn't realise she was losing money to inflation for three years. What other everyday financial decisions might have similar hidden costs?</div></div>
+  <div class="dq"><div class="dq-n">2</div><div class="dq-t">If you had K2,000 today, what mix would you choose across savings, T-Bills, and LuSE shares — and why that specific mix?</div></div>
+  <div class="dq"><div class="dq-n">3</div><div class="dq-t">T-Bill rates change every 2 weeks. How should that uncertainty affect how you plan around them?</div></div>
+
+  <div class="kicker" style="margin-top:24px">Key Terms</div>
+  <div class="terms">
+    <div class="term"><div class="term-w">Treasury Bill (T-Bill)</div><div class="term-d">Short-term government debt. 4 tenors: 91/182/273/364 days. Minimum K1.</div></div>
+    <div class="term"><div class="term-w">Withholding Tax</div><div class="term-d">15% tax deducted from T-Bill interest for domestic individual investors.</div></div>
+    <div class="term"><div class="term-w">Diversification</div><div class="term-d">Spreading investments across asset types to reduce exposure to any single failure.</div></div>
+    <div class="term"><div class="term-w">Risk-Return Trade-off</div><div class="term-d">Higher potential returns generally require accepting higher risk of loss.</div></div>
+    <div class="term"><div class="term-w">Government Bond</div><div class="term-d">Longer-term government debt than T-Bills, typically 2+ years.</div></div>
+    <div class="term"><div class="term-w">Investment Ladder</div><div class="term-d">Emergency fund → T-Bills → Bonds → LuSE Shares, increasing risk at each step.</div></div>
+  </div>
+
+  <!-- CERT -->
+  <div class="fl-practice" id="fl-practice">
+  <div class="fl-practice-hd"><span class="fl-practice-ic">🎮</span>
+    <div><div class="fl-practice-t">Practice with your yungsta</div><div class="fl-practice-s">Put this lesson to work: a few quick calls with your yungsta. Do it after the quiz. It is part of your certificate.</div></div>
+    <span class="fl-practice-chip" id="fl-practice-chip">Required</span></div>
+  <div class="fl-practice-body" id="fl-practice-body"><button class="fl-practice-go" id="fl-practice-go" type="button">Start practice</button></div>
+</div>
+<div class="fl-cert" id="fl-cert-1">
+    <div class="fl-cert-tag">FinLit Zambia · Official Certificate</div>
+    <div class="fl-cert-title">Your Certificate of Completion</div>
+    <div class="fl-cert-sub">Complete every requirement below to unlock your certificate for Module 2.1.</div>
+    <div id="fl-cert-checklist"></div>
+    <div id="fl-cert-locked-area"></div>
+    <div class="fl-cert-unlock" id="fl-cert-unlock-area" style="display:none">
+      <div class="fl-cert-unlock-msg">All requirements met — your certificate is ready.</div>
+      <input type="text" class="fl-cert-name-input" id="fl-cert-name-input" placeholder="Type your full name">
+      <button class="fl-cert-claim-btn" onclick="openCertModal()">Generate My Certificate</button>
+    </div>
+  </div>
+
+  <!-- Single Community Wall button — not the first module of Phase 2 -->
+  <div class="fl-end-actions">
+    <a href="#fl-community-panel" class="fl-end-btn wall" onclick="FLPanels.open('community');return false;">
+      <span class="fl-end-btn-live">Live</span><span class="fl-end-btn-icon">🌍</span>
+      <span class="fl-end-btn-title">Community Wall</span><span class="fl-end-btn-sub">Be part of something growing</span>
+    </a>
+  </div>
+
+  <div class="sec-nav"><a href="#s3" class="btn btn-s"><span>← Back</span></a><span class="btn btn-dis"><span>Done ✓</span></span></div>
+</div>
+
+<div style="margin:0;padding:16px 20px 28px;border-top:1px solid var(--bd2);background:var(--bd2);margin-top:18px;border-radius:12px">
+  <p style="font-family:var(--ff);font-size:11px;color:var(--ink3);text-align:center;line-height:1.6;margin:0">
+    <strong>Disclaimer</strong> — The content in this module is intended for financial education purposes only and does not constitute financial, legal, or professional advice. Figures, rates, and statutory data have been sourced from publicly available information including ZRA, NAPSA, NHIMA, PACRA, the Bank of Zambia, the Lusaka Securities Exchange, and relevant Zambian legislation as at the date of publication. FinLit Zambia makes reasonable efforts to ensure accuracy but cannot guarantee that all information remains current. Users should verify figures directly with the relevant regulatory bodies before making any financial decisions. FinLit Zambia accepts no liability for decisions made on the basis of this content. — <strong>finlit-zm.org</strong>
+  </p>
+</div>
+
+<div class="fl-panel-backdrop" id="fl-panel-backdrop" onclick="FLPanels.close()"></div>
+<div class="fl-panel" id="fl-community-panel"><div class="fl-panel-bar"><div class="fl-panel-title">🌍 Community Wall</div><button class="fl-panel-close" onclick="FLPanels.close()">✕</button></div><iframe class="fl-panel-iframe" id="fl-community-iframe" allow="camera;microphone;geolocation;display-capture;clipboard-write" data-src="https://padlet.com/embed/86pfurt6iexup09i" title="FinLit Zambia Community Wall"></iframe></div>
+
+<div class="fl-panel" id="fl-practice-panel">
+  <div class="fl-panel-bar"><div class="fl-panel-title">🎮 Practice with your yungsta</div><button class="fl-panel-close" onclick="closePractice()" aria-label="Close">✕</button></div>
+  <div class="fl-practice-pbody" id="fl-practice-pbody"></div>
+</div>
+<div class="cert-backdrop" id="certBackdrop" onclick="closeCertModal()"></div>
+<div class="cert-sheet" id="certSheet">
+  <div class="cert-sheet-handle"></div>
+  <div class="cert-sheet-bar"><div class="cert-sheet-title">🎓 Certificate of Financial Literacy</div><button class="cert-sheet-close" onclick="closeCertModal()">✕</button></div>
+  <iframe class="cert-iframe" id="certIframe" src="" data-src="https://finlitzambia.github.io/finlit-certificates/module-2-1" title="FinLit Certificate Generator"></iframe>
+  <a class="cert-fallback" id="certFallback" href="#" target="_blank" rel="noopener">Certificate not showing? Open it in a new tab</a>
+</div>
+
+<script>window.FINLIT_MODULE={practice:true,moduleId:'module-2-1',sections:['s0','s1','s2','s3','s4'],quizTotalQuestions:5};</script>
+
+<script>
+(function () {
+  var CFG = window.FINLIT_MODULE || {};
+  var MODULE_ID = CFG.moduleId || 'module-0a';
+  var SECTION_IDS = CFG.sections || ['s0','s1','s2','s3','s4'];
+  var STORAGE_KEY = 'finlit-progress-' + MODULE_ID;
+
+  function getProgress() {
+    try {
+      var raw = localStorage.getItem(STORAGE_KEY);
+      return raw ? JSON.parse(raw) : blankProgress();
+    } catch (e) { return blankProgress(); }
+  }
+  function blankProgress() {
+    return { visited: {}, quizAnswers: {}, quizScore: null, estimate: {}, certificate: null };
+  }
+  function saveProgress(p) {
+    try { localStorage.setItem(STORAGE_KEY, JSON.stringify(p)); } catch (e) {}
+  }
+  function currentSectionFromHash() {
+    var h = window.location.hash.replace('#', '');
+    return h || SECTION_IDS[0] || null;
+  }
+  function markVisited(sectionId) {
+    if (!sectionId) return;
+    var p = getProgress();
+    if (!p.visited[sectionId]) { p.visited[sectionId] = true; saveProgress(p); }
+    renderAll();
+  }
+
+  // ── Practice with your yungsta: the simulator, shown inside this lesson ──
+  var SIM_BASE = './sim/';   // the simulator is served from the same address as the lessons (folder /sim/)
+  var SIM_ORIGIN = (function () { try { return new URL(SIM_BASE, window.location.href).origin; } catch (e) { return ''; } })();
+  var PRACTICE_LESSON = String((window.FINLIT_MODULE || {}).moduleId || '').replace(/^module-/, '');
+  function practiceState() { var p = getProgress(); return p.practice === true ? 'done' : (p.practice === 'skipped' ? 'skipped' : 'todo'); }
+  function renderPractice() {
+    var chip = document.getElementById('fl-practice-chip'), body = document.getElementById('fl-practice-body'); if (!chip || !body) return;
+    var st = practiceState();
+    chip.textContent = st === 'done' ? 'Complete ✓' : (st === 'skipped' ? 'Not available' : 'Required');
+    chip.className = 'fl-practice-chip ' + st;
+    if (st === 'done' && !document.getElementById('fl-practice-frame')) {
+      body.innerHTML = '<div class="fl-practice-note">Practice complete. Your yungsta has learned from this lesson.</div><button class="fl-practice-go alt" id="fl-practice-go" type="button">Practice again</button>';
+      document.getElementById('fl-practice-go').addEventListener('click', startPractice);
+    }
+    if (st === 'skipped' && !document.getElementById('fl-practice-frame')) {
+      body.innerHTML = '<div class="fl-practice-note">Practice was skipped. You can still try it whenever you like.</div><button class="fl-practice-go alt" id="fl-practice-go" type="button">Try practice again</button>';
+      document.getElementById('fl-practice-go').addEventListener('click', startPractice);
+    }
+  }
+  function completePractice(kind) {
+    var p = getProgress(); p.practice = (kind === 'skipped') ? 'skipped' : true; saveProgress(p); renderPractice(); renderAll();
+  }
+  function practiceBox() { return document.getElementById('fl-practice-pbody'); }
+  function closePractice() {
+    FLPanels.close();
+    var pb = practiceBox(); if (pb) pb.innerHTML = '';
+    renderPractice();
+  }
+  window.closePractice = closePractice;
+  function showPracticeNote(text, reason, allowSkip) {
+    var pb = practiceBox(); if (!pb) return;
+    pb.innerHTML = '<div class="fl-practice-note">' + text + (reason ? '<div class="fl-practice-code">Code: ' + String(reason).replace(/[^a-z0-9_-]/gi, '') + '</div>' : '') + '</div>' +
+      '<button class="fl-practice-go" id="fl-practice-retry" type="button">Try again</button>' +
+      (allowSkip ? '<button class="fl-practice-go alt" id="fl-practice-skip" type="button">Continue without practice</button>' : '');
+    document.getElementById('fl-practice-retry').addEventListener('click', startPractice);
+    var sk = document.getElementById('fl-practice-skip');
+    if (sk) sk.addEventListener('click', function () { completePractice('skipped'); closePractice(); });
+    FLPanels.open('practice');
+  }
+  function startPractice() {
+    var pb = practiceBox(); if (!pb) return;
+    if (navigator.onLine === false) { showPracticeNote('Practice needs an internet connection. Connect and try again.', '', false); return; }
+    pb.innerHTML = '<iframe id="fl-practice-frame" title="Practice with your yungsta" src="' + SIM_BASE + 'practice.html?embed=1&practice=' + encodeURIComponent(PRACTICE_LESSON) + '"></iframe>';
+    FLPanels.open('practice');
+  }
+  window.addEventListener('message', function (ev) {
+    if (!SIM_ORIGIN || ev.origin !== SIM_ORIGIN) return;
+    var d = ev.data; if (!d || d.source !== 'finlit-sim') return;
+    if (d.lesson && d.lesson !== PRACTICE_LESSON) return;
+    if (d.type === 'practice-complete') { completePractice('done'); }   // the sheet stays open on the "Practice complete" screen; closing it updates the lesson
+    if (d.type === 'practice-unavailable') {
+      showPracticeNote('Practice is not available right now. Try again in a moment. If it still does not load, you can continue without it so your certificate is not held up.', d.reason, true);
+    }
+  });
+  (function () { var g = document.getElementById('fl-practice-go'); if (g) g.addEventListener('click', startPractice); renderPractice(); })();
+
+  function lockQuestionGroup(qName) {
+    var radios = document.getElementsByName(qName);
+    for (var i = 0; i < radios.length; i++) radios[i].disabled = true;
+    var card = radios.length ? radios[0].closest('.qz-card') : null;
+    if (card) card.classList.add('fl-locked');
+  }
+
+  window.answerQuiz = function (inputEl, questionId, isCorrect) {
+    var p = getProgress();
+    if (p.quizAnswers[questionId]) return;
+    p.quizAnswers[questionId] = { correct: !!isCorrect, selectedId: inputEl.id };
+    saveProgress(p);
+    lockQuestionGroup(inputEl.name);
+
+    var totalQuestions = CFG.quizTotalQuestions || 5;
+    var answeredCount = Object.keys(p.quizAnswers).length;
+    if (answeredCount >= totalQuestions) {
+      var correct = 0;
+      for (var k in p.quizAnswers) if (p.quizAnswers[k].correct) correct++;
+      p.quizScore = { correct: correct, total: totalQuestions };
+      saveProgress(p);
+      showQuizResults(correct, totalQuestions);
+    }
+    maybeShowRetake(p);
+    renderAll();
+  };
+
+  function showQuizResults(correct, total) {
+    var pct = Math.round((correct / total) * 100);
+    var disp = document.getElementById('fl-quiz-results-display');
+    if (!disp) return;
+    document.getElementById('fl-quiz-score-display').textContent = correct + '/' + total;
+    document.getElementById('fl-quiz-pct-display').textContent = pct + '%';
+    var msg;
+    if (pct === 100) msg = 'Perfect score. You clearly understand every concept in this module.';
+    else if (pct >= 80) msg = 'Strong result — your certificate is now within reach.';
+    else msg = 'Good effort — review the sections above and retake the quiz whenever you\'re ready.';
+    document.getElementById('fl-quiz-msg-display').textContent = msg;
+    disp.style.display = 'block';
+  }
+
+  function maybeShowRetake(p) {
+    var totalQuestions = CFG.quizTotalQuestions || 5;
+    var answered = Object.keys(p.quizAnswers).length;
+    var btn = document.getElementById('fl-retake-quiz');
+    if (btn) btn.style.display = (answered >= totalQuestions) ? 'inline-flex' : 'none';
+  }
+
+  window.resetQuiz = function () {
+    var p = getProgress();
+    p.quizAnswers = {};
+    p.quizScore = null;
+    saveProgress(p);
+    document.querySelectorAll('.qz-card input[type="radio"]').forEach(function (r) {
+      r.checked = false; r.disabled = false;
+    });
+    document.querySelectorAll('.qz-card.fl-locked').forEach(function (c) {
+      c.classList.remove('fl-locked');
+    });
+    document.getElementById('fl-quiz-results-display').style.display = 'none';
+    var btn = document.getElementById('fl-retake-quiz');
+    if (btn) btn.style.display = 'none';
+    renderAll();
+    var results = document.querySelector('.fl-quiz-results');
+    if (results) results.scrollIntoView({ behavior: 'smooth', block: 'center' });
+  };
+
+  function restoreQuizLocks(p) {
+    for (var qid in p.quizAnswers) {
+      var answer = p.quizAnswers[qid];
+      if (!answer || !answer.selectedId) continue;
+      var input = document.getElementById(answer.selectedId);
+      if (input) { input.checked = true; lockQuestionGroup(input.name); }
+    }
+    maybeShowRetake(p);
+    if (p.quizScore) showQuizResults(p.quizScore.correct, p.quizScore.total);
+  }
+
+  function renderRail(p) {
+    var current = currentSectionFromHash();
+    SECTION_IDS.forEach(function (id) {
+      var seg = document.querySelector('.fl-rail-seg[data-seg="' + id + '"]');
+      if (seg) {
+        seg.classList.toggle('fl-seg-done', !!p.visited[id]);
+        seg.classList.toggle('fl-seg-current', id === current);
+      }
+      var item = document.querySelector('.fl-rail-item[data-item="' + id + '"]');
+      if (item) item.classList.toggle('fl-done', !!p.visited[id]);
+    });
+
+    var quizSeg = document.getElementById('fl-rail-quiz-seg');
+    var quizVal = document.getElementById('fl-rail-quiz-val');
+    var totalQuestions = CFG.quizTotalQuestions || 5;
+    var answered = Object.keys(p.quizAnswers).length;
+
+    if (quizSeg) {
+      quizSeg.classList.remove('fl-seg-partial', 'fl-seg-pass', 'fl-seg-fail');
+      if (answered > 0 && answered < totalQuestions) {
+        quizSeg.classList.add('fl-seg-partial');
+      } else if (answered >= totalQuestions && p.quizScore) {
+        var pct = p.quizScore.total ? (p.quizScore.correct / p.quizScore.total) : 0;
+        quizSeg.classList.add(pct >= 0.7 ? 'fl-seg-pass' : 'fl-seg-fail');
+      }
+    }
+    if (quizVal) {
+      quizVal.textContent = (!p.quizScore || answered === 0) ? 'Not started' : (p.quizScore.correct + ' / ' + p.quizScore.total);
+    }
+  }
+
+  function renderDots(p) {
+    SECTION_IDS.forEach(function (id) {
+      var dot = document.querySelector('.nd[href="#' + id + '"]');
+      if (!dot) return;
+      dot.classList.toggle('nd-visited', !!p.visited[id]);
+    });
+  }
+
+  function renderResumeBanner(p) {
+    var banner = document.getElementById('fl-resume-banner');
+    if (!banner) return;
+    var visitedIds = Object.keys(p.visited);
+    var isPartial = visitedIds.length > 0 && visitedIds.length < SECTION_IDS.length;
+    var isFirstLoad = !window.__flBannerChecked;
+    window.__flBannerChecked = true;
+    if (isPartial && isFirstLoad) {
+      banner.style.display = 'flex';
+      var lastId = visitedIds[visitedIds.length - 1];
+      var link = document.getElementById('fl-resume-link');
+      if (link) link.setAttribute('href', '#' + lastId);
+    } else {
+      banner.style.display = 'none';
+    }
+  }
+
+  function renderCertificate(p) {
+    var checklist = document.getElementById('fl-cert-checklist');
+    if (!checklist) return;
+
+    var requirements = [
+      {
+        label: 'Final Quiz — at least 4 of 5 correct',
+        pass: !!(p.quizScore && p.quizScore.correct >= 4),
+        status: p.quizScore ? (p.quizScore.correct + '/' + p.quizScore.total) : 'Not started'
+      },
+      {
+        label: 'Risk-Return Dial — explored',
+        pass: !!(p.estimate['fl-risk-return-dial'] && p.estimate['fl-risk-return-dial'].used),
+        status: (p.estimate['fl-risk-return-dial'] && p.estimate['fl-risk-return-dial'].used) ? 'Complete' : 'Not started'
+      },
+      {
+        label: 'T-Bill Yield Calculator — used',
+        pass: !!(p.estimate['fl-tbill-calc'] && p.estimate['fl-tbill-calc'].used),
+        status: (p.estimate['fl-tbill-calc'] && p.estimate['fl-tbill-calc'].used) ? 'Complete' : 'Not started'
+      },
+      {
+        label: 'Portfolio Builder — completed',
+        pass: !!(p.estimate['fl-portfolio-builder'] && p.estimate['fl-portfolio-builder'].used),
+        status: (p.estimate['fl-portfolio-builder'] && p.estimate['fl-portfolio-builder'].used) ? 'Complete' : 'Not started'
+      }
+    ];
+    if (window.FINLIT_MODULE && window.FINLIT_MODULE.practice) {
+      requirements.push({ label: 'Practice with your yungsta', pass: p.practice === true || p.practice === 'skipped', status: p.practice === true ? 'Done' : (p.practice === 'skipped' ? 'Not available' : 'Not done') });
+    }
+
+
+    var html = '';
+    requirements.forEach(function (req) {
+      html += '<div class="fl-cert-check-item' + (req.pass ? ' fl-cert-pass' : '') + '">' +
+        '<div class="fl-cert-check-icon">' + (req.pass ? '✓' : '–') + '</div>' +
+        '<div class="fl-cert-check-label">' + req.label + '</div>' +
+        '<div class="fl-cert-check-status">' + req.status + '</div>' +
+        '</div>';
+    });
+    checklist.innerHTML = html;
+
+    var allPass = requirements.every(function (r) { return r.pass; });
+    var lockedArea = document.getElementById('fl-cert-locked-area');
+    var unlockArea = document.getElementById('fl-cert-unlock-area');
+
+    if (allPass) {
+      if (lockedArea) lockedArea.innerHTML = '';
+      if (unlockArea) unlockArea.style.display = 'block';
+    } else {
+      var remaining = requirements.filter(function (r) { return !r.pass; }).length;
+      if (lockedArea) lockedArea.innerHTML = '<div class="fl-cert-locked-msg">' + remaining + ' requirement' + (remaining === 1 ? '' : 's') + ' still to go. Complete them anywhere in the module — this list updates automatically.</div>';
+      if (unlockArea) unlockArea.style.display = 'none';
+    }
+  }
+
+  function renderAll() {
+    var p = getProgress();
+    renderRail(p);
+    renderDots(p);
+    renderResumeBanner(p);
+    renderCertificate(p);
+  }
+
+  window.FLRail = {
+    toggle: function () {
+      document.getElementById('fl-rail-panel').classList.toggle('open');
+      document.getElementById('fl-rail-backdrop').classList.toggle('open');
+    },
+    close: function () {
+      document.getElementById('fl-rail-panel').classList.remove('open');
+      document.getElementById('fl-rail-backdrop').classList.remove('open');
+    }
+  };
+
+  function init() {
+    markVisited(currentSectionFromHash());
+    renderAll();
+    restoreQuizLocks(getProgress());
+  }
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', init);
+  } else { init(); }
+
+  window.addEventListener('hashchange', function () {
+    markVisited(currentSectionFromHash());
+  });
+
+  window.FLProgress = { get: getProgress, save: saveProgress };
+  window.getProgress = getProgress;
+  window.saveProgress = saveProgress;
+  window.FLEngineInternal = { renderAll: renderAll, resetQuiz: window.resetQuiz, markVisited: markVisited, getProgress: getProgress,
+    resetProgress: function () {
+      try { localStorage.removeItem(STORAGE_KEY); } catch (e) {}
+      window.__flBannerChecked = false;
+      renderAll();
+    }
+  };
+  window.renderAll = renderAll;
+})();
+</script>
+
+<!-- ══ CERTIFICATE CLAIM ══ -->
+<script>
+window.FLCert = {
+  claim: function (containerId) {
+    var nameInput = document.getElementById('fl-cert-name-input');
+    var name = (nameInput.value || '').trim();
+    if (!name) { nameInput.focus(); return; }
+    var today = new Date();
+    var dateStr = today.toLocaleDateString('en-GB', { day: 'numeric', month: 'long', year: 'numeric' });
+    var p = FLProgress.get();
+    p.certificate = { claimed: true, name: name, date: dateStr };
+    FLProgress.save(p);
+  }
+};
+
+function openCertModal(){
+  var name = (document.getElementById('fl-cert-name-input') || {}).value || '';
+  var score = '';
+  try {
+    var p = FLProgress.get();
+    if(p.quizScore) score = Math.round((p.quizScore.correct / p.quizScore.total) * 100);
+  } catch(e){}
+  var base = document.getElementById('certIframe').dataset.src;
+  var params = new URLSearchParams();
+  if(name) params.set('name', name);
+  if(score !== '') params.set('score', score);
+  var url = base + (params.toString() ? '?' + params.toString() : '');
+  var iframe = document.getElementById('certIframe');
+  if(iframe.getAttribute('src') !== url) iframe.src = url;
+  var fb = document.getElementById('certFallback'); if(fb) fb.href = url;
+  document.getElementById('certBackdrop').classList.add('open');
+  document.getElementById('certSheet').classList.add('open');
+  document.body.style.overflow = 'hidden';
+  if(window.FLCert) window.FLCert.claim('fl-cert-1');
+}
+function closeCertModal(){
+  document.getElementById('certBackdrop').classList.remove('open');
+  document.getElementById('certSheet').classList.remove('open');
+  document.body.style.overflow = '';
+}
+document.addEventListener('keydown', function(e){ if(e.key === 'Escape') closeCertModal(); });
+</script>
+
+<!-- ══ COMMUNITY / GAME PANELS ══ -->
+<script>
+var FLPanels = (function(){
+  function open(which){
+    var panel = document.getElementById('fl-' + which + '-panel');
+    var iframe = document.getElementById('fl-' + which + '-iframe');
+    if(iframe && !iframe.src) iframe.src = iframe.dataset.src;
+    document.getElementById('fl-panel-backdrop').classList.add('open');
+    panel.classList.add('open');
+    document.body.style.overflow = 'hidden';
+  }
+  function close(){
+    document.getElementById('fl-panel-backdrop').classList.remove('open');
+    document.querySelectorAll('.fl-panel.open').forEach(function(p){ p.classList.remove('open'); });
+    document.body.style.overflow = '';
+  }
+  return { open: open, close: close };
+})();
+</script>
+<script>
+
+// ══════════════════════════════════════════════════════════════
+// FLRiskDial — needle-based risk spectrum visualiser
+// ══════════════════════════════════════════════════════════════
+var FLRiskDial = (function(){
+
+  var hasRecorded = false;
+  var explored = {};
+
+  // angle range: -90deg (far left/low risk) to +90deg (far right/high risk)
+  var ITEMS = {
+    savings:  { label:'Savings Account', angle:-80, color:'#22C55E', desc:'Deposit-protected, near-zero risk of loss.' },
+    tbill:    { label:'Treasury Bills',  angle:-60, color:'#22C55E', desc:'Government-backed, extremely low default risk.' },
+    bonds:    { label:'Government Bonds',angle:-20, color:'#C9A83C', desc:'Low-to-moderate risk, longer commitment than T-Bills.' },
+    property: { label:'Property',        angle:0,   color:'#C9A83C', desc:'Moderate risk, but illiquid — hard to access quickly.' },
+    luse:     { label:'LuSE Shares',     angle:35,  color:'#C9A83C', desc:'Share prices move with company performance and market sentiment.' },
+    crypto:   { label:'Cryptocurrency',  angle:80,  color:'#EF4444', desc:'Extremely volatile — prices can swing 20%+ in a single day.' },
+  };
+
+  function select(key, chipEl){
+    var item = ITEMS[key];
+
+    document.getElementById('fl-dial-needle').style.transform =
+      'translateX(-50%) rotate(' + item.angle + 'deg)';
+
+    document.getElementById('fl-dial-active-label').textContent = item.label;
+    document.getElementById('fl-dial-active-desc').textContent = item.desc;
+
+    document.querySelectorAll('.fl-dial-chip').forEach(function(c){
+      c.classList.remove('active');
+      c.style.background = '#fff';
+      c.style.borderColor = 'rgba(0,0,0,.1)';
+      c.style.color = 'var(--ink2,#374151)';
+    });
+    chipEl.classList.add('active');
+    chipEl.style.background = item.color;
+    chipEl.style.borderColor = item.color;
+    chipEl.style.color = '#fff';
+
+    explored[key] = true;
+    document.getElementById('fl-dial-used-badge').classList.add('show');
+
+    if(!hasRecorded && Object.keys(explored).length >= 3){
+      hasRecorded = true;
+      recordUsage();
+    }
+  }
+
+  function recordUsage(){
+    try {
+      if(typeof getProgress === 'function' && typeof saveProgress === 'function'){
+        var p = getProgress();
+        p.estimate = p.estimate || {};
+        p.estimate['fl-risk-return-dial'] = { used:true, itemsExplored:Object.keys(explored), timestamp:Date.now() };
+        saveProgress(p);
+        if(typeof renderAll === 'function') renderAll();
+      }
+    } catch(e){}
+  }
+
+  return { select: select };
+})();
+
+
+
+// ══════════════════════════════════════════════════════════════
+// FLTBill — Treasury Bill maturity value calculator
+// Rates approximate recent BoZ auction results (91/182/364-day)
+// ══════════════════════════════════════════════════════════════
+var FLTBill = (function(){
+
+  var hasRecorded = false;
+  var selectedDays = 364;
+  var selectedRate = 15.0;
+
+  function fmt(n){
+    return 'K ' + n.toLocaleString('en-ZM', {minimumFractionDigits:2, maximumFractionDigits:2});
+  }
+
+  function setTenor(chipEl){
+    document.querySelectorAll('.fl-tbill-tenor-chip').forEach(function(c){ c.classList.remove('active'); });
+    chipEl.classList.add('active');
+    selectedDays = parseInt(chipEl.dataset.days, 10);
+    selectedRate = parseFloat(chipEl.dataset.rate);
+    calculate();
+  }
+
+  function calculate(){
+    var amount = parseFloat(document.getElementById('fl-tbill-amount').value) || 0;
+    var resultsEl = document.getElementById('fl-tbill-results');
+
+    if(amount <= 0){
+      resultsEl.classList.remove('show');
+      return;
+    }
+
+    // Interest for the actual tenor period (rate is quoted annualised)
+    var interest = amount * (selectedRate / 100) * (selectedDays / 365);
+    var withholdingTax = interest * 0.15; // 15% withholding tax on T-Bill interest for domestic individuals
+    var netInterest = interest - withholdingTax;
+    var maturityValue = amount + netInterest;
+    var effectiveAnnualYield = (netInterest / amount) * (365 / selectedDays) * 100;
+
+    document.getElementById('fl-tbill-out-amount').textContent = fmt(amount);
+    document.getElementById('fl-tbill-out-rate').textContent = selectedRate + '%';
+    document.getElementById('fl-tbill-out-interest').textContent = fmt(interest);
+    document.getElementById('fl-tbill-out-tax').textContent = '− ' + fmt(withholdingTax);
+    document.getElementById('fl-tbill-out-maturity').textContent = fmt(maturityValue);
+
+    var explainerText = 'A K' + amount.toLocaleString() + ' investment in a ' + selectedDays + '-day T-Bill at ' + selectedRate + '% quoted rate earns ' + fmt(interest) + ' in gross interest. After the mandatory 15% withholding tax (' + fmt(withholdingTax) + '), your net interest is ' + fmt(netInterest) + ' — an effective annual yield of ' + effectiveAnnualYield.toFixed(1) + '% after tax. T-Bills are backed by the Zambian government, making them one of the lowest-risk ways to earn a return above inflation.';
+    document.getElementById('fl-tbill-explainer-text').textContent = explainerText;
+
+    resultsEl.classList.add('show');
+    document.getElementById('fl-tbill-used-badge').classList.add('show');
+
+    if(!hasRecorded){
+      hasRecorded = true;
+      recordUsage(amount, selectedDays, selectedRate, maturityValue);
+    }
+  }
+
+  function recordUsage(amount, days, rate, maturityValue){
+    try {
+      if(typeof getProgress === 'function' && typeof saveProgress === 'function'){
+        var p = getProgress();
+        p.estimate = p.estimate || {};
+        p.estimate['fl-tbill-calc'] = {
+          used:true, amount:amount, tenorDays:days, rate:rate,
+          maturityValue:Math.round(maturityValue), timestamp:Date.now()
+        };
+        saveProgress(p);
+        if(typeof renderAll === 'function') renderAll();
+      }
+    } catch(e){}
+  }
+
+  return { calculate: calculate, setTenor: setTenor };
+})();
+
+
+
+// ══════════════════════════════════════════════════════════════
+// FLPortfolio — 4-asset allocator with 10-year compound projection
+// Uses realistic Zambian historical average annual returns
+// ══════════════════════════════════════════════════════════════
+var FLPortfolio = (function(){
+
+  var hasRecorded = false;
+  var values = { savings:25, tbill:25, luse:25, property:25 };
+  var RATES = { savings:0.06, tbill:0.14, luse:0.20, property:0.10 };
+  var RISK_SCORE = { savings:1, tbill:2, luse:4, property:2.5 }; // 1=lowest risk, 5=highest
+
+  function fmt(n){
+    return 'K ' + Math.round(n).toLocaleString('en-ZM');
+  }
+
+  function onSliderChange(changed){
+    var newVal = parseInt(document.getElementById('fl-port-' + changed + '-slider').value, 10);
+    var keys = ['savings','tbill','luse','property'];
+    var others = keys.filter(function(k){ return k !== changed; });
+
+    var remaining = 100 - newVal;
+    var othersSum = others.reduce(function(s,k){ return s + values[k]; }, 0);
+
+    if(othersSum <= 0){
+      others.forEach(function(k){ values[k] = remaining / others.length; });
+    } else {
+      others.forEach(function(k){ values[k] = remaining * (values[k] / othersSum); });
+    }
+    values[changed] = newVal;
+
+    keys.forEach(function(k){
+      document.getElementById('fl-port-' + k + '-slider').value = Math.round(values[k]);
+    });
+
+    render();
+  }
+
+  function render(){
+    var amount = parseFloat(document.getElementById('fl-port-amount').value) || 0;
+    var keys = ['savings','tbill','luse','property'];
+
+    keys.forEach(function(k){
+      document.getElementById('fl-port-' + k + '-pct').textContent = Math.round(values[k]) + '%';
+      document.getElementById('fl-port-' + k + '-amt').textContent = fmt(amount * values[k] / 100);
+      document.getElementById('fl-port-bar-' + k).style.flex = values[k];
+    });
+
+    var total = keys.reduce(function(s,k){ return s + Math.round(values[k]); }, 0);
+    document.getElementById('fl-port-total').textContent = total + '%';
+
+    // Blended weighted return
+    var blendedRate = keys.reduce(function(s,k){ return s + (values[k]/100) * RATES[k]; }, 0);
+    var futureValue = amount * Math.pow(1 + blendedRate, 10);
+    var growth = futureValue - amount;
+
+    document.getElementById('fl-port-proj-value').textContent = fmt(futureValue);
+    document.getElementById('fl-port-proj-return').textContent = (blendedRate*100).toFixed(1) + '% blended annual return';
+    document.getElementById('fl-port-proj-growth').textContent = '+' + fmt(growth);
+
+    // Risk score
+    var blendedRisk = keys.reduce(function(s,k){ return s + (values[k]/100) * RISK_SCORE[k]; }, 0);
+    var riskRow = document.getElementById('fl-port-risk-row');
+    var riskVal = document.getElementById('fl-port-risk-val');
+    var riskLabel = document.getElementById('fl-port-risk-row').querySelector('.fl-port-risk-label');
+    var riskText, riskBg, riskColor;
+    if(blendedRisk < 1.8){
+      riskText = 'Conservative'; riskBg = 'var(--gl,#F0FDF4)'; riskColor = 'var(--gd,#15803D)';
+    } else if(blendedRisk < 3){
+      riskText = 'Balanced'; riskBg = '#FFFBEB'; riskColor = '#92400E';
+    } else {
+      riskText = 'Aggressive'; riskBg = '#FEF2F2'; riskColor = '#B91C1C';
+    }
+    riskRow.style.background = riskBg;
+    riskLabel.style.color = riskColor;
+    riskVal.style.color = riskColor;
+    riskVal.textContent = riskText;
+
+    var explainerText;
+    if(values.luse >= 50){
+      explainerText = 'With ' + Math.round(values.luse) + '% in LuSE shares, this portfolio leans heavily into growth — higher expected return, but also higher volatility. Share prices can fall as well as rise, sometimes sharply.';
+    } else if(values.savings + values.tbill >= 70){
+      explainerText = 'With ' + Math.round(values.savings + values.tbill) + '% in savings and T-Bills, this portfolio prioritises safety over growth — your capital is well protected, but your long-term return will be more modest.';
+    } else {
+      explainerText = 'This is a genuinely diversified spread across low-risk and higher-growth assets — a reasonable strategy for someone building wealth over a long horizon without excessive risk.';
+    }
+    document.getElementById('fl-port-explainer-text').textContent = explainerText;
+
+    document.getElementById('fl-port-used-badge').classList.add('show');
+
+    if(!hasRecorded){
+      hasRecorded = true;
+      recordUsage(amount, values, blendedRate, futureValue);
+    }
+  }
+
+  function recordUsage(amount, alloc, rate, futureValue){
+    try {
+      if(typeof getProgress === 'function' && typeof saveProgress === 'function'){
+        var p = getProgress();
+        p.estimate = p.estimate || {};
+        p.estimate['fl-portfolio-builder'] = {
+          used:true, amount:amount,
+          savings:Math.round(alloc.savings), tbill:Math.round(alloc.tbill),
+          luse:Math.round(alloc.luse), property:Math.round(alloc.property),
+          blendedRate:(rate*100).toFixed(1), projected10yr:Math.round(futureValue),
+          timestamp:Date.now()
+        };
+        saveProgress(p);
+        if(typeof renderAll === 'function') renderAll();
+      }
+    } catch(e){}
+  }
+
+  setTimeout(render, 100);
+
+  return { render: render, onSliderChange: onSliderChange };
+})();
+
+</script>
+
+<div class="apple-reset-container">
+  <style>
+    .apple-reset-container{display:flex;justify-content:center;align-items:center;width:100%;padding:20px 0 8px}
+    .apple-reset-btn{background-color:#F3F4F6;color:#6B7280;font-family:var(--ff);font-size:12px;font-weight:600;letter-spacing:-.1px;padding:8px 18px;border:none;border-radius:980px;cursor:pointer;transition:background-color .2s ease,color .2s ease}
+    .apple-reset-btn:hover{background-color:#E5E7EB;color:#374151}
+  </style>
+  <button class="apple-reset-btn" onclick="resetPage()">Reset Module Progress</button>
+  <script>
+    function resetPage(){
+      if(confirm('This will clear all your progress on this module. Continue?')){
+        localStorage.removeItem('finlit-progress-module-2-1');
+        window.location.reload();
+      }
+    }
+  </script>
+</div>
+
+<!-- fin-lesson:start -->
+<style>
+#fin-bar{position:fixed;left:0;right:0;bottom:0;z-index:850;background:#fff;border-top:1px solid #E5E7EB;padding:10px 14px calc(10px + env(safe-area-inset-bottom,0px));display:none}
+body.fin-bar-on #fin-bar{display:block}
+body.fin-bar-on{padding-bottom:84px}
+#fin-bar button,#fin-done button{font:inherit;font-weight:800;font-size:16px;border:0;border-radius:14px;height:52px;width:100%;cursor:pointer;background:#16A34A;color:#fff;box-shadow:0 4px 0 #15803D}
+#fin-bar button:active,#fin-done button:active{transform:translateY(3px);box-shadow:0 1px 0 #15803D}
+#fin-bar button[disabled]{background:#E5E7EB;color:#9CA3AF;box-shadow:0 4px 0 #D1D5DB}
+#fin-done{position:fixed;inset:0;z-index:950;background:#fff;display:none;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:28px 24px calc(28px + env(safe-area-inset-bottom,0px))}
+#fin-done.on{display:flex}
+#fin-done .em{font-size:72px;animation:finpop .6s cubic-bezier(.34,1.56,.64,1)}
+#fin-done h2{font-size:28px;margin:14px 0 6px;color:#14532D}
+#fin-done p{color:#4B5563;margin:0 0 22px;font-size:16px}
+#fin-done .row{width:100%;max-width:360px;display:flex;flex-direction:column;gap:12px}
+#fin-done button.alt{background:#fff;color:#16A34A;border:2px solid #E5E7EB;box-shadow:0 4px 0 #E5E7EB}
+@keyframes finpop{from{transform:scale(.3);opacity:0}to{transform:scale(1);opacity:1}}
+</style>
+<div id="fin-bar"><button id="fin-finish" type="button">Finish lesson ✓</button></div>
+<div id="fin-done"><div class="em" id="fin-done-em">🎉</div><h2 id="fin-done-h">Lesson complete!</h2><p id="fin-done-p"></p><div class="row"><button id="fin-next" type="button">Next lesson →</button><button id="fin-sim" type="button" style="display:none">Practice with your yungsta 🎓</button><button class="alt" id="fin-back" type="button">Back to path</button></div></div>
+<script>
+(function(){
+  var CFG=window.FINLIT_MODULE||{}, MID=CFG.moduleId, IDS=CFG.sections||['s0','s1','s2','s3','s4'];
+  if(!MID) return;
+  var KEY='finlit-progress-'+MID, bar=document.getElementById('fin-finish'), done=document.getElementById('fin-done');
+  function today(){var d=new Date();return d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0');}
+  function load(){try{return JSON.parse(localStorage.getItem(KEY))||{};}catch(e){return {};}}
+  function save(p){try{localStorage.setItem(KEY,JSON.stringify(p));}catch(e){}}
+  function cur(){var h=location.hash.replace('#','');return IDS.indexOf(h)>-1?h:null;}
+  function isDone(p,id){return p.done?!!p.done[id]:!!(p.visited&&p.visited[id]);}
+  function todayCount(){
+    var n=0,t=today();
+    try{for(var i=0;i<localStorage.length;i++){var k=localStorage.key(i);
+      if(k&&k.indexOf('finlit-progress-')===0){var q=JSON.parse(localStorage.getItem(k))||{};
+        if(q.doneAt)for(var s in q.doneAt)if(q.doneAt[s]===t)n++;}}}catch(e){}
+    return n;
+  }
+  function refresh(){
+    var id=cur(), on=!!id;
+    document.body.classList.toggle('fin-bar-on',on);
+    if(!on) return;
+    var p=load(), isQuiz=IDS.indexOf(id)===IDS.length-1;
+    if(isQuiz&&!p.quizScore){bar.disabled=true;bar.textContent='Answer all the questions to finish';}
+    else{bar.disabled=false;bar.textContent=isDone(p,id)?(isQuiz?'Back to path':'Next lesson →'):'Finish lesson ✓';}
+  }
+  function finish(){
+    var id=cur(); if(!id) return;
+    var p=load(), idx=IDS.indexOf(id), last=idx===IDS.length-1;
+    if(isDone(p,id)&&p.done){ if(last){location.href='index.html#path';}else{location.hash='#'+IDS[idx+1];window.scrollTo(0,0);} return; }
+    p.visited=p.visited||{};
+    if(!p.done){p.done={};for(var k in p.visited)p.done[k]=true;}
+    p.done[id]=true;p.visited[id]=true;p.doneAt=p.doneAt||{};p.doneAt[id]=today();
+    save(p);
+    try{var L='finlit-study-log',lg=JSON.parse(localStorage.getItem(L));
+      if(!lg||lg.date!==today()){var d=new Date();localStorage.setItem(L,JSON.stringify({date:today(),minute:d.getHours()*60+d.getMinutes()}));}}catch(e){}
+    var n=todayCount(), allDone=IDS.every(function(s){return p.done[s];});
+    document.getElementById('fin-done-em').textContent=allDone?'🏆':'🎉';
+    document.getElementById('fin-done-h').textContent=allDone?'Module complete!':'Lesson complete!';
+    document.getElementById('fin-done-p').textContent=(n===1?'1 lesson':n+' lessons')+' done today. '+(allDone?'Amazing work.':'Nice one — keep the momentum.');
+    document.getElementById('fin-next').style.display=last?'none':'block';
+    document.getElementById('fin-sim').style.display=allDone?'block':'none';
+    done.classList.add('on');
+    refresh();
+  }
+  bar.addEventListener('click',finish);
+  document.getElementById('fin-next').addEventListener('click',function(){
+    var idx=IDS.indexOf(cur());done.classList.remove('on');
+    if(idx>-1&&idx<IDS.length-1){location.hash='#'+IDS[idx+1];window.scrollTo(0,0);}
+  });
+  document.getElementById('fin-sim').addEventListener('click',function(){location.hash='#s4';setTimeout(function(){var el=document.getElementById('fl-practice');if(el)el.scrollIntoView({behavior:'smooth',block:'start'});},350);});
+  document.getElementById('fin-back').addEventListener('click',function(){location.href='index.html#path';});
+  window.addEventListener('hashchange',function(){done.classList.remove('on');refresh();});
+  document.addEventListener('click',function(){setTimeout(refresh,250);});
+  setInterval(refresh,1000);
+  refresh();
+})();
+</script>
+<!-- fin-lesson:end -->
+
+
+</body>
+</html>

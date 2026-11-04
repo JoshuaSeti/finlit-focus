@@ -1,0 +1,4403 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+ <link rel="icon" type="image/png" href="https://www.finlit-zm.org/assets/finlit-logo-CiIwviF6.png">
+<script>
+window.TallyConfig = {
+  "formId": "GxjKMk",
+  "popup": {
+    "emoji": {
+      "text": "👋",
+      "animation": "wave"
+    },
+    "layout": "modal",
+    "open": {
+      "trigger": "exit"
+    }
+  }
+};
+</script>
+
+<script async src="https://tally.so/widgets/embed.js"></script>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,wght@0,400;0,500;0,600;0,700;0,800;1,400&family=DM+Mono:wght@500&display=swap" rel="stylesheet">
+  <title>Module 1.2 — Credit and Debt Management — FinLit Zambia</title>
+  <style>
+    :root {
+      --g: #22C55E;
+      --gd: #15803D;
+      --gx: #14532D;
+      --gl: #F0FDF4;
+      --gm: #DCFCE7;
+      --gol: #C9A83C;
+      --gold: #FDF8EC;
+      --ink: #111827;
+      --ink2: #374151;
+      --ink3: #6B7280;
+      --bg: #F8FAFC;
+      --w: #ffffff;
+      --bd: #E5E7EB;
+      --bd2: #F3F4F6;
+      --red: #DC2626;
+      --redl: #FEF2F2;
+      --redm: #FCA5A5;
+      --blu: #1D4ED8;
+      --blul: #EFF6FF;
+      --blum: #93C5FD;
+      --pur: #7C3AED;
+      --purl: #F5F3FF;
+      --ff: 'DM Sans', system-ui, sans-serif;
+      --fm: 'DM Mono', monospace;
+      --r12: 12px;
+      --r16: 16px;
+      --shadow: 0 1px 3px rgba(0, 0, 0, .06), 0 1px 2px rgba(0, 0, 0, .04);
+      --shadow-md: 0 4px 12px rgba(0, 0, 0, .08);
+    }
+
+    *,
+    *::before,
+    *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0
+    }
+
+    html {
+      scroll-behavior: smooth;
+      -webkit-text-size-adjust: 100%
+    }
+
+    body {
+      font-family: var(--ff);
+      background: var(--bg);
+      color: var(--ink);
+      line-height: 1.65;
+      overflow-x: hidden;
+      min-height: 100vh
+    }
+
+    /* ── SECTION SYSTEM ── */
+    .section {
+      display: none;
+      padding: 24px 20px 32px;
+      max-width: 680px;
+      margin: 0 auto
+    }
+
+   .section:target {
+  display: block;
+  animation: rise .35s ease both
+}
+
+/* ── COVER PAGE — page one, shown until a section is opened ── */
+body:not(:has(.section:target)) .cover {
+  display: flex;
+}
+body:not(:has(.section:target)) .dots,
+body:not(:has(.section:target)) .fl-rail,
+body:not(:has(.section:target)) .fl-rail-backdrop,
+body:not(:has(.section:target)) .fl-rail-panel,
+body:not(:has(.section:target)) .fl-resume-banner {
+  display: none
+}
+
+    @keyframes rise {
+      from {
+        opacity: 0;
+        transform: translateY(14px)
+      }
+
+      to {
+        opacity: 1;
+        transform: none
+      }
+    }
+
+    /* ── DOTS NAV ── */
+    .dots {
+      display: flex;
+      justify-content: center;
+      gap: 7px;
+      padding: 13px 0;
+      background: var(--w);
+      border-bottom: 1px solid var(--bd);
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      box-shadow: 0 1px 0 rgba(0, 0, 0, .04)
+    }
+
+    .nd {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: var(--bd);
+      display: inline-block;
+      transition: all .25s;
+      text-decoration: none;
+      flex-shrink: 0
+    }
+
+    body:not(:has(.section:target)) .nd-0,
+    body:has(#s0:target) .nd-0,
+    body:has(#s1:target) .nd-1,
+    body:has(#s2:target) .nd-2,
+    body:has(#s3:target) .nd-3,
+    body:has(#s4:target) .nd-4,
+    body:has(#s5:target) .nd-5,
+    body:has(#s6:target) .nd-6 {
+      background: var(--g);
+      width: 26px;
+      border-radius: 4px
+    }
+
+      /* ── COVER (book-style opening page, replaces the old hero) ── */
+  .cover {
+  display: none;
+  flex-direction: column;
+  position: relative;
+  overflow: hidden;
+  padding: 24px 20px 32px;
+  max-width: 680px;
+  min-height: 560px;
+  margin: 0 auto;
+  background:
+    radial-gradient(ellipse 900px 620px at 12% -8%, rgba(255,255,255,0.9) 0%, rgba(255,255,255,0) 55%),
+    linear-gradient(175deg, #F7FBF7 0%, #F1F8F2 46%, #E9F3EA 100%);
+}
+ 
+    .cover .grain {
+      position: absolute; inset: 0;
+      z-index: 3;
+      opacity: 0.035;
+      pointer-events: none;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+    }
+ 
+    .cover .vignette {
+      position: absolute; inset: 0;
+      z-index: 2;
+      pointer-events: none;
+      background: radial-gradient(ellipse 120% 100% at 50% 45%, transparent 55%, rgba(10,30,16,0.05) 100%);
+    }
+ 
+    .cover .orb {
+      position: absolute;
+      border-radius: 50%;
+      pointer-events: none;
+    }
+    .cover .orb-1 {
+      width: 340px; height: 340px;
+      background: radial-gradient(circle, rgba(34,197,94,0.20) 0%, rgba(34,197,94,0.05) 45%, transparent 72%);
+      filter: blur(70px);
+      bottom: -140px; left: -90px;
+      animation: d1 30s cubic-bezier(.45,0,.55,1) infinite alternate;
+    }
+    .cover .orb-2 {
+      width: 270px; height: 270px;
+      background: radial-gradient(circle, rgba(20,83,45,0.16) 0%, transparent 70%);
+      filter: blur(56px);
+      bottom: -95px; right: -70px;
+      animation: d2 37s cubic-bezier(.45,0,.55,1) infinite alternate;
+    }
+    .cover .orb-3 {
+      width: 200px; height: 200px;
+      background: radial-gradient(circle, rgba(48,209,88,0.13) 0%, transparent 70%);
+      filter: blur(42px);
+      bottom: -55px; left: 40%;
+      animation: d3 23s cubic-bezier(.45,0,.55,1) infinite alternate;
+    }
+    .cover .orb-4 {
+      width: 170px; height: 170px;
+      background: radial-gradient(circle, rgba(201,168,60,0.09) 0%, transparent 72%);
+      filter: blur(40px);
+      top: 4%; right: 2%;
+      animation: d4 42s cubic-bezier(.45,0,.55,1) infinite alternate;
+    }
+    .cover .orb-5 {
+      width: 130px; height: 130px;
+      background: radial-gradient(circle, rgba(74,222,128,0.12) 0%, transparent 70%);
+      filter: blur(32px);
+      top: 30%; right: 8%;
+      animation: d5 33s cubic-bezier(.45,0,.55,1) infinite alternate;
+    }
+    .cover .orb-6 {
+      width: 90px; height: 90px;
+      background: radial-gradient(circle, rgba(201,168,60,0.07) 0%, transparent 70%);
+      filter: blur(24px);
+      top: 16%; left: 4%;
+      animation: d6 25s cubic-bezier(.45,0,.55,1) infinite alternate;
+    }
+    .cover .orb-glow {
+      width: 310px; height: 190px;
+      background: radial-gradient(ellipse, rgba(255,255,255,0.55) 0%, transparent 70%);
+      filter: blur(50px);
+      top: 8%; left: -4%;
+      animation: none;
+    }
+ 
+    @keyframes d1 { from{transform:translate(0,0) scale(1)}    to{transform:translate(58px,-46px) scale(1.07)} }
+    @keyframes d2 { from{transform:translate(0,0) scale(1)}    to{transform:translate(-40px,-54px) scale(1.05)} }
+    @keyframes d3 { from{transform:translateY(0) scale(1)}     to{transform:translateY(-34px) scale(1.09)} }
+    @keyframes d4 { from{transform:translate(0,0) scale(1)}    to{transform:translate(-30px,30px) scale(0.93)} }
+    @keyframes d5 { from{transform:translate(0,0) scale(1)}    to{transform:translate(-20px,36px) scale(1.08)} }
+    @keyframes d6 { from{transform:translate(0,0) scale(1)}    to{transform:translate(22px,24px) scale(0.96)} }
+ 
+    .cover-tag {
+      position: absolute;
+      top: 22px; right: 26px;
+      z-index: 20;
+      font-size: 10px; font-weight: 700;
+      letter-spacing: 2.2px; text-transform: uppercase;
+      color: rgba(122,95,0,0.55);
+      display: flex; align-items: center; gap: 8px;
+      opacity: 0;
+      animation: aFadeIn 0.8s 0.15s ease forwards;
+    }
+    .cover-tag::before {
+      content: '';
+      width: 13px; height: 1px;
+      background: rgba(154,119,0,0.28);
+    }
+ 
+    .cover-content {
+  position: relative;
+  z-index: 10;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 32px 0 0 0;
+}
+ 
+    .cover-headline {
+      font-size: clamp(30px, 7vw, 48px);
+      font-weight: 800;
+      line-height: 0.97;
+      letter-spacing: -2.4px;
+      color: #17181A;
+      margin-bottom: 3px;
+      opacity: 0;
+      text-shadow: 0 1px 0 rgba(255,255,255,0.4);
+      animation: aFadeUp 0.9s 0.32s cubic-bezier(.16,1,.3,1) forwards;
+    }
+ 
+    .cover-headline-accent {
+      display: block;
+      font-size: clamp(30px, 7vw, 48px);
+      font-weight: 800;
+      line-height: 0.97;
+      letter-spacing: -2.4px;
+      background: linear-gradient(120deg, #123D22 8%, #1D7A3F 46%, #2FCB63 92%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      margin-bottom: 24px;
+      opacity: 0;
+      animation: aFadeUp 0.9s 0.46s cubic-bezier(.16,1,.3,1) forwards;
+    }
+ 
+    .cover-subline {
+      font-size: clamp(13px, 2.2vw, 17px);
+      font-weight: 400;
+      color: rgba(29,29,31,0.36);
+      letter-spacing: -0.1px;
+      opacity: 0;
+      animation: aFadeUp 0.8s 0.58s cubic-bezier(.16,1,.3,1) forwards;
+    }
+ 
+   .cover-bottom-bar {
+  position: relative;
+  z-index: 10;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 18px;
+  padding: 20px 0 6px 0;
+  border-top: 1px solid rgba(20,83,45,0.10);
+  opacity: 0;
+  animation: aFadeUp 0.8s 0.72s cubic-bezier(.16,1,.3,1) forwards;
+}
+ 
+    .cover-pills {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+ 
+    .pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      background: rgba(255,255,255,0.46);
+      backdrop-filter: blur(18px) saturate(150%);
+      -webkit-backdrop-filter: blur(18px) saturate(150%);
+      border: 1px solid rgba(255,255,255,0.60);
+      border-top-color: rgba(255,255,255,0.92);
+      box-shadow:
+        inset 0 1px 0 rgba(255,255,255,0.8),
+        inset 0 -6px 10px -8px rgba(20,83,45,0.10),
+        0 3px 12px rgba(20,60,35,0.05);
+      border-radius: 99px;
+      padding: 7px 14px;
+      font-size: 12px; font-weight: 600;
+      color: rgba(24,26,24,0.58);
+      white-space: nowrap;
+      transition: transform 0.25s cubic-bezier(.16,1,.3,1), box-shadow 0.25s ease;
+    }
+ 
+    .cta-btn {
+      position: relative;
+      display: inline-flex;
+      align-items: center;
+      gap: 9px;
+      background: rgba(255,255,255,0.52);
+      backdrop-filter: blur(26px) saturate(190%);
+      -webkit-backdrop-filter: blur(26px) saturate(190%);
+      border: 1px solid rgba(255,255,255,0.70);
+      border-top-color: rgba(255,255,255,0.97);
+      box-shadow:
+        inset 0 1.5px 0 rgba(255,255,255,0.92),
+        inset 0 -1px 0 rgba(0,0,0,0.045),
+        0 6px 24px rgba(18,61,34,0.12),
+        0 1.5px 6px rgba(0,0,0,0.05);
+      color: #123D22;
+      text-decoration: none;
+      padding: 13.5px 27px;
+      border-radius: 99px;
+      font-size: 14.5px; font-weight: 700;
+      font-family: inherit;
+      letter-spacing: -0.2px;
+      overflow: hidden;
+      white-space: nowrap;
+      flex-shrink: 0;
+      cursor: pointer;
+      transition:
+        transform 0.32s cubic-bezier(.22,1,.36,1),
+        box-shadow 0.32s cubic-bezier(.22,1,.36,1),
+        background 0.25s ease;
+    }
+ 
+    .cta-btn::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 6%; right: 6%;
+      height: 52%;
+      background: linear-gradient(to bottom, rgba(255,255,255,0.68), rgba(255,255,255,0));
+      border-radius: 99px;
+      pointer-events: none;
+      z-index: 1;
+    }
+ 
+    .cta-btn::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      border-radius: 99px;
+      pointer-events: none;
+      z-index: 1;
+      box-shadow: inset 0 0 0 1px rgba(255,255,255,0.35);
+      mask: linear-gradient(115deg, rgba(0,0,0,1) 0%, transparent 40%);
+      -webkit-mask: linear-gradient(115deg, rgba(0,0,0,1) 0%, transparent 40%);
+    }
+ 
+    .cta-btn:hover {
+      background: rgba(255,255,255,0.72);
+      transform: translateY(-2px) scale(1.03);
+      box-shadow:
+        inset 0 1.5px 0 rgba(255,255,255,1),
+        inset 0 -1px 0 rgba(0,0,0,0.03),
+        0 14px 40px rgba(18,61,34,0.16),
+        0 2px 8px rgba(0,0,0,0.06);
+    }
+    .cta-btn:active {
+      transform: scale(0.97) translateY(1px);
+      transition-duration: 0.1s;
+    }
+    .cta-btn:focus-visible,
+    .pill:focus-visible {
+      outline: 2px solid #1D7A3F;
+      outline-offset: 3px;
+    }
+ 
+    .btn-text { position: relative; z-index: 2; }
+    .btn-arrow {
+      position: relative; z-index: 2;
+      font-size: 13px; opacity: 0.6;
+      transition: transform 0.25s cubic-bezier(.22,1,.36,1), opacity 0.25s ease;
+    }
+    .cta-btn:hover .btn-arrow { transform: translateX(3px); opacity: 1; }
+ 
+    @keyframes aFadeUp {
+      from { opacity: 0; transform: translateY(16px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+    @keyframes aFadeIn {
+      from { opacity: 0; }
+      to   { opacity: 1; }
+    }
+ 
+    @media (prefers-reduced-motion: reduce) {
+      .cover .orb { animation: none; }
+    }
+ 
+    @media (max-width: 600px) {
+      .cover { margin: 0 auto; min-height: 460px; }
+      .cover-tag { top: 16px; right: 18px; }
+      .cover-content { padding: 20px 0px 0 0px; }
+      .cover-headline { letter-spacing: -1.6px; }
+      .cover-headline-accent { letter-spacing: -1.6px; margin-bottom: 18px; }
+    .cover-bottom-bar {
+  position: relative;
+  z-index: 10;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 12px;
+  padding: 14px 0 6px 0; 
+  border-top: 1px solid rgba(20,83,45,0.10);
+  opacity: 0;
+  animation: aFadeUp 0.8s 0.72s cubic-bezier(.16,1,.3,1) forwards;
+}
+      .cta-btn {
+        width: 100%;
+        justify-content: center;
+        padding: 14px 24px;
+      }
+      .cover .orb-4, .cover .orb-5, .cover .orb-6, .cover .orb-glow { display: none; }
+    }
+ 
+    @media (max-width: 380px) {
+      .cover-headline, .cover-headline-accent { letter-spacing: -1.2px; }
+      .pill { font-size: 11px; padding: 6px 11px; }
+    }
+
+    /* ── LABELS ── */
+    .kicker {
+      font-size: 10.5px;
+      font-weight: 700;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: var(--gd);
+      margin-bottom: 5px;
+      display: flex;
+      align-items: center;
+      gap: 8px
+    }
+
+    .kicker::after {
+      content: '';
+      flex: 1;
+      height: 2px;
+      background: linear-gradient(90deg, var(--gol), transparent);
+      max-width: 28px
+    }
+
+    .sh2 {
+      font-size: clamp(19px, 4vw, 25px);
+      font-weight: 800;
+      letter-spacing: -.4px;
+      line-height: 1.2;
+      margin-bottom: 12px;
+      color: var(--ink)
+    }
+
+    .slead {
+      font-size: 13.5px;
+      color: var(--ink2);
+      line-height: 1.78;
+      margin-bottom: 18px
+    }
+
+    .sec-timer {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      background: var(--gl);
+      border: 1px solid var(--gm);
+      color: var(--gd);
+      border-radius: 20px;
+      padding: 3px 11px;
+      font-size: 11px;
+      font-weight: 700;
+      margin-bottom: 16px
+    }
+
+    /* ── STORY CARD ── */
+    .story {
+      background: var(--w);
+      border: 1px solid var(--bd);
+      border-radius: var(--r16);
+      overflow: hidden;
+      margin-bottom: 16px;
+      box-shadow: var(--shadow-md)
+    }
+
+    .story-hdr {
+      background: linear-gradient(135deg, var(--gd), var(--gx));
+      padding: 16px 18px;
+      display: flex;
+      align-items: center;
+      gap: 13px
+    }
+
+    .story-av {
+      width: 50px;
+      height: 50px;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, .15);
+      border: 2px solid rgba(255, 255, 255, .28);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 22px;
+      flex-shrink: 0
+    }
+
+    .story-nm {
+      font-size: 15px;
+      font-weight: 700;
+      color: #fff;
+      margin-bottom: 1px
+    }
+
+    .story-tg {
+      font-size: 11px;
+      color: rgba(255, 255, 255, .65);
+      font-style: italic
+    }
+
+    .story-body {
+      padding: 17px 19px;
+      font-size: 13.5px;
+      color: var(--ink2);
+      line-height: 1.82
+    }
+
+    .story-body strong {
+      color: var(--ink);
+      font-weight: 700
+    }
+
+    .story-body em {
+      color: var(--gd);
+      font-weight: 500
+    }
+
+    /* ── BOXES ── */
+    .box {
+      border-radius: var(--r12);
+      padding: 13px 17px;
+      margin-bottom: 13px;
+      font-size: 13px;
+      line-height: 1.68
+    }
+
+    .box b {
+      display: block;
+      font-size: 10px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 1.2px;
+      margin-bottom: 5px
+    }
+
+    .box.green {
+      background: var(--gl);
+      border-left: 4px solid var(--g);
+      color: var(--gx)
+    }
+
+    .box.gold {
+      background: var(--gold);
+      border-left: 4px solid var(--gol);
+      color: #7a5500
+    }
+
+    .box.red {
+      background: var(--redl);
+      border-left: 4px solid var(--red);
+      color: #7a1010
+    }
+
+    .box.blue {
+      background: var(--blul);
+      border-left: 4px solid var(--blu);
+      color: #0f2040
+    }
+
+    .box.ink {
+      background: var(--bd2);
+      border-left: 4px solid var(--ink3);
+      color: var(--ink2)
+    }
+
+    .box.pur {
+      background: var(--purl);
+      border-left: 4px solid var(--pur);
+      color: #3b0764
+    }
+
+    /* ── CONCEPT CARDS ── */
+    .cc {
+      background: var(--w);
+      border: 1px solid var(--bd);
+      border-radius: var(--r12);
+      padding: 15px 17px;
+      margin-bottom: 11px;
+      position: relative;
+      overflow: hidden;
+      box-shadow: var(--shadow)
+    }
+
+    .cc::before {
+      content: '';
+      position: absolute;
+      left: 0;
+      top: 0;
+      width: 4px;
+      height: 100%;
+      background: var(--g)
+    }
+
+    .cc.gold::before {
+      background: var(--gol)
+    }
+
+    .cc.blue::before {
+      background: var(--blu)
+    }
+
+    .cc.red::before {
+      background: var(--red)
+    }
+
+    .cc.pur::before {
+      background: var(--pur)
+    }
+
+    .cc.dark::before {
+      background: var(--gx)
+    }
+
+    .cc-ic {
+      font-size: 20px;
+      margin-bottom: 7px;
+      display: block
+    }
+
+    .cc-t {
+      font-size: 13.5px;
+      font-weight: 700;
+      color: var(--ink);
+      margin-bottom: 4px
+    }
+
+    .cc-b {
+      font-size: 12.5px;
+      color: var(--ink2);
+      line-height: 1.68
+    }
+
+    /* ── TERM DEFINITION ── */
+    .term-card {
+      background: var(--w);
+      border: 1px solid var(--bd);
+      border-radius: var(--r16);
+      overflow: hidden;
+      margin-bottom: 20px;
+      box-shadow: var(--shadow-md)
+    }
+
+    .term-hdr {
+      background: linear-gradient(135deg, var(--gx), #0a2617);
+      padding: 14px 18px;
+      display: flex;
+      align-items: flex-start;
+      gap: 13px
+    }
+
+    .term-icon {
+      font-size: 24px;
+      flex-shrink: 0;
+      margin-top: 2px
+    }
+
+    .term-word {
+      font-size: 18px;
+      font-weight: 800;
+      color: #fff;
+      letter-spacing: -.3px;
+      margin-bottom: 2px
+    }
+
+    .term-phonetic {
+      font-size: 11px;
+      color: rgba(255, 255, 255, .5);
+      font-family: var(--fm);
+      letter-spacing: 1px
+    }
+
+    .term-body {
+      padding: 16px 18px
+    }
+
+    .term-def {
+      font-size: 14px;
+      font-weight: 600;
+      color: var(--ink);
+      line-height: 1.65;
+      margin-bottom: 12px;
+      padding-bottom: 12px;
+      border-bottom: 1px solid var(--bd2)
+    }
+
+    .term-zambia {
+      font-size: 13px;
+      color: var(--ink2);
+      line-height: 1.78;
+      margin-bottom: 12px
+    }
+
+    .term-zambia strong {
+      color: var(--gd);
+      font-weight: 700
+    }
+
+    .term-formula {
+      background: var(--bd2);
+      border-radius: 8px;
+      padding: 10px 14px;
+      font-family: var(--fm);
+      font-size: 12px;
+      color: var(--ink);
+      margin-bottom: 12px;
+      line-height: 1.6
+    }
+
+    .term-example {
+      background: var(--gl);
+      border-radius: 8px;
+      padding: 11px 14px;
+      font-size: 12.5px;
+      color: var(--gx);
+      line-height: 1.68
+    }
+
+    .term-example b {
+      display: block;
+      font-size: 10px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      margin-bottom: 4px;
+      color: var(--gd)
+    }
+
+    /* ── VISUAL BAR ── */
+    .vis-bar-wrap {
+      margin: 12px 0
+    }
+
+    .vis-bar-label {
+      font-size: 11px;
+      color: var(--ink3);
+      margin-bottom: 4px;
+      display: flex;
+      justify-content: space-between
+    }
+
+    .vis-bar-track {
+      height: 14px;
+      background: var(--bd2);
+      border-radius: 7px;
+      overflow: hidden;
+      position: relative
+    }
+
+    .vis-bar-fill {
+      height: 100%;
+      border-radius: 7px;
+      transition: width .6s ease
+    }
+
+    .vb-green {
+      background: linear-gradient(90deg, var(--gd), var(--g))
+    }
+
+    .vb-gold {
+      background: linear-gradient(90deg, #a16207, var(--gol))
+    }
+
+    .vb-red {
+      background: linear-gradient(90deg, #991b1b, var(--red))
+    }
+
+    .vb-blue {
+      background: linear-gradient(90deg, #1e40af, #3b82f6)
+    }
+
+    .vb-pur {
+      background: linear-gradient(90deg, #5b21b6, var(--pur))
+    }
+
+    /* ── COMPARISON TABLE ── */
+    .ctable {
+      border: 1px solid var(--bd);
+      border-radius: var(--r12);
+      overflow: hidden;
+      margin: 14px 0
+    }
+
+    .ctable table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 12.5px
+    }
+
+    .ctable th {
+      background: var(--gx);
+      color: #fff;
+      font-size: 10.5px;
+      letter-spacing: .5px;
+      font-weight: 700;
+      padding: 9px 14px;
+      text-align: left
+    }
+
+    .ctable td {
+      padding: 9px 14px;
+      border-bottom: 1px solid var(--bd2);
+      color: var(--ink2);
+      vertical-align: top;
+      line-height: 1.55
+    }
+
+    .ctable tr:last-child td {
+      border-bottom: none
+    }
+
+    .ctable tr:nth-child(even) td {
+      background: #FAFAFA
+    }
+
+    /* ── TIMELINE ── */
+    .timeline {
+      margin: 14px 0
+    }
+
+    .tl-item {
+      display: flex;
+      gap: 14px;
+      margin-bottom: 4px
+    }
+
+    .tl-left {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 0;
+      flex-shrink: 0;
+      width: 40px
+    }
+
+    .tl-dot {
+      width: 28px;
+      height: 28px;
+      border-radius: 50%;
+      background: var(--gd);
+      color: #fff;
+      font-size: 11px;
+      font-weight: 800;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0
+    }
+
+    .tl-line {
+      flex: 1;
+      width: 2px;
+      background: var(--bd);
+      margin: 2px 0
+    }
+
+    .tl-item:last-child .tl-line {
+      display: none
+    }
+
+    .tl-content {
+      background: var(--w);
+      border: 1px solid var(--bd);
+      border-radius: var(--r12);
+      padding: 12px 14px;
+      margin-bottom: 8px;
+      flex: 1
+    }
+
+    .tl-year {
+      font-size: 10px;
+      font-weight: 700;
+      color: var(--ink3);
+      font-family: var(--fm);
+      letter-spacing: 1px;
+      margin-bottom: 3px
+    }
+
+    .tl-text {
+      font-size: 13px;
+      color: var(--ink2);
+      line-height: 1.6
+    }
+
+    .tl-text strong {
+      color: var(--ink);
+      font-weight: 700
+    }
+
+    /* ── QUIZ ── */
+    .qz-card {
+      background: var(--w);
+      border: 1px solid var(--bd);
+      border-radius: var(--r16);
+      overflow: hidden;
+      margin-bottom: 13px;
+      box-shadow: var(--shadow)
+    }
+
+    .qz-hd {
+      background: linear-gradient(135deg, #7C3AED, #5b21b6);
+      padding: 11px 18px;
+      display: flex;
+      align-items: center;
+      gap: 9px
+    }
+
+    .qz-n {
+      background: rgba(255, 255, 255, .2);
+      color: #fff;
+      width: 26px;
+      height: 26px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 800;
+      font-size: 12.5px;
+      flex-shrink: 0
+    }
+
+    .qz-ht {
+      font-size: 13.5px;
+      font-weight: 700;
+      color: #fff
+    }
+
+    .qz-body {
+      padding: 15px 18px
+    }
+
+    .qz-q {
+      font-size: 13.5px;
+      font-weight: 600;
+      color: var(--ink);
+      margin-bottom: 11px;
+      line-height: 1.55
+    }
+
+    .qr {
+      position: absolute;
+      opacity: 0;
+      width: 0;
+      height: 0;
+      pointer-events: none
+    }
+
+    .qo {
+      display: block;
+      border: 1.5px solid var(--bd);
+      border-radius: 9px;
+      padding: 9px 13px;
+      font-size: 13px;
+      cursor: pointer;
+      color: var(--ink2);
+      transition: all .15s;
+      font-weight: 500;
+      margin-bottom: 7px;
+      background: var(--bg)
+    }
+
+    .qfb {
+      border-radius: 8px;
+      padding: 9px 13px;
+      font-size: 12.5px;
+      margin-bottom: 7px;
+      display: none;
+      line-height: 1.62;
+      font-weight: 500
+    }
+
+    .right:checked+.qo {
+      border-color: var(--g);
+      background: var(--gm);
+      color: var(--gx);
+      font-weight: 700
+    }
+
+    .right:checked+.qo+.qfb {
+      display: block;
+      background: var(--gm);
+      color: var(--gx);
+      border-left: 3px solid var(--g)
+    }
+
+    .qr:not(.right):checked+.qo {
+      border-color: var(--red);
+      background: var(--redl);
+      color: var(--red);
+      font-weight: 700
+    }
+
+    .qr:not(.right):checked+.qo+.qfb {
+      display: block;
+      background: var(--redl);
+      color: var(--red);
+      border-left: 3px solid var(--red)
+    }
+
+    /* ── GLOSSARY INDEX ── */
+    .gloss-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 8px;
+      margin-bottom: 18px
+    }
+
+    .gloss-item {
+      background: var(--w);
+      border: 1px solid var(--bd);
+      border-radius: 10px;
+      padding: 10px 13px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      text-decoration: none;
+      color: var(--ink);
+      transition: all .15s
+    }
+
+    .gloss-item:hover {
+      border-color: var(--g);
+      background: var(--gl)
+    }
+
+    .gloss-icon {
+      font-size: 18px;
+      flex-shrink: 0
+    }
+
+    .gloss-word {
+      font-size: 13px;
+      font-weight: 700;
+      color: var(--ink);
+      display: block
+    }
+
+    .gloss-tagline {
+      font-size: 11px;
+      color: var(--ink3);
+      line-height: 1.3
+    }
+
+    /* ── NAV ── */
+    .sec-nav {
+      display: flex;
+      gap: 9px;
+      justify-content: space-between;
+      margin-top: 22px;
+      padding-top: 18px;
+      border-top: 1px solid var(--bd)
+    }
+
+    .btn {
+      position: relative;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      border-radius: 999px;
+      cursor: pointer;
+      font-family: inherit;
+      font-weight: 700;
+      font-size: 14px;
+      padding: 12px 24px;
+      overflow: hidden;
+      isolation: isolate;
+      border: none;
+      text-decoration: none;
+      transition: transform .22s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow .25s ease
+    }
+
+    .btn::after {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 8%;
+      right: 8%;
+      height: 46%;
+      border-radius: 999px 999px 60% 60%;
+      background: linear-gradient(to bottom, rgba(255, 255, 255, .72), rgba(255, 255, 255, 0));
+      pointer-events: none;
+      z-index: 1
+    }
+
+    .btn span {
+      position: relative;
+      z-index: 2
+    }
+
+    .btn:hover {
+      transform: translateY(-2px) scale(1.015)
+    }
+
+    .btn-p {
+      color: #14532D;
+      background: rgba(220, 252, 231, 0.55);
+      border: 1.5px solid rgba(34, 197, 94, 0.22);
+      border-top-color: rgba(255, 255, 255, 0.90);
+      box-shadow: 0 1.5px 0 rgba(255, 255, 255, 0.95) inset, 0 4px 16px rgba(34, 197, 94, 0.12)
+    }
+
+    .btn-s {
+      color: #6B7280;
+      background: rgba(243, 244, 246, 0.60);
+      border: 1.5px solid rgba(0, 0, 0, 0.07);
+      border-top-color: rgba(255, 255, 255, 0.92);
+      box-shadow: 0 1.5px 0 rgba(255, 255, 255, 0.95) inset, 0 4px 12px rgba(0, 0, 0, 0.06)
+    }
+
+    .btn-dis {
+      color: #D1D5DB;
+      background: rgba(243, 244, 246, 0.35);
+      border: 1.5px solid rgba(0, 0, 0, 0.05);
+      pointer-events: none
+    }
+
+    .btn-dis::after {
+      display: none
+    }
+
+    .div {
+      height: 1px;
+      background: var(--bd);
+      margin: 18px 0
+    }
+
+    @media(max-width:480px) {
+      .gloss-grid {
+        grid-template-columns: 1fr
+      }
+    }
+
+    /* ── PROGRESS ENGINE UI (Apple-style: restrained, soft, neutral) ── */
+    .nd-visited {
+      background: var(--gd) !important;
+      position: relative
+    }
+
+    .nd-visited::after {
+      content: '';
+      position: absolute;
+      top: -10px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 4px;
+      height: 4px;
+      border-radius: 50%;
+      background: var(--gd);
+      opacity: .5
+    }
+
+    .fl-resume-banner {
+      display: none;
+      align-items: center;
+      gap: 12px;
+      background: #fff;
+      border: 1px solid rgba(0, 0, 0, .06);
+      border-radius: 14px;
+      padding: 13px 16px;
+      margin: 16px 20px 0;
+      max-width: 640px;
+      margin-left: auto;
+      margin-right: auto;
+      font-size: 13px;
+      font-weight: 500;
+      color: var(--ink);
+      box-shadow: 0 1px 2px rgba(0, 0, 0, .03), 0 8px 24px -8px rgba(0, 0, 0, .08)
+    }
+
+    .fl-resume-banner .fl-resume-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: var(--g);
+      flex-shrink: 0;
+      box-shadow: 0 0 0 4px var(--gl)
+    }
+
+    .fl-resume-banner a {
+      margin-left: auto;
+      background: var(--ink);
+      color: #fff;
+      text-decoration: none;
+      font-weight: 600;
+      font-size: 12.5px;
+      padding: 7px 16px;
+      border-radius: 999px;
+      flex-shrink: 0;
+      transition: opacity .15s
+    }
+
+    .fl-resume-banner a:hover {
+      opacity: .82
+    }
+
+    /* ── RECALL CHECK (Apple-style: clean card, subtle accent) ── */
+    .fl-recall {
+      background: #fff;
+      border: 1px solid rgba(0, 0, 0, .06);
+      border-radius: 16px;
+      padding: 18px 20px;
+      margin: 22px 0;
+      box-shadow: 0 1px 2px rgba(0, 0, 0, .03), 0 10px 28px -12px rgba(0, 0, 0, .07)
+    }
+
+    .fl-recall-tag {
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: .2px;
+      color: var(--pur);
+      margin-bottom: 10px;
+      display: flex;
+      align-items: center;
+      gap: 6px
+    }
+
+    .fl-recall-q {
+      font-size: 14px;
+      font-weight: 600;
+      color: var(--ink);
+      margin-bottom: 12px;
+      line-height: 1.5;
+      letter-spacing: -.1px
+    }
+
+    .fl-recall-opt {
+      display: block;
+      border: 1px solid rgba(0, 0, 0, .08);
+      border-radius: 11px;
+      padding: 11px 14px;
+      font-size: 13.5px;
+      cursor: pointer;
+      color: var(--ink2);
+      background: #FBFBFC;
+      margin-bottom: 8px;
+      transition: all .15s;
+      font-weight: 450
+    }
+
+    .fl-recall-opt:hover {
+      background: #F5F5F7;
+      border-color: rgba(0, 0, 0, .12)
+    }
+
+    .fl-recall-fb {
+      display: none;
+      border-radius: 11px;
+      padding: 11px 14px;
+      font-size: 13px;
+      margin-top: 6px;
+      line-height: 1.6;
+      font-weight: 450
+    }
+
+    .fl-recall-fb.show {
+      display: block
+    }
+
+    .fl-recall-fb.correct {
+      background: var(--gl);
+      color: var(--gx)
+    }
+
+    .fl-recall-fb.wrong {
+      background: #FBF2F1;
+      color: #9A3B32
+    }
+
+    /* ── QUIZ RESULTS SUMMARY (Apple-style: neutral card, large refined type) ── */
+    .fl-quiz-results {
+      background: #fff;
+      border: 1px solid rgba(0, 0, 0, .06);
+      border-radius: 18px;
+      padding: 26px 24px;
+      text-align: center;
+      margin-bottom: 20px;
+      box-shadow: 0 1px 2px rgba(0, 0, 0, .03), 0 12px 32px -14px rgba(0, 0, 0, .09)
+    }
+
+    .fl-quiz-results-score {
+      font-size: 40px;
+      font-weight: 700;
+      font-family: var(--ff);
+      color: var(--ink);
+      letter-spacing: -1px
+    }
+
+    .fl-quiz-results-pct {
+      font-size: 12.5px;
+      color: var(--ink3);
+      margin-top: 4px;
+      font-weight: 450
+    }
+
+    .fl-quiz-results-msg {
+      font-size: 13px;
+      color: var(--ink2);
+      margin-top: 14px;
+      padding-top: 14px;
+      border-top: 1px solid rgba(0, 0, 0, .06);
+      line-height: 1.55;
+      font-weight: 450
+    }
+
+    /* ── LOCKED QUIZ QUESTIONS (Khan Academy-style, one attempt) ── */
+    .qz-card.fl-locked .qo {
+      cursor: not-allowed
+    }
+
+    .qz-card.fl-locked input:disabled+.qo {
+      opacity: .4;
+      cursor: not-allowed
+    }
+
+    .qz-card.fl-locked input:checked:disabled+.qo {
+      opacity: 1
+    }
+
+    .fl-lock-tag {
+      display: none;
+      align-items: center;
+      gap: 6px;
+      font-size: 11px;
+      font-weight: 500;
+      color: var(--ink3);
+      margin-top: 12px;
+      padding-top: 12px;
+      border-top: 1px solid rgba(0, 0, 0, .06)
+    }
+
+    .qz-card.fl-locked .fl-lock-tag {
+      display: flex
+    }
+
+    .fl-retake-wrap {
+      text-align: center;
+      margin: 4px 0 24px
+    }
+
+    #fl-retake-quiz {
+      display: none;
+      background: var(--ink);
+      color: #fff;
+      border: none;
+      border-radius: 999px;
+      padding: 13px 28px;
+      font-weight: 600;
+      font-size: 13.5px;
+      font-family: var(--ff);
+      cursor: pointer;
+      align-items: center;
+      gap: 8px;
+      letter-spacing: -.1px;
+      transition: opacity .15s, transform .15s
+    }
+
+    #fl-retake-quiz:hover {
+      opacity: .85;
+      transform: translateY(-1px)
+    }
+
+    /* ── SIDE RAIL (replaces top progress bar) ──
+         A slim always-visible strip on the right edge — thin enough
+         to survive small phone screens without stealing reading width.
+         Tap/click to expand into a floating detail panel. ── */
+    .fl-rail {
+      position: fixed;
+      top: 50%;
+      right: 8px;
+      transform: translateY(-50%);
+      width: 10px;
+      display: flex;
+      flex-direction: column;
+      gap: 5px;
+      z-index: 150;
+      cursor: pointer;
+      padding: 8px 6px;
+      border-radius: 10px;
+      transition: background .2s
+    }
+
+    .fl-rail:hover {
+      background: rgba(255, 255, 255, .9);
+      box-shadow: 0 4px 20px rgba(0, 0, 0, .1)
+    }
+
+    .fl-rail-seg {
+      width: 10px;
+      height: 16px;
+      border-radius: 5px;
+      background: rgba(0, 0, 0, .1);
+      transition: background .3s, transform .2s
+    }
+
+    .fl-rail-seg.fl-seg-done {
+      background: var(--g)
+    }
+
+    .fl-rail-seg.fl-seg-current {
+      background: var(--ink3);
+      transform: scaleX(1.4)
+    }
+
+    .fl-rail-seg-quiz {
+      margin-top: 3px;
+      border-top: 2px solid rgba(0, 0, 0, .12);
+      padding-top: 8px;
+      height: 20px
+    }
+
+    .fl-rail-seg-quiz.fl-seg-partial {
+      background: var(--gol)
+    }
+
+    .fl-rail-seg-quiz.fl-seg-pass {
+      background: var(--g)
+    }
+
+    .fl-rail-seg-quiz.fl-seg-fail {
+      background: #D97355
+    }
+
+    .fl-rail-backdrop {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(17, 24, 39, .32);
+      backdrop-filter: blur(2px);
+      z-index: 160
+    }
+
+    .fl-rail-backdrop.open {
+      display: block
+    }
+
+    .fl-rail-panel {
+      position: fixed;
+      top: 50%;
+      right: -320px;
+      transform: translateY(-50%);
+      width: 280px;
+      max-width: calc(100vw - 40px);
+      background: #fff;
+      border-radius: 20px;
+      box-shadow: 0 20px 60px -12px rgba(0, 0, 0, .25);
+      z-index: 161;
+      padding: 20px;
+      transition: right .3s cubic-bezier(.32, .72, 0, 1)
+    }
+
+    .fl-rail-panel.open {
+      right: 20px
+    }
+
+    .fl-rail-panel-hd {
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: .3px;
+      color: var(--ink3);
+      margin-bottom: 14px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center
+    }
+
+    .fl-rail-panel-close {
+      cursor: pointer;
+      color: var(--ink3);
+      font-size: 16px;
+      line-height: 1;
+      padding: 2px 6px;
+      border-radius: 6px
+    }
+
+    .fl-rail-panel-close:hover {
+      background: var(--bd2)
+    }
+
+    .fl-rail-item {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 8px 4px;
+      font-size: 13px;
+      color: var(--ink2);
+      font-weight: 450;
+      border-radius: 8px;
+      text-decoration: none
+    }
+
+    .fl-rail-item:hover {
+      background: var(--bd2)
+    }
+
+    .fl-rail-item-dot {
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+      background: rgba(0, 0, 0, .12);
+      flex-shrink: 0
+    }
+
+    .fl-rail-item.fl-done .fl-rail-item-dot {
+      background: var(--g)
+    }
+
+    .fl-rail-item.fl-done {
+      color: var(--ink)
+    }
+
+    .fl-rail-quiz-block {
+      margin-top: 10px;
+      padding-top: 14px;
+      border-top: 1px solid rgba(0, 0, 0, .06)
+    }
+
+    .fl-rail-quiz-label {
+      font-size: 11px;
+      color: var(--ink3);
+      margin-bottom: 4px
+    }
+
+    .fl-rail-quiz-val {
+      font-size: 22px;
+      font-weight: 700;
+      color: var(--ink);
+      letter-spacing: -.5px
+    }
+
+    @media(max-width:480px) {
+      .fl-rail {
+        right: 4px
+      }
+    }
+
+    /* ── DIAGNOSE IT — multi-select case-study assessment ── */
+    .fl-diag {
+      background: #fff;
+      border: 1px solid rgba(0, 0, 0, .06);
+      border-radius: 18px;
+      padding: 22px 22px 20px;
+      margin: 24px 0;
+      box-shadow: 0 1px 2px rgba(0, 0, 0, .03), 0 14px 34px -16px rgba(0, 0, 0, .1)
+    }
+
+    .fl-diag-tag {
+      font-size: 11px;
+      font-weight: 600;
+      color: var(--pur);
+      margin-bottom: 6px
+    }
+
+    .fl-diag-title {
+      font-size: 16px;
+      font-weight: 700;
+      color: var(--ink);
+      margin-bottom: 4px;
+      letter-spacing: -.2px
+    }
+
+    .fl-diag-brief {
+      font-size: 13px;
+      color: var(--ink3);
+      margin-bottom: 16px;
+      line-height: 1.5
+    }
+
+    .fl-diag-instruction {
+      font-size: 12.5px;
+      color: var(--ink2);
+      background: #F8F8FA;
+      border-radius: 10px;
+      padding: 9px 13px;
+      margin-bottom: 14px;
+      font-weight: 500
+    }
+
+    .fl-diag-item {
+      display: flex;
+      align-items: flex-start;
+      gap: 11px;
+      padding: 12px 14px;
+      border: 1px solid rgba(0, 0, 0, .08);
+      border-radius: 12px;
+      margin-bottom: 8px;
+      cursor: pointer;
+      transition: all .15s;
+      background: #FBFBFC
+    }
+
+    .fl-diag-item:hover {
+      border-color: rgba(0, 0, 0, .16)
+    }
+
+    .fl-diag-checkbox {
+      width: 18px;
+      height: 18px;
+      border-radius: 6px;
+      border: 1.5px solid rgba(0, 0, 0, .18);
+      flex-shrink: 0;
+      margin-top: 1px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all .15s;
+      background: #fff
+    }
+
+    .fl-diag-item.fl-checked .fl-diag-checkbox {
+      background: var(--ink);
+      border-color: var(--ink)
+    }
+
+    .fl-diag-checkbox::after {
+      content: '';
+      width: 5px;
+      height: 9px;
+      border: solid #fff;
+      border-width: 0 2px 2px 0;
+      transform: rotate(45deg) scale(0);
+      transition: transform .15s
+    }
+
+    .fl-diag-item.fl-checked .fl-diag-checkbox::after {
+      transform: rotate(45deg) scale(1)
+    }
+
+    .fl-diag-text {
+      font-size: 13.5px;
+      color: var(--ink2);
+      line-height: 1.5;
+      font-weight: 450
+    }
+
+    .fl-diag-item.fl-locked {
+      cursor: default;
+      pointer-events: none
+    }
+
+    .fl-diag-item.fl-result-correct {
+      background: var(--gl);
+      border-color: var(--gm)
+    }
+
+    .fl-diag-item.fl-result-missed {
+      background: #FFF7ED;
+      border-color: #FED7AA
+    }
+
+    .fl-diag-item.fl-result-wrong {
+      background: #FBF2F1;
+      border-color: #F3D2CE
+    }
+
+    .fl-diag-item-note {
+      font-size: 11.5px;
+      margin-top: 4px;
+      font-weight: 600
+    }
+
+    .fl-diag-item.fl-result-correct .fl-diag-item-note {
+      color: var(--gd)
+    }
+
+    .fl-diag-item.fl-result-missed .fl-diag-item-note {
+      color: #B45309
+    }
+
+    .fl-diag-item.fl-result-wrong .fl-diag-item-note {
+      color: #9A3B32
+    }
+
+    .fl-diag-submit {
+      background: var(--ink);
+      color: #fff;
+      border: none;
+      border-radius: 999px;
+      padding: 12px 24px;
+      font-weight: 600;
+      font-size: 13.5px;
+      font-family: var(--ff);
+      cursor: pointer;
+      margin-top: 6px;
+      transition: opacity .15s
+    }
+
+    .fl-diag-submit:hover {
+      opacity: .85
+    }
+
+    .fl-diag-submit:disabled {
+      opacity: .35;
+      cursor: not-allowed
+    }
+
+    .fl-diag-result-banner {
+      display: none;
+      margin-top: 14px;
+      padding: 13px 16px;
+      border-radius: 12px;
+      background: #F5F3FF;
+      font-size: 13px;
+      color: var(--ink);
+      font-weight: 500
+    }
+
+    .fl-diag-result-banner.show {
+      display: block
+    }
+
+    .fl-diag-result-banner b {
+      font-size: 15px
+    }
+
+    /* ── SORT IT — tap-to-rank assessment ── */
+    .fl-sort {
+      background: #fff;
+      border: 1px solid rgba(0, 0, 0, .06);
+      border-radius: 18px;
+      padding: 22px 22px 20px;
+      margin: 24px 0;
+      box-shadow: 0 1px 2px rgba(0, 0, 0, .03), 0 14px 34px -16px rgba(0, 0, 0, .1)
+    }
+
+    .fl-sort-tag {
+      font-size: 11px;
+      font-weight: 600;
+      color: var(--blu);
+      margin-bottom: 6px
+    }
+
+    .fl-sort-title {
+      font-size: 16px;
+      font-weight: 700;
+      color: var(--ink);
+      margin-bottom: 4px;
+      letter-spacing: -.2px
+    }
+
+    .fl-sort-brief {
+      font-size: 13px;
+      color: var(--ink3);
+      margin-bottom: 16px;
+      line-height: 1.5
+    }
+
+    .fl-sort-item {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 12px 14px;
+      border: 1px solid rgba(0, 0, 0, .08);
+      border-radius: 12px;
+      margin-bottom: 8px;
+      cursor: pointer;
+      transition: all .15s;
+      background: #FBFBFC
+    }
+
+    .fl-sort-item:hover {
+      border-color: rgba(0, 0, 0, .16)
+    }
+
+    .fl-sort-badge {
+      width: 26px;
+      height: 26px;
+      border-radius: 50%;
+      border: 1.5px dashed rgba(0, 0, 0, .18);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 12px;
+      font-weight: 700;
+      color: var(--ink3);
+      flex-shrink: 0;
+      transition: all .2s
+    }
+
+    .fl-sort-item.fl-ranked .fl-sort-badge {
+      background: var(--ink);
+      border: none;
+      border-style: solid;
+      color: #fff
+    }
+
+    .fl-sort-text {
+      font-size: 13.5px;
+      color: var(--ink2);
+      font-weight: 450
+    }
+
+    .fl-sort-item.fl-locked {
+      cursor: default;
+      pointer-events: none
+    }
+
+    .fl-sort-item.fl-sort-correct {
+      background: var(--gl);
+      border-color: var(--gm)
+    }
+
+    .fl-sort-item.fl-sort-correct .fl-sort-badge {
+      background: var(--gd)
+    }
+
+    .fl-sort-item.fl-sort-off {
+      background: #FFF7ED;
+      border-color: #FED7AA
+    }
+
+    .fl-sort-item.fl-sort-off .fl-sort-badge {
+      background: #B45309
+    }
+
+    .fl-sort-controls {
+      display: flex;
+      gap: 10px;
+      align-items: center;
+      margin-top: 6px
+    }
+
+    .fl-sort-reset {
+      font-size: 12.5px;
+      color: var(--ink3);
+      cursor: pointer;
+      text-decoration: underline;
+      text-underline-offset: 2px
+    }
+
+    .fl-sort-result-banner {
+      display: none;
+      margin-top: 14px;
+      padding: 13px 16px;
+      border-radius: 12px;
+      background: var(--blul);
+      font-size: 13px;
+      color: var(--ink);
+      font-weight: 500
+    }
+
+    .fl-sort-result-banner.show {
+      display: block
+    }
+
+    .fl-sort-result-banner b {
+      font-size: 15px
+    }
+
+    /* ── ESTIMATE IT — numeric guess with tolerance ── */
+    .fl-est {
+      background: #fff;
+      border: 1px solid rgba(0, 0, 0, .06);
+      border-radius: 18px;
+      padding: 22px 22px 20px;
+      margin: 24px 0;
+      box-shadow: 0 1px 2px rgba(0, 0, 0, .03), 0 14px 34px -16px rgba(0, 0, 0, .1)
+    }
+
+    .fl-est-tag {
+      font-size: 11px;
+      font-weight: 600;
+      color: var(--gd);
+      margin-bottom: 6px
+    }
+
+    .fl-est-title {
+      font-size: 16px;
+      font-weight: 700;
+      color: var(--ink);
+      margin-bottom: 10px;
+      letter-spacing: -.2px
+    }
+
+    .fl-est-q {
+      font-size: 13.5px;
+      color: var(--ink2);
+      line-height: 1.6;
+      margin-bottom: 16px
+    }
+
+    .fl-est-input-row {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 14px
+    }
+
+    .fl-est-prefix {
+      font-size: 15px;
+      font-weight: 700;
+      color: var(--ink3)
+    }
+
+    .fl-est-input {
+      flex: 1;
+      max-width: 180px;
+      border: 1.5px solid rgba(0, 0, 0, .12);
+      border-radius: 12px;
+      padding: 11px 14px;
+      font-size: 16px;
+      font-weight: 600;
+      font-family: var(--fm);
+      color: var(--ink);
+      outline: none;
+      transition: border-color .15s
+    }
+
+    .fl-est-input:focus {
+      border-color: var(--g)
+    }
+
+    .fl-est-input:disabled {
+      background: var(--bd2);
+      color: var(--ink3)
+    }
+
+    .fl-est-result-banner {
+      display: none;
+      margin-top: 6px;
+      padding: 15px 17px;
+      border-radius: 14px;
+      font-size: 13px;
+      line-height: 1.6
+    }
+
+    .fl-est-result-banner.show {
+      display: block
+    }
+
+    .fl-est-result-banner.fl-est-excellent {
+      background: var(--gl);
+      color: var(--gx)
+    }
+
+    .fl-est-result-banner.fl-est-close {
+      background: #FFF7ED;
+      color: #92400E
+    }
+
+    .fl-est-result-banner.fl-est-off {
+      background: #FBF2F1;
+      color: #9A3B32
+    }
+
+    .fl-est-result-banner b {
+      font-size: 16px;
+      display: block;
+      margin-bottom: 3px
+    }
+
+    /* ── EXPLAIN IT — free-text reflection with keyword feedback ── */
+    .fl-exp {
+      background: #fff;
+      border: 1px solid rgba(0, 0, 0, .06);
+      border-radius: 18px;
+      padding: 22px 22px 20px;
+      margin: 24px 0;
+      box-shadow: 0 1px 2px rgba(0, 0, 0, .03), 0 14px 34px -16px rgba(0, 0, 0, .1)
+    }
+
+    .fl-exp-tag {
+      font-size: 11px;
+      font-weight: 600;
+      color: #B45309;
+      margin-bottom: 6px
+    }
+
+    .fl-exp-title {
+      font-size: 16px;
+      font-weight: 700;
+      color: var(--ink);
+      margin-bottom: 10px;
+      letter-spacing: -.2px
+    }
+
+    .fl-exp-q {
+      font-size: 13.5px;
+      color: var(--ink2);
+      line-height: 1.6;
+      margin-bottom: 14px
+    }
+
+    .fl-exp-textarea {
+      width: 100%;
+      min-height: 90px;
+      border: 1.5px solid rgba(0, 0, 0, .12);
+      border-radius: 14px;
+      padding: 13px 15px;
+      font-size: 13.5px;
+      font-family: var(--ff);
+      color: var(--ink);
+      resize: vertical;
+      outline: none;
+      transition: border-color .15s;
+      line-height: 1.55;
+      margin-bottom: 12px
+    }
+
+    .fl-exp-textarea:focus {
+      border-color: var(--gol)
+    }
+
+    .fl-exp-textarea:disabled {
+      background: var(--bd2);
+      color: var(--ink2)
+    }
+
+    .fl-exp-result-banner {
+      display: none;
+      margin-top: 4px;
+      padding: 15px 17px;
+      border-radius: 14px;
+      background: var(--gold);
+      font-size: 13px;
+      color: #7a5500;
+      line-height: 1.6
+    }
+
+    .fl-exp-result-banner.show {
+      display: block
+    }
+
+    .fl-exp-result-banner b {
+      font-size: 14px;
+      display: block;
+      margin-bottom: 4px;
+      color: #7a5500
+    }
+
+    /* ── DECIDE IT — branching decision simulator ── */
+    .fl-decide {
+      background: linear-gradient(150deg, var(--gx) 0%, #0a2617 100%);
+      border-radius: 22px;
+      padding: 28px 24px 26px;
+      margin: 26px 0;
+      color: #fff;
+      position: relative;
+      overflow: hidden
+    }
+
+    .fl-decide::before {
+      content: '';
+      position: absolute;
+      right: -60px;
+      top: -60px;
+      width: 220px;
+      height: 220px;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(34, 197, 94, .14), transparent 70%);
+      pointer-events: none
+    }
+
+    .fl-decide-tag {
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: var(--gol);
+      margin-bottom: 8px;
+      position: relative
+    }
+
+    .fl-decide-title {
+      font-size: 20px;
+      font-weight: 800;
+      letter-spacing: -.3px;
+      margin-bottom: 8px;
+      position: relative
+    }
+
+    .fl-decide-intro {
+      font-size: 13.5px;
+      color: rgba(255, 255, 255, .72);
+      line-height: 1.65;
+      margin-bottom: 18px;
+      position: relative
+    }
+
+    .fl-decide-step {
+      display: none;
+      position: relative
+    }
+
+    .fl-decide-step.active {
+      display: block;
+      animation: fl-decide-in .4s ease both
+    }
+
+    @keyframes fl-decide-in {
+      from {
+        opacity: 0;
+        transform: translateY(10px)
+      }
+
+      to {
+        opacity: 1;
+        transform: none
+      }
+    }
+
+    .fl-decide-progress {
+      font-family: var(--fm);
+      font-size: 10.5px;
+      color: rgba(255, 255, 255, .5);
+      margin-bottom: 10px;
+      letter-spacing: .5px
+    }
+
+    .fl-decide-scenario {
+      font-size: 14.5px;
+      font-weight: 600;
+      line-height: 1.6;
+      margin-bottom: 16px
+    }
+
+    .fl-decide-opt {
+      display: block;
+      width: 100%;
+      text-align: left;
+      background: rgba(255, 255, 255, .08);
+      border: 1px solid rgba(255, 255, 255, .14);
+      border-radius: 13px;
+      padding: 13px 16px;
+      font-size: 13.5px;
+      color: #fff;
+      font-family: var(--ff);
+      cursor: pointer;
+      margin-bottom: 9px;
+      transition: all .18s;
+      line-height: 1.5
+    }
+
+    .fl-decide-opt:hover {
+      background: rgba(255, 255, 255, .16);
+      transform: translateX(2px)
+    }
+
+    .fl-decide-consequence {
+      background: rgba(255, 255, 255, .1);
+      border-left: 3px solid var(--gol);
+      border-radius: 10px;
+      padding: 13px 15px;
+      font-size: 13px;
+      line-height: 1.62;
+      margin-bottom: 16px;
+      color: rgba(255, 255, 255, .92)
+    }
+
+    .fl-decide-next {
+      background: #fff;
+      color: var(--gx);
+      border: none;
+      border-radius: 999px;
+      padding: 11px 22px;
+      font-weight: 700;
+      font-size: 13px;
+      font-family: var(--ff);
+      cursor: pointer
+    }
+
+    .fl-decide-outcome {
+      text-align: center;
+      padding: 6px 0
+    }
+
+    .fl-decide-outcome-badge {
+      display: inline-block;
+      font-family: var(--fm);
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      padding: 5px 14px;
+      border-radius: 20px;
+      margin-bottom: 14px
+    }
+
+    .fl-decide-outcome-badge.strong {
+      background: var(--gm);
+      color: var(--gx)
+    }
+
+    .fl-decide-outcome-badge.developing {
+      background: var(--gold);
+      color: #7a5500
+    }
+
+    .fl-decide-outcome-badge.risk {
+      background: #FBD9D2;
+      color: #7a1c10
+    }
+
+    .fl-decide-outcome-msg {
+      font-size: 13.5px;
+      line-height: 1.7;
+      color: rgba(255, 255, 255, .88);
+      text-align: left
+    }
+
+    /* ── CERTIFICATE GATE ── */
+    .fl-cert {
+      background: #fff;
+      border: 1px solid rgba(0, 0, 0, .06);
+      border-radius: 20px;
+      padding: 26px 24px;
+      margin: 20px 0;
+      box-shadow: 0 1px 2px rgba(0, 0, 0, .03), 0 16px 40px -18px rgba(0, 0, 0, .12)
+    }
+
+    .fl-cert-tag {
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: .3px;
+      color: var(--gol);
+      margin-bottom: 6px
+    }
+
+    .fl-cert-title {
+      font-size: 18px;
+      font-weight: 800;
+      color: var(--ink);
+      margin-bottom: 4px;
+      letter-spacing: -.3px
+    }
+
+    .fl-cert-sub {
+      font-size: 12.5px;
+      color: var(--ink3);
+      margin-bottom: 18px
+    }
+
+    .fl-cert-check-item {
+      display: flex;
+      align-items: center;
+      gap: 11px;
+      padding: 10px 0;
+      border-bottom: 1px solid rgba(0, 0, 0, .05);
+      font-size: 13px
+    }
+
+    .fl-cert-check-item:last-of-type {
+      border-bottom: none
+    }
+
+    .fl-cert-check-icon {
+      width: 22px;
+      height: 22px;
+      border-radius: 50%;
+      flex-shrink: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 11px;
+      font-weight: 800;
+      background: var(--bd2);
+      color: var(--ink3)
+    }
+
+    .fl-cert-check-item.fl-cert-pass .fl-cert-check-icon {
+      background: var(--gd);
+      color: #fff
+    }
+
+    .fl-cert-check-label {
+      color: var(--ink2);
+      font-weight: 500;
+      flex: 1
+    }
+
+    .fl-cert-check-item.fl-cert-pass .fl-cert-check-label {
+      color: var(--ink)
+    }
+
+    .fl-cert-check-status {
+      font-family: var(--fm);
+      font-size: 11px;
+      color: var(--ink3)
+    }
+
+    .fl-cert-locked-msg {
+      margin-top: 16px;
+      background: var(--bd2);
+      border-radius: 12px;
+      padding: 12px 15px;
+      font-size: 12.5px;
+      color: var(--ink3);
+      text-align: center
+    }
+
+    .fl-cert-unlock {
+      margin-top: 18px;
+      padding-top: 18px;
+      border-top: 1px solid rgba(0, 0, 0, .06);
+      text-align: center
+    }
+
+    .fl-cert-unlock-msg {
+      font-size: 13px;
+      color: var(--gd);
+      font-weight: 600;
+      margin-bottom: 12px
+    }
+
+    .fl-cert-name-input {
+      border: 1.5px solid rgba(0, 0, 0, .12);
+      border-radius: 12px;
+      padding: 11px 15px;
+      font-size: 14px;
+      font-family: var(--ff);
+      width: 100%;
+      max-width: 280px;
+      margin-bottom: 12px;
+      outline: none
+    }
+
+    .fl-cert-name-input:focus {
+      border-color: var(--g)
+    }
+
+    .fl-cert-claim-btn {
+      display: block;
+      margin: 0 auto;
+      background: var(--gx);
+      color: #fff;
+      border: none;
+      border-radius: 999px;
+      padding: 13px 28px;
+      font-weight: 700;
+      font-size: 13.5px;
+      font-family: var(--ff);
+      cursor: pointer
+    }
+
+    /* ── CERTIFICATE DOCUMENT (revealed once claimed) ── */
+    .fl-cert-doc {
+      display: none;
+      margin-top: 20px;
+      border: 2px solid var(--gol);
+      border-radius: 16px;
+      padding: 36px 28px;
+      text-align: center;
+      background: linear-gradient(150deg, var(--gold) 0%, #fff 60%);
+      position: relative
+    }
+
+    .fl-cert-doc.show {
+      display: block
+    }
+
+    .fl-cert-doc-kicker {
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 2.5px;
+      text-transform: uppercase;
+      color: var(--gol);
+      margin-bottom: 14px
+    }
+
+    .fl-cert-doc-org {
+      font-size: 13px;
+      font-weight: 700;
+      color: var(--gx);
+      margin-bottom: 22px
+    }
+
+    .fl-cert-doc-presented {
+      font-size: 11px;
+      color: var(--ink3);
+      letter-spacing: .5px;
+      text-transform: uppercase;
+      margin-bottom: 8px
+    }
+
+    .fl-cert-doc-name {
+      font-size: 28px;
+      font-weight: 800;
+      color: var(--ink);
+      margin-bottom: 18px;
+      letter-spacing: -.5px;
+      border-bottom: 2px solid var(--gol);
+      display: inline-block;
+      padding-bottom: 10px
+    }
+
+    .fl-cert-doc-body {
+      font-size: 13.5px;
+      color: var(--ink2);
+      line-height: 1.7;
+      max-width: 380px;
+      margin: 0 auto 20px
+    }
+
+    .fl-cert-doc-date {
+      font-family: var(--fm);
+      font-size: 11px;
+      color: var(--ink3)
+    }
+
+    .fl-cert-print-btn {
+      margin-top: 20px;
+      background: var(--ink);
+      color: #fff;
+      border: none;
+      border-radius: 999px;
+      padding: 12px 26px;
+      font-weight: 600;
+      font-size: 13px;
+      font-family: var(--ff);
+      cursor: pointer
+    }
+
+    @media print {
+      body * {
+        visibility: hidden
+      }
+
+      .fl-cert-doc,
+      .fl-cert-doc * {
+        visibility: visible
+      }
+
+      .fl-cert-doc {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        border: 4px solid var(--gol)
+      }
+
+      .fl-cert-print-btn {
+        display: none
+      }
+    }
+    .cert-backdrop{position:fixed;inset:0;background:rgba(0,0,0,.55);backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px);z-index:900;opacity:0;pointer-events:none;transition:opacity .3s ease}
+    .cert-backdrop.open{opacity:1;pointer-events:all}
+    .cert-sheet{position:fixed;bottom:0;left:0;right:0;z-index:901;background:#F5F5F7;border-radius:20px 20px 0 0;height:94vh;transform:translateY(100%);transition:transform .4s cubic-bezier(.32,0,.67,0);display:flex;flex-direction:column;padding-bottom:env(safe-area-inset-bottom,0px)}
+    .cert-sheet.open{transform:translateY(0);transition-timing-function:cubic-bezier(.33,1,.68,1)}
+    .cert-sheet-handle{width:36px;height:4px;border-radius:2px;background:#C7C7CC;position:absolute;top:10px;left:50%;transform:translateX(-50%)}
+    .cert-sheet-bar{flex-shrink:0;padding:12px 20px 10px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid #E5E5EA;background:#F5F5F7;border-radius:20px 20px 0 0;position:relative}
+    .cert-sheet-title{font-size:15px;font-weight:700;color:#1D1D1F;letter-spacing:-.2px}
+    .cert-sheet-close{width:28px;height:28px;border-radius:50%;background:#E5E5EA;border:none;cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:13px;color:#6E6E73;transition:background .15s;flex-shrink:0}
+    .cert-sheet-close:hover{background:#D1D1D6}
+    .cert-fallback{flex-shrink:0;text-align:center;font:500 13px/1.2 -apple-system,BlinkMacSystemFont,'SF Pro Text',Inter,Arial,sans-serif;color:#6E6E73;padding:10px 12px;text-decoration:none;background:#F5F5F7;border-top:1px solid #E5E5EA}
+.cert-fallback:active{opacity:.6}
+.cert-iframe{flex:1;border:none;width:100%;background:#F5F5F7}
+    /* ══ ACTIVITY: PAYSLIP CALCULATOR ══ */
+    .fl-calc{background:#fff;border:1px solid rgba(0,0,0,.06);border-radius:20px;padding:26px 24px;box-shadow:0 1px 2px rgba(0,0,0,.03),0 16px 40px -18px rgba(0,0,0,.12);margin:20px 0}
+    .fl-calc-tag{font-family:var(--ff);font-size:11px;font-weight:600;letter-spacing:.3px;color:var(--gol,#C9A83C);margin-bottom:6px}
+    .fl-calc-title{font-family:var(--ff);font-size:18px;font-weight:800;color:var(--ink,#111827);margin-bottom:4px;letter-spacing:-.3px}
+    .fl-calc-sub{font-family:var(--ff);font-size:12.5px;color:var(--ink3,#6B7280);margin-bottom:18px;line-height:1.6}
+    .fl-calc-divider{border-top:1px solid rgba(0,0,0,.06);padding-top:18px;margin-top:4px}
+    .fl-calc-label{font-family:var(--ff);display:block;font-size:11px;font-weight:600;color:var(--ink3,#6B7280);margin-bottom:7px;letter-spacing:.2px}
+    .fl-calc-input-wrap{position:relative}
+    .fl-calc-currency{position:absolute;left:15px;top:50%;transform:translateY(-50%);font-family:var(--ff);font-size:15px;font-weight:700;color:var(--ink3,#6B7280);pointer-events:none}
+    .fl-calc-input{border:1.5px solid rgba(0,0,0,.12);border-radius:12px;padding:13px 16px 13px 34px;font-size:17px;font-weight:500;width:100%;outline:none;color:var(--ink,#111827);background:#fff;transition:border-color .2s;font-family:var(--fm);-webkit-appearance:none}
+    .fl-calc-input::placeholder{color:#AEAEB2;font-weight:400;font-family:var(--ff)}
+    .fl-calc-input:focus{border-color:var(--g,#22C55E)}
+    .fl-calc-results{margin-top:20px;padding-top:18px;border-top:1px solid rgba(0,0,0,.06);display:none}
+    .fl-calc-results.show{display:block;animation:fl-calc-in .35s ease both}
+    @keyframes fl-calc-in{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
+    .fl-calc-row{display:flex;justify-content:space-between;align-items:center;padding:9px 0;font-size:13px}
+    .fl-calc-row+.fl-calc-row{border-top:1px dashed rgba(0,0,0,.06)}
+    .fl-calc-row-label{font-family:var(--ff);color:var(--ink2,#374151);display:flex;align-items:center;gap:6px}
+    .fl-calc-row-label .fl-calc-info{width:14px;height:14px;border-radius:50%;background:var(--bd2,#F3F4F6);color:var(--ink3,#6B7280);font-size:9px;font-weight:700;display:inline-flex;align-items:center;justify-content:center;cursor:help}
+    .fl-calc-row-val{font-family:var(--ff);font-weight:700;font-variant-numeric:tabular-nums;color:var(--ink,#111827)}
+    .fl-calc-row-val.deduct{color:#DC2626}
+    .fl-calc-row.net{background:var(--gl,#F0FDF4);margin:12px -24px -26px;padding:16px 24px;border-top:1px solid rgba(0,0,0,.06);border-radius:0 0 20px 20px}
+    .fl-calc-row.net .fl-calc-row-label{font-family:var(--ff);color:var(--gd,#15803D);font-weight:700;font-size:13.5px}
+    .fl-calc-row.net .fl-calc-row-val{font-family:var(--ff);color:var(--gd,#15803D);font-size:18px;font-weight:800}
+    .fl-calc-explainer{font-family:var(--ff);font-size:12px;color:var(--ink3,#6B7280);line-height:1.65;margin-top:16px;padding-top:16px;border-top:1px dashed rgba(0,0,0,.06)}
+    .fl-calc-explainer b{color:var(--ink2,#374151);font-weight:600}
+    .fl-calc-used-badge{font-family:var(--ff);display:none;align-items:center;gap:6px;font-size:12.5px;font-weight:600;color:var(--gd,#15803D);margin-top:14px}
+    .fl-calc-used-badge.show{display:flex}
+
+    /* ══ ACTIVITY: BUDGET ALLOCATOR ══ */
+    .fl-budget{background:#fff;border:1px solid rgba(0,0,0,.06);border-radius:20px;padding:26px 24px;box-shadow:0 1px 2px rgba(0,0,0,.03),0 16px 40px -18px rgba(0,0,0,.12);margin:20px 0}
+    .fl-budget-tag{font-family:var(--ff);font-size:11px;font-weight:600;letter-spacing:.3px;color:var(--gol,#C9A83C);margin-bottom:6px}
+    .fl-budget-title{font-family:var(--ff);font-size:18px;font-weight:800;color:var(--ink,#111827);margin-bottom:4px;letter-spacing:-.3px}
+    .fl-budget-sub{font-family:var(--ff);font-size:12.5px;color:var(--ink3,#6B7280);margin-bottom:18px;line-height:1.6}
+    .fl-budget-divider{border-top:1px solid rgba(0,0,0,.06);padding-top:18px;margin-top:4px}
+    .fl-budget-label{font-family:var(--ff);display:block;font-size:11px;font-weight:600;color:var(--ink3,#6B7280);margin-bottom:7px;letter-spacing:.2px}
+    .fl-budget-input-wrap{position:relative}
+    .fl-budget-currency{position:absolute;left:15px;top:50%;transform:translateY(-50%);font-family:var(--ff);font-size:15px;font-weight:700;color:var(--ink3,#6B7280);pointer-events:none}
+    .fl-budget-input{border:1.5px solid rgba(0,0,0,.12);border-radius:12px;padding:13px 16px 13px 34px;font-size:17px;font-weight:500;width:100%;outline:none;color:var(--ink,#111827);background:#fff;transition:border-color .2s;font-family:var(--fm);-webkit-appearance:none}
+    .fl-budget-input::placeholder{color:#AEAEB2;font-weight:400;font-family:var(--ff)}
+    .fl-budget-input:focus{border-color:var(--g,#22C55E)}
+    .fl-budget-sliders{margin-top:20px;padding-top:18px;border-top:1px solid rgba(0,0,0,.06);display:none}
+    .fl-budget-sliders.show{display:block;animation:fl-budget-in .35s ease both}
+    @keyframes fl-budget-in{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
+    .fl-budget-slider-group{margin-bottom:20px}
+    .fl-budget-slider-group:last-of-type{margin-bottom:0}
+    .fl-budget-slider-hdr{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:8px}
+    .fl-budget-slider-name{font-family:var(--ff);font-size:13px;font-weight:700;color:var(--ink2,#374151);display:flex;align-items:center;gap:6px}
+    .fl-budget-slider-dot{width:8px;height:8px;border-radius:50%;flex-shrink:0}
+    .fl-budget-slider-dot.needs{background:#166534}
+    .fl-budget-slider-dot.wants{background:#6D28D9}
+    .fl-budget-slider-dot.savings{background:#C9A83C}
+    .fl-budget-slider-val{font-family:var(--ff);font-size:13px;font-weight:800;color:var(--ink,#111827);font-variant-numeric:tabular-nums}
+    .fl-budget-slider-amt{font-family:var(--ff);font-size:11px;color:var(--ink3,#6B7280);font-variant-numeric:tabular-nums;margin-left:4px;font-weight:500}
+    .fl-budget-slider{width:100%;-webkit-appearance:none;appearance:none;height:6px;border-radius:3px;background:var(--bd2,#F3F4F6);outline:none;cursor:pointer}
+    .fl-budget-slider::-webkit-slider-thumb{-webkit-appearance:none;appearance:none;width:20px;height:20px;border-radius:50%;background:#fff;border:3px solid var(--gx,#14532D);cursor:pointer;box-shadow:0 1px 4px rgba(0,0,0,.2);transition:transform .15s}
+    .fl-budget-slider::-webkit-slider-thumb:active{transform:scale(1.15)}
+    .fl-budget-slider.needs::-webkit-slider-thumb{border-color:#166534}
+    .fl-budget-slider.wants::-webkit-slider-thumb{border-color:#6D28D9}
+    .fl-budget-slider.savings::-webkit-slider-thumb{border-color:#C9A83C}
+    .fl-budget-bar{display:flex;height:14px;border-radius:7px;overflow:hidden;margin:18px 0 8px;gap:2px}
+    .fl-budget-bar-seg{transition:flex .3s ease}
+    .fl-budget-bar-seg.needs{background:#166534}
+    .fl-budget-bar-seg.wants{background:#6D28D9}
+    .fl-budget-bar-seg.savings{background:#C9A83C}
+    .fl-budget-total-row{display:flex;justify-content:space-between;align-items:center;padding-top:6px;margin-bottom:16px}
+    .fl-budget-total-label{font-family:var(--ff);font-size:12px;color:var(--ink3,#6B7280);font-weight:600}
+    .fl-budget-total-val{font-family:var(--ff);font-size:14px;font-weight:800;color:var(--ink,#111827);font-variant-numeric:tabular-nums}
+    .fl-budget-total-val.zero{color:var(--gd,#15803D)}
+    .fl-budget-status{font-family:var(--ff);border-radius:12px;padding:12px 16px;font-size:12.5px;line-height:1.6;margin-top:4px}
+    .fl-budget-status.balanced{background:var(--gl,#F0FDF4);color:var(--gd,#15803D);border:1px solid rgba(21,128,61,.12)}
+    .fl-budget-status.off{background:#FEF2F2;color:#B91C1C;border:1px solid rgba(185,28,28,.12)}
+    .fl-budget-used-badge{font-family:var(--ff);display:none;align-items:center;gap:6px;font-size:12.5px;font-weight:600;color:var(--gd,#15803D);margin-top:14px}
+    .fl-budget-used-badge.show{display:flex}
+
+    /* ══ ACTIVITY: SMART GOALS BUILDER ══ */
+    .fl-goal{background:#fff;border:1px solid rgba(0,0,0,.06);border-radius:20px;padding:26px 24px;box-shadow:0 1px 2px rgba(0,0,0,.03),0 16px 40px -18px rgba(0,0,0,.12);margin:20px 0}
+    .fl-goal-tag{font-family:var(--ff);font-size:11px;font-weight:600;letter-spacing:.3px;color:var(--gol,#C9A83C);margin-bottom:6px}
+    .fl-goal-title{font-family:var(--ff);font-size:18px;font-weight:800;color:var(--ink,#111827);margin-bottom:4px;letter-spacing:-.3px}
+    .fl-goal-sub{font-family:var(--ff);font-size:12.5px;color:var(--ink3,#6B7280);margin-bottom:18px;line-height:1.6}
+    .fl-goal-divider{border-top:1px solid rgba(0,0,0,.06);padding-top:18px;margin-top:4px}
+    .fl-goal-letters{display:flex;gap:6px;margin-bottom:20px}
+    .fl-goal-letter{flex:1;text-align:center;padding:8px 4px;border-radius:9px;background:var(--bd2,#F3F4F6);font-family:var(--ff);font-size:13px;font-weight:800;color:var(--ink4,#9CA3AF);transition:all .25s ease;cursor:pointer;border:1.5px solid transparent}
+    .fl-goal-letter.active{background:var(--gx,#14532D);color:#fff;border-color:var(--gx,#14532D)}
+    .fl-goal-letter.done{background:var(--gl,#F0FDF4);color:var(--gd,#15803D);border-color:rgba(21,128,61,.2)}
+    .fl-goal-step{display:none}
+    .fl-goal-step.show{display:block;animation:fl-goal-in .3s ease both}
+    @keyframes fl-goal-in{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
+    .fl-goal-step-label{font-family:var(--ff);font-size:11px;font-weight:600;color:var(--ink3,#6B7280);margin-bottom:4px;letter-spacing:.2px;text-transform:uppercase}
+    .fl-goal-step-word{font-family:var(--ff);font-size:16px;font-weight:800;color:var(--ink,#111827);margin-bottom:6px;letter-spacing:-.2px}
+    .fl-goal-step-prompt{font-family:var(--ff);font-size:12.5px;color:var(--ink3,#6B7280);line-height:1.6;margin-bottom:14px}
+    .fl-goal-input{border:1.5px solid rgba(0,0,0,.12);border-radius:12px;padding:12px 15px;font-size:14.5px;font-weight:500;width:100%;outline:none;resize:none;color:var(--ink,#111827);background:#fff;transition:border-color .2s;font-family:var(--ff);-webkit-appearance:none;min-height:76px;line-height:1.55}
+    .fl-goal-input::placeholder{color:#AEAEB2;font-weight:400}
+    .fl-goal-input:focus{border-color:var(--g,#22C55E)}
+    .fl-goal-nav{display:flex;gap:10px;margin-top:16px}
+    .fl-goal-btn{font-family:var(--ff);padding:11px 20px;border-radius:999px;font-size:13px;font-weight:700;cursor:pointer;border:none;transition:all .2s}
+    .fl-goal-btn-back{background:var(--bd2,#F3F4F6);color:var(--ink3,#6B7280)}
+    .fl-goal-btn-back:hover{background:var(--bd,#E5E7EB)}
+    .fl-goal-btn-next{background:var(--gx,#14532D);color:#fff;flex:1}
+    .fl-goal-btn-next:hover{background:#0a3d1f}
+    .fl-goal-btn-next:disabled{background:#C7C7CC;cursor:not-allowed}
+    .fl-goal-summary{display:none}
+    .fl-goal-summary.show{display:block;animation:fl-goal-in .35s ease both}
+    .fl-goal-summary-hdr{font-family:var(--ff);font-size:13px;font-weight:700;color:var(--gd,#15803D);margin-bottom:12px;display:flex;align-items:center;gap:6px}
+    .fl-goal-summary-card{background:var(--gl,#F0FDF4);border:1px solid rgba(21,128,61,.12);border-radius:14px;padding:18px}
+    .fl-goal-summary-row{display:flex;gap:10px;padding:8px 0;font-family:var(--ff);font-size:12.5px;line-height:1.6}
+    .fl-goal-summary-row+.fl-goal-summary-row{border-top:1px dashed rgba(21,128,61,.15)}
+    .fl-goal-summary-letter{flex-shrink:0;width:22px;height:22px;border-radius:50%;background:var(--gx,#14532D);color:#fff;font-size:11px;font-weight:800;display:flex;align-items:center;justify-content:center}
+    .fl-goal-summary-text{color:var(--ink2,#374151);font-weight:500}
+    .fl-goal-summary-text b{color:var(--ink,#111827);font-weight:700}
+    .fl-goal-edit-link{font-family:var(--ff);font-size:12px;font-weight:700;color:var(--gd,#15803D);cursor:pointer;margin-top:14px;display:inline-block}
+    .fl-goal-used-badge{font-family:var(--ff);display:none;align-items:center;gap:6px;font-size:12.5px;font-weight:600;color:var(--gd,#15803D);margin-top:14px}
+    .fl-goal-used-badge.show{display:flex}
+
+    /* ══ END-OF-MODULE: COMMUNITY + GAME BUTTONS ══ */
+    .fl-end-actions{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:18px}
+    .fl-end-btn{font-family:var(--ff);border-radius:16px;padding:18px 16px;text-align:center;text-decoration:none;cursor:pointer;border:none;transition:all .2s;position:relative;overflow:hidden;display:flex;flex-direction:column;align-items:center;gap:6px}
+    .fl-end-btn:hover{transform:translateY(-2px)}
+    .fl-end-btn-icon{font-size:26px;line-height:1}
+    .fl-end-btn-title{font-size:13.5px;font-weight:800;letter-spacing:-.2px}
+    .fl-end-btn-sub{font-size:10.5px;font-weight:500}
+    .fl-end-btn-live{position:absolute;top:10px;right:10px;font-size:9px;font-weight:700;padding:2px 8px;border-radius:10px}
+    .fl-end-btn.wall{background:#fff;border:1px solid rgba(0,0,0,.06);box-shadow:0 1px 2px rgba(0,0,0,.03),0 10px 28px -12px rgba(0,0,0,.09)}
+    .fl-end-btn.wall .fl-end-btn-title{color:var(--ink,#111827)}
+    .fl-end-btn.wall .fl-end-btn-sub{color:var(--ink3,#6B7280)}
+    .fl-end-btn.wall .fl-end-btn-live{background:var(--gl,#F0FDF4);color:var(--gd,#15803D)}
+    .fl-end-btn.game{background:linear-gradient(135deg,#22C55E,#16A34A)}
+    .fl-end-btn.game .fl-end-btn-title{color:#fff}
+    .fl-end-btn.game .fl-end-btn-sub{color:rgba(255,255,255,.75)}
+    .fl-end-btn.game .fl-end-btn-live{background:rgba(255,255,255,.2);color:#fff}
+    @media(max-width:420px){.fl-end-actions{grid-template-columns:1fr}}
+    .fl-panel-backdrop{position:fixed;inset:0;background:rgba(0,0,0,.55);backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px);z-index:900;opacity:0;pointer-events:none;transition:opacity .3s ease}
+    .fl-panel-backdrop.open{opacity:1;pointer-events:all}
+    .fl-panel{position:fixed;bottom:0;left:0;right:0;z-index:901;background:#F5F5F7;border-radius:20px 20px 0 0;height:88vh;transform:translateY(100%);transition:transform .4s cubic-bezier(.32,0,.67,0);display:flex;flex-direction:column;padding-bottom:env(safe-area-inset-bottom,0px)}
+    .fl-panel.open{transform:translateY(0);transition-timing-function:cubic-bezier(.33,1,.68,1)}
+    .fl-panel-bar{flex-shrink:0;padding:14px 20px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid #E5E5EA;background:#F5F5F7;border-radius:20px 20px 0 0;position:relative}
+    .fl-panel-title{font-family:var(--ff);font-size:15px;font-weight:700;color:var(--ink,#111827)}
+    .fl-panel-close{width:28px;height:28px;border-radius:50%;background:#E5E5EA;border:none;cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:13px;color:var(--ink3,#6B7280)}
+    #fl-practice-panel{height:94vh}
+.fl-practice-pbody{flex:1;min-height:0;display:flex;flex-direction:column;background:#fff;overflow:auto}
+.fl-practice-pbody iframe{flex:1;width:100%;min-height:0;border:0;background:#fff}
+.fl-practice-pbody .fl-practice-note{margin:18px 16px 12px}
+.fl-practice-pbody .fl-practice-go{width:calc(100% - 32px);margin:0 16px}
+.fl-practice-pbody .fl-practice-go.alt{margin-top:8px}
+.fl-practice-code{font-size:11px;color:#9CA3AF;margin-top:6px}
+.fl-panel-iframe{flex:1;border:none;width:100%;background:#fff}
+
+    /* Quiz results display */
+    .fl-quiz-results{background:var(--gx,#14532D);border-radius:16px;padding:20px;text-align:center;margin-bottom:16px}
+    .fl-quiz-results-score{font-family:var(--ff);font-size:32px;font-weight:800;color:#fff;letter-spacing:-1px}
+    .fl-quiz-results-pct{font-family:var(--fm);font-size:12px;color:#22C55E;font-weight:700;margin-top:2px}
+    .fl-quiz-results-msg{font-family:var(--ff);font-size:12.5px;color:rgba(255,255,255,.7);margin-top:10px;line-height:1.5}
+
+
+    /* ══ ACTIVITY: LOAN ══ */
+.fl-loan{
+  background:#fff;border:1px solid rgba(0,0,0,.06);border-radius:20px;
+  padding:26px 24px;box-shadow:0 1px 2px rgba(0,0,0,.03),0 16px 40px -18px rgba(0,0,0,.12);
+  margin:20px 0;
+}
+.fl-loan-tag{font-family:var(--ff);font-size:11px;font-weight:600;letter-spacing:.3px;color:var(--gol,#C9A83C);margin-bottom:6px}
+.fl-loan-title{font-family:var(--ff);font-size:18px;font-weight:800;color:var(--ink,#111827);margin-bottom:4px;letter-spacing:-.3px}
+.fl-loan-sub{font-family:var(--ff);font-size:12.5px;color:var(--ink3,#6B7280);margin-bottom:18px;line-height:1.6}
+.fl-loan-divider{border-top:1px solid rgba(0,0,0,.06);padding-top:18px;margin-top:4px}
+
+.fl-loan-field{margin-bottom:14px}
+.fl-loan-label{font-family:var(--ff);display:block;font-size:11px;font-weight:600;color:var(--ink3,#6B7280);margin-bottom:7px;letter-spacing:.2px}
+.fl-loan-input-wrap{position:relative}
+.fl-loan-currency{position:absolute;left:15px;top:50%;transform:translateY(-50%);font-family:var(--ff);font-size:14px;font-weight:700;color:var(--ink3,#6B7280);pointer-events:none}
+.fl-loan-input{
+  border:1.5px solid rgba(0,0,0,.12);border-radius:12px;padding:12px 14px 12px 32px;
+  font-size:15px;font-weight:500;width:100%;outline:none;
+  color:var(--ink,#111827);background:#fff;transition:border-color .2s;
+  font-family:var(--fm);-webkit-appearance:none;
+}
+.fl-loan-input::placeholder{color:#AEAEB2;font-weight:400;font-family:var(--ff)}
+.fl-loan-input:focus{border-color:var(--g,#22C55E)}
+
+/* Lender preset chips */
+.fl-loan-presets{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:16px}
+.fl-loan-chip{
+  font-family:var(--ff);font-size:11.5px;font-weight:700;
+  padding:7px 14px;border-radius:999px;cursor:pointer;
+  border:1.5px solid rgba(0,0,0,.1);background:#fff;color:var(--ink3,#6B7280);
+  transition:all .15s;
+}
+.fl-loan-chip:hover{border-color:rgba(0,0,0,.2)}
+.fl-loan-chip.active{background:var(--gx,#14532D);border-color:var(--gx,#14532D);color:#fff}
+
+.fl-loan-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.fl-loan-rate-row{display:flex;align-items:center;justify-content:space-between;margin-bottom:8px}
+.fl-loan-rate-val{font-family:var(--ff);font-size:13px;font-weight:800;color:var(--ink,#111827)}
+.fl-loan-rate-slider{
+  width:100%;-webkit-appearance:none;appearance:none;
+  height:6px;border-radius:3px;background:var(--bd2,#F3F4F6);outline:none;cursor:pointer;
+}
+.fl-loan-rate-slider::-webkit-slider-thumb{
+  -webkit-appearance:none;appearance:none;width:20px;height:20px;border-radius:50%;
+  background:#fff;border:3px solid var(--gx,#14532D);cursor:pointer;
+  box-shadow:0 1px 4px rgba(0,0,0,.2);transition:transform .15s;
+}
+.fl-loan-rate-slider::-webkit-slider-thumb:active{transform:scale(1.15)}
+.fl-loan-rate-slider::-moz-range-thumb{
+  width:20px;height:20px;border-radius:50%;background:#fff;border:3px solid var(--gx,#14532D);
+  cursor:pointer;box-shadow:0 1px 4px rgba(0,0,0,.2);
+}
+
+.fl-loan-results{margin-top:18px;padding-top:18px;border-top:1px solid rgba(0,0,0,.06);display:none}
+.fl-loan-results.show{display:block;animation:fl-loan-in .35s ease both}
+@keyframes fl-loan-in{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
+
+.fl-loan-row{display:flex;justify-content:space-between;align-items:center;padding:9px 0;font-size:13px}
+.fl-loan-row + .fl-loan-row{border-top:1px dashed rgba(0,0,0,.06)}
+.fl-loan-row-label{font-family:var(--ff);color:var(--ink2,#374151)}
+.fl-loan-row-val{font-family:var(--ff);font-weight:700;color:var(--ink,#111827);font-variant-numeric:tabular-nums}
+.fl-loan-row-val.flag{color:#DC2626}
+
+.fl-loan-row.total{
+  background:#FEF2F2;margin:12px -24px -26px;padding:16px 24px;
+  border-top:1px solid rgba(0,0,0,.06);border-radius:0 0 20px 20px;
+}
+.fl-loan-row.total .fl-loan-row-label{color:#B91C1C;font-weight:700;font-size:13.5px}
+.fl-loan-row.total .fl-loan-row-val{color:#B91C1C;font-size:18px;font-weight:800}
+
+.fl-loan-explainer{font-family:var(--ff);font-size:12px;color:var(--ink3,#6B7280);line-height:1.65;margin-top:16px;padding-top:16px;border-top:1px dashed rgba(0,0,0,.06)}
+.fl-loan-explainer b{color:var(--ink2,#374151);font-weight:600}
+
+.fl-loan-used-badge{font-family:var(--ff);display:none;align-items:center;gap:6px;font-size:12.5px;font-weight:600;color:var(--gd,#15803D);margin-top:14px}
+.fl-loan-used-badge.show{display:flex}
+
+@media(max-width:400px){.fl-loan-grid{grid-template-columns:1fr}}
+
+    /* ══ ACTIVITY: DEBT ══ */
+.fl-debt{
+  background:#fff;border:1px solid rgba(0,0,0,.06);border-radius:20px;
+  padding:26px 24px;box-shadow:0 1px 2px rgba(0,0,0,.03),0 16px 40px -18px rgba(0,0,0,.12);
+  margin:20px 0;
+}
+.fl-debt-tag{font-family:var(--ff);font-size:11px;font-weight:600;letter-spacing:.3px;color:var(--gol,#C9A83C);margin-bottom:6px}
+.fl-debt-title{font-family:var(--ff);font-size:18px;font-weight:800;color:var(--ink,#111827);margin-bottom:4px;letter-spacing:-.3px}
+.fl-debt-sub{font-family:var(--ff);font-size:12.5px;color:var(--ink3,#6B7280);margin-bottom:18px;line-height:1.6}
+.fl-debt-divider{border-top:1px solid rgba(0,0,0,.06);padding-top:18px;margin-top:4px}
+
+.fl-debt-entry{
+  border:1.5px solid rgba(0,0,0,.08);border-radius:14px;padding:14px;margin-bottom:10px;
+}
+.fl-debt-entry-hdr{font-family:var(--ff);font-size:11.5px;font-weight:700;color:var(--ink3,#6B7280);margin-bottom:10px;letter-spacing:.3px;text-transform:uppercase}
+.fl-debt-entry-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px}
+.fl-debt-mini-label{font-family:var(--ff);font-size:10px;font-weight:600;color:var(--ink4,#9CA3AF);margin-bottom:5px}
+.fl-debt-mini-input-wrap{position:relative}
+.fl-debt-mini-currency{position:absolute;left:10px;top:50%;transform:translateY(-50%);font-family:var(--ff);font-size:12px;font-weight:700;color:var(--ink4,#9CA3AF);pointer-events:none}
+.fl-debt-mini-input{
+  border:1.5px solid rgba(0,0,0,.1);border-radius:9px;padding:9px 9px 9px 24px;
+  font-size:13px;font-weight:500;width:100%;outline:none;
+  color:var(--ink,#111827);background:#fff;transition:border-color .2s;
+  font-family:var(--fm);-webkit-appearance:none;
+}
+.fl-debt-mini-input.pct{padding-left:9px;padding-right:22px}
+.fl-debt-mini-pct-sign{position:absolute;right:9px;top:50%;transform:translateY(-50%);font-family:var(--ff);font-size:12px;font-weight:700;color:var(--ink4,#9CA3AF);pointer-events:none}
+.fl-debt-mini-input::placeholder{color:#AEAEB2;font-weight:400;font-family:var(--ff)}
+.fl-debt-mini-input:focus{border-color:var(--g,#22C55E)}
+
+.fl-debt-budget-field{margin:16px 0 4px}
+.fl-debt-label{font-family:var(--ff);display:block;font-size:11px;font-weight:600;color:var(--ink3,#6B7280);margin-bottom:7px;letter-spacing:.2px}
+.fl-debt-input-wrap{position:relative}
+.fl-debt-currency{position:absolute;left:15px;top:50%;transform:translateY(-50%);font-family:var(--ff);font-size:14px;font-weight:700;color:var(--ink3,#6B7280);pointer-events:none}
+.fl-debt-input{
+  border:1.5px solid rgba(0,0,0,.12);border-radius:12px;padding:12px 14px 12px 32px;
+  font-size:15px;font-weight:500;width:100%;outline:none;
+  color:var(--ink,#111827);background:#fff;transition:border-color .2s;
+  font-family:var(--fm);-webkit-appearance:none;
+}
+.fl-debt-input::placeholder{color:#AEAEB2;font-weight:400;font-family:var(--ff)}
+.fl-debt-input:focus{border-color:var(--g,#22C55E)}
+
+.fl-debt-btn{
+  font-family:var(--ff);width:100%;padding:13px;background:var(--gx,#14532D);color:#fff;
+  border:none;border-radius:999px;font-size:13.5px;font-weight:700;cursor:pointer;
+  margin-top:16px;transition:background .2s;
+}
+.fl-debt-btn:hover{background:#0a3d1f}
+
+.fl-debt-results{margin-top:18px;padding-top:18px;border-top:1px solid rgba(0,0,0,.06);display:none}
+.fl-debt-results.show{display:block;animation:fl-debt-in .35s ease both}
+@keyframes fl-debt-in{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
+
+.fl-debt-compare{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:14px}
+.fl-debt-compare-card{border-radius:14px;padding:16px 14px}
+.fl-debt-compare-card.avalanche{background:var(--gl,#F0FDF4);border:1px solid rgba(21,128,61,.15)}
+.fl-debt-compare-card.snowball{background:var(--bd2,#F3F4F6)}
+.fl-debt-compare-label{font-family:var(--ff);font-size:10.5px;font-weight:700;letter-spacing:.5px;text-transform:uppercase;margin-bottom:8px}
+.fl-debt-compare-card.avalanche .fl-debt-compare-label{color:var(--gd,#15803D)}
+.fl-debt-compare-card.snowball .fl-debt-compare-label{color:var(--ink3,#6B7280)}
+.fl-debt-compare-months{font-family:var(--ff);font-size:22px;font-weight:800;letter-spacing:-.5px;line-height:1}
+.fl-debt-compare-card.avalanche .fl-debt-compare-months{color:var(--gd,#15803D)}
+.fl-debt-compare-card.snowball .fl-debt-compare-months{color:var(--ink2,#374151)}
+.fl-debt-compare-sub{font-family:var(--ff);font-size:11px;color:var(--ink3,#6B7280);margin-top:4px}
+
+.fl-debt-winner-row{
+  display:flex;justify-content:space-between;align-items:center;
+  background:var(--gx,#14532D);border-radius:12px;padding:14px 16px;margin-top:2px;
+}
+.fl-debt-winner-label{font-family:var(--ff);font-size:12px;color:rgba(255,255,255,.65);font-weight:600}
+.fl-debt-winner-val{font-family:var(--ff);font-size:16px;font-weight:800;color:#22C55E;font-variant-numeric:tabular-nums}
+
+.fl-debt-explainer{font-family:var(--ff);font-size:12px;color:var(--ink3,#6B7280);line-height:1.65;margin-top:14px;padding-top:14px;border-top:1px dashed rgba(0,0,0,.06)}
+.fl-debt-explainer b{color:var(--ink2,#374151);font-weight:600}
+
+.fl-debt-used-badge{font-family:var(--ff);display:none;align-items:center;gap:6px;font-size:12.5px;font-weight:600;color:var(--gd,#15803D);margin-top:14px}
+.fl-debt-used-badge.show{display:flex}
+
+@media(max-width:400px){.fl-debt-entry-grid{grid-template-columns:1fr}.fl-debt-compare{grid-template-columns:1fr}}
+
+    /* ══ ACTIVITY: CREDIT ══ */
+.fl-credit{
+  background:#fff;border:1px solid rgba(0,0,0,.06);border-radius:20px;
+  padding:26px 24px;box-shadow:0 1px 2px rgba(0,0,0,.03),0 16px 40px -18px rgba(0,0,0,.12);
+  margin:20px 0;
+}
+.fl-credit-tag{font-family:var(--ff);font-size:11px;font-weight:600;letter-spacing:.3px;color:var(--gol,#C9A83C);margin-bottom:6px}
+.fl-credit-title{font-family:var(--ff);font-size:18px;font-weight:800;color:var(--ink,#111827);margin-bottom:4px;letter-spacing:-.3px}
+.fl-credit-sub{font-family:var(--ff);font-size:12.5px;color:var(--ink3,#6B7280);margin-bottom:18px;line-height:1.6}
+.fl-credit-divider{border-top:1px solid rgba(0,0,0,.06);padding-top:18px;margin-top:4px}
+
+/* Score dial */
+.fl-credit-score-row{display:flex;align-items:center;gap:16px;margin-bottom:20px}
+.fl-credit-score-dial{position:relative;width:76px;height:76px;flex-shrink:0}
+.fl-credit-score-dial svg{transform:rotate(-90deg)}
+.fl-credit-score-dial-num{
+  position:absolute;inset:0;display:flex;align-items:center;justify-content:center;
+  font-family:var(--ff);font-size:18px;font-weight:800;color:var(--ink,#111827);
+}
+.fl-credit-score-label{font-family:var(--ff);font-size:11px;color:var(--ink3,#6B7280);font-weight:600;margin-bottom:2px;text-transform:uppercase;letter-spacing:.5px}
+.fl-credit-score-rating{font-family:var(--ff);font-size:15px;font-weight:800;color:var(--ink,#111827)}
+.fl-credit-score-rating.good{color:var(--gd,#15803D)}
+.fl-credit-score-rating.fair{color:#C9A83C}
+.fl-credit-score-rating.poor{color:#DC2626}
+
+/* Decision cards */
+.fl-credit-decision{display:none}
+.fl-credit-decision.show{display:block;animation:fl-credit-in .3s ease both}
+@keyframes fl-credit-in{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
+
+.fl-credit-counter{font-family:var(--ff);font-size:11px;font-weight:600;color:var(--ink3,#6B7280);letter-spacing:.2px;text-transform:uppercase;margin-bottom:8px}
+.fl-credit-scenario{
+  font-family:var(--ff);font-size:14.5px;font-weight:600;color:var(--ink,#111827);
+  line-height:1.55;margin-bottom:16px;
+}
+.fl-credit-options{display:flex;flex-direction:column;gap:8px}
+.fl-credit-opt{
+  font-family:var(--ff);text-align:left;
+  padding:13px 15px;border-radius:13px;font-size:13px;font-weight:600;
+  cursor:pointer;transition:all .2s;border:1.5px solid rgba(0,0,0,.1);
+  background:#fff;color:var(--ink2,#374151);
+}
+.fl-credit-opt:hover{border-color:rgba(0,0,0,.2)}
+
+/* Feedback after choice */
+.fl-credit-feedback{border-radius:14px;padding:16px;margin-top:12px;display:none}
+.fl-credit-feedback.show{display:block;animation:fl-credit-in .3s ease both}
+.fl-credit-feedback.pos{background:var(--gl,#F0FDF4);border:1px solid rgba(21,128,61,.15)}
+.fl-credit-feedback.neg{background:#FEF2F2;border:1px solid rgba(220,38,38,.15)}
+.fl-credit-feedback-hdr{font-family:var(--ff);font-size:12.5px;font-weight:800;display:flex;align-items:center;gap:6px;margin-bottom:6px}
+.fl-credit-feedback.pos .fl-credit-feedback-hdr{color:var(--gd,#15803D)}
+.fl-credit-feedback.neg .fl-credit-feedback-hdr{color:#DC2626}
+.fl-credit-feedback-body{font-family:var(--ff);font-size:12.5px;color:var(--ink2,#374151);line-height:1.65}
+
+.fl-credit-next-btn{
+  font-family:var(--ff);width:100%;margin-top:12px;padding:12px;border-radius:999px;
+  font-size:13px;font-weight:700;cursor:pointer;border:none;
+  background:var(--gx,#14532D);color:#fff;transition:background .2s;
+}
+.fl-credit-next-btn:hover{background:#0a3d1f}
+
+/* Summary */
+.fl-credit-summary{display:none;text-align:center}
+.fl-credit-summary.show{display:block;animation:fl-credit-in .35s ease both}
+.fl-credit-summary-final{font-family:var(--ff);font-size:13px;color:var(--ink3,#6B7280);margin-bottom:6px}
+.fl-credit-summary-msg{
+  font-family:var(--ff);font-size:12.5px;color:var(--ink2,#374151);line-height:1.6;
+  background:var(--bg,#F8F7F4);border-radius:12px;padding:14px 16px;text-align:left;margin-top:12px;
+}
+.fl-credit-summary-msg b{color:var(--gd,#15803D)}
+
+.fl-credit-used-badge{font-family:var(--ff);display:none;align-items:center;justify-content:center;gap:6px;font-size:12.5px;font-weight:600;color:var(--gd,#15803D);margin-top:14px}
+.fl-credit-used-badge.show{display:flex}
+
+
+    /* ══ FIX: DISCUSSION QUESTIONS (.dq) — was never in the base template ══ */
+    .dq{display:flex;gap:11px;align-items:flex-start;margin-bottom:10px;padding:13px 15px;background:#fff;border-radius:14px;border:1px solid rgba(0,0,0,.06)}
+    .dq-n{background:var(--gx,#14532D);color:#fff;width:24px;height:24px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:11.5px;font-weight:800;flex-shrink:0;font-family:var(--ff)}
+    .dq-t{font-family:var(--ff);font-size:13px;color:var(--ink,#111827);line-height:1.6;padding-top:2px}
+
+    /* ══ FIX: END-OF-MODULE ACTIONS — Community Wall single button ══ */
+    .fl-end-actions{display:block;margin-top:18px}
+    .fl-end-btn{font-family:var(--ff);border-radius:16px;padding:18px 16px;text-align:center;text-decoration:none;cursor:pointer;border:none;transition:all .2s;position:relative;overflow:hidden;display:flex;flex-direction:column;align-items:center;gap:6px;width:100%}
+    .fl-end-btn:hover{transform:translateY(-2px)}
+    .fl-end-btn-icon{font-size:26px;line-height:1}
+    .fl-end-btn-title{font-size:13.5px;font-weight:800;letter-spacing:-.2px}
+    .fl-end-btn-sub{font-size:10.5px;font-weight:500}
+    .fl-end-btn-live{position:absolute;top:10px;right:10px;font-size:9px;font-weight:700;padding:2px 8px;border-radius:10px}
+    .fl-end-btn.wall{background:#fff;border:1px solid rgba(0,0,0,.06);box-shadow:0 1px 2px rgba(0,0,0,.03),0 10px 28px -12px rgba(0,0,0,.09)}
+    .fl-end-btn.wall .fl-end-btn-title{color:var(--ink,#111827)}
+    .fl-end-btn.wall .fl-end-btn-sub{color:var(--ink3,#6B7280)}
+    .fl-end-btn.wall .fl-end-btn-live{background:var(--gl,#F0FDF4);color:var(--gd,#15803D)}
+    .fl-end-btn.game{background:linear-gradient(135deg,#22C55E,#16A34A)}
+    .fl-end-btn.game .fl-end-btn-title{color:#fff}
+    .fl-end-btn.game .fl-end-btn-sub{color:rgba(255,255,255,.75)}
+    .fl-end-btn.game .fl-end-btn-live{background:rgba(255,255,255,.2);color:#fff}
+    .fl-end-actions.two-up{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+    @media(max-width:420px){.fl-end-actions.two-up{grid-template-columns:1fr}}
+    .fl-panel-backdrop{position:fixed;inset:0;background:rgba(0,0,0,.55);backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px);z-index:900;opacity:0;pointer-events:none;transition:opacity .3s ease}
+    .fl-panel-backdrop.open{opacity:1;pointer-events:all}
+    .fl-panel{position:fixed;bottom:0;left:0;right:0;z-index:901;background:#F5F5F7;border-radius:20px 20px 0 0;height:88vh;transform:translateY(100%);transition:transform .4s cubic-bezier(.32,0,.67,0);display:flex;flex-direction:column;padding-bottom:env(safe-area-inset-bottom,0px)}
+    .fl-panel.open{transform:translateY(0);transition-timing-function:cubic-bezier(.33,1,.68,1)}
+    .fl-panel-bar{flex-shrink:0;padding:14px 20px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid #E5E5EA;background:#F5F5F7;border-radius:20px 20px 0 0;position:relative}
+    .fl-panel-title{font-family:var(--ff);font-size:15px;font-weight:700;color:var(--ink,#111827)}
+    .fl-panel-close{width:28px;height:28px;border-radius:50%;background:#E5E5EA;border:none;cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:13px;color:var(--ink3,#6B7280)}
+    .fl-panel-iframe{flex:1;border:none;width:100%;background:#fff}
+
+  
+    /* ── Practice with your yungsta (embedded simulator) ── */
+    .fl-practice{background:#fff;border:1px solid #E5E7EB;border-radius:16px;margin:18px 0;overflow:hidden;box-shadow:0 1px 3px rgba(0,0,0,.06)}
+    .fl-practice-hd{display:flex;align-items:center;gap:12px;padding:14px 16px}
+    .fl-practice-ic{font-size:26px;flex:none}
+    .fl-practice-t{font-size:15px;font-weight:800;color:#111827}
+    .fl-practice-s{font-size:12.5px;color:#6B7280;line-height:1.5;margin-top:2px}
+    .fl-practice-chip{margin-left:auto;flex:none;font-size:11px;font-weight:800;letter-spacing:.3px;text-transform:uppercase;padding:4px 10px;border-radius:99px;background:#FEF3C7;color:#92400E}
+    .fl-practice-chip.done{background:#DCFCE7;color:#14532D}.fl-practice-chip.skipped{background:#F3F4F6;color:#6B7280}
+    .fl-practice-body{padding:0 16px 16px}
+    .fl-practice-go{width:100%;min-height:50px;border:0;border-radius:14px;background:#16A34A;color:#fff;font:700 16px 'DM Sans',system-ui,sans-serif;cursor:pointer}
+    .fl-practice-go.alt{background:#F3F4F6;color:#374151;margin-top:8px}
+    .fl-practice-note{font-size:13.5px;color:#374151;line-height:1.55;background:#F9FAFB;border-radius:12px;padding:12px 14px;margin-bottom:10px}
+</style>
+
+
+
+</head>
+
+<body>
+
+<!-- ══ COVER ══ -->
+<div class="cover" id="s-cover">
+  <div class="orb orb-glow"></div>
+  <div class="orb orb-1"></div>
+  <div class="orb orb-2"></div>
+  <div class="orb orb-3"></div>
+  <div class="orb orb-4"></div>
+  <div class="orb orb-5"></div>
+  <div class="orb orb-6"></div>
+  <div class="vignette"></div>
+  <div class="grain"></div>
+
+  <span class="cover-tag">Phase 1 — Foundational Skills</span>
+
+  <div class="cover-content">
+    <h1 class="cover-headline">Credit and Debt</h1>
+    <span class="cover-headline-accent">Management.</span>
+    <p class="cover-subline">Module 1.2</p>
+  </div>
+
+  <div class="cover-bottom-bar">
+    <div class="cover-pills">
+      <span class="pill">💳 Loan calculator</span>
+      <span class="pill">⏱ 5 minutes</span>
+      <span class="pill">📊 Debt strategies</span>
+      <span class="pill">🎯 5 sections</span>
+    </div>
+    <a href="#s0" class="cta-btn">
+      <span class="btn-text">Begin Module</span>
+      <span class="btn-arrow">→</span>
+    </a>
+  </div>
+</div>
+
+<!-- ══ DOTS ══ -->
+<div class="dots">
+  <a href="#s0" class="nd nd-0" title="Bwalya's Story"></a>
+  <a href="#s1" class="nd nd-1" title="The Cost of Borrowing"></a>
+  <a href="#s2" class="nd nd-2" title="Getting Out of Debt"></a>
+  <a href="#s3" class="nd nd-3" title="Your Credit Standing"></a>
+  <a href="#s4" class="nd nd-4" title="Quiz"></a>
+</div>
+
+<!-- ══ SIDE RAIL ══ -->
+<div class="fl-rail" id="fl-rail" onclick="FLRail.toggle()">
+  <div class="fl-rail-seg" data-seg="s0"></div>
+  <div class="fl-rail-seg" data-seg="s1"></div>
+  <div class="fl-rail-seg" data-seg="s2"></div>
+  <div class="fl-rail-seg" data-seg="s3"></div>
+  <div class="fl-rail-seg" data-seg="s4"></div>
+  <div class="fl-rail-seg fl-rail-seg-quiz" id="fl-rail-quiz-seg"></div>
+</div>
+
+<div class="fl-rail-backdrop" id="fl-rail-backdrop" onclick="FLRail.close()"></div>
+
+<div class="fl-rail-panel" id="fl-rail-panel">
+  <div class="fl-rail-panel-hd"><span>Your Progress</span><span class="fl-rail-panel-close" onclick="FLRail.close()">✕</span></div>
+  <a href="#s0" class="fl-rail-item" data-item="s0"><span class="fl-rail-item-dot"></span>Bwalya's Story</a>
+  <a href="#s1" class="fl-rail-item" data-item="s1"><span class="fl-rail-item-dot"></span>The Cost of Borrowing</a>
+  <a href="#s2" class="fl-rail-item" data-item="s2"><span class="fl-rail-item-dot"></span>Getting Out of Debt</a>
+  <a href="#s3" class="fl-rail-item" data-item="s3"><span class="fl-rail-item-dot"></span>Your Credit Standing</a>
+  <a href="#s4" class="fl-rail-item" data-item="s4"><span class="fl-rail-item-dot"></span>Quiz</a>
+  <div class="fl-rail-quiz-block">
+    <div class="fl-rail-quiz-label">Quiz score</div>
+    <div class="fl-rail-quiz-val" id="fl-rail-quiz-val">Not started</div>
+  </div>
+</div>
+
+<!-- ══ RESUME BANNER ══ -->
+<div class="fl-resume-banner" id="fl-resume-banner">
+  <span class="fl-resume-dot"></span>
+  <span>Welcome back — continue where you left off</span>
+  <a href="#s0" id="fl-resume-link">Resume</a>
+</div>
+
+<!-- ══════════════════════════════════════════════════════════
+     SECTION 0 — BWALYA'S STORY
+     ══════════════════════════════════════════════════════════ -->
+<div class="section" id="s0">
+
+  <div style="margin:0 0 24px">
+    <div style="display:flex;align-items:center;gap:8px;margin-bottom:12px">
+      <div style="height:1px;flex:1;background:linear-gradient(to right,#E5E7EB,transparent)"></div>
+      <span style="font-size:10px;font-weight:700;color:#9CA3AF;letter-spacing:2px;text-transform:uppercase">Module Video</span>
+      <div style="height:1px;flex:1;background:linear-gradient(to left,#E5E7EB,transparent)"></div>
+    </div>
+    <div style="border-radius:16px;overflow:hidden;box-shadow:0 8px 32px rgba(0,0,0,0.12),0 2px 8px rgba(0,0,0,0.08),0 0 0 1.5px rgba(34,197,94,0.15)">
+      <div style="position:relative;width:100%;padding-bottom:56.25%;height:0;background:#0a0a0a">
+        <iframe src="https://www.youtube.com/embed/VPXU73tqBak?rel=0&modestbranding=1&color=white" title="FinLit Zambia — Module 1.2 Video" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen style="position:absolute;top:0;left:0;width:100%;height:100%;border:none"></iframe>
+      </div>
+      <div style="background:#fff;padding:12px 16px;display:flex;align-items:center;gap:10px;border-top:1px solid #F3F4F6">
+        <div style="width:32px;height:32px;border-radius:8px;background:#F0FDF4;border:1px solid #D1FAE5;display:flex;align-items:center;justify-content:center;font-size:15px;flex-shrink:0">🎬</div>
+        <div style="flex:1"><div style="font-size:12.5px;font-weight:700;color:#111827;margin-bottom:1px">Watch before you teach</div><div style="font-size:11px;color:#9CA3AF">Overview only · Full content is inside the module</div></div>
+      </div>
+      <div style="background:#FDF8EC;border-top:1px solid rgba(201,168,60,0.25);padding:10px 16px;display:flex;gap:10px;align-items:flex-start">
+        <span style="font-size:14px;flex-shrink:0">📌</span>
+        <div style="font-size:11.5px;color:#7a5c00;line-height:1.65"><strong style="font-weight:700">Note:</strong> This video was produced using an AI-powered tool and is a supplementary overview only. Some details may be simplified — always treat the module as your primary preparation source.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="sec-timer">Opening Story</div>
+  <div class="kicker">The Opening Problem</div>
+  <h2 class="sh2">Bwalya borrowed K2,000 from a payday lender. She still hasn't paid it off two years later.</h2>
+  <p class="slead">She needed cash fast for a family emergency. She didn't check the rate. That single decision, made under pressure, cost her far more than the K2,000 she borrowed.</p>
+
+  <div class="story">
+    <div class="story-hdr">
+      <div class="story-av">B</div>
+      <div><div class="story-nm">Bwalya Mumba</div><div class="story-tg">26 · Shop assistant · Ndola</div></div>
+    </div>
+    <div class="story-body">
+      Bwalya's mother needed emergency medical treatment. A payday lender offered K2,000 "same day, no questions asked" — she signed without reading the rate. At <strong>35% per year</strong>, minimum payments barely touched the principal. Two years and several renewed loans later, she has paid back more than K4,500 — and still owes money. <em>"I didn't understand what I was agreeing to,"</em> she says. This module exists so you never have to say that.
+    </div>
+  </div>
+
+  <div class="box gold"><b>💡 Why This Matters</b>Credit itself isn't dangerous — misunderstood credit is. Every Zambian will face a borrowing decision at some point. Understanding the real cost before you sign is the single most protective financial skill you can build.</div>
+
+  <div class="sec-nav">
+    <span class="btn btn-dis"><span>← Back</span></span>
+    <a href="#s1" class="btn btn-p"><span>The Cost of Borrowing →</span></a>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════════════════════
+     SECTION 1 — THE COST OF BORROWING (loan calc embedded)
+     ══════════════════════════════════════════════════════════ -->
+<div class="section" id="s1">
+
+  <div class="sec-timer">Interactive</div>
+  <div class="kicker">Core Concept 1</div>
+  <h2 class="sh2">What a Loan Really Costs</h2>
+  <p class="slead">The advertised interest rate is only part of the story. The real question is always: how much total money will leave my pocket by the time this loan is fully repaid?</p>
+
+  <!-- ══ KEY TERM ══ -->
+  <div class="term-card">
+    <div class="term-hdr">
+      <div class="term-icon">💳</div>
+      <div><div class="term-word">Annual Interest Rate</div><div class="term-phonetic">/ AN-yoo-ul IN-ter-est rayt /</div></div>
+    </div>
+    <div class="term-body">
+      <div class="term-def">The cost of borrowing money for one year, expressed as a percentage of the amount borrowed.</div>
+      <div class="term-zambia">Zambian lenders range widely — formal bank loans around <strong>20%</strong>, microfinance institutions around <strong>28%</strong>, and payday lenders reaching <strong>35% or higher</strong>. The gap between these numbers, on the same K10,000, can mean thousands of kwacha in extra interest.</div>
+      <div class="term-formula">Total Interest = Principal × Rate × Years</div>
+    </div>
+  </div>
+
+  <div class="fl-loan" id="fl-loan-calc">
+  <div class="fl-loan-tag">FinLit Zambia · Interactive Calculator</div>
+  <div class="fl-loan-title">What Does a Loan Really Cost?</div>
+  <div class="fl-loan-sub">Enter a loan amount and term. Try different Zambian lender rates and see the true cost of borrowing.</div>
+
+  <div class="fl-loan-divider">
+    <div class="fl-loan-field">
+      <label class="fl-loan-label">Loan Amount</label>
+      <div class="fl-loan-input-wrap">
+        <span class="fl-loan-currency">K</span>
+        <input type="number" class="fl-loan-input" id="fl-loan-principal" placeholder="10,000" inputmode="numeric" oninput="FLLoan.calculate()">
+      </div>
+    </div>
+
+    <div class="fl-loan-label" style="margin-bottom:8px">Typical Zambian Lender Rates</div>
+    <div class="fl-loan-presets">
+      <div class="fl-loan-chip" onclick="FLLoan.setRate(20, this)">Bank Loan · 20%</div>
+      <div class="fl-loan-chip active" onclick="FLLoan.setRate(28, this)">Microfinance · 28%</div>
+      <div class="fl-loan-chip" onclick="FLLoan.setRate(35, this)">Payday Lender · 35%</div>
+    </div>
+
+    <div class="fl-loan-grid">
+      <div class="fl-loan-field" style="margin-bottom:0">
+        <div class="fl-loan-rate-row">
+          <label class="fl-loan-label" style="margin-bottom:0">Annual Rate</label>
+          <span class="fl-loan-rate-val" id="fl-loan-rate-display">28%</span>
+        </div>
+        <input type="range" class="fl-loan-rate-slider" id="fl-loan-rate" min="5" max="50" value="28" oninput="FLLoan.onRateSlide()">
+      </div>
+      <div class="fl-loan-field" style="margin-bottom:0">
+        <div class="fl-loan-rate-row">
+          <label class="fl-loan-label" style="margin-bottom:0">Term (Months)</label>
+          <span class="fl-loan-rate-val" id="fl-loan-term-display">12 mo</span>
+        </div>
+        <input type="range" class="fl-loan-rate-slider" id="fl-loan-term" min="1" max="60" value="12" oninput="FLLoan.calculate()">
+      </div>
+    </div>
+
+    <div class="fl-loan-results" id="fl-loan-results">
+      <div class="fl-loan-row">
+        <div class="fl-loan-row-label">Loan Amount</div>
+        <div class="fl-loan-row-val" id="fl-loan-out-principal">K 0</div>
+      </div>
+      <div class="fl-loan-row">
+        <div class="fl-loan-row-label">Monthly Payment</div>
+        <div class="fl-loan-row-val" id="fl-loan-out-monthly">K 0</div>
+      </div>
+      <div class="fl-loan-row">
+        <div class="fl-loan-row-label">Total Interest Paid</div>
+        <div class="fl-loan-row-val flag" id="fl-loan-out-interest">K 0</div>
+      </div>
+      <div class="fl-loan-row total">
+        <div class="fl-loan-row-label">Total You Repay</div>
+        <div class="fl-loan-row-val" id="fl-loan-out-total">K 0</div>
+      </div>
+
+      <div class="fl-loan-explainer">
+        <b>What this means:</b> <span id="fl-loan-explainer-text">Enter a loan amount to see your real cost of borrowing.</span>
+      </div>
+
+      <div class="fl-loan-used-badge" id="fl-loan-used-badge">
+        ✅ Calculator used — counts toward your certificate
+      </div>
+    </div>
+  </div>
+</div>
+
+  <details style="margin:16px 0;border-radius:20px;overflow:hidden;box-shadow:0 2px 20px rgba(0,0,0,.08),0 0 0 1px rgba(0,0,0,.06)">
+    <summary style="background:rgba(255,255,255,.72);backdrop-filter:blur(20px) saturate(180%);padding:14px 18px;cursor:pointer;list-style:none;display:flex;align-items:center;gap:12px;font-weight:700;font-size:13.5px;color:var(--ink)">
+      <span>👩‍🏫</span> Facilitator Note — Explaining Loan Costs (5 min)
+    </summary>
+    <div style="background:#fff;padding:16px 18px;font-size:12.5px;color:var(--ink2);line-height:1.75">
+      <strong>Key facts to emphasise:</strong><br>
+      • Learners often focus only on the monthly payment, not the total repayment — reframe toward total cost<br>
+      • The gap between 20% and 35% on the same loan amount is dramatic — have learners compare side by side<br>
+      • Emergency borrowing under pressure (like Bwalya's story) is exactly when people skip comparing rates — name this pattern explicitly<br>
+      • Ask: "What would you do differently if you had 24 hours to compare three lenders instead of signing immediately?"
+    </div>
+  </details>
+
+  <div class="sec-nav">
+    <a href="#s0" class="btn btn-s"><span>← Back</span></a>
+    <a href="#s2" class="btn btn-p"><span>Getting Out of Debt →</span></a>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════════════════════
+     SECTION 2 — GETTING OUT OF DEBT (avalanche vs snowball embedded)
+     ══════════════════════════════════════════════════════════ -->
+<div class="section" id="s2">
+
+  <div class="sec-timer">Interactive</div>
+  <div class="kicker">Core Concept 2</div>
+  <h2 class="sh2">Avalanche vs Snowball — Which Strategy Wins?</h2>
+  <p class="slead">If you have more than one debt, the order you pay them off in changes how much you pay in total, and how fast you become debt-free. Two competing strategies — let's test both.</p>
+
+  <div class="cc gold"><div class="cc-ic">⛰️</div><div class="cc-t">Avalanche Method</div><div class="cc-b">Pay off the highest-interest debt first. Mathematically saves the most money over time.</div></div>
+  <div class="cc blue"><div class="cc-ic">⛄</div><div class="cc-t">Snowball Method</div><div class="cc-b">Pay off the smallest balance first. Builds motivation through quick, visible wins.</div></div>
+
+  <div class="fl-debt" id="fl-debt-sim">
+  <div class="fl-debt-tag">FinLit Zambia · Interactive Simulator</div>
+  <div class="fl-debt-title">Avalanche vs Snowball: Which Pays Off Debt Faster?</div>
+  <div class="fl-debt-sub">Enter up to 3 debts. See whether tackling the highest interest rate first (avalanche) or the smallest balance first (snowball) gets you debt-free sooner.</div>
+
+  <div class="fl-debt-divider">
+
+    <div class="fl-debt-entry">
+      <div class="fl-debt-entry-hdr">Debt 1</div>
+      <div class="fl-debt-entry-grid">
+        <div><div class="fl-debt-mini-label">Balance</div><div class="fl-debt-mini-input-wrap"><span class="fl-debt-mini-currency">K</span><input type="number" class="fl-debt-mini-input" id="fl-debt-1-balance" placeholder="3,000"></div></div>
+        <div><div class="fl-debt-mini-label">Rate/yr</div><div class="fl-debt-mini-input-wrap"><input type="number" class="fl-debt-mini-input pct" id="fl-debt-1-rate" placeholder="30"><span class="fl-debt-mini-pct-sign">%</span></div></div>
+        <div><div class="fl-debt-mini-label">Min payment</div><div class="fl-debt-mini-input-wrap"><span class="fl-debt-mini-currency">K</span><input type="number" class="fl-debt-mini-input" id="fl-debt-1-min" placeholder="150"></div></div>
+      </div>
+    </div>
+
+    <div class="fl-debt-entry">
+      <div class="fl-debt-entry-hdr">Debt 2</div>
+      <div class="fl-debt-entry-grid">
+        <div><div class="fl-debt-mini-label">Balance</div><div class="fl-debt-mini-input-wrap"><span class="fl-debt-mini-currency">K</span><input type="number" class="fl-debt-mini-input" id="fl-debt-2-balance" placeholder="1,200"></div></div>
+        <div><div class="fl-debt-mini-label">Rate/yr</div><div class="fl-debt-mini-input-wrap"><input type="number" class="fl-debt-mini-input pct" id="fl-debt-2-rate" placeholder="20"><span class="fl-debt-mini-pct-sign">%</span></div></div>
+        <div><div class="fl-debt-mini-label">Min payment</div><div class="fl-debt-mini-input-wrap"><span class="fl-debt-mini-currency">K</span><input type="number" class="fl-debt-mini-input" id="fl-debt-2-min" placeholder="80"></div></div>
+      </div>
+    </div>
+
+    <div class="fl-debt-entry">
+      <div class="fl-debt-entry-hdr">Debt 3 <span style="font-weight:400;text-transform:none;color:var(--ink4,#9CA3AF)">(optional)</span></div>
+      <div class="fl-debt-entry-grid">
+        <div><div class="fl-debt-mini-label">Balance</div><div class="fl-debt-mini-input-wrap"><span class="fl-debt-mini-currency">K</span><input type="number" class="fl-debt-mini-input" id="fl-debt-3-balance" placeholder="0"></div></div>
+        <div><div class="fl-debt-mini-label">Rate/yr</div><div class="fl-debt-mini-input-wrap"><input type="number" class="fl-debt-mini-input pct" id="fl-debt-3-rate" placeholder="0"><span class="fl-debt-mini-pct-sign">%</span></div></div>
+        <div><div class="fl-debt-mini-label">Min payment</div><div class="fl-debt-mini-input-wrap"><span class="fl-debt-mini-currency">K</span><input type="number" class="fl-debt-mini-input" id="fl-debt-3-min" placeholder="0"></div></div>
+      </div>
+    </div>
+
+    <div class="fl-debt-budget-field">
+      <label class="fl-debt-label">Total Monthly Budget for Debt Repayment</label>
+      <div class="fl-debt-input-wrap">
+        <span class="fl-debt-currency">K</span>
+        <input type="number" class="fl-debt-input" id="fl-debt-budget" placeholder="400" inputmode="numeric">
+      </div>
+    </div>
+
+    <button class="fl-debt-btn" onclick="FLDebt.simulate()">Compare Strategies</button>
+
+    <div class="fl-debt-results" id="fl-debt-results">
+      <div class="fl-debt-compare">
+        <div class="fl-debt-compare-card avalanche">
+          <div class="fl-debt-compare-label">Avalanche (Highest Rate First)</div>
+          <div class="fl-debt-compare-months" id="fl-debt-avalanche-months">0 mo</div>
+          <div class="fl-debt-compare-sub" id="fl-debt-avalanche-interest">K0 total interest</div>
+        </div>
+        <div class="fl-debt-compare-card snowball">
+          <div class="fl-debt-compare-label">Snowball (Smallest Balance First)</div>
+          <div class="fl-debt-compare-months" id="fl-debt-snowball-months">0 mo</div>
+          <div class="fl-debt-compare-sub" id="fl-debt-snowball-interest">K0 total interest</div>
+        </div>
+      </div>
+
+      <div class="fl-debt-winner-row">
+        <div class="fl-debt-winner-label">Avalanche saves you</div>
+        <div class="fl-debt-winner-val" id="fl-debt-savings">K 0</div>
+      </div>
+
+      <div class="fl-debt-explainer">
+        <b>What this means:</b> <span id="fl-debt-explainer-text">Enter your debts above to see which strategy wins.</span>
+      </div>
+
+      <div class="fl-debt-used-badge" id="fl-debt-used-badge">
+        ✅ Simulation run — counts toward your certificate
+      </div>
+    </div>
+  </div>
+</div>
+
+  <div class="sec-nav">
+    <a href="#s1" class="btn btn-s"><span>← Back</span></a>
+    <a href="#s3" class="btn btn-p"><span>Your Credit Standing →</span></a>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════════════════════
+     SECTION 3 — YOUR CREDIT STANDING (credit score sim embedded)
+     ══════════════════════════════════════════════════════════ -->
+<div class="section" id="s3">
+
+  <div class="sec-timer">Interactive</div>
+  <div class="kicker">Core Concept 3</div>
+  <h2 class="sh2">Every Decision Leaves a Trace</h2>
+  <p class="slead">Your creditworthiness isn't decided in one moment — it's built (or damaged) through dozens of small decisions over years. Play through two years of choices and watch how they add up.</p>
+
+  <div class="fl-credit" id="fl-credit-sim">
+  <div class="fl-credit-tag">FinLit Zambia · Decision Simulation</div>
+  <div class="fl-credit-title">Two Years, Eight Decisions</div>
+  <div class="fl-credit-sub">Every financial choice you make affects your creditworthiness. Play through two years of decisions and watch your score respond.</div>
+
+  <div class="fl-credit-divider">
+
+    <div class="fl-credit-score-row">
+      <div class="fl-credit-score-dial">
+        <svg width="76" height="76" viewBox="0 0 76 76">
+          <circle cx="38" cy="38" r="32" fill="none" stroke="#F3F4F6" stroke-width="7"/>
+          <circle cx="38" cy="38" r="32" fill="none" stroke="#C9A83C" stroke-width="7"
+            stroke-dasharray="201.1" id="fl-credit-arc" stroke-dashoffset="70" stroke-linecap="round"
+            style="transition:stroke-dashoffset .8s cubic-bezier(.4,0,.2,1),stroke .3s"/>
+        </svg>
+        <div class="fl-credit-score-dial-num" id="fl-credit-score-num">650</div>
+      </div>
+      <div>
+        <div class="fl-credit-score-label">Simulated Credit Score</div>
+        <div class="fl-credit-score-rating fair" id="fl-credit-score-rating">Fair Standing</div>
+      </div>
+    </div>
+
+    <div id="fl-credit-decisions"></div>
+
+    <div class="fl-credit-summary" id="fl-credit-summary">
+      <div class="fl-credit-summary-final">Your final simulated score</div>
+      <div class="fl-credit-score-dial" style="margin:0 auto 8px">
+        <svg width="76" height="76" viewBox="0 0 76 76">
+          <circle cx="38" cy="38" r="32" fill="none" stroke="#F3F4F6" stroke-width="7"/>
+          <circle cx="38" cy="38" r="32" fill="none" stroke="#22C55E" stroke-width="7" id="fl-credit-final-arc" stroke-linecap="round"/>
+        </svg>
+        <div class="fl-credit-score-dial-num" id="fl-credit-final-score">650</div>
+      </div>
+      <div class="fl-credit-summary-msg" id="fl-credit-summary-msg"></div>
+    </div>
+
+    <div class="fl-credit-used-badge" id="fl-credit-used-badge">
+      ✅ Simulation completed — counts toward your certificate
+    </div>
+  </div>
+</div>
+
+  <details style="margin:16px 0;border-radius:20px;overflow:hidden;box-shadow:0 2px 20px rgba(0,0,0,.08),0 0 0 1px rgba(0,0,0,.06)">
+    <summary style="background:rgba(255,255,255,.72);backdrop-filter:blur(20px) saturate(180%);padding:14px 18px;cursor:pointer;list-style:none;display:flex;align-items:center;gap:12px;font-weight:700;font-size:13.5px;color:var(--ink)">
+      <span>👩‍🏫</span> Facilitator Note — Discussing Credit Standing (5 min)
+    </summary>
+    <div style="background:#fff;padding:16px 18px;font-size:12.5px;color:var(--ink2);line-height:1.75">
+      <strong>Key facts to emphasise:</strong><br>
+      • This simulation uses illustrative scoring logic — the real principles (on-time payment, utilisation, co-signing risk) are accurate even if exact bureau formulas vary<br>
+      • Co-signing is often misunderstood by first-time earners — spend extra time here<br>
+      • Ask learners which single decision in the simulation surprised them most, and why<br>
+      • Connect back to Bwalya's story from section 0 — her repeated payday borrowing would show up exactly like this
+    </div>
+  </details>
+
+  <div class="sec-nav">
+    <a href="#s2" class="btn btn-s"><span>← Back</span></a>
+    <a href="#s4" class="btn btn-p"><span>Quiz →</span></a>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════════════════════
+     SECTION 4 — QUIZ + CERTIFICATE
+     ══════════════════════════════════════════════════════════ -->
+<div class="section" id="s4">
+
+  <div class="sec-timer">Check Your Understanding</div>
+  <div class="kicker">Quick Fire — 5 Questions</div>
+  <h2 class="sh2">Test what you've learned</h2>
+
+  <div class="fl-quiz-results" id="fl-quiz-results-display" style="display:none">
+    <div class="fl-quiz-results-score" id="fl-quiz-score-display">0/5</div>
+    <div class="fl-quiz-results-pct" id="fl-quiz-pct-display"></div>
+    <div class="fl-quiz-results-msg" id="fl-quiz-msg-display"></div>
+  </div>
+
+  <div class="qz-card">
+    <div class="qz-hd"><div class="qz-n">1</div><div class="qz-ht">Loan Costs</div></div>
+    <div class="qz-body">
+      <div class="qz-q">Which typically has the highest interest rate in Zambia?</div>
+      <input type="radio" name="q1" id="q1a" class="qr" onchange="answerQuiz(this,'q1',false)"><label for="q1a" class="qo"><span>A formal bank loan</span></label><div class="qfb">Not quite — bank loans typically have the lowest rates of the three.</div>
+      <input type="radio" name="q1" id="q1b" class="qr" onchange="answerQuiz(this,'q1',false)"><label for="q1b" class="qo"><span>A microfinance loan</span></label><div class="qfb">Not quite — microfinance sits between bank loans and payday lenders.</div>
+      <input type="radio" name="q1" id="q1c" class="qr right" onchange="answerQuiz(this,'q1',true)"><label for="q1c" class="qo"><span>A payday lender</span></label><div class="qfb">✅ Correct — payday lenders typically charge the highest rates, often 35% or more.</div>
+    </div>
+  </div>
+
+  <div class="qz-card">
+    <div class="qz-hd"><div class="qz-n">2</div><div class="qz-ht">Avalanche Method</div></div>
+    <div class="qz-body">
+      <div class="qz-q">The avalanche method pays off which debt first?</div>
+      <input type="radio" name="q2" id="q2a" class="qr" onchange="answerQuiz(this,'q2',false)"><label for="q2a" class="qo"><span>The smallest balance</span></label><div class="qfb">That's the snowball method, not avalanche.</div>
+      <input type="radio" name="q2" id="q2b" class="qr right" onchange="answerQuiz(this,'q2',true)"><label for="q2b" class="qo"><span>The highest interest rate</span></label><div class="qfb">✅ Correct — avalanche targets the highest rate first, minimising total interest paid.</div>
+      <input type="radio" name="q2" id="q2c" class="qr" onchange="answerQuiz(this,'q2',false)"><label for="q2c" class="qo"><span>The oldest debt</span></label><div class="qfb">Not quite — age of debt isn't the deciding factor in either method.</div>
+    </div>
+  </div>
+
+  <div class="qz-card">
+    <div class="qz-hd"><div class="qz-n">3</div><div class="qz-ht">Co-Signing</div></div>
+    <div class="qz-body">
+      <div class="qz-q">If you co-sign a loan for a friend and they don't pay, what happens?</div>
+      <input type="radio" name="q3" id="q3a" class="qr" onchange="answerQuiz(this,'q3',false)"><label for="q3a" class="qo"><span>Nothing — it's not your responsibility</span></label><div class="qfb">Not quite — co-signing makes you equally liable for the debt.</div>
+      <input type="radio" name="q3" id="q3b" class="qr right" onchange="answerQuiz(this,'q3',true)"><label for="q3b" class="qo"><span>You become responsible for the debt</span></label><div class="qfb">✅ Correct — co-signing makes you equally liable, even though you never received the money.</div>
+    </div>
+  </div>
+
+  <div class="qz-card">
+    <div class="qz-hd"><div class="qz-n">4</div><div class="qz-ht">On-Time Payment</div></div>
+    <div class="qz-body">
+      <div class="qz-q">What is generally the single strongest factor in creditworthiness?</div>
+      <input type="radio" name="q4" id="q4a" class="qr" onchange="answerQuiz(this,'q4',false)"><label for="q4a" class="qo"><span>How much you earn</span></label><div class="qfb">Not quite — income matters less than repayment behaviour.</div>
+      <input type="radio" name="q4" id="q4b" class="qr right" onchange="answerQuiz(this,'q4',true)"><label for="q4b" class="qo"><span>Consistently paying on time</span></label><div class="qfb">✅ Correct — on-time repayment is the strongest signal of reliability to any lender.</div>
+      <input type="radio" name="q4" id="q4c" class="qr" onchange="answerQuiz(this,'q4',false)"><label for="q4c" class="qo"><span>How many loans you've had</span></label><div class="qfb">Not quite — quantity of loans matters far less than repayment reliability.</div>
+    </div>
+  </div>
+
+  <div class="qz-card">
+    <div class="qz-hd"><div class="qz-n">5</div><div class="qz-ht">Emergency Borrowing</div></div>
+    <div class="qz-body">
+      <div class="qz-q">What is the safest source of funds for a true emergency?</div>
+      <input type="radio" name="q5" id="q5a" class="qr right" onchange="answerQuiz(this,'q5',true)"><label for="q5a" class="qo"><span>Your own emergency fund</span></label><div class="qfb">✅ Correct — a pre-built emergency fund avoids interest entirely and any borrowing risk.</div>
+      <input type="radio" name="q5" id="q5b" class="qr" onchange="answerQuiz(this,'q5',false)"><label for="q5b" class="qo"><span>A payday lender</span></label><div class="qfb">Not quite — payday lenders are the most expensive option, best avoided if possible.</div>
+    </div>
+  </div>
+
+  <div style="text-align:center;margin:16px 0">
+    <button id="fl-retake-quiz" class="btn btn-s" style="display:none" onclick="resetQuiz()"><span>↺ Retake Quiz</span></button>
+  </div>
+
+  <!-- ══ CERTIFICATE SECTION ══ -->
+  <div class="fl-practice" id="fl-practice">
+  <div class="fl-practice-hd"><span class="fl-practice-ic">🎮</span>
+    <div><div class="fl-practice-t">Practice with your yungsta</div><div class="fl-practice-s">Put this lesson to work: a few quick calls with your yungsta. Do it after the quiz. It is part of your certificate.</div></div>
+    <span class="fl-practice-chip" id="fl-practice-chip">Required</span></div>
+  <div class="fl-practice-body" id="fl-practice-body"><button class="fl-practice-go" id="fl-practice-go" type="button">Start practice</button></div>
+</div>
+<div class="fl-cert" id="fl-cert-1">
+    <div class="fl-cert-tag">FinLit Zambia · Official Certificate</div>
+    <div class="fl-cert-title">Your Certificate of Completion</div>
+    <div class="fl-cert-sub">Complete every requirement below to unlock your certificate for Module 1.2.</div>
+
+    <div id="fl-cert-checklist"></div>
+    <div id="fl-cert-locked-area"></div>
+
+    <div class="fl-cert-unlock" id="fl-cert-unlock-area" style="display:none">
+      <div class="fl-cert-unlock-msg">All requirements met — your certificate is ready.</div>
+      <input type="text" class="fl-cert-name-input" id="fl-cert-name-input" placeholder="Type your full name">
+      <button class="fl-cert-claim-btn" onclick="openCertModal()">Generate My Certificate</button>
+    </div>
+  </div>
+
+  <!-- ══ COMMUNITY WALL + PADLET GAME ══ -->
+  <div class="fl-end-actions">
+    <a href="#fl-community-panel" class="fl-end-btn wall" onclick="FLPanels.open('community');return false;">
+      <span class="fl-end-btn-live">Live</span><span class="fl-end-btn-icon">🌍</span>
+      <span class="fl-end-btn-title">Community Wall</span><span class="fl-end-btn-sub">Be part of something growing</span>
+    </a>
+  </div>
+
+  <div class="sec-nav">
+    <a href="#s3" class="btn btn-s"><span>← Back</span></a>
+    <span class="btn btn-dis"><span>Done ✓</span></span>
+  </div>
+</div>
+
+<div style="margin:0;padding:16px 20px 28px;border-top:1px solid var(--bd2);background:var(--bd2);margin-top:18px;border-radius:12px">
+  <p style="font-family:var(--ff);font-size:11px;color:var(--ink3);text-align:center;line-height:1.6;margin:0">
+    <strong>Disclaimer:</strong> This module is for educational purposes only. All financial data, rates, and figures are based on publicly available Zambian sources as of 2026 and may change. This is not financial advice. — <strong>finlit-zm.org</strong>
+  </p>
+</div>
+
+<!-- ══ COMMUNITY / GAME PANELS ══ -->
+<div class="fl-panel-backdrop" id="fl-panel-backdrop" onclick="FLPanels.close()"></div>
+<div class="fl-panel" id="fl-community-panel">
+  <div class="fl-panel-bar"><div class="fl-panel-title">🌍 Community Wall</div><button class="fl-panel-close" onclick="FLPanels.close()">✕</button></div>
+  <iframe class="fl-panel-iframe" id="fl-community-iframe" allow="camera;microphone;geolocation;display-capture;clipboard-write" data-src="https://padlet.com/embed/86pfurt6iexup09i" title="FinLit Zambia Community Wall"></iframe>
+</div>
+<!-- ══ CERTIFICATE MODAL ══ -->
+<div class="fl-panel" id="fl-practice-panel">
+  <div class="fl-panel-bar"><div class="fl-panel-title">🎮 Practice with your yungsta</div><button class="fl-panel-close" onclick="closePractice()" aria-label="Close">✕</button></div>
+  <div class="fl-practice-pbody" id="fl-practice-pbody"></div>
+</div>
+<div class="cert-backdrop" id="certBackdrop" onclick="closeCertModal()"></div>
+<div class="cert-sheet" id="certSheet">
+  <div class="cert-sheet-handle"></div>
+  <div class="cert-sheet-bar"><div class="cert-sheet-title">🎓 Certificate of Financial Literacy</div><button class="cert-sheet-close" onclick="closeCertModal()">✕</button></div>
+  <iframe class="cert-iframe" id="certIframe" src="" data-src="https://finlitzambia.github.io/finlit-certificates/module-1-2" title="FinLit Certificate Generator"></iframe>
+  <a class="cert-fallback" id="certFallback" href="#" target="_blank" rel="noopener">Certificate not showing? Open it in a new tab</a>
+</div>
+
+<script>window.FINLIT_MODULE={practice:true,moduleId:'module-1-2',sections:['s0','s1','s2','s3','s4'],quizTotalQuestions:5};</script>
+
+<script>
+(function () {
+  var CFG = window.FINLIT_MODULE || {};
+  var MODULE_ID = CFG.moduleId || 'module-1-2';
+  var SECTION_IDS = CFG.sections || ['s0','s1','s2','s3','s4'];
+  var STORAGE_KEY = 'finlit-progress-' + MODULE_ID;
+
+  function getProgress() {
+    try {
+      var raw = localStorage.getItem(STORAGE_KEY);
+      return raw ? JSON.parse(raw) : blankProgress();
+    } catch (e) { return blankProgress(); }
+  }
+  function blankProgress() {
+    return { visited: {}, quizAnswers: {}, quizScore: null, estimate: {}, certificate: null };
+  }
+  function saveProgress(p) {
+    try { localStorage.setItem(STORAGE_KEY, JSON.stringify(p)); } catch (e) {}
+  }
+  function currentSectionFromHash() {
+    var h = window.location.hash.replace('#', '');
+    return h || SECTION_IDS[0] || null;
+  }
+  function markVisited(sectionId) {
+    if (!sectionId) return;
+    var p = getProgress();
+    if (!p.visited[sectionId]) { p.visited[sectionId] = true; saveProgress(p); }
+    renderAll();
+  }
+
+  // ── Practice with your yungsta: the simulator, shown inside this lesson ──
+  var SIM_BASE = './sim/';   // the simulator is served from the same address as the lessons (folder /sim/)
+  var SIM_ORIGIN = (function () { try { return new URL(SIM_BASE, window.location.href).origin; } catch (e) { return ''; } })();
+  var PRACTICE_LESSON = String((window.FINLIT_MODULE || {}).moduleId || '').replace(/^module-/, '');
+  function practiceState() { var p = getProgress(); return p.practice === true ? 'done' : (p.practice === 'skipped' ? 'skipped' : 'todo'); }
+  function renderPractice() {
+    var chip = document.getElementById('fl-practice-chip'), body = document.getElementById('fl-practice-body'); if (!chip || !body) return;
+    var st = practiceState();
+    chip.textContent = st === 'done' ? 'Complete ✓' : (st === 'skipped' ? 'Not available' : 'Required');
+    chip.className = 'fl-practice-chip ' + st;
+    if (st === 'done' && !document.getElementById('fl-practice-frame')) {
+      body.innerHTML = '<div class="fl-practice-note">Practice complete. Your yungsta has learned from this lesson.</div><button class="fl-practice-go alt" id="fl-practice-go" type="button">Practice again</button>';
+      document.getElementById('fl-practice-go').addEventListener('click', startPractice);
+    }
+    if (st === 'skipped' && !document.getElementById('fl-practice-frame')) {
+      body.innerHTML = '<div class="fl-practice-note">Practice was skipped. You can still try it whenever you like.</div><button class="fl-practice-go alt" id="fl-practice-go" type="button">Try practice again</button>';
+      document.getElementById('fl-practice-go').addEventListener('click', startPractice);
+    }
+  }
+  function completePractice(kind) {
+    var p = getProgress(); p.practice = (kind === 'skipped') ? 'skipped' : true; saveProgress(p); renderPractice(); renderAll();
+  }
+  function practiceBox() { return document.getElementById('fl-practice-pbody'); }
+  function closePractice() {
+    FLPanels.close();
+    var pb = practiceBox(); if (pb) pb.innerHTML = '';
+    renderPractice();
+  }
+  window.closePractice = closePractice;
+  function showPracticeNote(text, reason, allowSkip) {
+    var pb = practiceBox(); if (!pb) return;
+    pb.innerHTML = '<div class="fl-practice-note">' + text + (reason ? '<div class="fl-practice-code">Code: ' + String(reason).replace(/[^a-z0-9_-]/gi, '') + '</div>' : '') + '</div>' +
+      '<button class="fl-practice-go" id="fl-practice-retry" type="button">Try again</button>' +
+      (allowSkip ? '<button class="fl-practice-go alt" id="fl-practice-skip" type="button">Continue without practice</button>' : '');
+    document.getElementById('fl-practice-retry').addEventListener('click', startPractice);
+    var sk = document.getElementById('fl-practice-skip');
+    if (sk) sk.addEventListener('click', function () { completePractice('skipped'); closePractice(); });
+    FLPanels.open('practice');
+  }
+  function startPractice() {
+    var pb = practiceBox(); if (!pb) return;
+    if (navigator.onLine === false) { showPracticeNote('Practice needs an internet connection. Connect and try again.', '', false); return; }
+    pb.innerHTML = '<iframe id="fl-practice-frame" title="Practice with your yungsta" src="' + SIM_BASE + 'practice.html?embed=1&practice=' + encodeURIComponent(PRACTICE_LESSON) + '"></iframe>';
+    FLPanels.open('practice');
+  }
+  window.addEventListener('message', function (ev) {
+    if (!SIM_ORIGIN || ev.origin !== SIM_ORIGIN) return;
+    var d = ev.data; if (!d || d.source !== 'finlit-sim') return;
+    if (d.lesson && d.lesson !== PRACTICE_LESSON) return;
+    if (d.type === 'practice-complete') { completePractice('done'); }   // the sheet stays open on the "Practice complete" screen; closing it updates the lesson
+    if (d.type === 'practice-unavailable') {
+      showPracticeNote('Practice is not available right now. Try again in a moment. If it still does not load, you can continue without it so your certificate is not held up.', d.reason, true);
+    }
+  });
+  (function () { var g = document.getElementById('fl-practice-go'); if (g) g.addEventListener('click', startPractice); renderPractice(); })();
+
+  function lockQuestionGroup(qName) {
+    var radios = document.getElementsByName(qName);
+    for (var i = 0; i < radios.length; i++) radios[i].disabled = true;
+    var card = radios.length ? radios[0].closest('.qz-card') : null;
+    if (card) card.classList.add('fl-locked');
+  }
+
+  window.answerQuiz = function (inputEl, questionId, isCorrect) {
+    var p = getProgress();
+    if (p.quizAnswers[questionId]) return;
+    p.quizAnswers[questionId] = { correct: !!isCorrect, selectedId: inputEl.id };
+    saveProgress(p);
+    lockQuestionGroup(inputEl.name);
+
+    var totalQuestions = CFG.quizTotalQuestions || 5;
+    var answeredCount = Object.keys(p.quizAnswers).length;
+    if (answeredCount >= totalQuestions) {
+      var correct = 0;
+      for (var k in p.quizAnswers) if (p.quizAnswers[k].correct) correct++;
+      p.quizScore = { correct: correct, total: totalQuestions };
+      saveProgress(p);
+      showQuizResults(correct, totalQuestions);
+    }
+    maybeShowRetake(p);
+    renderAll();
+  };
+
+  function showQuizResults(correct, total) {
+    var pct = Math.round((correct / total) * 100);
+    var disp = document.getElementById('fl-quiz-results-display');
+    if (!disp) return;
+    document.getElementById('fl-quiz-score-display').textContent = correct + '/' + total;
+    document.getElementById('fl-quiz-pct-display').textContent = pct + '%';
+    var msg;
+    if (pct === 100) msg = 'Perfect score. You clearly understand every concept in this module.';
+    else if (pct >= 80) msg = 'Strong result — your certificate is now within reach.';
+    else msg = 'Good effort — review the sections above and retake the quiz whenever you\'re ready.';
+    document.getElementById('fl-quiz-msg-display').textContent = msg;
+    disp.style.display = 'block';
+  }
+
+  function maybeShowRetake(p) {
+    var totalQuestions = CFG.quizTotalQuestions || 5;
+    var answered = Object.keys(p.quizAnswers).length;
+    var btn = document.getElementById('fl-retake-quiz');
+    if (btn) btn.style.display = (answered >= totalQuestions) ? 'inline-flex' : 'none';
+  }
+
+  window.resetQuiz = function () {
+    var p = getProgress();
+    p.quizAnswers = {};
+    p.quizScore = null;
+    saveProgress(p);
+    document.querySelectorAll('.qz-card input[type="radio"]').forEach(function (r) {
+      r.checked = false; r.disabled = false;
+    });
+    document.querySelectorAll('.qz-card.fl-locked').forEach(function (c) {
+      c.classList.remove('fl-locked');
+    });
+    document.getElementById('fl-quiz-results-display').style.display = 'none';
+    var btn = document.getElementById('fl-retake-quiz');
+    if (btn) btn.style.display = 'none';
+    renderAll();
+    var results = document.querySelector('.fl-quiz-results');
+    if (results) results.scrollIntoView({ behavior: 'smooth', block: 'center' });
+  };
+
+  function restoreQuizLocks(p) {
+    for (var qid in p.quizAnswers) {
+      var answer = p.quizAnswers[qid];
+      if (!answer || !answer.selectedId) continue;
+      var input = document.getElementById(answer.selectedId);
+      if (input) { input.checked = true; lockQuestionGroup(input.name); }
+    }
+    maybeShowRetake(p);
+    if (p.quizScore) showQuizResults(p.quizScore.correct, p.quizScore.total);
+  }
+
+  function renderRail(p) {
+    var current = currentSectionFromHash();
+    SECTION_IDS.forEach(function (id) {
+      var seg = document.querySelector('.fl-rail-seg[data-seg="' + id + '"]');
+      if (seg) {
+        seg.classList.toggle('fl-seg-done', !!p.visited[id]);
+        seg.classList.toggle('fl-seg-current', id === current);
+      }
+      var item = document.querySelector('.fl-rail-item[data-item="' + id + '"]');
+      if (item) item.classList.toggle('fl-done', !!p.visited[id]);
+    });
+
+    var quizSeg = document.getElementById('fl-rail-quiz-seg');
+    var quizVal = document.getElementById('fl-rail-quiz-val');
+    var totalQuestions = CFG.quizTotalQuestions || 5;
+    var answered = Object.keys(p.quizAnswers).length;
+
+    if (quizSeg) {
+      quizSeg.classList.remove('fl-seg-partial', 'fl-seg-pass', 'fl-seg-fail');
+      if (answered > 0 && answered < totalQuestions) {
+        quizSeg.classList.add('fl-seg-partial');
+      } else if (answered >= totalQuestions && p.quizScore) {
+        var pct = p.quizScore.total ? (p.quizScore.correct / p.quizScore.total) : 0;
+        quizSeg.classList.add(pct >= 0.7 ? 'fl-seg-pass' : 'fl-seg-fail');
+      }
+    }
+    if (quizVal) {
+      quizVal.textContent = (!p.quizScore || answered === 0) ? 'Not started' : (p.quizScore.correct + ' / ' + p.quizScore.total);
+    }
+  }
+
+  function renderDots(p) {
+    SECTION_IDS.forEach(function (id) {
+      var dot = document.querySelector('.nd[href="#' + id + '"]');
+      if (!dot) return;
+      dot.classList.toggle('nd-visited', !!p.visited[id]);
+    });
+  }
+
+  function renderResumeBanner(p) {
+    var banner = document.getElementById('fl-resume-banner');
+    if (!banner) return;
+    var visitedIds = Object.keys(p.visited);
+    var isPartial = visitedIds.length > 0 && visitedIds.length < SECTION_IDS.length;
+    var isFirstLoad = !window.__flBannerChecked;
+    window.__flBannerChecked = true;
+    if (isPartial && isFirstLoad) {
+      banner.style.display = 'flex';
+      var lastId = visitedIds[visitedIds.length - 1];
+      var link = document.getElementById('fl-resume-link');
+      if (link) link.setAttribute('href', '#' + lastId);
+    } else {
+      banner.style.display = 'none';
+    }
+  }
+
+  function renderCertificate(p) {
+    var checklist = document.getElementById('fl-cert-checklist');
+    if (!checklist) return;
+
+    var requirements = [
+      {
+        label: 'Final Quiz — at least 4 of 5 correct',
+        pass: !!(p.quizScore && p.quizScore.correct >= 4),
+        status: p.quizScore ? (p.quizScore.correct + '/' + p.quizScore.total) : 'Not started'
+      },
+      {
+        label: 'Loan Cost Calculator — used at least once',
+        pass: !!(p.estimate['fl-loan-calc'] && p.estimate['fl-loan-calc'].used),
+        status: (p.estimate['fl-loan-calc'] && p.estimate['fl-loan-calc'].used) ? 'Complete' : 'Not started'
+      },
+      {
+        label: 'Avalanche vs Snowball — simulation run',
+        pass: !!(p.estimate['fl-debt-avalanche-snowball'] && p.estimate['fl-debt-avalanche-snowball'].used),
+        status: (p.estimate['fl-debt-avalanche-snowball'] && p.estimate['fl-debt-avalanche-snowball'].used) ? 'Complete' : 'Not started'
+      },
+      {
+        label: 'Credit Score Simulation — completed',
+        pass: !!(p.estimate['fl-credit-score-sim'] && p.estimate['fl-credit-score-sim'].used),
+        status: (p.estimate['fl-credit-score-sim'] && p.estimate['fl-credit-score-sim'].used) ? 'Complete' : 'Not started'
+      }
+    ];
+    if (window.FINLIT_MODULE && window.FINLIT_MODULE.practice) {
+      requirements.push({ label: 'Practice with your yungsta', pass: p.practice === true || p.practice === 'skipped', status: p.practice === true ? 'Done' : (p.practice === 'skipped' ? 'Not available' : 'Not done') });
+    }
+
+
+    var html = '';
+    requirements.forEach(function (req) {
+      html += '<div class="fl-cert-check-item' + (req.pass ? ' fl-cert-pass' : '') + '">' +
+        '<div class="fl-cert-check-icon">' + (req.pass ? '✓' : '–') + '</div>' +
+        '<div class="fl-cert-check-label">' + req.label + '</div>' +
+        '<div class="fl-cert-check-status">' + req.status + '</div>' +
+        '</div>';
+    });
+    checklist.innerHTML = html;
+
+    var allPass = requirements.every(function (r) { return r.pass; });
+    var lockedArea = document.getElementById('fl-cert-locked-area');
+    var unlockArea = document.getElementById('fl-cert-unlock-area');
+
+    if (allPass) {
+      if (lockedArea) lockedArea.innerHTML = '';
+      if (unlockArea) unlockArea.style.display = 'block';
+    } else {
+      var remaining = requirements.filter(function (r) { return !r.pass; }).length;
+      if (lockedArea) lockedArea.innerHTML = '<div class="fl-cert-locked-msg">' + remaining + ' requirement' + (remaining === 1 ? '' : 's') + ' still to go. Complete them anywhere in the module — this list updates automatically.</div>';
+      if (unlockArea) unlockArea.style.display = 'none';
+    }
+  }
+
+  function renderAll() {
+    var p = getProgress();
+    renderRail(p);
+    renderDots(p);
+    renderResumeBanner(p);
+    renderCertificate(p);
+  }
+
+  window.FLRail = {
+    toggle: function () {
+      document.getElementById('fl-rail-panel').classList.toggle('open');
+      document.getElementById('fl-rail-backdrop').classList.toggle('open');
+    },
+    close: function () {
+      document.getElementById('fl-rail-panel').classList.remove('open');
+      document.getElementById('fl-rail-backdrop').classList.remove('open');
+    }
+  };
+
+  function init() {
+    markVisited(currentSectionFromHash());
+    renderAll();
+    restoreQuizLocks(getProgress());
+  }
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', init);
+  } else { init(); }
+
+  window.addEventListener('hashchange', function () {
+    markVisited(currentSectionFromHash());
+  });
+
+  window.FLProgress = { get: getProgress, save: saveProgress };
+  window.getProgress = getProgress;
+  window.saveProgress = saveProgress;
+  window.FLEngineInternal = { renderAll: renderAll, resetQuiz: window.resetQuiz, markVisited: markVisited, getProgress: getProgress,
+    resetProgress: function () {
+      try { localStorage.removeItem(STORAGE_KEY); } catch (e) {}
+      window.__flBannerChecked = false;
+      renderAll();
+    }
+  };
+  window.renderAll = renderAll;
+})();
+</script>
+
+<!-- ══ CERTIFICATE CLAIM ══ -->
+<script>
+window.FLCert = {
+  claim: function (containerId) {
+    var nameInput = document.getElementById('fl-cert-name-input');
+    var name = (nameInput.value || '').trim();
+    if (!name) { nameInput.focus(); return; }
+    var today = new Date();
+    var dateStr = today.toLocaleDateString('en-GB', { day: 'numeric', month: 'long', year: 'numeric' });
+    var p = FLProgress.get();
+    p.certificate = { claimed: true, name: name, date: dateStr };
+    FLProgress.save(p);
+  }
+};
+
+function openCertModal(){
+  var name = (document.getElementById('fl-cert-name-input') || {}).value || '';
+  var score = '';
+  try {
+    var p = FLProgress.get();
+    if(p.quizScore) score = Math.round((p.quizScore.correct / p.quizScore.total) * 100);
+  } catch(e){}
+  var base = document.getElementById('certIframe').dataset.src;
+  var params = new URLSearchParams();
+  if(name) params.set('name', name);
+  if(score !== '') params.set('score', score);
+  var url = base + (params.toString() ? '?' + params.toString() : '');
+  var iframe = document.getElementById('certIframe');
+  if(iframe.getAttribute('src') !== url) iframe.src = url;
+  var fb = document.getElementById('certFallback'); if(fb) fb.href = url;
+  document.getElementById('certBackdrop').classList.add('open');
+  document.getElementById('certSheet').classList.add('open');
+  document.body.style.overflow = 'hidden';
+  if(window.FLCert) window.FLCert.claim('fl-cert-1');
+}
+function closeCertModal(){
+  document.getElementById('certBackdrop').classList.remove('open');
+  document.getElementById('certSheet').classList.remove('open');
+  document.body.style.overflow = '';
+}
+document.addEventListener('keydown', function(e){ if(e.key === 'Escape') closeCertModal(); });
+</script>
+
+<!-- ══ COMMUNITY / GAME PANELS ══ -->
+<script>
+var FLPanels = (function(){
+  function open(which){
+    var panel = document.getElementById('fl-' + which + '-panel');
+    var iframe = document.getElementById('fl-' + which + '-iframe');
+    if(iframe && !iframe.src) iframe.src = iframe.dataset.src;
+    document.getElementById('fl-panel-backdrop').classList.add('open');
+    panel.classList.add('open');
+    document.body.style.overflow = 'hidden';
+  }
+  function close(){
+    document.getElementById('fl-panel-backdrop').classList.remove('open');
+    document.querySelectorAll('.fl-panel.open').forEach(function(p){ p.classList.remove('open'); });
+    document.body.style.overflow = '';
+  }
+  return { open: open, close: close };
+})();
+</script>
+
+
+<script>
+// ══════════════════════════════════════════════════════════════
+// FLLoan — loan cost engine using simple interest amortisation
+// (matches how most Zambian microfinance/payday products quote cost)
+// ══════════════════════════════════════════════════════════════
+var FLLoan = (function(){
+
+  var hasRecorded = false;
+
+  function fmt(n){
+    return 'K ' + n.toLocaleString('en-ZM', {minimumFractionDigits:2, maximumFractionDigits:2});
+  }
+
+  function setRate(rate, chipEl){
+    document.getElementById('fl-loan-rate').value = rate;
+    document.getElementById('fl-loan-rate-display').textContent = rate + '%';
+    document.querySelectorAll('.fl-loan-chip').forEach(function(c){ c.classList.remove('active'); });
+    chipEl.classList.add('active');
+    calculate();
+  }
+
+  function onRateSlide(){
+    var rate = document.getElementById('fl-loan-rate').value;
+    document.getElementById('fl-loan-rate-display').textContent = rate + '%';
+    document.querySelectorAll('.fl-loan-chip').forEach(function(c){ c.classList.remove('active'); });
+    calculate();
+  }
+
+  function calculate(){
+    var principal = parseFloat(document.getElementById('fl-loan-principal').value) || 0;
+    var rate      = parseFloat(document.getElementById('fl-loan-rate').value) || 0;
+    var termMonths = parseInt(document.getElementById('fl-loan-term').value, 10);
+
+    document.getElementById('fl-loan-term-display').textContent = termMonths + ' mo';
+
+    var resultsEl = document.getElementById('fl-loan-results');
+    if(principal <= 0){
+      resultsEl.classList.remove('show');
+      return;
+    }
+
+    var termYears = termMonths / 12;
+    var totalInterest = principal * (rate / 100) * termYears;
+    var totalRepay = principal + totalInterest;
+    var monthlyPayment = totalRepay / termMonths;
+
+    document.getElementById('fl-loan-out-principal').textContent = fmt(principal);
+    document.getElementById('fl-loan-out-monthly').textContent   = fmt(monthlyPayment);
+    document.getElementById('fl-loan-out-interest').textContent  = fmt(totalInterest);
+    document.getElementById('fl-loan-out-total').textContent     = fmt(totalRepay);
+
+    var interestPct = ((totalInterest / principal) * 100).toFixed(0);
+    var explainerText;
+    if(rate >= 30){
+      explainerText = 'At ' + rate + '% per year, you repay ' + interestPct + '% more than you borrowed. On a K' + principal.toLocaleString() + ' loan, that is ' + fmt(totalInterest) + ' in pure interest — money that could have gone into savings or investment instead.';
+    } else if(rate >= 20){
+      explainerText = 'At ' + rate + '%, this is a typical formal-sector loan rate in Zambia. You still pay ' + fmt(totalInterest) + ' in interest — always compare rates across at least two lenders before signing.';
+    } else {
+      explainerText = 'At ' + rate + '%, this is on the lower end for Zambian borrowing. Even here, interest adds ' + fmt(totalInterest) + ' to what you repay — borrowing always has a real cost.';
+    }
+    document.getElementById('fl-loan-explainer-text').textContent = explainerText;
+
+    resultsEl.classList.add('show');
+    document.getElementById('fl-loan-used-badge').classList.add('show');
+
+    if(!hasRecorded){
+      hasRecorded = true;
+      recordUsage(principal, rate, termMonths, totalInterest, totalRepay);
+    }
+  }
+
+  function recordUsage(principal, rate, term, interest, total){
+    try {
+      if(typeof getProgress === 'function' && typeof saveProgress === 'function'){
+        var p = getProgress();
+        p.estimate = p.estimate || {};
+        p.estimate['fl-loan-calc'] = {
+          used:true, principal:principal, rate:rate, termMonths:term,
+          totalInterest:Math.round(interest), totalRepay:Math.round(total), timestamp:Date.now()
+        };
+        saveProgress(p);
+        if(typeof renderAll === 'function') renderAll();
+      }
+    } catch(e){}
+  }
+
+  return { calculate: calculate, setRate: setRate, onRateSlide: onRateSlide };
+})();
+
+// ══════════════════════════════════════════════════════════════
+// FLDebt — avalanche vs snowball payoff simulation
+// Simulates month-by-month with a fixed total budget, extra payment
+// always applied to the priority debt (highest rate OR smallest balance)
+// ══════════════════════════════════════════════════════════════
+var FLDebt = (function(){
+
+  var hasRecorded = false;
+
+  function fmt(n){
+    return 'K ' + Math.round(n).toLocaleString('en-ZM');
+  }
+
+  function getDebts(){
+    var debts = [];
+    for(var i=1;i<=3;i++){
+      var balance = parseFloat(document.getElementById('fl-debt-' + i + '-balance').value) || 0;
+      var rate    = parseFloat(document.getElementById('fl-debt-' + i + '-rate').value) || 0;
+      var min     = parseFloat(document.getElementById('fl-debt-' + i + '-min').value) || 0;
+      if(balance > 0){
+        debts.push({ id:i, balance:balance, rate:rate, min:min });
+      }
+    }
+    return debts;
+  }
+
+  // strategy: 'avalanche' (highest rate first) or 'snowball' (smallest balance first)
+  function runStrategy(debtsInput, totalBudget, strategy){
+    var debts = JSON.parse(JSON.stringify(debtsInput)); // deep clone
+    var months = 0;
+    var totalInterest = 0;
+    var maxMonths = 600;
+
+    while(debts.some(function(d){ return d.balance > 0.01; }) && months < maxMonths){
+      months++;
+
+      // accrue monthly interest on each remaining debt
+      debts.forEach(function(d){
+        if(d.balance > 0){
+          var monthlyInterest = d.balance * (d.rate / 100 / 12);
+          d.balance += monthlyInterest;
+          totalInterest += monthlyInterest;
+        }
+      });
+
+      // pay minimums on all debts first
+      var remainingBudget = totalBudget;
+      debts.forEach(function(d){
+        if(d.balance > 0){
+          var pay = Math.min(d.min, d.balance);
+          d.balance -= pay;
+          remainingBudget -= pay;
+        }
+      });
+
+      // sort remaining active debts by strategy, apply leftover budget to priority debt
+      var active = debts.filter(function(d){ return d.balance > 0.01; });
+      if(strategy === 'avalanche'){
+        active.sort(function(a,b){ return b.rate - a.rate; });
+      } else {
+        active.sort(function(a,b){ return a.balance - b.balance; });
+      }
+
+      var idx = 0;
+      while(remainingBudget > 0.01 && active.length > 0){
+        var target = active[idx % active.length];
+        var extra = Math.min(remainingBudget, target.balance);
+        target.balance -= extra;
+        remainingBudget -= extra;
+        active = active.filter(function(d){ return d.balance > 0.01; });
+        idx++;
+        if(active.length === 0) break;
+      }
+    }
+
+    return { months: months >= maxMonths ? Infinity : months, totalInterest: totalInterest };
+  }
+
+  function simulate(){
+    var debts = getDebts();
+    var budget = parseFloat(document.getElementById('fl-debt-budget').value) || 0;
+    var resultsEl = document.getElementById('fl-debt-results');
+
+    var minSum = debts.reduce(function(s,d){ return s + d.min; }, 0);
+
+    if(debts.length === 0 || budget <= 0){
+      resultsEl.classList.remove('show');
+      alert('Please enter at least one debt and a monthly budget.');
+      return;
+    }
+    if(budget < minSum){
+      resultsEl.classList.remove('show');
+      alert('Your monthly budget (K' + budget + ') is less than the combined minimum payments (K' + minSum + '). Increase your budget to run the simulation.');
+      return;
+    }
+
+    var avalanche = runStrategy(debts, budget, 'avalanche');
+    var snowball  = runStrategy(debts, budget, 'snowball');
+
+    document.getElementById('fl-debt-avalanche-months').textContent = formatMonths(avalanche.months);
+    document.getElementById('fl-debt-avalanche-interest').textContent = fmt(avalanche.totalInterest) + ' total interest';
+    document.getElementById('fl-debt-snowball-months').textContent = formatMonths(snowball.months);
+    document.getElementById('fl-debt-snowball-interest').textContent = fmt(snowball.totalInterest) + ' total interest';
+
+    var savings = snowball.totalInterest - avalanche.totalInterest;
+    document.getElementById('fl-debt-savings').textContent = fmt(Math.max(0, savings));
+
+    var explainerText;
+    if(savings > 5){
+      explainerText = 'The avalanche method saves you ' + fmt(savings) + ' in interest by targeting your highest-rate debt first. Snowball can still be worth it if you need the psychological win of clearing a small debt fast — but avalanche is mathematically cheaper.';
+    } else {
+      explainerText = 'With your current debts, both strategies land close together — in this case, snowball\'s quick wins might keep you more motivated without costing much extra.';
+    }
+    document.getElementById('fl-debt-explainer-text').textContent = explainerText;
+
+    resultsEl.classList.add('show');
+    document.getElementById('fl-debt-used-badge').classList.add('show');
+
+    if(!hasRecorded){
+      hasRecorded = true;
+      recordUsage(debts, budget, avalanche, snowball);
+    }
+  }
+
+  function formatMonths(m){
+    if(m === Infinity) return '∞';
+    if(m < 12) return m + ' mo';
+    var years = Math.floor(m/12), rem = m%12;
+    return years + 'y' + (rem > 0 ? ' ' + rem + 'mo' : '');
+  }
+
+  function recordUsage(debts, budget, avalanche, snowball){
+    try {
+      if(typeof getProgress === 'function' && typeof saveProgress === 'function'){
+        var p = getProgress();
+        p.estimate = p.estimate || {};
+        p.estimate['fl-debt-avalanche-snowball'] = {
+          used:true, debtCount:debts.length, budget:budget,
+          avalancheMonths:avalanche.months, snowballMonths:snowball.months,
+          timestamp:Date.now()
+        };
+        saveProgress(p);
+        if(typeof renderAll === 'function') renderAll();
+      }
+    } catch(e){}
+  }
+
+  return { simulate: simulate };
+})();
+
+// ══════════════════════════════════════════════════════════════
+// FLCredit — decision tree affecting a simulated credit score
+// ══════════════════════════════════════════════════════════════
+var FLCredit = (function(){
+
+  var hasRecorded = false;
+  var current = 0;
+  var score = 650;
+  var STARTING_SCORE = 650;
+
+  var DECISIONS = [
+    {
+      scenario: "Month 2: Your phone breaks. A shop offers a K2,000 phone on 6-month instalments at 35% interest, or you can wait 3 months and save for a cheaper option.",
+      options: [
+        { text: "Take the instalment plan now", delta: -25, feedback: "High-interest instalment debt for a depreciating item hurts your standing — lenders see this as a sign of limited financial buffer.", tone:'neg' },
+        { text: "Wait and save for 3 months", delta: +15, feedback: "Delaying gratification for a non-essential purchase signals financial discipline — exactly what strengthens your profile over time.", tone:'pos' }
+      ]
+    },
+    {
+      scenario: "Month 5: You take a small NAPSA-backed loan for school fees. The first repayment is due.",
+      options: [
+        { text: "Pay on time, in full", delta: +20, feedback: "On-time repayment is the single strongest factor in creditworthiness — this builds trust with any future lender.", tone:'pos' },
+        { text: "Pay 2 weeks late", delta: -30, feedback: "Even a short delay is recorded. Late payments are one of the fastest ways to damage financial standing.", tone:'neg' }
+      ]
+    },
+    {
+      scenario: "Month 8: A friend asks you to co-sign a loan for their business.",
+      options: [
+        { text: "Co-sign the loan", delta: -10, feedback: "Co-signing makes you equally liable. If they default, it becomes your debt and your damaged standing — even though you never spent the money.", tone:'neg' },
+        { text: "Decline politely", delta: +5, feedback: "Protecting your own financial exposure, even when it's uncomfortable, keeps your position stable.", tone:'pos' }
+      ]
+    },
+    {
+      scenario: "Month 11: You've been saving consistently. A bank offers you a starter credit facility.",
+      options: [
+        { text: "Open it and use it responsibly", delta: +15, feedback: "Having an active, well-managed credit facility — even a small one — helps build a track record lenders can actually see.", tone:'pos' },
+        { text: "Avoid all credit entirely", delta: -5, feedback: "Having zero credit history isn't inherently bad, but it means lenders have nothing to evaluate — this can slow you down later.", tone:'neg' }
+      ]
+    },
+    {
+      scenario: "Month 14: Unexpected medical expense. You need K800 quickly.",
+      options: [
+        { text: "Use your emergency fund", delta: +10, feedback: "This is exactly what an emergency fund is for — no debt taken on, no impact to your credit standing.", tone:'pos' },
+        { text: "Borrow from a payday lender at 35%+", delta: -20, feedback: "Payday borrowing for emergencies is common but expensive, and frequent payday loan use is a red flag to future lenders.", tone:'neg' }
+      ]
+    },
+    {
+      scenario: "Month 17: You've maxed out a mobile money overdraft facility and are close to the limit.",
+      options: [
+        { text: "Pay it down aggressively", delta: +15, feedback: "Reducing your utilisation — how much of your available credit you're using — is one of the fastest ways to improve standing.", tone:'pos' },
+        { text: "Keep using it near the limit", delta: -20, feedback: "High utilisation signals financial strain to lenders, even if every payment is eventually made on time.", tone:'neg' }
+      ]
+    },
+    {
+      scenario: "Month 20: You're offered a second loan while still repaying the first.",
+      options: [
+        { text: "Take it — you can manage both", delta: -15, feedback: "Multiple concurrent debts increase your total obligation and risk — lenders read this as elevated risk, even if you don't miss payments.", tone:'neg' },
+        { text: "Finish the first loan before taking another", delta: +10, feedback: "Sequencing debt responsibly — finishing one obligation before adding another — is exactly what strengthens long-term standing.", tone:'pos' }
+      ]
+    },
+    {
+      scenario: "Month 23: Two years in. You check your financial position before a major goal — buying land.",
+      options: [
+        { text: "Review your full financial history first", delta: +10, feedback: "Understanding your own position before a major financial decision is the mark of someone ready for bigger commitments.", tone:'pos' },
+        { text: "Apply immediately without reviewing anything", delta: -10, feedback: "Walking into a major financial decision blind — without knowing your own standing — often leads to unfavourable terms.", tone:'neg' }
+      ]
+    }
+  ];
+
+  function render(){
+    var container = document.getElementById('fl-credit-decisions');
+    container.innerHTML = '';
+    DECISIONS.forEach(function(d, i){
+      var card = document.createElement('div');
+      card.className = 'fl-credit-decision' + (i === 0 ? ' show' : '');
+      card.id = 'fl-credit-decision-' + i;
+
+      var optsHtml = d.options.map(function(opt, oi){
+        return '<button class="fl-credit-opt" onclick="FLCredit.choose(' + i + ',' + oi + ')">' + opt.text + '</button>';
+      }).join('');
+
+      card.innerHTML =
+        '<div class="fl-credit-counter">Decision ' + (i+1) + ' of ' + DECISIONS.length + '</div>' +
+        '<div class="fl-credit-scenario">' + d.scenario + '</div>' +
+        '<div class="fl-credit-options" id="fl-credit-opts-' + i + '">' + optsHtml + '</div>' +
+        '<div class="fl-credit-feedback" id="fl-credit-feedback-' + i + '"></div>' +
+        '<button class="fl-credit-next-btn" id="fl-credit-next-' + i + '" style="display:none" onclick="FLCredit.nextDecision()">' +
+          (i === DECISIONS.length - 1 ? 'See Final Score →' : 'Next Decision →') +
+        '</button>';
+      container.appendChild(card);
+    });
+    updateDial(score);
+  }
+
+  function choose(i, oi){
+    var opts = document.getElementById('fl-credit-opts-' + i);
+    if(opts.dataset.chosen) return; // prevent double-choosing
+    opts.dataset.chosen = 'true';
+
+    var decision = DECISIONS[i];
+    var choice = decision.options[oi];
+    score = Math.max(300, Math.min(850, score + choice.delta));
+
+    // disable buttons
+    Array.prototype.forEach.call(opts.children, function(btn){ btn.style.pointerEvents = 'none'; btn.style.opacity = '.55'; });
+    opts.children[oi].style.opacity = '1';
+    opts.children[oi].style.borderColor = choice.tone === 'pos' ? 'var(--gd,#15803D)' : '#DC2626';
+    opts.children[oi].style.background = choice.tone === 'pos' ? 'var(--gl,#F0FDF4)' : '#FEF2F2';
+
+    var feedback = document.getElementById('fl-credit-feedback-' + i);
+    feedback.className = 'fl-credit-feedback show ' + (choice.tone === 'pos' ? 'pos' : 'neg');
+    var deltaLabel = choice.delta > 0 ? '+' + choice.delta : choice.delta;
+    feedback.innerHTML =
+      '<div class="fl-credit-feedback-hdr">' + (choice.tone === 'pos' ? '📈' : '📉') + ' Score ' + deltaLabel + ' points</div>' +
+      '<div class="fl-credit-feedback-body">' + choice.feedback + '</div>';
+
+    document.getElementById('fl-credit-next-' + i).style.display = 'block';
+    updateDial(score);
+  }
+
+  function updateDial(s){
+    var pct = (s - 300) / (850 - 300); // 300-850 range
+    var circ = 2 * Math.PI * 32;
+    document.getElementById('fl-credit-arc').style.strokeDashoffset = circ - (circ * pct);
+    document.getElementById('fl-credit-score-num').textContent = s;
+
+    var ratingEl = document.getElementById('fl-credit-score-rating');
+    var arcEl = document.getElementById('fl-credit-arc');
+    if(s >= 740){
+      ratingEl.textContent = 'Strong Standing'; ratingEl.className = 'fl-credit-score-rating good';
+      arcEl.style.stroke = '#22C55E';
+    } else if(s >= 600){
+      ratingEl.textContent = 'Fair Standing'; ratingEl.className = 'fl-credit-score-rating fair';
+      arcEl.style.stroke = '#C9A83C';
+    } else {
+      ratingEl.textContent = 'At Risk'; ratingEl.className = 'fl-credit-score-rating poor';
+      arcEl.style.stroke = '#DC2626';
+    }
+  }
+
+  function nextDecision(){
+    document.getElementById('fl-credit-decision-' + current).classList.remove('show');
+    current++;
+    if(current < DECISIONS.length){
+      document.getElementById('fl-credit-decision-' + current).classList.add('show');
+    } else {
+      showSummary();
+    }
+  }
+
+  function showSummary(){
+    document.getElementById('fl-credit-final-score').textContent = score;
+    var pct = (score - 300) / (850 - 300);
+    var circ = 2 * Math.PI * 32;
+    var finalArc = document.getElementById('fl-credit-final-arc');
+    finalArc.style.strokeDasharray = circ;
+    finalArc.style.strokeDashoffset = circ - (circ * pct);
+
+    var change = score - STARTING_SCORE;
+    var msg;
+    if(change > 30){
+      msg = '<b>Excellent trajectory.</b> Your score moved from ' + STARTING_SCORE + ' to ' + score + ' — a gain of ' + change + ' points. Consistent, on-time, low-risk decisions compound just like savings do.';
+    } else if(change > 0){
+      msg = '<b>Modest improvement.</b> You gained ' + change + ' points overall. A few risky choices offset some strong ones — small adjustments compound significantly over two years.';
+    } else {
+      msg = '<b>Score declined by ' + Math.abs(change) + ' points.</b> Every one of these decisions happens in real life. The same choices that hurt your score here — late payments, co-signing, high utilisation — carry the exact same weight with real lenders.';
+    }
+    document.getElementById('fl-credit-summary-msg').innerHTML = msg;
+    document.getElementById('fl-credit-summary').classList.add('show');
+    document.getElementById('fl-credit-used-badge').classList.add('show');
+
+    if(!hasRecorded){
+      hasRecorded = true;
+      recordUsage();
+    }
+  }
+
+  function recordUsage(){
+    try {
+      if(typeof getProgress === 'function' && typeof saveProgress === 'function'){
+        var p = getProgress();
+        p.estimate = p.estimate || {};
+        p.estimate['fl-credit-score-sim'] = { used:true, startScore:STARTING_SCORE, finalScore:score, timestamp:Date.now() };
+        saveProgress(p);
+        if(typeof renderAll === 'function') renderAll();
+      }
+    } catch(e){}
+  }
+
+  render();
+
+  return { choose: choose, nextDecision: nextDecision };
+})();
+</script>
+
+<div class="apple-reset-container">
+  <style>
+    .apple-reset-container{display:flex;justify-content:center;align-items:center;width:100%;padding:20px 0 8px}
+    .apple-reset-btn{background-color:#F3F4F6;color:#6B7280;font-family:var(--ff);font-size:12px;font-weight:600;letter-spacing:-.1px;padding:8px 18px;border:none;border-radius:980px;cursor:pointer;transition:background-color .2s ease,color .2s ease}
+    .apple-reset-btn:hover{background-color:#E5E7EB;color:#374151}
+  </style>
+  <button class="apple-reset-btn" onclick="resetPage()">Reset Module Progress</button>
+  <script>
+    function resetPage(){
+      if(confirm('This will clear all your progress on this module. Continue?')){
+        localStorage.removeItem('finlit-progress-module-1-2');
+        window.location.reload();
+      }
+    }
+  </script>
+</div>
+
+<!-- fin-lesson:start -->
+<style>
+#fin-bar{position:fixed;left:0;right:0;bottom:0;z-index:850;background:#fff;border-top:1px solid #E5E7EB;padding:10px 14px calc(10px + env(safe-area-inset-bottom,0px));display:none}
+body.fin-bar-on #fin-bar{display:block}
+body.fin-bar-on{padding-bottom:84px}
+#fin-bar button,#fin-done button{font:inherit;font-weight:800;font-size:16px;border:0;border-radius:14px;height:52px;width:100%;cursor:pointer;background:#16A34A;color:#fff;box-shadow:0 4px 0 #15803D}
+#fin-bar button:active,#fin-done button:active{transform:translateY(3px);box-shadow:0 1px 0 #15803D}
+#fin-bar button[disabled]{background:#E5E7EB;color:#9CA3AF;box-shadow:0 4px 0 #D1D5DB}
+#fin-done{position:fixed;inset:0;z-index:950;background:#fff;display:none;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:28px 24px calc(28px + env(safe-area-inset-bottom,0px))}
+#fin-done.on{display:flex}
+#fin-done .em{font-size:72px;animation:finpop .6s cubic-bezier(.34,1.56,.64,1)}
+#fin-done h2{font-size:28px;margin:14px 0 6px;color:#14532D}
+#fin-done p{color:#4B5563;margin:0 0 22px;font-size:16px}
+#fin-done .row{width:100%;max-width:360px;display:flex;flex-direction:column;gap:12px}
+#fin-done button.alt{background:#fff;color:#16A34A;border:2px solid #E5E7EB;box-shadow:0 4px 0 #E5E7EB}
+@keyframes finpop{from{transform:scale(.3);opacity:0}to{transform:scale(1);opacity:1}}
+</style>
+<div id="fin-bar"><button id="fin-finish" type="button">Finish lesson ✓</button></div>
+<div id="fin-done"><div class="em" id="fin-done-em">🎉</div><h2 id="fin-done-h">Lesson complete!</h2><p id="fin-done-p"></p><div class="row"><button id="fin-next" type="button">Next lesson →</button><button id="fin-sim" type="button" style="display:none">Practice with your yungsta 🎓</button><button class="alt" id="fin-back" type="button">Back to path</button></div></div>
+<script>
+(function(){
+  var CFG=window.FINLIT_MODULE||{}, MID=CFG.moduleId, IDS=CFG.sections||['s0','s1','s2','s3','s4'];
+  if(!MID) return;
+  var KEY='finlit-progress-'+MID, bar=document.getElementById('fin-finish'), done=document.getElementById('fin-done');
+  function today(){var d=new Date();return d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0');}
+  function load(){try{return JSON.parse(localStorage.getItem(KEY))||{};}catch(e){return {};}}
+  function save(p){try{localStorage.setItem(KEY,JSON.stringify(p));}catch(e){}}
+  function cur(){var h=location.hash.replace('#','');return IDS.indexOf(h)>-1?h:null;}
+  function isDone(p,id){return p.done?!!p.done[id]:!!(p.visited&&p.visited[id]);}
+  function todayCount(){
+    var n=0,t=today();
+    try{for(var i=0;i<localStorage.length;i++){var k=localStorage.key(i);
+      if(k&&k.indexOf('finlit-progress-')===0){var q=JSON.parse(localStorage.getItem(k))||{};
+        if(q.doneAt)for(var s in q.doneAt)if(q.doneAt[s]===t)n++;}}}catch(e){}
+    return n;
+  }
+  function refresh(){
+    var id=cur(), on=!!id;
+    document.body.classList.toggle('fin-bar-on',on);
+    if(!on) return;
+    var p=load(), isQuiz=IDS.indexOf(id)===IDS.length-1;
+    if(isQuiz&&!p.quizScore){bar.disabled=true;bar.textContent='Answer all the questions to finish';}
+    else{bar.disabled=false;bar.textContent=isDone(p,id)?(isQuiz?'Back to path':'Next lesson →'):'Finish lesson ✓';}
+  }
+  function finish(){
+    var id=cur(); if(!id) return;
+    var p=load(), idx=IDS.indexOf(id), last=idx===IDS.length-1;
+    if(isDone(p,id)&&p.done){ if(last){location.href='index.html#path';}else{location.hash='#'+IDS[idx+1];window.scrollTo(0,0);} return; }
+    p.visited=p.visited||{};
+    if(!p.done){p.done={};for(var k in p.visited)p.done[k]=true;}
+    p.done[id]=true;p.visited[id]=true;p.doneAt=p.doneAt||{};p.doneAt[id]=today();
+    save(p);
+    try{var L='finlit-study-log',lg=JSON.parse(localStorage.getItem(L));
+      if(!lg||lg.date!==today()){var d=new Date();localStorage.setItem(L,JSON.stringify({date:today(),minute:d.getHours()*60+d.getMinutes()}));}}catch(e){}
+    var n=todayCount(), allDone=IDS.every(function(s){return p.done[s];});
+    document.getElementById('fin-done-em').textContent=allDone?'🏆':'🎉';
+    document.getElementById('fin-done-h').textContent=allDone?'Module complete!':'Lesson complete!';
+    document.getElementById('fin-done-p').textContent=(n===1?'1 lesson':n+' lessons')+' done today. '+(allDone?'Amazing work.':'Nice one — keep the momentum.');
+    document.getElementById('fin-next').style.display=last?'none':'block';
+    document.getElementById('fin-sim').style.display=allDone?'block':'none';
+    done.classList.add('on');
+    refresh();
+  }
+  bar.addEventListener('click',finish);
+  document.getElementById('fin-next').addEventListener('click',function(){
+    var idx=IDS.indexOf(cur());done.classList.remove('on');
+    if(idx>-1&&idx<IDS.length-1){location.hash='#'+IDS[idx+1];window.scrollTo(0,0);}
+  });
+  document.getElementById('fin-sim').addEventListener('click',function(){location.hash='#s4';setTimeout(function(){var el=document.getElementById('fl-practice');if(el)el.scrollIntoView({behavior:'smooth',block:'start'});},350);});
+  document.getElementById('fin-back').addEventListener('click',function(){location.href='index.html#path';});
+  window.addEventListener('hashchange',function(){done.classList.remove('on');refresh();});
+  document.addEventListener('click',function(){setTimeout(refresh,250);});
+  setInterval(refresh,1000);
+  refresh();
+})();
+</script>
+<!-- fin-lesson:end -->
+
+
+</body>
+</html>
