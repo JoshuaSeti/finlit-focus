@@ -8,7 +8,7 @@ import { useAuth } from '@/hooks/useAuth';
 import { supabase } from '@/integrations/supabase/client';
 import finlitLogo from '@/assets/finlit-logo.png';
 
-const SandboxAuth = () => {
+const LearnerAuth = () => {
   const navigate = useNavigate();
   const { signIn, user, isLoading: authLoading } = useAuth();
   const [mode, setMode] = useState<'signin' | 'signup'>('signup');
@@ -20,7 +20,7 @@ const SandboxAuth = () => {
   const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
-    if (!authLoading && user) navigate('/sandbox', { replace: true });
+    if (!authLoading && user) navigate('/modules', { replace: true });
   }, [authLoading, user, navigate]);
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -36,7 +36,7 @@ const SandboxAuth = () => {
         setError('Invalid email or password.');
         return;
       }
-      navigate('/sandbox');
+      navigate('/modules');
       return;
     }
 
@@ -44,7 +44,7 @@ const SandboxAuth = () => {
       email,
       password,
       options: {
-        emailRedirectTo: `${window.location.origin}/sandbox`,
+        emailRedirectTo: `${window.location.origin}/modules`,
         data: { full_name: fullName },
       },
     });
@@ -60,7 +60,7 @@ const SandboxAuth = () => {
     }
 
     if (data.session) {
-      navigate('/sandbox');
+      navigate('/modules');
     } else {
       setNotice('Check your email to confirm your account, then come back and sign in.');
       setMode('signin');
@@ -73,9 +73,9 @@ const SandboxAuth = () => {
         <div className="bg-card rounded-2xl shadow-xl p-8">
           <div className="text-center mb-8">
             <img src={finlitLogo} alt="FinLit" className="h-16 mx-auto mb-4" />
-            <h1 className="text-2xl font-bold text-foreground">FinLit Sandbox</h1>
+            <h1 className="text-2xl font-bold text-foreground">FinLit Lessons</h1>
             <p className="text-muted-foreground text-sm mt-1">
-              Free courses open to everyone. Create an account to save your progress.
+              Create a free account to save your lesson progress, certificates and yungsta.
             </p>
           </div>
 
@@ -173,4 +173,4 @@ const SandboxAuth = () => {
   );
 };
 
-export default SandboxAuth;
+export default LearnerAuth;
