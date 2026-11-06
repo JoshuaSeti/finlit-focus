@@ -32,41 +32,52 @@ What happened: ${b.outcome}
 
 Now write a short, realistic scenario (2-3 sentences, second person "you") where the LEARNER faces the same money principle in their own everyday life in Zambia, with concrete Kwacha (K) amounts suited to a young person or student. Then give exactly 4 concrete options (each one specific action with an amount where it makes sense). Exactly one should be the financially wise choice; the others tempting but weaker. Explain in 1-2 sentences why the wise option is best.`;
 
-  const r = await fetch('https://ai.gateway.lovable.dev/v1/chat/completions', {
+  const schema = {
+    type: 'object', additionalProperties: false,
+    properties: {
+      scenario: { type: 'string' },
+      options: { type: 'array', items: { type: 'string' } },
+      wise_index: { type: 'integer' },
+      why: { type: 'string' },
+    },
+    required: ['scenario', 'options', 'wise_index', 'why'],
+  };
+  const r = await fetch('https://ai.gateway.lovable.dev/v1/responses', {
     method: 'POST',
-    headers: { Authorization: `Bearer ${Deno.env.get('LOVABLE_API_KEY')}`, 'Content-Type': 'application/json' },
+    headers: { 'Lovable-API-Key': Deno.env.get('LOVABLE_API_KEY')!, 'Content-Type': 'application/json', 'X-Lovable-AIG-SDK': 'fetch' },
     body: JSON.stringify({
-      model: 'google/gemini-3-flash-preview',
-      messages: [
-        { role: 'system', content: 'You write short, practical financial-literacy scenarios for Zambian learners. Plain English, no jargon.' },
+      model: 'openai/gpt-6-astra',
+      stream: true,
+      store: false,
+      reasoning: { effort: 'low' },
+      input: [
+        { role: 'system', content: 'You write short, practical financial-literacy scenarios for Zambian learners. Plain English, no jargon. Return exactly 4 options and wise_index from 0 to 3.' },
         { role: 'user', content: prompt },
       ],
-      tools: [{
-        type: 'function',
-        function: {
-          name: 'personal_decision',
-          parameters: {
-            type: 'object',
-            properties: {
-              scenario: { type: 'string' },
-              options: { type: 'array', items: { type: 'string' }, minItems: 4, maxItems: 4 },
-              wise_index: { type: 'integer', minimum: 0, maximum: 3 },
-              why: { type: 'string' },
-            },
-            required: ['scenario', 'options', 'wise_index', 'why'],
-          },
-        },
-      }],
-      tool_choice: { type: 'function', function: { name: 'personal_decision' } },
+      text: { format: { type: 'json_schema', name: 'personal_decision', strict: true, schema } },
     }),
   });
   if (r.status === 429) return json({ error: 'busy' }, 429);
   if (r.status === 402) return json({ error: 'credits' }, 402);
-  if (!r.ok) return json({ error: 'ai_failed' }, 500);
-  const data = await r.json();
+  if (!r.ok || !r.body) return json({ error: 'ai_failed' }, 500);
+  let text = '', buf = '';
+  const reader = r.body.pipeThrough(new TextDecoderStream()).getReader();
+  for (;;) {
+    const { value, done } = await reader.read();
+    if (done) break;
+    buf += value;
+    let i;
+    while ((i = buf.indexOf('\n')) >= 0) {
+      const line = buf.slice(0, i).trim(); buf = buf.slice(i + 1);
+      if (!line.startsWith('data:')) continue;
+      const payload = line.slice(5).trim();
+      if (!payload || payload === '[DONE]') continue;
+      try { const ev = JSON.parse(payload); if (ev.type === 'response.output_text.delta') text += ev.delta; } catch { /* skip */ }
+    }
+  }
   try {
-    const args = JSON.parse(data.choices[0].message.tool_calls[0].function.arguments);
-    if (!Array.isArray(args.options) || args.options.length !== 4) throw new Error('bad');
+    const args = JSON.parse(text);
+    if (!Array.isArray(args.options) || args.options.length !== 4 || args.wise_index < 0 || args.wise_index > 3) throw new Error('bad');
     return json(args);
   } catch {
     return json({ error: 'ai_failed' }, 500);
