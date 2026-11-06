@@ -33,18 +33,12 @@ import AdminTeamMembers from "./pages/admin/AdminTeamMembers";
 import AdminPrograms from "./pages/admin/AdminPrograms";
 import AdminApplications from "./pages/admin/AdminApplications";
 import AdminAnnouncements from "./pages/admin/AdminAnnouncements";
-import AdminCourses from "./pages/admin/learning/AdminCourses";
-import AdminCourseEditor from "./pages/admin/learning/AdminCourseEditor";
-import AdminFieldLibrary from "./pages/admin/learning/AdminFieldLibrary";
-import AdminQuestionBank from "./pages/admin/learning/AdminQuestionBank";
-import AdminEngineSettings from "./pages/admin/learning/AdminEngineSettings";
-import AdminLearners from "./pages/admin/learning/AdminLearners";
-import AdminLearningAnalytics from "./pages/admin/learning/AdminLearningAnalytics";
+import AdminModules from "./pages/admin/AdminModules";
 
 // Learner pages
-import LearnCatalog from "./pages/learn/LearnCatalog";
-import CourseRunner from "./pages/learn/CourseRunner";
-import SandboxAuth from "./pages/sandbox/SandboxAuth";
+import ModulesList from "./pages/modules/ModulesList";
+import ModulePlayer from "./pages/modules/ModulePlayer";
+import LearnerAuth from "./pages/modules/LearnerAuth";
 
 // Facilitator pages
 import { FacilitatorLayout } from "./components/facilitator/FacilitatorLayout";
@@ -71,11 +65,11 @@ const App = () => (
             <Route path="/blog/:id" element={<BlogPost />} />
             <Route path="/programs" element={<Programs />} />
             <Route path="/programs/:slug" element={<ProgramApply />} />
-            <Route path="/sandbox" element={<LearnCatalog />} />
-            <Route path="/sandbox/login" element={<SandboxAuth />} />
-            <Route path="/sandbox/:slug" element={<CourseRunner />} />
-            <Route path="/learn" element={<Navigate to="/sandbox" replace />} />
-            <Route path="/learn/:slug" element={<Navigate to="/sandbox" replace />} />
+            <Route path="/modules" element={<ModulesList />} />
+            <Route path="/modules/:slug" element={<ModulePlayer />} />
+            <Route path="/login" element={<LearnerAuth />} />
+            <Route path="/sandbox/*" element={<Navigate to="/modules" replace />} />
+            <Route path="/learn/*" element={<Navigate to="/modules" replace />} />
             <Route path="/contact" element={<Contact />} />
             
             {/* Auth Routes */}
@@ -97,13 +91,7 @@ const App = () => (
               <Route path="announcements" element={<AdminAnnouncements />} />
               <Route path="admins" element={<AdminAccounts />} />
               <Route path="team-members" element={<AdminTeamMembers />} />
-              <Route path="learning/courses" element={<AdminCourses />} />
-              <Route path="learning/courses/:id" element={<AdminCourseEditor />} />
-              <Route path="learning/fields" element={<AdminFieldLibrary />} />
-              <Route path="learning/questions" element={<AdminQuestionBank />} />
-              <Route path="learning/settings" element={<AdminEngineSettings />} />
-              <Route path="learning/learners" element={<AdminLearners />} />
-              <Route path="learning/analytics" element={<AdminLearningAnalytics />} />
+              <Route path="modules" element={<AdminModules />} />
             </Route>
             
             {/* Facilitator Routes */}

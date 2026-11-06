@@ -35,12 +35,7 @@ const navItems = [
 ];
 
 const learningItems = [
-  { name: 'Courses', href: '/admin/learning/courses', icon: GraduationCap },
-  { name: 'Skill Library', href: '/admin/learning/fields', icon: BookOpen },
-  { name: 'Question Bank', href: '/admin/learning/questions', icon: ClipboardList },
-  { name: 'Learners', href: '/admin/learning/learners', icon: UsersRound },
-  { name: 'Learning Analytics', href: '/admin/learning/analytics', icon: LayoutDashboard },
-  { name: 'Assessment Settings', href: '/admin/learning/settings', icon: Shield },
+  { name: 'Modules', href: '/admin/modules', icon: GraduationCap },
 ];
 
 const superAdminItems = [

@@ -116,7 +116,9 @@ const StoryClient = (function () {
 
   function closeCard() { document.body.classList.remove('story-on'); }
 
+  let lastSituation = '', lastOutcome = '';
   function renderChoices(pendingId, node, header) {
+    lastSituation = node.body || '';
     const card = document.getElementById('story-card');
     const choices = (node.choices || []).map(c =>
       `<button class="sc-ch-btn" data-i="${c.index}">${esc(c.label)}</button>`).join('');
@@ -160,6 +162,7 @@ const StoryClient = (function () {
         ' but only have ' + money(data.cash) + '. Earn or sell something first, or choose the other option.</div>';
       return;
     }
+    lastOutcome = data.narrative || '';
     let chips = '';
     if (data.done) {
       const cd = Number(data.cash_delta || 0), rd = Number(data.reputation_delta || 0);
@@ -348,19 +351,57 @@ const StoryClient = (function () {
     card.innerHTML = header +
       `<div class="sc-body"><b>Pass it on.</b> Say it out loud to ${esc(yungsta)}: what should they remember from this, and why did you advise it? Saying it aloud is the part that helps you learn it.</div>` +
       `<textarea id="sc-note" rows="2" maxlength="280" placeholder="Optional: jot it down (stays on this phone)" style="width:100%;padding:10px 12px;border:1.5px solid #E5E7EB;border-radius:12px;font:inherit;margin-bottom:10px"></textarea>` +
-      `<div class="sc-intro">And would you make the same call with your own money?</div>` +
       `<button class="sc-go" id="sc-explained">I have explained it</button>` +
       `<button class="sc-ch-btn" id="sc-skip" style="margin-top:10px;text-align:center;font-weight:600">Skip</button>`;
-    const finish = async (explained) => {
-      if (explained) {
-        saveJournal({ t: Date.now(), event: title, choice: label || '', note: (document.getElementById('sc-note').value || '').trim() });
-        try { await supabase.rpc('sim_teachback', { p_pending_id: pendingId }); } catch (e) {}
-      }
-      closeCard();
-      setTimeout(() => window.location.reload(), 250);
-    };
-    document.getElementById('sc-explained').addEventListener('click', () => finish(true));
-    document.getElementById('sc-skip').addEventListener('click', () => finish(false));
+    const done = () => { closeCard(); setTimeout(() => window.location.reload(), 250); };
+    document.getElementById('sc-explained').addEventListener('click', async () => {
+      saveJournal({ t: Date.now(), event: title, choice: label || '', note: (document.getElementById('sc-note').value || '').trim() });
+      try { await supabase.rpc('sim_teachback', { p_pending_id: pendingId }); } catch (e) {}
+      showYourTurn(pendingId, header, title, label, done);
+    });
+    document.getElementById('sc-skip').addEventListener('click', done);
+  }
+
+  // "Your turn": the learner makes a real, contextualised money decision of their own.
+  async function showYourTurn(pendingId, header, title, label, done) {
+    const card = document.getElementById('story-card');
+    card.innerHTML = header + `<div class="sc-k" style="margin-top:6px">YOUR TURN</div><div class="sc-body">Now it is your money. Getting your decision ready…</div>`;
+    let d = null;
+    try {
+      const r = await supabase.functions.invoke('personal-decision', { body: { event_title: title, situation: lastSituation, advice: label || '', outcome: lastOutcome, yungsta } });
+      if (!r.error && r.data && !r.data.error) d = r.data;
+    } catch (e) {}
+    if (!d) {
+      card.innerHTML = header + `<div class="sc-body">We could not load your own decision right now. You can carry on.</div><button class="sc-go" id="sc-next">Continue</button>`;
+      document.getElementById('sc-next').addEventListener('click', done);
+      return;
+    }
+    card.innerHTML = header +
+      `<div class="sc-k" style="margin-top:6px">YOUR TURN — YOUR OWN MONEY</div>` +
+      `<div class="sc-body">${esc(d.scenario)}</div><div class="sc-intro">What do you actually do?</div>` +
+      d.options.map((o, i) => `<button class="sc-ch-btn" data-i="${i}">${esc(o)}</button>`).join('');
+    card.querySelectorAll('.sc-ch-btn').forEach(b => b.addEventListener('click', () => {
+      const i = Number(b.getAttribute('data-i')), wise = i === d.wise_index;
+      card.innerHTML = header +
+        `<div>${wise ? '<span class="sc-chip up">Wise call</span>' : '<span class="sc-chip down">Think again</span>'}</div>` +
+        `<div class="sc-body">${wise ? '' : '<b>The stronger choice:</b> ' + esc(d.options[d.wise_index]) + '<br><br>'}${esc(d.why)}</div>` +
+        `<div class="sc-intro">Hold yourself to it. ${wise ? 'When will you do this, and how much (K)?' : 'What would you do differently next time, and how much (K) would you set aside?'}</div>` +
+        `<input id="sc-amt" type="number" min="0" inputmode="decimal" placeholder="Amount in K (optional)" style="width:100%;padding:10px 12px;border:1.5px solid #E5E7EB;border-radius:12px;font:inherit;margin-bottom:8px">` +
+        `<textarea id="sc-ref" rows="2" maxlength="280" placeholder="My commitment…" style="width:100%;padding:10px 12px;border:1.5px solid #E5E7EB;border-radius:12px;font:inherit;margin-bottom:10px"></textarea>` +
+        `<button class="sc-go" id="sc-commit">I commit to this</button>`;
+      document.getElementById('sc-commit').addEventListener('click', async () => {
+        const amt = Number(document.getElementById('sc-amt').value);
+        try {
+          const { data: { session } } = await supabase.auth.getSession();
+          if (session) await supabase.from('sim_personal_decisions').insert({
+            profile_id: session.user.id, pending_id: pendingId, event_title: title, advice: label || '',
+            scenario: d.scenario, options: d.options, wise_index: d.wise_index, chosen_index: i, was_wise: wise,
+            amount_committed: amt > 0 ? amt : null, reflection: (document.getElementById('sc-ref').value || '').trim() || null,
+          });
+        } catch (e) {}
+        done();
+      });
+    }));
   }
 
   async function check(opts) {
