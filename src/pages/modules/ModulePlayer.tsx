@@ -18,7 +18,6 @@ const ModulePlayer = () => {
   // Load module, restore saved progress, build the page.
   useEffect(() => {
     if (isLoading) return;
-    let url: string | null = null;
     (async () => {
       setError('');
       const { data: m } = await supabase.from('learning_modules').select('*').eq('slug', slug).maybeSingle();
@@ -33,13 +32,12 @@ const ModulePlayer = () => {
       }
       try {
         const html = prepareModuleHtml(await loadModuleHtml(m as LearningModule), slug, user);
-        url = URL.createObjectURL(new Blob([html], { type: 'text/html' }));
-        setSrc(url);
+        sessionStorage.setItem(`finlit-module-html:${slug}`, html);
+        setSrc(`/module-host.html?slug=${encodeURIComponent(slug)}&v=${Date.now()}`);
       } catch (e: any) {
         setError(e.message || 'Could not load this lesson.');
       }
     })();
-    return () => { if (url) URL.revokeObjectURL(url); };
   }, [slug, user, isLoading]);
 
   // Messages from the module.
