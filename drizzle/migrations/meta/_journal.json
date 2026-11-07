@@ -15,6 +15,13 @@
       "when": 1793852716694,
       "tag": "0001_modules_storage_policies",
       "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "7",
+      "when": 1794026246712,
+      "tag": "0002_modules_public_read_fix",
+      "breakpoints": true
     }
   ]
 }
