@@ -1,0 +1,9 @@
+<!DOCTYPE html><html><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>FinLit lesson</title></head><body>
+<script>
+(function(){
+  var slug = new URLSearchParams(location.search).get('slug') || '';
+  var html = null; try { html = sessionStorage.getItem('finlit-module-html:' + slug); } catch (e) {}
+  if (!html) { document.body.textContent = 'Lesson not available. Please open it from the Lessons page.'; return; }
+  document.open(); document.write(html); document.close();
+})();
+</script></body></html>

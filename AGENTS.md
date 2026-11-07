@@ -1,0 +1,2 @@
+- Lesson modules are standalone HTML (built-in files in public/modules, admin uploads in the private `modules` storage bucket) loaded via public/module-host.html with public/finlit-bridge.js injected; modules talk to the site only through postMessage — why: modules can be added/edited without touching app code.
+- The character simulator lives as static pages in public/sim using its own player table (sim_profiles), separate from site profiles — why: keeps the demo simulator code intact.
