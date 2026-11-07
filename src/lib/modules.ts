@@ -33,7 +33,7 @@ export function prepareModuleHtml(html: string, slug: string, user: { id: string
   const origin = window.location.origin;
   const cfg = JSON.stringify({ slug, user: user ? { id: user.id, email: user.email ?? null } : null });
   const head =
-    `<base href="${origin}/">` +
+    `<base href="${origin}/"><meta name="referrer" content="strict-origin-when-cross-origin">` +
     `<script>window.__FINLIT_BRIDGE__=${cfg};</script>` +
     `<script src="${origin}/finlit-bridge.js"></script>`;
   let out = html
