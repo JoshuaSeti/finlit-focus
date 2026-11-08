@@ -2966,7 +2966,109 @@ export type Database = {
       [_ in never]: never
     }
     Functions: {
-      [_ in never]: never
+      adjust_cash_balance: {
+        Args: {
+          p_delta: number
+          p_profile_id: string
+          p_reason: string
+          p_related_id?: number
+          p_related_table?: string
+        }
+        Returns: number
+      }
+      adjust_reputation_score: {
+        Args: { p_delta: number; p_profile_id: string; p_reason: string }
+        Returns: number
+      }
+      set_character: {
+        Args: {
+          p_avatar: string
+          p_backstory: string
+          p_name: string
+          p_relationship: string
+        }
+        Returns: Json
+      }
+      sim_collect_income: { Args: never; Returns: Json }
+      sim_create_venture: {
+        Args: { p_capital: number; p_category: string; p_name: string }
+        Returns: Json
+      }
+      sim_log_venture_event: {
+        Args: {
+          p_amount: number
+          p_desc: string
+          p_kind: string
+          p_venture_id: number
+        }
+        Returns: Json
+      }
+      sim_repay: {
+        Args: { p_amount: number; p_debt_id: number }
+        Returns: Json
+      }
+      sim_trade: {
+        Args: { p_instrument_id: number; p_qty: number; p_side: string }
+        Returns: Json
+      }
+      story_bootstrap: { Args: never; Returns: undefined }
+      story_borrow: {
+        Args: { p_amount: number; p_kind: string }
+        Returns: Json
+      }
+      story_borrow_limits: { Args: never; Returns: Json }
+      story_choose: {
+        Args: { p_choice_index: number; p_pending_id: number }
+        Returns: Json
+      }
+      story_daily_roll: { Args: { p: string }; Returns: undefined }
+      story_days_since_signup: { Args: { p: string }; Returns: number }
+      story_eligible: {
+        Args: {
+          e: Database["public"]["Tables"]["story_events"]["Row"]
+          p: string
+        }
+        Returns: boolean
+      }
+      story_feature_open: { Args: { f: string; p: string }; Returns: boolean }
+      story_feature_state: { Args: never; Returns: Json }
+      story_fill: {
+        Args: { ctx?: Json; p: string; t: string }
+        Returns: string
+      }
+      story_fire_lesson: { Args: { p_lesson: string }; Returns: Json }
+      story_flag_any: { Args: { j: Json; p: string }; Returns: boolean }
+      story_game_months_to_days: { Args: { m: number }; Returns: number }
+      story_has_flag: { Args: { f: string; p: string }; Returns: boolean }
+      story_lender_ceiling: {
+        Args: { p: string; p_kind: string }
+        Returns: number
+      }
+      story_pending: { Args: never; Returns: Json }
+      story_run_unlocks: { Args: { p: string }; Returns: string[] }
+      story_schedule_followups: {
+        Args: { ctx?: Json; new_flags: string[]; p: string }
+        Returns: undefined
+      }
+      story_set_flag: {
+        Args: { ev: number; f: string; p: string }
+        Returns: undefined
+      }
+      story_trigger_met: {
+        Args: {
+          e: Database["public"]["Tables"]["story_events"]["Row"]
+          p: string
+        }
+        Returns: boolean
+      }
+      story_venture_insured: {
+        Args: { ctx: Json; p: string }
+        Returns: boolean
+      }
+      story_visible_choices: {
+        Args: { choices: Json; ctx?: Json; p: string }
+        Returns: Json
+      }
     }
     Enums: {
       app_role: "super_admin" | "admin" | "facilitator"
