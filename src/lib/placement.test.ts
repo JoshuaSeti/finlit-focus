@@ -1,4 +1,5 @@
-import { describe, it, expect } from 'vitest';
+// @ts-expect-error bun test runtime module
+import { describe, it, expect } from 'bun:test';
 import { roadmap, isStrong, type Scores } from './placement';
 
 const s = (pairs: [number, number][]): Scores => ({
