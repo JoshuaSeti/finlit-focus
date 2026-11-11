@@ -50,6 +50,13 @@
       "when": 1794439531779,
       "tag": "0006_sim_yungsta_questions_neglect",
       "breakpoints": true
+    },
+    {
+      "idx": 7,
+      "version": "7",
+      "when": 1794439748755,
+      "tag": "0007_sim_load_staged_content",
+      "breakpoints": true
     }
   ]
 }
