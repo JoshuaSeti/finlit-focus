@@ -85,7 +85,7 @@ const ResourcesAndBlog = () => {
   return (
     <Layout>
       {/* Hero */}
-      <section className="relative pt-32 pb-16 bg-gradient-to-br from-green-50 to-green-100/50">
+      <section className="relative pt-24 sm:pt-32 pb-12 sm:pb-16 bg-gradient-to-br from-green-50 to-green-100/50">
         <div className="container mx-auto px-4 sm:px-6 lg:px-8">
           <motion.div
             initial={{ opacity: 0, y: 30 }}
@@ -93,7 +93,7 @@ const ResourcesAndBlog = () => {
             transition={{ duration: 0.6 }}
             className="text-center max-w-3xl mx-auto"
           >
-            <h1 className="text-4xl md:text-5xl font-bold text-foreground mb-6">
+            <h1 className="text-3xl sm:text-4xl md:text-5xl font-bold text-foreground mb-6">
               Resources & Blog
             </h1>
             <p className="text-lg text-muted-foreground">
@@ -143,10 +143,10 @@ const ResourcesAndBlog = () => {
                       variants={containerVariants}
                       initial="hidden"
                       animate="visible"
-                      className="grid sm:grid-cols-2 lg:grid-cols-3 gap-8"
+                      className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8"
                     >
                       {blogs.map((post) => (
-                        <motion.div key={post.id} variants={itemVariants}>
+                        <motion.div key={post.id} variants={itemVariants} className="min-w-0">
                           <Card className="h-full hover:shadow-elevated transition-shadow duration-300 overflow-hidden group">
                             {post.image_url && (
                               <div className="relative h-48 overflow-hidden">
@@ -167,9 +167,9 @@ const ResourcesAndBlog = () => {
                                   {formatDate(post.published_at || post.created_at)}
                                 </span>
                               </div>
-                              <CardTitle className="line-clamp-2">{post.title}</CardTitle>
+                              <CardTitle className="line-clamp-2 break-words text-xl sm:text-2xl">{post.title}</CardTitle>
                               {post.excerpt && (
-                                <CardDescription className="line-clamp-3">
+                                <CardDescription className="line-clamp-3 break-words [overflow-wrap:anywhere]">
                                   {stripHtml(post.excerpt)}
                                 </CardDescription>
                               )}

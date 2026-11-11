@@ -70,9 +70,9 @@ let finished = false, pollTimer = null;
 (async function init() {
   if (!LESSON || !/^[a-z0-9-]{1,8}$/.test(LESSON)) { unavailable('No lesson was selected for practice.', 'lesson'); return; }
   const user = await requireAuth();
-  if (!user) { unavailable('Practice is not available right now. You can still finish the lesson and your certificate.', 'auth'); return; }
-  const { data: profile } = await supabase.from('sim_profiles').select('backstory,relationship,character_name').eq('id', user.id).single();
-  if (profile && (!profile.backstory || !profile.relationship || !profile.character_name)) {
+  if (!user) { unavailable('Sign in to practise with your yungsta. Use "Sign in to save progress" at the top of the page, then try again.', 'auth'); return; }
+  const { data: profile } = await supabase.from('sim_profiles').select('backstory,relationship,character_name').eq('id', user.id).maybeSingle();
+  if (!profile || (!profile.backstory || !profile.relationship || !profile.character_name)) {
     window.location.replace('character.html?embed=1&next=practice.html&practice=' + encodeURIComponent(LESSON)); return;
   }
   const { data, error } = await supabase.rpc('practice_start', { p_lesson: LESSON });

@@ -19,8 +19,8 @@ export const progressKey = (slug: string) => `finlit-progress-${slug}`;
 export async function loadModuleHtml(m: Pick<LearningModule, 'storage_path' | 'default_path'>): Promise<string> {
   if (m.storage_path) {
     const { data, error } = await supabase.storage.from('modules').download(m.storage_path);
-    if (error || !data) throw error || new Error('Could not load module');
-    return await data.text();
+    if (!error && data) return await data.text();
+    if (!m.default_path) throw error || new Error('Could not load module');
   }
   if (!m.default_path) throw new Error('This module has no content yet');
   const r = await fetch(m.default_path, { cache: 'no-cache' });

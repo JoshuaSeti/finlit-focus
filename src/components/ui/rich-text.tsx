@@ -41,7 +41,7 @@ export function RichText({ html, className, as: Tag = 'div' }: RichTextProps) {
 
   return (
     <Tag
-      className={cn('rich-text prose prose-sm max-w-none', className)}
+      className={cn('rich-text prose prose-sm max-w-none break-words [overflow-wrap:anywhere] [&_img]:max-w-full [&_img]:h-auto [&_iframe]:max-w-full [&_video]:max-w-full [&_table]:block [&_table]:overflow-x-auto [&_pre]:overflow-x-auto', className)}
       dangerouslySetInnerHTML={{ __html: clean }}
     />
   );
