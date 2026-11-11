@@ -39,6 +39,7 @@ import AdminModules from "./pages/admin/AdminModules";
 import ModulesList from "./pages/modules/ModulesList";
 import ModulePlayer from "./pages/modules/ModulePlayer";
 import LearnerAuth from "./pages/modules/LearnerAuth";
+import Diagnostic from "./pages/modules/Diagnostic";
 
 // Facilitator pages
 import { FacilitatorLayout } from "./components/facilitator/FacilitatorLayout";
@@ -65,6 +66,7 @@ const App = () => (
             <Route path="/blog/:id" element={<BlogPost />} />
             <Route path="/programs" element={<Programs />} />
             <Route path="/programs/:slug" element={<ProgramApply />} />
+            <Route path="/diagnostic" element={<Diagnostic />} />
             <Route path="/modules" element={<ModulesList />} />
             <Route path="/modules/:slug" element={<ModulePlayer />} />
             <Route path="/login" element={<LearnerAuth />} />

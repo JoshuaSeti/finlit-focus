@@ -1737,6 +1737,36 @@ export type Database = {
         }
         Relationships: []
       }
+      placement_results: {
+        Row: {
+          correct: number
+          created_at: string
+          id: string
+          scores: Json
+          start_group: string
+          total: number
+          user_id: string
+        }
+        Insert: {
+          correct?: number
+          created_at?: string
+          id?: string
+          scores?: Json
+          start_group: string
+          total?: number
+          user_id: string
+        }
+        Update: {
+          correct?: number
+          created_at?: string
+          id?: string
+          scores?: Json
+          start_group?: string
+          total?: number
+          user_id?: string
+        }
+        Relationships: []
+      }
       profiles: {
         Row: {
           created_at: string

@@ -25,6 +25,22 @@
     post: post,
   };
 
+
+  // Hide every "Next lesson" button (completion card + bottom bar once a lesson is done).
+  // "Finish lesson" stays because it records progress.
+  (function () {
+    var st = document.createElement('style');
+    st.textContent = '#fin-next{display:none!important}body.fin-hide-bar #fin-bar{display:none!important}body.fin-hide-bar{padding-bottom:0!important}';
+    (document.head || document.documentElement).appendChild(st);
+    function check() {
+      var b = document.getElementById('fin-finish');
+      if (!b || !document.body) return;
+      document.body.classList.toggle('fin-hide-bar', /next lesson/i.test(b.textContent || ''));
+    }
+    setInterval(check, 300);
+    document.addEventListener('click', function () { setTimeout(check, 50); setTimeout(check, 300); });
+  })();
+
   // Hash links: the page uses <base>, so keep "#section" links inside this page.
   document.addEventListener('click', function (e) {
     var a = e.target && e.target.closest ? e.target.closest('a[href]') : null;
