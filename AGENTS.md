@@ -1,2 +1,4 @@
 - Lesson modules are standalone HTML (built-in files in public/modules, admin uploads in the private `modules` storage bucket) loaded via public/module-host.html with public/finlit-bridge.js injected; modules talk to the site only through postMessage — why: modules can be added/edited without touching app code.
 - The character simulator lives as static pages in public/sim using its own player table (sim_profiles), separate from site profiles — why: keeps the demo simulator code intact.
+- Simulator game rules and content are installed from the demo's SQL scripts; readable copies live in supabase/sim-content/ — why: the large content seed was loaded in one step and isn't spelled out in the migration files.
+- Finishing a lesson calls the simulator's lesson trigger with the module slug minus "module-" (e.g. "1-2") — why: lesson ids in the simulator match the demo's module numbering.

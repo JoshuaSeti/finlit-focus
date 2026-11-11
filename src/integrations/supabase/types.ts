@@ -3010,6 +3010,61 @@ export type Database = {
         Args: { p_delta: number; p_profile_id: string; p_reason: string }
         Returns: number
       }
+      debt_apply_payment: {
+        Args: { p: string; p_amount: number; p_debt_id: number }
+        Returns: Json
+      }
+      debt_borrow: {
+        Args: { p_amount: number; p_product: string; p_term_months?: number }
+        Returns: Json
+      }
+      debt_execute_plan: {
+        Args: { p_budget: number; p_strategy: string }
+        Returns: Json
+      }
+      debt_installment: {
+        Args: { n: number; p: number; rate: number }
+        Returns: number
+      }
+      debt_overview: { Args: never; Returns: Json }
+      debt_pay_due: { Args: never; Returns: Json }
+      debt_plan: { Args: { p_budget: number }; Returns: Json }
+      debt_plan_inputs: { Args: { p: string }; Returns: Json }
+      debt_quote: {
+        Args: { p_amount: number; p_product: string; p_term_months?: number }
+        Returns: Json
+      }
+      debt_rollover: { Args: { p_debt_id: number }; Returns: Json }
+      debt_run_strategy: {
+        Args: { p_budget: number; p_debts: Json; p_strategy: string }
+        Returns: Json
+      }
+      debt_schedule: { Args: { p_debt_id: number }; Returns: Json }
+      debt_set_prefs: {
+        Args: { p_autopay: boolean; p_strategy: string }
+        Returns: Json
+      }
+      debt_tick: { Args: { p: string }; Returns: undefined }
+      mirror_advice: { Args: { p: string; p_lesson: string }; Returns: string }
+      mirror_check: { Args: { p_done: boolean; p_id: number }; Returns: Json }
+      mirror_due: { Args: never; Returns: Json }
+      practice_mirror_get: { Args: { p_lesson: string }; Returns: Json }
+      practice_mirror_save: {
+        Args: {
+          p_barrier?: string
+          p_lesson: string
+          p_stance: string
+          p_when?: string
+        }
+        Returns: Json
+      }
+      practice_progress: {
+        Args: { p: string; p_lesson: string; p_session: number }
+        Returns: Json
+      }
+      practice_start: { Args: { p_lesson: string }; Returns: Json }
+      practice_status: { Args: { p_lesson: string }; Returns: Json }
+      practice_title: { Args: { p_lesson: string }; Returns: string }
       set_character: {
         Args: {
           p_avatar: string
@@ -3019,6 +3074,9 @@ export type Database = {
         }
         Returns: Json
       }
+      sim_buy_cover: { Args: { p_venture_id: number }; Returns: Json }
+      sim_cfg: { Args: { d: number; k: string }; Returns: number }
+      sim_character_summary: { Args: never; Returns: Json }
       sim_collect_income: { Args: never; Returns: Json }
       sim_create_venture: {
         Args: { p_capital: number; p_category: string; p_name: string }
@@ -3037,8 +3095,23 @@ export type Database = {
         Args: { p_amount: number; p_debt_id: number }
         Returns: Json
       }
+      sim_repay_core: {
+        Args: { p_amount: number; p_debt_id: number }
+        Returns: Json
+      }
+      sim_teachback: { Args: { p_pending_id: number }; Returns: Json }
+      sim_today: { Args: never; Returns: string }
       sim_trade: {
         Args: { p_instrument_id: number; p_qty: number; p_side: string }
+        Returns: Json
+      }
+      sim_venture_payout: {
+        Args: {
+          p_reinvest: number
+          p_topup: number
+          p_venture_id: number
+          p_withdraw: number
+        }
         Returns: Json
       }
       story_bootstrap: { Args: never; Returns: undefined }
@@ -3048,6 +3121,10 @@ export type Database = {
       }
       story_borrow_limits: { Args: never; Returns: Json }
       story_choose: {
+        Args: { p_choice_index: number; p_pending_id: number }
+        Returns: Json
+      }
+      story_choose_core: {
         Args: { p_choice_index: number; p_pending_id: number }
         Returns: Json
       }
@@ -3074,6 +3151,7 @@ export type Database = {
         Args: { p: string; p_kind: string }
         Returns: number
       }
+      story_lessons_for: { Args: { k: string }; Returns: Json }
       story_pending: { Args: never; Returns: Json }
       story_run_unlocks: { Args: { p: string }; Returns: string[] }
       story_schedule_followups: {
@@ -3099,6 +3177,31 @@ export type Database = {
         Args: { choices: Json; ctx?: Json; p: string }
         Returns: Json
       }
+      stress_band: { Args: { s: number }; Returns: string }
+      stress_board: { Args: never; Returns: Json }
+      stress_calm_enough: { Args: { p: string }; Returns: boolean }
+      stress_compute: { Args: { p: string }; Returns: Json }
+      stress_other_assets: { Args: { p: string }; Returns: number }
+      stress_restart: { Args: { p_note?: string }; Returns: Json }
+      stress_status: { Args: never; Returns: Json }
+      stress_tick: { Args: { p: string }; Returns: Json }
+      yungsta_answer: {
+        Args: { p_choice: number; p_id: number }
+        Returns: Json
+      }
+      yungsta_blunders_new: { Args: { p: string }; Returns: Json }
+      yungsta_blunders_skip: { Args: never; Returns: Json }
+      yungsta_current: { Args: { p: string }; Returns: Json }
+      yungsta_debrief: {
+        Args: { p_choice: number; p_id: number }
+        Returns: Json
+      }
+      yungsta_mark_guided: { Args: { p: string }; Returns: undefined }
+      yungsta_neglect_check: { Args: { p: string }; Returns: number }
+      yungsta_pause: { Args: { p_days?: number }; Returns: Json }
+      yungsta_schedule: { Args: { p: string }; Returns: undefined }
+      yungsta_status: { Args: { p: string }; Returns: Json }
+      yungsta_warning: { Args: never; Returns: Json }
     }
     Enums: {
       app_role: "super_admin" | "admin" | "facilitator"

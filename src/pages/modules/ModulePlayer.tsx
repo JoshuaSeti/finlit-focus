@@ -60,6 +60,8 @@ const ModulePlayer = () => {
         }, { onConflict: 'user_id,module_slug' });
         if (s.complete && !existing?.completed_at) {
           await supabase.from('module_events').insert({ user_id: u.id, module_slug: slug, kind: 'module_complete', payload: { quiz_correct: s.quiz_correct, quiz_total: s.quiz_total } });
+          // Tell the character simulator: unlocks Yungsta questions, story scenarios and lesson flags.
+          await supabase.rpc('story_fire_lesson' as never, { p_lesson: slug.replace(/^module-/, '') } as never);
         }
       } else if (d.type === 'certificate') {
         await supabase.from('module_progress').upsert({ user_id: u.id, module_slug: slug, certificate_claimed_at: new Date().toISOString(), certificate_name: d.name || null }, { onConflict: 'user_id,module_slug' });
