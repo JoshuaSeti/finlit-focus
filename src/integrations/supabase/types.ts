@@ -3019,6 +3019,7 @@ export type Database = {
         }
         Returns: Json
       }
+      sim_cfg: { Args: { d: number; k: string }; Returns: number }
       sim_collect_income: { Args: never; Returns: Json }
       sim_create_venture: {
         Args: { p_capital: number; p_category: string; p_name: string }
@@ -3037,6 +3038,7 @@ export type Database = {
         Args: { p_amount: number; p_debt_id: number }
         Returns: Json
       }
+      sim_today: { Args: never; Returns: string }
       sim_trade: {
         Args: { p_instrument_id: number; p_qty: number; p_side: string }
         Returns: Json
@@ -3099,6 +3101,22 @@ export type Database = {
         Args: { choices: Json; ctx?: Json; p: string }
         Returns: Json
       }
+      yungsta_answer: {
+        Args: { p_choice: number; p_id: number }
+        Returns: Json
+      }
+      yungsta_blunders_new: { Args: { p: string }; Returns: Json }
+      yungsta_blunders_skip: { Args: never; Returns: Json }
+      yungsta_current: { Args: { p: string }; Returns: Json }
+      yungsta_debrief: {
+        Args: { p_choice: number; p_id: number }
+        Returns: Json
+      }
+      yungsta_mark_guided: { Args: { p: string }; Returns: undefined }
+      yungsta_neglect_check: { Args: { p: string }; Returns: number }
+      yungsta_pause: { Args: { p_days?: number }; Returns: Json }
+      yungsta_schedule: { Args: { p: string }; Returns: undefined }
+      yungsta_status: { Args: { p: string }; Returns: Json }
     }
     Enums: {
       app_role: "super_admin" | "admin" | "facilitator"
