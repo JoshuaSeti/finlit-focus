@@ -38,7 +38,7 @@ export function YungstaCompanion({ signedIn }: { signedIn: boolean }) {
   return (
     <motion.aside initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.4, delay: 0.1 }}
       className="rounded-2xl border border-border bg-card shadow-md overflow-hidden">
-      <div className="bg-gradient-primary p-5 text-primary-foreground">
+      <div className="gradient-primary p-5 text-primary-foreground">
         <div className="flex items-center gap-3">
           <div className="w-14 h-14 rounded-2xl bg-card/90 grid place-items-center text-3xl shadow-sm">{p?.avatar || '🧑🏾'}</div>
           <div className="min-w-0">

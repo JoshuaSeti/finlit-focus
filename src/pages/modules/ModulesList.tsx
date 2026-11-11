@@ -1,16 +1,18 @@
 import { useEffect, useMemo, useState } from 'react';
 import { Link, useNavigate, useSearchParams } from 'react-router-dom';
-import { Compass } from 'lucide-react';
+import { motion } from 'framer-motion';
+import { Compass, Check, Play, Flag, Trophy, BookOpen } from 'lucide-react';
 import { GROUPS, roadmap, loadLocal, saveLocal, type Scores, type GroupId } from '@/lib/placement';
-import { CheckCircle2, BookOpen, Gamepad2 } from 'lucide-react';
 import { Layout } from '@/components/layout/Layout';
 import { Button } from '@/components/ui/button';
-import { Progress } from '@/components/ui/progress';
 import { supabase } from '@/integrations/supabase/client';
 import { useAuth } from '@/hooks/useAuth';
-import { LearningModule, shareSessionWithSimulator } from '@/lib/modules';
+import { LearningModule } from '@/lib/modules';
+import { YungstaCompanion } from '@/components/learning/YungstaCompanion';
 
 type Prog = { module_slug: string; sections_done: number; sections_total: number; completed_at: string | null };
+type Tag = 'Start here' | 'Learn next' | 'Review' | null;
+type NodeState = 'done' | 'next' | 'progress' | 'upcoming';
 
 const ModulesList = () => {
   const { user } = useAuth();
@@ -44,7 +46,7 @@ const ModulesList = () => {
     const g: Record<string, LearningModule[]> = {};
     mods.forEach((m) => (g[m.category] = g[m.category] || []).push(m));
     const entries = Object.entries(g);
-    if (!scores) return entries.map(([c, l]) => [c, l, null] as const);
+    if (!scores) return entries.map(([c, l]) => ({ cat: c, list: l, tag: null as Tag }));
     const r = roadmap(scores);
     const catOf = (gid: GroupId) => GROUPS[gid].category;
     const rank = (c: string) => { const i = r.order.findIndex((gid) => catOf(gid) === c); return i < 0 ? 100 : i; };
@@ -52,55 +54,123 @@ const ModulesList = () => {
       .sort((a, b) => rank(a[0]) - rank(b[0]))
       .map(([c, l]) => {
         const gid = r.order.find((x) => catOf(x) === c);
-        const tag = !gid ? null : gid === r.start ? 'Start here' : r.strong.includes(gid) ? 'Review' : 'Learn next';
-        return [c, l, tag] as const;
+        const tag: Tag = !gid ? null : gid === r.start ? 'Start here' : r.strong.includes(gid) ? 'Review' : 'Learn next';
+        return { cat: c, list: l, tag };
       });
   }, [mods, scores]);
 
+  // The first unfinished lesson along the personal path is "next".
+  const nextSlug = useMemo(() => {
+    for (const g of groups) { if (g.tag === 'Review') continue; for (const m of g.list) if (!prog[m.slug]?.completed_at) return m.slug; }
+    for (const g of groups) for (const m of g.list) if (!prog[m.slug]?.completed_at) return m.slug;
+    return null;
+  }, [groups, prog]);
+
+  const total = mods.length;
+  const done = mods.filter((m) => prog[m.slug]?.completed_at).length;
+  const pctAll = total ? Math.round((done / total) * 100) : 0;
+  const nextMod = mods.find((m) => m.slug === nextSlug);
+
+  const stateOf = (m: LearningModule): NodeState => {
+    const p = prog[m.slug];
+    if (p?.completed_at) return 'done';
+    if (m.slug === nextSlug) return 'next';
+    if (p && p.sections_done > 0) return 'progress';
+    return 'upcoming';
+  };
+
+  let idx = 0;
   return (
     <Layout>
-      <section className="container mx-auto px-4 py-12 max-w-5xl">
-        <div className="flex flex-col md:flex-row md:items-end justify-between gap-4 mb-10">
-          <div>
-            <h1 className="text-3xl md:text-4xl font-bold text-foreground">Lessons</h1>
-            <p className="text-muted-foreground mt-2">Work through each module, earn your certificates and practise with your yungsta.</p>
-          </div>
-          <div className="flex gap-2">
-            <Link to="/diagnostic"><Button variant="outline"><Compass className="w-4 h-4 mr-2" />{scores ? 'Retake placement' : 'Placement test'}</Button></Link>
-            {!user && <Link to="/login"><Button variant="outline">Sign in to save progress</Button></Link>}
-            <a href="/sim/index.html" onClick={() => shareSessionWithSimulator()}>
-              <Button><Gamepad2 className="w-4 h-4 mr-2" />My yungsta</Button>
-            </a>
-          </div>
-        </div>
-
-        {loading ? (
-          <p className="text-muted-foreground">Loading…</p>
-        ) : (
-          groups.map(([cat, list, tag]) => (
-            <div key={cat} className="mb-10">
-              <h2 className="text-lg font-semibold text-foreground mb-4 flex items-center gap-2">{cat}{tag && <span className={`text-xs font-medium rounded-full px-2 py-0.5 ${tag === 'Start here' ? 'bg-primary text-primary-foreground' : 'bg-muted text-muted-foreground'}`}>{tag}</span>}</h2>
-              <div className="grid sm:grid-cols-2 gap-4">
-                {list.map((m) => {
-                  const p = prog[m.slug];
-                  const pct = p && p.sections_total ? Math.round((p.sections_done / p.sections_total) * 100) : 0;
-                  return (
-                    <Link key={m.id} to={`/modules/${m.slug}`} className="block rounded-xl border border-border bg-card p-5 hover:border-primary transition-colors">
-                      <div className="flex items-start gap-3">
-                        {p?.completed_at ? <CheckCircle2 className="w-5 h-5 text-primary shrink-0 mt-0.5" /> : <BookOpen className="w-5 h-5 text-muted-foreground shrink-0 mt-0.5" />}
-                        <div className="flex-1 min-w-0">
-                          <div className="font-medium text-foreground">{m.title}</div>
-                          {m.description && <p className="text-sm text-muted-foreground mt-1">{m.description}</p>}
-                          {user && <Progress value={pct} className="h-1.5 mt-3" />}
-                        </div>
-                      </div>
-                    </Link>
-                  );
-                })}
+      {/* Header */}
+      <section className="gradient-hero border-b border-border">
+        <div className="container mx-auto px-4 py-10 max-w-6xl">
+          <div className="flex flex-col md:flex-row md:items-center gap-8">
+            <div className="relative w-28 h-28 shrink-0">
+              <svg viewBox="0 0 36 36" className="w-full h-full -rotate-90">
+                <circle cx="18" cy="18" r="15.9" fill="none" className="stroke-muted" strokeWidth="3" />
+                <motion.circle cx="18" cy="18" r="15.9" fill="none" className="stroke-primary" strokeWidth="3" strokeLinecap="round"
+                  strokeDasharray="100 100" initial={{ strokeDashoffset: 100 }} animate={{ strokeDashoffset: 100 - pctAll }} transition={{ duration: 1 }} />
+              </svg>
+              <div className="absolute inset-0 grid place-items-center text-center">
+                <div><div className="text-2xl font-bold text-foreground">{pctAll}%</div><div className="text-[10px] uppercase tracking-wider text-muted-foreground">done</div></div>
               </div>
             </div>
-          ))
-        )}
+            <div className="flex-1">
+              <p className="text-sm font-medium text-primary-foreground/70 uppercase tracking-wider">Your learning path</p>
+              <h1 className="text-3xl md:text-4xl font-bold text-foreground mt-1">{done === 0 ? 'Let’s get you started' : done === total ? 'Path complete!' : 'Keep the momentum going'}</h1>
+              <p className="text-muted-foreground mt-2">{done} of {total} lessons finished{scores ? ' · ordered from your placement test' : ''}</p>
+              <div className="flex flex-wrap gap-2 mt-5">
+                {nextMod && (
+                  <Link to={`/modules/${nextMod.slug}`}><Button size="lg"><Play className="w-4 h-4 mr-2" />Continue: {nextMod.title}</Button></Link>
+                )}
+                <Link to="/diagnostic"><Button size="lg" variant="outline"><Compass className="w-4 h-4 mr-2" />{scores ? 'Retake placement' : 'Placement test'}</Button></Link>
+                {!user && <Link to="/login"><Button size="lg" variant="outline">Sign in to save progress</Button></Link>}
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section className="container mx-auto px-4 py-10 max-w-6xl grid lg:grid-cols-[1fr_320px] gap-10">
+        <div>
+          {loading ? (
+            <p className="text-muted-foreground">Loading your path…</p>
+          ) : (
+            groups.map((g, gi) => {
+              const gDone = g.list.filter((m) => prog[m.slug]?.completed_at).length;
+              return (
+                <motion.div key={g.cat} initial={{ opacity: 0, y: 16 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true, margin: '-60px' }} transition={{ duration: 0.4 }} className="mb-12">
+                  <div className="flex items-center gap-3 mb-6">
+                    <div className="w-10 h-10 rounded-xl bg-secondary text-secondary-foreground grid place-items-center font-bold">{gi + 1}</div>
+                    <div className="flex-1 min-w-0">
+                      <h2 className="text-lg font-bold text-foreground flex flex-wrap items-center gap-2">{g.cat}
+                        {g.tag && <span className={`text-xs font-semibold rounded-full px-2.5 py-0.5 ${g.tag === 'Start here' ? 'bg-primary text-primary-foreground' : g.tag === 'Review' ? 'bg-muted text-muted-foreground' : 'bg-accent text-accent-foreground'}`}>{g.tag}</span>}
+                      </h2>
+                      <p className="text-xs text-muted-foreground">{gDone}/{g.list.length} lessons</p>
+                    </div>
+                    {gDone === g.list.length && g.list.length > 0 && <Trophy className="w-5 h-5 text-primary" />}
+                  </div>
+
+                  <ol className="relative ml-5 border-l-2 border-dashed border-border space-y-4">
+                    {g.list.map((m) => {
+                      const st = stateOf(m);
+                      const p = prog[m.slug];
+                      const pct = p && p.sections_total ? Math.round((p.sections_done / p.sections_total) * 100) : 0;
+                      const side = idx++ % 2 === 0;
+                      return (
+                        <li key={m.id} className="relative pl-8">
+                          <span className={`absolute -left-[17px] top-4 w-8 h-8 rounded-full grid place-items-center border-4 border-background shadow-sm
+                            ${st === 'done' ? 'bg-primary text-primary-foreground' : st === 'next' ? 'bg-primary text-primary-foreground ring-4 ring-primary/25 animate-pulse' : st === 'progress' ? 'bg-accent text-accent-foreground' : 'bg-muted text-muted-foreground'}`}>
+                            {st === 'done' ? <Check className="w-4 h-4" /> : st === 'next' ? <Play className="w-3.5 h-3.5" /> : <BookOpen className="w-3.5 h-3.5" />}
+                          </span>
+                          <Link to={`/modules/${m.slug}`}
+                            className={`block rounded-2xl border p-4 transition-all hover:-translate-y-0.5 hover:shadow-md ${side ? '' : 'md:ml-8'}
+                              ${st === 'next' ? 'border-primary bg-card shadow-glow' : st === 'done' ? 'border-border bg-secondary/40' : 'border-border bg-card'}`}>
+                            <div className="flex items-start justify-between gap-3">
+                              <div className="min-w-0">
+                                {st === 'next' && <div className="text-[11px] font-bold uppercase tracking-wider text-primary-foreground/70 mb-1 flex items-center gap-1"><Flag className="w-3 h-3" />Up next</div>}
+                                <div className={`font-semibold ${st === 'done' ? 'text-muted-foreground' : 'text-foreground'}`}>{m.title}</div>
+                                {m.description && <p className="text-sm text-muted-foreground mt-1 line-clamp-2">{m.description}</p>}
+                              </div>
+                              {st === 'done' && <span className="text-xs font-medium text-secondary-foreground bg-secondary rounded-full px-2 py-0.5 shrink-0">Done</span>}
+                            </div>
+                            {user && st !== 'done' && pct > 0 && (
+                              <div className="h-1.5 rounded-full bg-muted mt-3 overflow-hidden"><div className="h-full bg-primary rounded-full" style={{ width: `${pct}%` }} /></div>
+                            )}
+                          </Link>
+                        </li>
+                      );
+                    })}
+                  </ol>
+                </motion.div>
+              );
+            })
+          )}
+        </div>
+        <div className="lg:sticky lg:top-24 h-fit order-first lg:order-none">
+          <YungstaCompanion signedIn={!!user} />
+        </div>
       </section>
     </Layout>
   );
