@@ -6,6 +6,7 @@ import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import { AuthProvider } from "@/hooks/useAuth";
 import { ScrollToTop } from "@/components/layout/ScrollToTop";
 import { GlobalInstallBanner } from "@/components/layout/GlobalInstallBanner";
+import { AppNotifyPrompt } from "@/components/layout/AppNotifyPrompt";
 import { Analytics } from "@vercel/analytics/react";
 import Index from "./pages/Index";
 import About from "./pages/About";
@@ -63,6 +64,7 @@ const App = () => (
         <BrowserRouter>
           <ScrollToTop />
           <GlobalInstallBanner />
+          <AppNotifyPrompt />
           <Routes>
             {/* Public Routes */}
             <Route path="/" element={<Index />} />
