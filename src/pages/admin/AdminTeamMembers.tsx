@@ -285,6 +285,7 @@ function MemberForm({ form, setForm, onSave, saving }: { form: Form; setForm: (f
             <Upload className="h-4 w-4" /> {uploading ? "Uploading…" : "Upload photo"}
             <input type="file" accept="image/*" className="hidden" onChange={(e) => e.target.files?.[0] && upload(e.target.files[0])} />
           </Label>
+          <p className="max-w-xs text-xs text-muted-foreground">Tip: upload a portrait (tall) photo with the face near the top-centre — wide photos get cropped on the team cards.</p>
           <div className="flex flex-wrap gap-2">
             {ACCENTS.map((a) => (
               <button key={a.name} type="button" title={a.name} onClick={() => setForm({ ...form, accent: a.accent, accent_ink: a.ink })}
