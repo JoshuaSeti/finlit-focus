@@ -106,6 +106,13 @@
       "when": 1794448207650,
       "tag": "0014_team_worlds",
       "breakpoints": true
+    },
+    {
+      "idx": 15,
+      "version": "7",
+      "when": 1794448262306,
+      "tag": "0015_team_photos_storage",
+      "breakpoints": true
     }
   ]
 }
