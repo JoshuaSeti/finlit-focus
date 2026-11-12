@@ -2806,36 +2806,84 @@ export type Database = {
       }
       team_members: {
         Row: {
+          accent: string
+          accent_ink: string
+          aspiration_quote: string
           bio: string | null
           created_at: string
           display_order: number | null
+          dots: string[]
+          facts: string[]
           full_name: string
+          gallery: Json
+          goals: string[]
           id: string
           image_url: string | null
+          interests: Json
           is_active: boolean | null
+          location: string
+          member_group: string
           role: string
+          secret: string
+          slug: string | null
+          spotify_tracks: string[]
+          story: string[]
+          tagline: string
+          this_or_that: Json
           updated_at: string
         }
         Insert: {
+          accent?: string
+          accent_ink?: string
+          aspiration_quote?: string
           bio?: string | null
           created_at?: string
           display_order?: number | null
+          dots?: string[]
+          facts?: string[]
           full_name: string
+          gallery?: Json
+          goals?: string[]
           id?: string
           image_url?: string | null
+          interests?: Json
           is_active?: boolean | null
+          location?: string
+          member_group?: string
           role: string
+          secret?: string
+          slug?: string | null
+          spotify_tracks?: string[]
+          story?: string[]
+          tagline?: string
+          this_or_that?: Json
           updated_at?: string
         }
         Update: {
+          accent?: string
+          accent_ink?: string
+          aspiration_quote?: string
           bio?: string | null
           created_at?: string
           display_order?: number | null
+          dots?: string[]
+          facts?: string[]
           full_name?: string
+          gallery?: Json
+          goals?: string[]
           id?: string
           image_url?: string | null
+          interests?: Json
           is_active?: boolean | null
+          location?: string
+          member_group?: string
           role?: string
+          secret?: string
+          slug?: string | null
+          spotify_tracks?: string[]
+          story?: string[]
+          tagline?: string
+          this_or_that?: Json
           updated_at?: string
         }
         Relationships: []
@@ -3023,6 +3071,41 @@ export type Database = {
             columns: ["profile_id"]
             isOneToOne: false
             referencedRelation: "sim_profiles"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      wall_notes: {
+        Row: {
+          author: string
+          created_at: string
+          id: string
+          is_approved: boolean
+          member_id: string
+          message: string
+        }
+        Insert: {
+          author?: string
+          created_at?: string
+          id?: string
+          is_approved?: boolean
+          member_id: string
+          message: string
+        }
+        Update: {
+          author?: string
+          created_at?: string
+          id?: string
+          is_approved?: boolean
+          member_id?: string
+          message?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "wall_notes_member_id_fkey"
+            columns: ["member_id"]
+            isOneToOne: false
+            referencedRelation: "team_members"
             referencedColumns: ["id"]
           },
         ]
