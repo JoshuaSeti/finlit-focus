@@ -2,7 +2,6 @@ import { useState } from 'react';
 import { Check, Link2, Share2 } from 'lucide-react';
 import { toast } from 'sonner';
 
-const SITE = 'https://finlit-empower-hub.lovable.app';
 
 /** Builds the link that shows a rich preview card in WhatsApp and other apps, then opens the page. */
 const SHARE = 'https://finlit-share.finlitzambia.workers.dev';
