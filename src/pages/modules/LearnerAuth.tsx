@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { useNavigate, Link } from 'react-router-dom';
+import { useNavigate, Link, useSearchParams } from 'react-router-dom';
 import { Lock, Mail, User, AlertCircle } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -11,7 +11,10 @@ import finlitLogo from '@/assets/finlit-logo.png';
 const LearnerAuth = () => {
   const navigate = useNavigate();
   const { signIn, user, isLoading: authLoading } = useAuth();
-  const [mode, setMode] = useState<'signin' | 'signup'>('signup');
+  const [params] = useSearchParams();
+  const raw = params.get('next') || '/modules';
+  const next = raw.startsWith('/') && !raw.startsWith('//') ? raw : '/modules';
+  const [mode, setMode] = useState<'signin' | 'signup'>(params.get('mode') === 'signin' ? 'signin' : 'signup');
   const [fullName, setFullName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -20,8 +23,8 @@ const LearnerAuth = () => {
   const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
-    if (!authLoading && user) navigate('/modules', { replace: true });
-  }, [authLoading, user, navigate]);
+    if (!authLoading && user) navigate(next, { replace: true });
+  }, [authLoading, user, navigate, next]);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -36,7 +39,7 @@ const LearnerAuth = () => {
         setError('Invalid email or password.');
         return;
       }
-      navigate('/modules');
+      navigate(next);
       return;
     }
 
@@ -44,7 +47,7 @@ const LearnerAuth = () => {
       email,
       password,
       options: {
-        emailRedirectTo: `${window.location.origin}/modules`,
+        emailRedirectTo: `${window.location.origin}${next}`,
         data: { full_name: fullName },
       },
     });
@@ -60,7 +63,7 @@ const LearnerAuth = () => {
     }
 
     if (data.session) {
-      navigate('/modules');
+      navigate(next);
     } else {
       setNotice('Check your email to confirm your account, then come back and sign in.');
       setMode('signin');
@@ -133,10 +136,10 @@ const LearnerAuth = () => {
                   id="password"
                   type="password"
                   required
-                  minLength={8}
+                  minLength={6}
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
-                  placeholder="••••••••"
+                  placeholder="At least 6 characters"
                   className="pl-10"
                 />
               </div>
