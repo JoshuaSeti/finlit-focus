@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import { Download, Share, Bell } from 'lucide-react';
 import { Button } from '@/components/ui/button';
+import { enablePush, syncPush } from '@/lib/push';
 
 type BIP = Event & { prompt: () => Promise<void>; userChoice: Promise<{ outcome: string }> };
 const isStandalone = () => window.matchMedia('(display-mode: standalone)').matches || (navigator as unknown as { standalone?: boolean }).standalone === true;
@@ -27,13 +28,14 @@ export function InstallPrompt() {
       const today = new Date().toDateString();
       if (!Number.isNaN(hour) && new Date().getHours() === hour && localStorage.getItem('finlit-reminded') !== today) {
         localStorage.setItem('finlit-reminded', today);
-        new Notification('FinLit', { body: 'Your yungsta is waiting — keep your coin streak going! 🪙', icon: '/icon-192.png' });
+        navigator.vibrate?.([300, 100, 300]);
       }
     }, 60000);
     return () => clearInterval(t);
   }, [notif]);
 
-  const askNotif = async () => { if (typeof Notification !== 'undefined') setNotif(await Notification.requestPermission()); };
+  useEffect(() => { syncPush().catch(() => undefined); }, []);
+  const askNotif = async () => { if (typeof Notification !== 'undefined') setNotif(await enablePush().catch(() => Notification.permission)); };
 
   return (
     <div className="space-y-3">
@@ -55,7 +57,7 @@ export function InstallPrompt() {
       {notif === 'default' && (
         <div className="rounded-2xl border border-border bg-card p-4 flex items-center gap-3">
           <Bell className="w-5 h-5 text-primary shrink-0" />
-          <p className="text-sm text-muted-foreground flex-1">Want a daily reminder so you don't lose your coin streak?</p>
+          <p className="text-sm text-muted-foreground flex-1">Turn on reminders so your yungsta never loses its coin streak 🪙</p>
           <Button size="sm" variant="outline" onClick={askNotif}>Remind me</Button>
         </div>
       )}

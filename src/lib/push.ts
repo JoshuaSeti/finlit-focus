@@ -25,7 +25,7 @@ export async function syncPush() {
   const { data: { user } } = await supabase.auth.getUser();
   if (!user) return;
   const reg = await navigator.serviceWorker.register('/push-sw.js', { scope: '/push/' });
-  await navigator.serviceWorker.ready.catch(() => undefined);
+  for (let i = 0; i < 50 && !reg.active; i++) await new Promise((r) => setTimeout(r, 100));
   let sub = await reg.pushManager.getSubscription();
   if (!sub) sub = await reg.pushManager.subscribe({ userVisibleOnly: true, applicationServerKey: toKey(VAPID_PUBLIC) });
   const j = sub.toJSON();
