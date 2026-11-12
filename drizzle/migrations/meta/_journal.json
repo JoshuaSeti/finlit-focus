@@ -92,6 +92,13 @@
       "when": 1794447429173,
       "tag": "0012_push_subscriptions",
       "breakpoints": true
+    },
+    {
+      "idx": 13,
+      "version": "7",
+      "when": 1794447474187,
+      "tag": "0013_push_reminders_cron",
+      "breakpoints": true
     }
   ]
 }
