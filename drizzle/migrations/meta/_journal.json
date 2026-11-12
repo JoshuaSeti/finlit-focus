@@ -71,6 +71,13 @@
       "when": 1794439800033,
       "tag": "0009_sim_missing_unique_constraints",
       "breakpoints": true
+    },
+    {
+      "idx": 10,
+      "version": "7",
+      "when": 1794444395616,
+      "tag": "0010_migration",
+      "breakpoints": true
     }
   ]
 }

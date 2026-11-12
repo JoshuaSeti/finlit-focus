@@ -1479,6 +1479,24 @@ export type Database = {
         }
         Relationships: []
       }
+      lesson_access: {
+        Row: {
+          granted_at: string
+          payment_reference: string | null
+          user_id: string
+        }
+        Insert: {
+          granted_at?: string
+          payment_reference?: string | null
+          user_id: string
+        }
+        Update: {
+          granted_at?: string
+          payment_reference?: string | null
+          user_id?: string
+        }
+        Relationships: []
+      }
       lesson_completions: {
         Row: {
           completed_at: string
@@ -1594,6 +1612,42 @@ export type Database = {
           is_active?: boolean
           title?: string
           updated_at?: string
+        }
+        Relationships: []
+      }
+      lipila_payments: {
+        Row: {
+          amount: number
+          created_at: string
+          id: string
+          phone: string
+          raw: Json | null
+          reference_id: string
+          status: string
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          amount: number
+          created_at?: string
+          id?: string
+          phone: string
+          raw?: Json | null
+          reference_id: string
+          status?: string
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          amount?: number
+          created_at?: string
+          id?: string
+          phone?: string
+          raw?: Json | null
+          reference_id?: string
+          status?: string
+          updated_at?: string
+          user_id?: string
         }
         Relationships: []
       }
