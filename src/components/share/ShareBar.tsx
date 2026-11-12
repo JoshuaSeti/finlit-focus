@@ -2,11 +2,12 @@ import { useState } from 'react';
 import { Check, Link2, Share2 } from 'lucide-react';
 import { toast } from 'sonner';
 
-const SITE = 'https://finlit-empower-hub.lovable.app';
 
 /** Builds the link that shows a rich preview card in WhatsApp and other apps, then opens the page. */
+const SHARE = 'https://finlit-share.finlitzambia.workers.dev';
+
 export function shareLink(kind: 'blog' | 'team', key: string) {
-  return `${SITE}/${kind}/${encodeURIComponent(key)}`;
+  return `${SHARE}/${kind}/${encodeURIComponent(key)}`;
 }
 
 function WhatsAppIcon({ className }: { className?: string }) {
