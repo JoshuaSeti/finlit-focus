@@ -10,7 +10,7 @@ const features = [
 ];
 
 const Wave = ({ className, d }: { className: string; d: string }) => (
-  <motion.path d={d} className={className} fill="none" strokeLinecap="round"
+  <motion.path d={d} className={className} fill="none" strokeWidth={6} strokeLinecap="round"
     initial={{ pathLength: 0 }} whileInView={{ pathLength: 1 }} viewport={{ once: true }}
     transition={{ duration: 2.2, ease: 'easeInOut' }} />
 );
@@ -24,7 +24,6 @@ export function WhatsNewSection() {
         <Wave className="stroke-primary/40" d="M-50 560 C 280 470, 500 680, 780 560 S 1280 450, 1500 600" />
         <Wave className="stroke-green-700/20" d="M-50 720 C 340 640, 600 800, 900 700 S 1300 640, 1500 740" />
       </svg>
-      <style>{`section svg path{stroke-width:6}`}</style>
 
       {[...Array(14)].map((_, i) => (
         <motion.span key={i} aria-hidden
@@ -36,7 +35,7 @@ export function WhatsNewSection() {
 
       <div className="container relative mx-auto px-4">
         <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} className="mx-auto max-w-2xl text-center">
-          <span className="inline-flex items-center gap-2 rounded-full border border-primary/40 bg-card px-4 py-1.5 text-sm font-semibold text-green-700 shadow-glow">
+          <span className="inline-flex items-center gap-2 rounded-full border border-primary/40 bg-card px-4 py-1.5 text-sm font-semibold text-green-700">
             <PartyPopper className="h-4 w-4" /> It’s finally here
           </span>
           <h2 className="mt-5 text-4xl font-bold leading-tight text-foreground md:text-6xl">
@@ -52,7 +51,7 @@ export function WhatsNewSection() {
             <motion.div key={f.title} initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }}
               transition={{ delay: i * 0.12 }} whileHover={{ y: -6 }}
               className="group relative rounded-2xl border border-border bg-card/90 p-6 shadow-lg backdrop-blur">
-              <div className="flex h-12 w-12 items-center justify-center rounded-xl text-primary-foreground shadow-glow" style={{ background: 'var(--gradient-primary)' }}>
+              <div className="flex h-12 w-12 items-center justify-center rounded-xl text-primary-foreground" style={{ background: 'var(--gradient-primary)' }}>
                 <f.icon className="h-6 w-6" />
               </div>
               <Sparkles className="absolute right-5 top-5 h-5 w-5 text-primary opacity-60 transition group-hover:rotate-12 group-hover:opacity-100" />
