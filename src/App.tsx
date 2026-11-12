@@ -8,6 +8,7 @@ import { ScrollToTop } from "@/components/layout/ScrollToTop";
 import { Analytics } from "@vercel/analytics/react";
 import Index from "./pages/Index";
 import About from "./pages/About";
+import MemberWorld from "./pages/MemberWorld";
 import ResourcesAndBlog from "./pages/ResourcesAndBlog";
 import BlogPost from "./pages/BlogPost";
 import Programs from "./pages/Programs";
@@ -64,6 +65,7 @@ const App = () => (
             {/* Public Routes */}
             <Route path="/" element={<Index />} />
             <Route path="/about" element={<About />} />
+            <Route path="/team/:slug" element={<MemberWorld />} />
             <Route path="/resources-blog" element={<ResourcesAndBlog />} />
             <Route path="/blog/:id" element={<BlogPost />} />
             <Route path="/programs" element={<Programs />} />

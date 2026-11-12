@@ -1,6 +1,6 @@
 import { Layout } from '@/components/layout/Layout';
 import { WhoWeAreCarousel } from '@/components/home/WhoWeAreCarousel';
-import { OurPeopleSection } from '@/components/home/OurPeopleSection';
+import { MeetTheTeam } from '@/components/team/MeetTheTeam';
 import { MissionSection } from '@/components/home/MissionSection';
 import { motion } from 'framer-motion';
 
@@ -29,7 +29,7 @@ const About = () => {
 
       <WhoWeAreCarousel />
       <MissionSection />
-      <OurPeopleSection />
+      <MeetTheTeam />
     </Layout>
   );
 };

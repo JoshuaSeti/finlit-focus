@@ -12,7 +12,7 @@ import { Switch } from "@/components/ui/switch";
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle } from "@/components/ui/alert-dialog";
 import { MemberPhoto } from "@/components/team/MemberPhoto";
-import { slugify, toMember, type Member } from "@/lib/team";
+import { slugify, toMember, type Member, type TeamRow } from "@/lib/team";
 import { emptyExtras, extrasFromMember, extrasProblems, extrasToRow, type MemberExtras } from "@/lib/team.extras";
 import { MemberExtrasFields } from "@/components/admin/MemberExtrasFields";
 
@@ -259,10 +259,10 @@ function MemberForm({ form, setForm, onSave, saving }: { form: Form; setForm: (f
   };
 
   const preview = toMember({
-    id: "preview", slug: form.slug, name: form.name || "New Member", role: form.role, photo_url: form.photo_url || null,
+    id: "preview", slug: form.slug, full_name: form.name || "New Member", role: form.role, image_url: form.photo_url || null,
     accent: form.accent, accent_ink: form.accent_ink, tagline: "", location: "", story: [], aspiration_quote: "", goals: [],
     interests: [], facts: [], dots: [], secret: "", is_active: true, created_at: "", updated_at: "",
-  });
+  } as unknown as TeamRow);
 
   const field = (k: keyof Form, label: string, hint?: string, area?: number) => (
     <div className="space-y-1.5">
