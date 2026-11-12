@@ -1,4 +1,5 @@
-import { describe, expect, it } from "vitest";
+// @ts-expect-error bun test runtime module
+import { describe, expect, it } from "bun:test";
 import { shuffle } from "./team";
 
 describe("team card order", () => {
