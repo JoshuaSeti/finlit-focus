@@ -14,10 +14,17 @@ const ModulePlayer = () => {
   const [error, setError] = useState('');
   const userRef = useRef(user);
   userRef.current = user;
+  const userId = user?.id ?? null;
+  const loadedKey = useRef('');
 
   // Load module, restore saved progress, build the page.
+  // Runs once per slug+sign-in state — background auth events (e.g. the
+  // simulator iframe refreshing its token) must NOT reload the lesson.
   useEffect(() => {
     if (isLoading) return;
+    const key = `${slug}:${userId ?? 'guest'}`;
+    if (loadedKey.current === key) return;
+    loadedKey.current = key;
     (async () => {
       setError('');
       const { data: m } = await supabase.from('learning_modules').select('*').eq('slug', slug).maybeSingle();
@@ -38,7 +45,7 @@ const ModulePlayer = () => {
         setError(e.message || 'Could not load this lesson.');
       }
     })();
-  }, [slug, user, isLoading]);
+  }, [slug, userId, isLoading]);
 
   // Messages from the module.
   useEffect(() => {
