@@ -2,11 +2,11 @@ import { useState } from 'react';
 import { Check, Link2, Share2 } from 'lucide-react';
 import { toast } from 'sonner';
 
-const FN = `https://${import.meta.env.VITE_SUPABASE_PROJECT_ID}.supabase.co/functions/v1/share`;
+const SITE = 'https://finlit-empower-hub.lovable.app';
 
 /** Builds the link that shows a rich preview card in WhatsApp and other apps, then opens the page. */
 export function shareLink(kind: 'blog' | 'team', key: string) {
-  return kind === 'blog' ? `${FN}?t=blog&id=${encodeURIComponent(key)}` : `${FN}?t=team&slug=${encodeURIComponent(key)}`;
+  return `${SITE}/${kind}/${encodeURIComponent(key)}`;
 }
 
 function WhatsAppIcon({ className }: { className?: string }) {
