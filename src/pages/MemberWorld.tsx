@@ -1,6 +1,6 @@
 import { useEffect, useRef } from "react";
-import { createFileRoute, Link, notFound } from "@tanstack/react-router";
-import { useSuspenseQuery } from "@tanstack/react-query";
+import { Link, useParams } from "react-router-dom";
+import { useQuery } from "@tanstack/react-query";
 import { animate, motion, useMotionValue, useReducedMotion, useScroll, useTransform } from "framer-motion";
 import { ArrowLeft, MapPin } from "lucide-react";
 import { firstName, splitName } from "@/lib/team";
@@ -11,39 +11,6 @@ import { VisitorWall } from "@/components/team/VisitorWall";
 import { MemberGallery } from "@/components/team/MemberGallery";
 import { SpotifyTracks } from "@/components/team/SpotifyTracks";
 import { Aspiration, ConnectTheDots, FactThreads, Interests, ScrollRevealParagraph, SectionLabel, ThisOrThat } from "@/components/team/WorldSections";
-
-export const Route = createFileRoute("/team/$slug")({
-  loader: async ({ params, context }) => {
-    const [member] = await Promise.all([
-      context.queryClient.ensureQueryData(memberQuery(params.slug)),
-      context.queryClient.ensureQueryData(teamQuery()),
-    ]);
-    if (!member) throw notFound();
-    return { name: member.name, role: member.role, tagline: member.tagline };
-  },
-  head: ({ loaderData }) => {
-    const name = loaderData?.name ?? "Team member";
-    const desc = loaderData ? `${loaderData.role} at FinLit. ${loaderData.tagline}` : "Meet the FinLit team.";
-    return {
-      meta: [
-        { title: `${name} — FinLit team` },
-        { name: "description", content: desc },
-        { property: "og:title", content: `${name} — FinLit team` },
-        { property: "og:description", content: desc },
-        { property: "og:type", content: "profile" },
-        { name: "twitter:card", content: "summary_large_image" },
-      ],
-    };
-  },
-  component: MemberWorld,
-  notFoundComponent: () => (
-    <div className="flex min-h-screen flex-col items-center justify-center gap-4">
-      <p className="text-lg">This team member isn't here.</p>
-      <Link to="/" className="rounded-full bg-foreground px-5 py-2 text-sm text-background">Back to About</Link>
-    </div>
-  ),
-  errorComponent: ({ error }) => <div className="p-10 text-center">Couldn't load this profile: {error instanceof Error ? error.message : "Unknown error"}</div>,
-});
 
 const EASE = [0.32, 0.72, 0, 1] as [number, number, number, number];
 
@@ -79,10 +46,13 @@ div.world-type{font-family:-apple-system,BlinkMacSystemFont,"SF Pro Display","SF
 .world-type h2{line-height:1.04}
 `;
 
-function MemberWorld() {
-  const { slug } = Route.useParams();
-  const { data } = useSuspenseQuery(memberQuery(slug));
-  const { data: team } = useSuspenseQuery(teamQuery());
+export default function MemberWorld() {
+  const { slug = "" } = useParams();
+  const { data, isLoading } = useQuery(memberQuery(slug));
+  const { data: team = [] } = useQuery(teamQuery());
+  useEffect(() => {
+    if (data) document.title = `${data.name} — FinLit team`;
+  }, [data]);
   const reduce = useReducedMotion();
 
   // The opening scene reacts to scrolling: the name splits apart, the photo drifts and shrinks,
@@ -110,7 +80,13 @@ function MemberWorld() {
   const metaY = useTransform(p, [0, 0.5], [0, -50]);
   const hintOpacity = useTransform(p, [0, 0.12], [1, 0]);
 
-  if (!data) return null;
+  if (isLoading) return <div className="flex min-h-screen items-center justify-center"><div className="h-10 w-10 animate-spin rounded-full border-b-2 border-primary" /></div>;
+  if (!data) return (
+    <div className="flex min-h-screen flex-col items-center justify-center gap-4">
+      <p className="text-lg">This team member isn't here.</p>
+      <Link to="/about" className="rounded-full bg-foreground px-5 py-2 text-sm text-background">Back to About</Link>
+    </div>
+  );
   const member = data;
   const idx = team.findIndex((m) => m.slug === member.slug);
   const nameParts = splitName(member.name, member.role);
@@ -126,7 +102,7 @@ function MemberWorld() {
     <div style={{ ["--member" as string]: member.accent }} className="world-type bg-background font-apple text-foreground">
       <style>{WORLD_TYPE_CSS}</style>
       <section ref={heroRef} className="relative flex min-h-[100svh] flex-col overflow-hidden" style={{ background: member.accent, color: member.accentInk }}>
-        <Link to="/" className="absolute left-6 top-[max(1.5rem,env(safe-area-inset-top,0px))] z-20 inline-flex items-center gap-2 rounded-full bg-background/15 px-4 py-2 text-sm font-medium backdrop-blur-xl">
+        <Link to="/about" className="absolute left-6 top-[max(1.5rem,env(safe-area-inset-top,0px))] z-20 inline-flex items-center gap-2 rounded-full bg-background/15 px-4 py-2 text-sm font-medium backdrop-blur-xl">
           <ArrowLeft className="h-4 w-4" /> About
         </Link>
         <div className="flex flex-1 flex-col items-center justify-center px-4 pb-6 pt-[calc(6rem+env(safe-area-inset-top,0px))]">
@@ -204,9 +180,9 @@ function MemberWorld() {
       <section className="px-6 py-20 text-center md:py-32">
         <p className="text-muted-foreground">Thanks for visiting {firstName(member.name)}'s world.</p>
         <div className="mt-6 flex flex-wrap justify-center gap-3">
-          <Link to="/" className="rounded-full bg-foreground px-6 py-3 text-sm font-medium text-background">Back to the team</Link>
+          <Link to="/about" className="rounded-full bg-foreground px-6 py-3 text-sm font-medium text-background">Back to the team</Link>
           {next && (
-            <Link to="/team/$slug" params={{ slug: next.slug }} className="rounded-full border border-border px-6 py-3 text-sm font-medium">
+            <Link to={`/team/${next.slug}`} className="rounded-full border border-border px-6 py-3 text-sm font-medium">
               Next: {next.name} →
             </Link>
           )}

@@ -93,10 +93,10 @@ export function toMember(r: TeamRow): Member {
     : [];
   return {
     id: r.id,
-    slug: r.slug,
-    name: r.name,
+    slug: r.slug ?? r.id,
+    name: r.full_name,
     role: r.role,
-    photo: r.photo_url,
+    photo: r.image_url,
     accent: r.accent,
     accentInk: r.accent_ink,
     tagline: r.tagline,
@@ -110,9 +110,9 @@ export function toMember(r: TeamRow): Member {
     // Optional jsonb column `this_or_that`; ignored until it exists in the database.
     thisOrThat: parseDuels((r as Record<string, unknown>)["this_or_that"]),
     // Optional `gallery` (jsonb) and `spotify_tracks` (text[]) columns; empty until they exist.
-    gallery: parseGallery((r as Record<string, unknown>)["gallery"], r.name),
+    gallery: parseGallery((r as Record<string, unknown>)["gallery"], r.full_name),
     spotifyTracks: parseSpotifyTracks((r as Record<string, unknown>)["spotify_tracks"]),
-    isActive: r.is_active,
+    isActive: r.is_active ?? true,
     // `member_group` column ('executive' | 'community'); defaults to executive until it exists.
     group: (r as Record<string, unknown>)["member_group"] === "community" ? "community" : "executive",
   };
