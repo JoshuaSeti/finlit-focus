@@ -42,6 +42,7 @@ const Diagnostic = () => {
         const r = roadmap(next);
         const correct = ORDER.reduce((a, g) => a + next[g].c, 0);
         await supabase.from('placement_results').insert({ user_id: user.id, scores: next as any, start_group: r.start, correct, total: QUESTIONS.length });
+        import('@/lib/streak').then((m) => m.touchStreak());
       }
       setStage('done');
     }, 220);

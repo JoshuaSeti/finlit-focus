@@ -3,6 +3,7 @@ import { Link, useNavigate, useParams } from 'react-router-dom';
 import { ArrowLeft } from 'lucide-react';
 import { supabase } from '@/integrations/supabase/client';
 import { useAuth } from '@/hooks/useAuth';
+import { touchStreak } from '@/lib/streak';
 import Paywall from '@/components/learning/Paywall';
 import { getAccess } from '@/lib/access';
 import { freeSlug } from '@/lib/placement';
@@ -74,6 +75,7 @@ const ModulePlayer = () => {
           completed_at: existing?.completed_at ?? (s.complete ? new Date().toISOString() : null),
         }, { onConflict: 'user_id,module_slug' });
         if (s.complete && !existing?.completed_at) {
+          touchStreak();
           await supabase.from('module_events').insert({ user_id: u.id, module_slug: slug, kind: 'module_complete', payload: { quiz_correct: s.quiz_correct, quiz_total: s.quiz_total } });
           // Tell the character simulator: unlocks Yungsta questions, story scenarios and lesson flags.
           await supabase.rpc('story_fire_lesson' as never, { p_lesson: slug.replace(/^module-/, '') } as never);
