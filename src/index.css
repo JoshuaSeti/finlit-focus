@@ -245,3 +245,16 @@
 .carousel-dot.active {
   @apply w-8 bg-primary;
 }
+
+/* Team worlds (migrated from the team demo) */
+@layer utilities {
+  .shadow-card { box-shadow: 0 30px 60px -20px hsl(var(--foreground) / 0.35); }
+  .font-apple { font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "SF Pro Text", "DM Sans", system-ui, sans-serif; }
+  .glow-dot { animation: glow-dot 1.8s ease-in-out infinite; }
+  .thread-sway { animation: thread-sway 7s ease-in-out infinite; }
+}
+@keyframes glow-dot {
+  0%, 100% { box-shadow: 0 0 0 0 color-mix(in oklab, var(--member, hsl(var(--primary))) 60%, transparent); opacity: 1; }
+  50% { box-shadow: 0 0 0 10px transparent, 0 0 24px 6px color-mix(in oklab, var(--member, hsl(var(--primary))) 40%, transparent); opacity: 0.8; }
+}
+@keyframes thread-sway { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(14px); } }
