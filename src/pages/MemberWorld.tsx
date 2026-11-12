@@ -134,7 +134,7 @@ export default function MemberWorld() {
           <motion.div style={reduce ? undefined : { opacity: metaOpacity, y: metaY }} className="flex flex-col items-center">
             <motion.p initial={{ opacity: 0, y: 20 }} animate={{ opacity: 0.85, y: 0 }} transition={{ delay: 0.3 }} className="mt-10 text-lg font-medium">{member.role}</motion.p>
             <motion.p initial={{ opacity: 0 }} animate={{ opacity: 0.85 }} transition={{ delay: 0.5 }} className="mt-3 max-w-md text-center text-xl">{member.tagline}</motion.p>
-            <motion.p initial={{ opacity: 0 }} animate={{ opacity: 0.7 }} transition={{ delay: 0.6 }} className="mt-4 inline-flex items-center gap-2 text-sm"><MapPin className="h-4 w-4" />{member.location}</motion.p>
+            {member.location && <motion.p initial={{ opacity: 0 }} animate={{ opacity: 0.7 }} transition={{ delay: 0.6 }} className="mt-4 inline-flex items-center gap-2 text-sm"><MapPin className="h-4 w-4" />{member.location}</motion.p>}
           </motion.div>
         </div>
         {/* The bottom of the scene melts into the page colour instead of ending on a hard line. */}
