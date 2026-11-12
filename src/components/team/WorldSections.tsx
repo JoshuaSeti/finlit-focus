@@ -220,7 +220,7 @@ export function ConnectTheDots({ member }: { member: Member }) {
     <div className="mx-auto max-w-5xl px-6">
       <SectionLabel>Connect the dots</SectionLabel>
       <p className="max-w-xl text-lg text-muted-foreground">Tap the glowing dots in order to uncover something about {firstName(member.name)}.</p>
-      <div className="relative mt-10 aspect-[16/10] w-full overflow-hidden rounded-[2rem] border border-border bg-card shadow-card">
+      <div className="relative mt-10 aspect-[4/3] min-h-[320px] w-full md:aspect-[16/10] md:min-h-0 overflow-hidden rounded-[2rem] border border-border bg-card shadow-card">
         <svg viewBox="0 0 160 100" preserveAspectRatio="none" className="absolute inset-0 h-full w-full">
           {dots.slice(0, Math.max(0, count - 1)).map((_, i) => (
             <motion.line
@@ -254,10 +254,10 @@ export function ConnectTheDots({ member }: { member: Member }) {
                 className={`block h-4 w-4 rounded-full bg-[var(--member)] ${next ? "glow-dot" : ""}`}
                 style={{ opacity: active || next ? 1 : 0.35 }}
               />
-              {active && (
+              {active && i === count - 1 && !done && (
                 <motion.span
                   initial={{ opacity: 0, y: 6 }} animate={{ opacity: 1, y: 0 }}
-                  className="absolute left-1/2 top-6 -translate-x-1/2 whitespace-nowrap rounded-full bg-background/90 px-3 py-1 text-xs font-medium shadow-soft"
+                  className={`absolute top-6 z-10 w-max max-w-[160px] whitespace-normal rounded-2xl bg-background/95 px-3 py-1.5 text-center text-xs font-medium leading-snug shadow-soft sm:max-w-[220px] ${pos(i)[0] < 30 ? "left-0 -translate-x-2" : pos(i)[0] > 70 ? "right-0 translate-x-2" : "left-1/2 -translate-x-1/2"}`}
                 >
                   {label}
                 </motion.span>
@@ -268,10 +268,10 @@ export function ConnectTheDots({ member }: { member: Member }) {
         {done && (
           <motion.div
             initial={{ opacity: 0, scale: 0.9 }} animate={{ opacity: 1, scale: 1 }} transition={{ delay: 0.5 }}
-            className="absolute left-1/2 top-1/2 w-[80%] max-w-md -translate-x-1/2 -translate-y-1/2 rounded-3xl bg-background/90 p-6 text-center shadow-card backdrop-blur-xl"
+            className="absolute left-1/2 top-1/2 z-20 w-[85%] max-w-md -translate-x-1/2 -translate-y-1/2 rounded-3xl bg-background/90 p-6 text-center shadow-card backdrop-blur-xl"
           >
             <p className="text-sm font-semibold uppercase tracking-widest text-[var(--member)]">Unlocked</p>
-            <p className="mt-2 text-xl font-semibold">{member.secret}</p>
+            <p className="mt-2 break-words text-lg font-semibold md:text-xl">{member.secret}</p>
             <button onClick={() => setCount(0)} className="mt-4 text-sm text-muted-foreground underline-offset-4 hover:underline">Play again</button>
           </motion.div>
         )}
