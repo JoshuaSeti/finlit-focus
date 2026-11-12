@@ -1365,6 +1365,33 @@ export type Database = {
           },
         ]
       }
+      learner_streaks: {
+        Row: {
+          current_streak: number
+          last_active_date: string | null
+          longest_streak: number
+          updated_at: string
+          user_id: string
+          usual_hour: number | null
+        }
+        Insert: {
+          current_streak?: number
+          last_active_date?: string | null
+          longest_streak?: number
+          updated_at?: string
+          user_id: string
+          usual_hour?: number | null
+        }
+        Update: {
+          current_streak?: number
+          last_active_date?: string | null
+          longest_streak?: number
+          updated_at?: string
+          user_id?: string
+          usual_hour?: number | null
+        }
+        Relationships: []
+      }
       learning_modules: {
         Row: {
           category: string
@@ -3231,6 +3258,7 @@ export type Database = {
         Args: { choices: Json; ctx?: Json; p: string }
         Returns: Json
       }
+      streak_touch: { Args: { p_hour?: number }; Returns: Json }
       stress_band: { Args: { s: number }; Returns: string }
       stress_board: { Args: never; Returns: Json }
       stress_calm_enough: { Args: { p: string }; Returns: boolean }
