@@ -3,22 +3,11 @@ import { Download, Share, Bell } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { enablePush, syncPush } from '@/lib/push';
 
-type BIP = Event & { prompt: () => Promise<void>; userChoice: Promise<{ outcome: string }> };
-const isStandalone = () => window.matchMedia('(display-mode: standalone)').matches || (navigator as unknown as { standalone?: boolean }).standalone === true;
-const isIOS = () => /iphone|ipad|ipod/i.test(navigator.userAgent);
+import { useInstall, isIOS } from '@/lib/pwa';
 
 export function InstallPrompt() {
-  const [evt, setEvt] = useState<BIP | null>(null);
-  const [installed, setInstalled] = useState(isStandalone());
+  const { evt, installed, install } = useInstall();
   const [notif, setNotif] = useState(typeof Notification !== 'undefined' ? Notification.permission : 'denied');
-
-  useEffect(() => {
-    const h = (e: Event) => { e.preventDefault(); setEvt(e as BIP); };
-    const done = () => setInstalled(true);
-    window.addEventListener('beforeinstallprompt', h);
-    window.addEventListener('appinstalled', done);
-    return () => { window.removeEventListener('beforeinstallprompt', h); window.removeEventListener('appinstalled', done); };
-  }, []);
 
   // While the app is open, remind at the learner's usual hour if they haven't studied today.
   useEffect(() => {
@@ -44,7 +33,7 @@ export function InstallPrompt() {
           <div className="font-semibold text-foreground">Get the FinLit app</div>
           <p className="text-sm text-muted-foreground mt-1">Install it on your phone for faster lessons and one-tap access every day.</p>
           {evt ? (
-            <Button size="sm" className="mt-3" onClick={async () => { await evt.prompt(); const c = await evt.userChoice; if (c.outcome === 'accepted') setInstalled(true); setEvt(null); }}>
+            <Button size="sm" className="mt-3" onClick={install}>
               <Download className="w-4 h-4 mr-1" />Install app
             </Button>
           ) : isIOS() ? (

@@ -11,6 +11,11 @@
     <meta name="theme-color" content="#047857" />
     <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
     <meta name="apple-mobile-web-app-capable" content="yes" />
+    <script>
+      // Catch Chrome's install offer before the app loads so it's never missed.
+      window.addEventListener('beforeinstallprompt', function (e) { e.preventDefault(); window.__bip = e; window.dispatchEvent(new Event('finlit-bip')); });
+      window.addEventListener('appinstalled', function () { window.__bip = null; window.dispatchEvent(new Event('finlit-bip')); });
+    </script>
 
     <meta property="og:title" content="FinLit - Learn it. Earn it. Lead it." />
     <meta property="og:description" content="FinLit - Financial literacy education for the next generation. Learn it. Earn it. Lead it." />
