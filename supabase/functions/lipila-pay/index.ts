@@ -46,12 +46,22 @@ Deno.serve(async (req) => {
       },
       body: JSON.stringify({
         referenceId, amount: PRICE_ZMW, narration: 'FinLit full lesson access',
-        accountNumber: phone, currency: 'ZMW', email: user.email ?? undefined,
+        accountNumber: phone, currency: 'ZMW', email: user.email ?? '', referenceData: 'finlit-access',
       }),
     });
-    const out = await res.json().catch(() => ({}));
+    const text = await res.text();
+    let out: unknown = {};
+    try { out = JSON.parse(text); } catch { out = { text }; }
+    // Lipila sometimes times out waiting on the mobile network even though the
+    // prompt still reaches the phone. Keep it pending; status checks settle it.
+    const slow = res.status >= 500 || /did not arrive on time|timeout/i.test(text);
+    if (!res.ok && slow) {
+      console.warn('lipila slow start, keeping pending', res.status, text.slice(0, 300));
+      await db.from('lipila_payments').update({ raw: out }).eq('reference_id', referenceId);
+      return json({ referenceId, status: 'pending' });
+    }
     if (!res.ok) {
-      console.error('lipila start failed', res.status, out);
+      console.error('lipila start failed', res.status, lipilaBase(), text.slice(0, 500));
       await db.from('lipila_payments').update({ status: 'failed', raw: out }).eq('reference_id', referenceId);
       return json({ error: 'The payment could not be started. Please try again.' }, 502);
     }
