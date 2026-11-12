@@ -4,6 +4,8 @@ import { ArrowLeft } from 'lucide-react';
 import { supabase } from '@/integrations/supabase/client';
 import { useAuth } from '@/hooks/useAuth';
 import Paywall from '@/components/learning/Paywall';
+import { getAccess } from '@/lib/access';
+import { freeSlug } from '@/lib/placement';
 import { LearningModule, loadModuleHtml, prepareModuleHtml, progressKey, shareSessionWithSimulator, summarize } from '@/lib/modules';
 
 const ModulePlayer = () => {
@@ -32,12 +34,9 @@ const ModulePlayer = () => {
       const { data: m } = await supabase.from('learning_modules').select('*').eq('slug', slug).maybeSingle();
       if (!m) { setError('This lesson could not be found.'); return; }
       setTitle((m as LearningModule).title);
-      // First lesson is a free sample; the rest need the K20 unlock.
-      const { data: first } = await supabase.from('learning_modules').select('slug').eq('is_published', true).order('sort_order').limit(1).maybeSingle();
-      if (first?.slug !== slug) {
-        const { data: access } = user ? await supabase.from('lesson_access').select('user_id').eq('user_id', user.id).maybeSingle() : { data: null };
-        if (!access) { setLocked(true); return; }
-      }
+      // Only the learner's recommended starting lesson is free; the rest need the K20 unlock.
+      const acc = await getAccess(user?.id ?? null);
+      if (!acc.paid && slug !== freeSlug(acc.scores)) { setLocked(true); return; }
       setLocked(false);
       if (user) {
         await shareSessionWithSimulator();
