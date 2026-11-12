@@ -120,6 +120,13 @@
       "when": 1794449364838,
       "tag": "0016_admins_manage_team",
       "breakpoints": true
+    },
+    {
+      "idx": 17,
+      "version": "7",
+      "when": 1794512250021,
+      "tag": "0017_tighten_contact_modules_teamphotos",
+      "breakpoints": true
     }
   ]
 }
