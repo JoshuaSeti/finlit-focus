@@ -9,6 +9,8 @@ import { supabase } from '@/integrations/supabase/client';
 import { useAuth } from '@/hooks/useAuth';
 import { LearningModule } from '@/lib/modules';
 import { YungstaCompanion } from '@/components/learning/YungstaCompanion';
+import { CoinStreak } from '@/components/learning/CoinStreak';
+import { InstallPrompt } from '@/components/learning/InstallPrompt';
 
 type Prog = { module_slug: string; sections_done: number; sections_total: number; completed_at: string | null };
 type Tag = 'Start here' | 'Learn next' | 'Review' | null;
@@ -176,6 +178,8 @@ const ModulesList = () => {
           )}
         </div>
         <div className="lg:sticky lg:top-24 h-fit order-first lg:order-none">
+          <CoinStreak signedIn={!!user} />
+          <InstallPrompt />
           <YungstaCompanion signedIn={!!user} />
         </div>
       </section>
