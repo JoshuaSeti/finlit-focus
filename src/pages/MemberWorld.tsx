@@ -170,7 +170,9 @@ export default function MemberWorld() {
       )}
       <section className="py-16 md:py-24"><FactThreads member={member} /></section>
       <section className="py-16 md:py-24"><ThisOrThat member={member} /></section>
-      <section className="py-16 md:py-24"><ConnectTheDots member={member} /></section>
+      {member.dots.length > 0 && (
+        <section className="py-16 md:py-24"><ConnectTheDots member={member} /></section>
+      )}
       {member.spotifyTracks.length > 0 && (
         <section className="py-16 md:py-24"><SpotifyTracks member={member} /></section>
       )}
