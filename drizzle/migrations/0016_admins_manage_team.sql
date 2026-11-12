@@ -1,0 +1,13 @@
+DROP POLICY IF EXISTS "Super admins can delete team members" ON public.team_members;
+DROP POLICY IF EXISTS "Super admins can insert team members" ON public.team_members;
+DROP POLICY IF EXISTS "Super admins can update team members" ON public.team_members;
+CREATE POLICY "Admins can delete team members" ON public.team_members FOR DELETE TO authenticated USING (private.is_admin(auth.uid()));
+CREATE POLICY "Admins can insert team members" ON public.team_members FOR INSERT TO authenticated WITH CHECK (private.is_admin(auth.uid()));
+CREATE POLICY "Admins can update team members" ON public.team_members FOR UPDATE TO authenticated USING (private.is_admin(auth.uid())) WITH CHECK (private.is_admin(auth.uid()));
+CREATE POLICY "Admins can view all team members" ON public.team_members FOR SELECT TO authenticated USING (private.is_admin(auth.uid()));
+DROP POLICY IF EXISTS "Super admins delete team photos" ON storage.objects;
+DROP POLICY IF EXISTS "Super admins update team photos" ON storage.objects;
+DROP POLICY IF EXISTS "Super admins upload team photos" ON storage.objects;
+CREATE POLICY "Admins delete team photos" ON storage.objects FOR DELETE TO authenticated USING (bucket_id = 'team-photos' AND private.is_admin(auth.uid()));
+CREATE POLICY "Admins update team photos" ON storage.objects FOR UPDATE TO authenticated USING (bucket_id = 'team-photos' AND private.is_admin(auth.uid()));
+CREATE POLICY "Admins upload team photos" ON storage.objects FOR INSERT TO authenticated WITH CHECK (bucket_id = 'team-photos' AND private.is_admin(auth.uid()));
