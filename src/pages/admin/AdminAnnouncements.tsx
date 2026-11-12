@@ -24,7 +24,7 @@ const emptyForm = { message: '', link_url: '', link_label: '', is_active: true }
 
 const AdminAnnouncements = () => {
   const { toast } = useToast();
-  const { isSuperAdmin } = useAuth();
+  const { isAdmin: isSuperAdmin } = useAuth();
   const [items, setItems] = useState<Announcement[]>([]);
   const [loading, setLoading] = useState(true);
   const [dialogOpen, setDialogOpen] = useState(false);
@@ -105,7 +105,7 @@ const AdminAnnouncements = () => {
   if (!isSuperAdmin) {
     return (
       <div className="text-center py-16">
-        <p className="text-muted-foreground">Only super admins can manage announcements.</p>
+        <p className="text-muted-foreground">Only admins can manage announcements.</p>
       </div>
     );
   }
