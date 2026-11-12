@@ -41,6 +41,21 @@
     document.addEventListener('click', function () { setTimeout(check, 50); setTimeout(check, 300); });
   })();
 
+  // Completion card "Practice with your yungsta": dismiss the card and start
+  // practice directly, instead of the module's hash jump that only scrolled.
+  document.addEventListener('click', function (e) {
+    var b = e.target && e.target.closest ? e.target.closest('#fin-sim') : null;
+    if (!b) return;
+    e.preventDefault();
+    e.stopPropagation();
+    var done = document.getElementById('fin-done');
+    if (done) done.classList.remove('on');
+    var sec = document.getElementById('fl-practice');
+    if (sec) sec.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    var go = document.getElementById('fl-practice-go');
+    if (go) setTimeout(function () { go.click(); }, 350);
+  }, true);
+
   // Hash links: the page uses <base>, so keep "#section" links inside this page.
   document.addEventListener('click', function (e) {
     var a = e.target && e.target.closest ? e.target.closest('a[href]') : null;
