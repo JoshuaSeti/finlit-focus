@@ -127,6 +127,13 @@
       "when": 1794512250021,
       "tag": "0017_tighten_contact_modules_teamphotos",
       "breakpoints": true
+    },
+    {
+      "idx": 18,
+      "version": "7",
+      "when": 1794513615564,
+      "tag": "0018_bind_module_file_reads",
+      "breakpoints": true
     }
   ]
 }
