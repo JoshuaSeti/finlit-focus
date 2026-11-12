@@ -102,10 +102,10 @@ const ModulesList = () => {
               <p className="text-muted-foreground mt-2">{done} of {total} lessons finished{scores ? ' · ordered from your placement test' : ''}</p>
               <div className="flex flex-wrap gap-2 mt-5">
                 {nextMod && (
-                  <Link to={`/modules/${nextMod.slug}`}><Button size="lg"><Play className="w-4 h-4 mr-2" />Continue: {nextMod.title}</Button></Link>
+                  <Link to={`/modules/${nextMod.slug}`} className="w-full sm:w-auto max-w-full"><Button size="lg" className="w-full sm:w-auto max-w-full h-auto min-h-11 py-3 whitespace-normal text-left justify-start"><Play className="w-4 h-4 mr-2 shrink-0" /><span className="min-w-0 break-words">Continue: {nextMod.title}</span></Button></Link>
                 )}
-                <Link to="/diagnostic"><Button size="lg" variant="outline"><Compass className="w-4 h-4 mr-2" />{scores ? 'Retake placement' : 'Placement test'}</Button></Link>
-                {!user && <Link to="/login"><Button size="lg" variant="outline">Sign in to save progress</Button></Link>}
+                <Link to="/diagnostic" className="w-full sm:w-auto"><Button size="lg" variant="outline" className="w-full sm:w-auto"><Compass className="w-4 h-4 mr-2" />{scores ? 'Retake placement' : 'Placement test'}</Button></Link>
+                {!user && <Link to="/login" className="w-full sm:w-auto"><Button size="lg" variant="outline" className="w-full sm:w-auto">Sign in to save progress</Button></Link>}
               </div>
             </div>
           </div>
