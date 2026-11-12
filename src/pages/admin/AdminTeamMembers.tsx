@@ -91,7 +91,7 @@ function parseInterests(s: string) {
 
 export default function AdminTeamMembers() {
   const qc = useQueryClient();
-  const { isSuperAdmin } = useAuth();
+  const { isAdmin: isSuperAdmin } = useAuth();
   const [editing, setEditing] = useState<Form | null>(null);
   const [deleting, setDeleting] = useState<Member | null>(null);
 
@@ -157,7 +157,7 @@ export default function AdminTeamMembers() {
       <div className="flex flex-col items-center justify-center py-20">
         <AlertTriangle className="mb-4 h-16 w-16 text-destructive" />
         <h2 className="mb-2 text-2xl font-bold">Access Denied</h2>
-        <p className="text-muted-foreground">Only super admins can manage team members.</p>
+        <p className="text-muted-foreground">Only admins can manage team members.</p>
       </div>
     );
   }

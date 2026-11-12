@@ -113,6 +113,13 @@
       "when": 1794448262306,
       "tag": "0015_team_photos_storage",
       "breakpoints": true
+    },
+    {
+      "idx": 16,
+      "version": "7",
+      "when": 1794449364838,
+      "tag": "0016_admins_manage_team",
+      "breakpoints": true
     }
   ]
 }

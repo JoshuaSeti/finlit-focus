@@ -43,7 +43,7 @@ const emptyForm = {
 
 const AdminPrograms = () => {
   const { toast } = useToast();
-  const { isSuperAdmin } = useAuth();
+  const { isAdmin: isSuperAdmin } = useAuth();
   const [programs, setPrograms] = useState<Program[]>([]);
   const [loading, setLoading] = useState(true);
   const [dialogOpen, setDialogOpen] = useState(false);
@@ -140,7 +140,7 @@ const AdminPrograms = () => {
   if (!isSuperAdmin) {
     return (
       <div className="text-center py-16">
-        <p className="text-muted-foreground">Only super admins can manage programs.</p>
+        <p className="text-muted-foreground">Only admins can manage programs.</p>
       </div>
     );
   }

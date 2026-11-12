@@ -36,13 +36,13 @@ const navItems = [
 
 const learningItems = [
   { name: 'Modules', href: '/admin/modules', icon: GraduationCap },
+  { name: 'Programs', href: '/admin/programs', icon: GraduationCap },
+  { name: 'Announcement Bar', href: '/admin/announcements', icon: Megaphone },
+  { name: 'Team Members', href: '/admin/team-members', icon: UsersRound },
 ];
 
 const superAdminItems = [
-  { name: 'Programs', href: '/admin/programs', icon: GraduationCap },
-  { name: 'Announcement Bar', href: '/admin/announcements', icon: Megaphone },
   { name: 'Admin Accounts', href: '/admin/admins', icon: Shield },
-  { name: 'Team Members', href: '/admin/team-members', icon: UsersRound },
 ];
 
 export function AdminLayout() {
