@@ -13,7 +13,7 @@ export function Layout({ children }: LayoutProps) {
       <Header />
       <main
         className="flex-1"
-        style={{ paddingTop: 'calc(4rem + var(--announcement-h, 0px))' }}
+        style={{ paddingTop: 'calc(5rem + var(--announcement-h, 0px))' }}
       >
         {children}
       </main>
