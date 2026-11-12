@@ -15,7 +15,7 @@ const Wave = ({ className, d }: { className: string; d: string }) => (
     transition={{ duration: 2.2, ease: 'easeInOut' }} />
 );
 
-export function WhatsNewSection() {
+export function WhatsNewSection({ onEnter }: { onEnter?: () => void }) {
   return (
     <section className="relative overflow-hidden py-20 md:py-28" style={{ background: 'var(--gradient-hero)' }}>
       <svg className="pointer-events-none absolute inset-0 h-full w-full" viewBox="0 0 1440 800" preserveAspectRatio="none" aria-hidden>
@@ -63,6 +63,13 @@ export function WhatsNewSection() {
             </motion.div>
           ))}
         </div>
+        {onEnter && (
+          <div className="mt-10 text-center">
+            <button onClick={onEnter} className="inline-flex items-center gap-2 rounded-full px-8 py-3 text-lg font-semibold text-primary-foreground shadow-lg transition hover:scale-105" style={{ background: 'var(--gradient-primary)' }}>
+              Explore FinLit <ArrowRight className="h-5 w-5" />
+            </button>
+          </div>
+        )}
       </div>
     </section>
   );
