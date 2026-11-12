@@ -5,6 +5,7 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import { AuthProvider } from "@/hooks/useAuth";
 import { ScrollToTop } from "@/components/layout/ScrollToTop";
+import { GlobalInstallBanner } from "@/components/layout/GlobalInstallBanner";
 import { Analytics } from "@vercel/analytics/react";
 import Index from "./pages/Index";
 import About from "./pages/About";
@@ -61,6 +62,7 @@ const App = () => (
         <Analytics />
         <BrowserRouter>
           <ScrollToTop />
+          <GlobalInstallBanner />
           <Routes>
             {/* Public Routes */}
             <Route path="/" element={<Index />} />
