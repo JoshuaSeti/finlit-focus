@@ -1,8 +1,8 @@
 import { useEffect, useMemo, useState } from 'react';
 import { Link, useNavigate, useSearchParams } from 'react-router-dom';
 import { motion } from 'framer-motion';
-import { Compass, Check, Play, Flag, Trophy, BookOpen } from 'lucide-react';
-import { GROUPS, roadmap, loadLocal, saveLocal, type Scores, type GroupId } from '@/lib/placement';
+import { Compass, Check, Play, Flag, Trophy, BookOpen, Lock } from 'lucide-react';
+import { GROUPS, roadmap, freeSlug, loadLocal, saveLocal, type Scores, type GroupId } from '@/lib/placement';
 import { Layout } from '@/components/layout/Layout';
 import { Button } from '@/components/ui/button';
 import { supabase } from '@/integrations/supabase/client';
@@ -19,6 +19,7 @@ const ModulesList = () => {
   const [mods, setMods] = useState<LearningModule[]>([]);
   const [prog, setProg] = useState<Record<string, Prog>>({});
   const [loading, setLoading] = useState(true);
+  const [paid, setPaid] = useState(false);
   const [scores, setScores] = useState<Scores | null>(() => loadLocal()?.scores ?? null);
   const navigate = useNavigate();
   const [params] = useSearchParams();
@@ -32,6 +33,8 @@ const ModulesList = () => {
         const map: Record<string, Prog> = {};
         (p || []).forEach((r: any) => (map[r.module_slug] = r));
         setProg(map);
+        const { data: acc } = await supabase.from('lesson_access').select('user_id').eq('user_id', user.id).maybeSingle();
+        setPaid(!!acc);
         const { data: pr } = await supabase.from('placement_results').select('scores,created_at').eq('user_id', user.id).order('created_at', { ascending: false }).limit(1);
         if (pr && pr[0]) { const sc = pr[0].scores as unknown as Scores; setScores(sc); saveLocal({ scores: sc, ts: Date.parse(pr[0].created_at) }); }
         else if (!loadLocal() && !params.get('skip')) { navigate('/diagnostic', { replace: true }); return; }
@@ -66,6 +69,8 @@ const ModulesList = () => {
     return null;
   }, [groups, prog]);
 
+  const free = freeSlug(scores);
+  const isLocked = (slug: string) => !paid && slug !== free;
   const total = mods.length;
   const done = mods.filter((m) => prog[m.slug]?.completed_at).length;
   const pctAll = total ? Math.round((done / total) * 100) : 0;
@@ -104,7 +109,7 @@ const ModulesList = () => {
                 {nextMod && (
                   <Link to={`/modules/${nextMod.slug}`} className="w-full sm:w-auto max-w-full"><Button size="lg" className="w-full sm:w-auto max-w-full h-auto min-h-11 py-3 whitespace-normal text-left justify-start"><Play className="w-4 h-4 mr-2 shrink-0" /><span className="min-w-0 break-words">Continue: {nextMod.title}</span></Button></Link>
                 )}
-                <Link to="/diagnostic" className="w-full sm:w-auto"><Button size="lg" variant="outline" className="w-full sm:w-auto"><Compass className="w-4 h-4 mr-2" />{scores ? 'Retake placement' : 'Placement test'}</Button></Link>
+                <Link to="/diagnostic" className="w-full sm:w-auto"><Button size="lg" variant="outline" className="w-full sm:w-auto">{scores && !paid ? <Lock className="w-4 h-4 mr-2" /> : <Compass className="w-4 h-4 mr-2" />}{scores ? 'Retake placement' : 'Placement test'}</Button></Link>
                 {!user && <Link to="/login" className="w-full sm:w-auto"><Button size="lg" variant="outline" className="w-full sm:w-auto">Sign in to save progress</Button></Link>}
               </div>
             </div>
@@ -153,7 +158,9 @@ const ModulesList = () => {
                                 <div className={`font-semibold ${st === 'done' ? 'text-muted-foreground' : 'text-foreground'}`}>{m.title}</div>
                                 {m.description && <p className="text-sm text-muted-foreground mt-1 line-clamp-2">{m.description}</p>}
                               </div>
-                              {st === 'done' && <span className="text-xs font-medium text-secondary-foreground bg-secondary rounded-full px-2 py-0.5 shrink-0">Done</span>}
+                              {st === 'done' ? <span className="text-xs font-medium text-secondary-foreground bg-secondary rounded-full px-2 py-0.5 shrink-0">Done</span>
+                                : !paid && m.slug === free ? <span className="text-xs font-semibold text-primary-foreground bg-primary rounded-full px-2 py-0.5 shrink-0">Free lesson</span>
+                                : isLocked(m.slug) ? <Lock className="w-4 h-4 text-muted-foreground shrink-0" aria-label="Locked" /> : null}
                             </div>
                             {user && st !== 'done' && pct > 0 && (
                               <div className="h-1.5 rounded-full bg-muted mt-3 overflow-hidden"><div className="h-full bg-primary rounded-full" style={{ width: `${pct}%` }} /></div>

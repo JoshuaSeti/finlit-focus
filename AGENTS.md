@@ -2,4 +2,4 @@
 - The character simulator lives as static pages in public/sim using its own player table (sim_profiles), separate from site profiles — why: keeps the demo simulator code intact.
 - Simulator game rules and content are installed from the demo's SQL scripts; readable copies live in supabase/sim-content/ — why: the large content seed was loaded in one step and isn't spelled out in the migration files.
 - Finishing a lesson calls the simulator's lesson trigger with the module slug minus "module-" (e.g. "1-2") — why: lesson ids in the simulator match the demo's module numbering.
-- Paid access: first published module is free; others require a row in lesson_access, granted only by backend after re-confirming status with Lipila (check-status API) — why: never trust client or callback bodies for payments.
+- Paid access: only the first lesson of the learner's placement starting point is free (first-time placement test is free, retakes are paid); others require a row in lesson_access, granted only by backend after re-confirming status with Lipila (check-status API) — why: never trust client or callback bodies for payments.

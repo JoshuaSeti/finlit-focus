@@ -54,3 +54,15 @@ export function loadLocal(): Placement | null {
 export function saveLocal(p: Placement) {
   try { localStorage.setItem(PLACEMENT_KEY, JSON.stringify({ v: 1, ts: p.ts, phases: p.scores })); } catch { /* ignore */ }
 }
+
+/** The one free lesson: the first lesson of the learner's recommended starting point. */
+export function freeSlug(scores: Scores | null | undefined): string {
+  return scores ? GROUPS[roadmap(scores).start].slug : GROUPS['group-0'].slug;
+}
+
+/** Accepts +260…, 260…, 0…, or 9…/7… with any spaces or dashes. Returns 260XXXXXXXXX or null. */
+export function normalizeZmPhone(input: string): string | null {
+  const d = input.replace(/\D/g, '');
+  const local = d.startsWith('260') ? d.slice(3) : d.startsWith('0') ? d.slice(1) : d;
+  return /^[79]\d{8}$/.test(local) ? `260${local}` : null;
+}

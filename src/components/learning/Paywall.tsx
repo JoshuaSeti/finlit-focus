@@ -4,9 +4,10 @@ import { Lock, Loader2 } from 'lucide-react';
 import { supabase } from '@/integrations/supabase/client';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
+import { normalizeZmPhone } from '@/lib/placement';
 
 /** K20 one-time unlock for the full lesson experience, paid by mobile money via Lipila. */
-const Paywall = ({ signedIn, onUnlocked }: { signedIn: boolean; onUnlocked: () => void }) => {
+const Paywall = ({ signedIn, onUnlocked, title = 'Unlock every lesson', note }: { signedIn: boolean; onUnlocked: () => void; title?: string; note?: string }) => {
   const [phone, setPhone] = useState('');
   const [state, setState] = useState<'idle' | 'starting' | 'waiting' | 'failed'>('idle');
   const [msg, setMsg] = useState('');
@@ -23,8 +24,10 @@ const Paywall = ({ signedIn, onUnlocked }: { signedIn: boolean; onUnlocked: () =
   };
 
   const pay = async () => {
+    const num = normalizeZmPhone(phone);
+    if (!num) { setState('failed'); setMsg('Please enter a valid Airtel, MTN or Zamtel number.'); return; }
     setState('starting'); setMsg('');
-    const { data, error } = await supabase.functions.invoke('lipila-pay', { body: { action: 'start', phone: phone.replace(/\s|\+/g, '') } });
+    const { data, error } = await supabase.functions.invoke('lipila-pay', { body: { action: 'start', phone: num } });
     if (error || !data?.referenceId) {
       setState('failed');
       setMsg(data?.error || 'Please check your number and try again.');
@@ -40,7 +43,8 @@ const Paywall = ({ signedIn, onUnlocked }: { signedIn: boolean; onUnlocked: () =
         <div className="mx-auto w-12 h-12 rounded-full bg-primary/10 flex items-center justify-center">
           <Lock className="w-5 h-5 text-primary" />
         </div>
-        <h2 className="text-xl font-semibold text-foreground">Unlock every lesson</h2>
+        <h2 className="text-xl font-semibold text-foreground">{title}</h2>
+        {note && <p className="text-sm text-muted-foreground">{note}</p>}
         <p className="text-sm text-muted-foreground">
           One payment of <strong className="text-foreground">K20</strong> opens all lessons, your yungsta practice and certificates.
         </p>
@@ -53,8 +57,8 @@ const Paywall = ({ signedIn, onUnlocked }: { signedIn: boolean; onUnlocked: () =
           </div>
         ) : (
           <div className="space-y-3">
-            <Input inputMode="tel" placeholder="Airtel, MTN or Zamtel number e.g. 0971234567" value={phone} onChange={(e) => setPhone(e.target.value)} />
-            <Button className="w-full" onClick={pay} disabled={state === 'starting' || phone.length < 9}>
+            <Input inputMode="tel" placeholder="e.g. 0971234567 or +260971234567" value={phone} onChange={(e) => setPhone(e.target.value)} />
+            <Button className="w-full" onClick={pay} disabled={state === 'starting' || !normalizeZmPhone(phone)}>
               {state === 'starting' ? 'Sending request…' : 'Pay K20 with mobile money'}
             </Button>
           </div>

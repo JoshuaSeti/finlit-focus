@@ -1,4 +1,6 @@
-import { useMemo, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
+import Paywall from '@/components/learning/Paywall';
+import { getAccess } from '@/lib/access';
 import { Link, useNavigate } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { Compass, Clock, HelpCircle, ArrowRight } from 'lucide-react';
@@ -19,7 +21,10 @@ const Diagnostic = () => {
   const [idx, setIdx] = useState(0);
   const [scores, setScores] = useState<Scores>(empty);
   const [picked, setPicked] = useState<number | null>(null);
-  const hadPrev = useMemo(() => !!loadLocal(), []);
+  const [hadPrev, setHadPrev] = useState(() => !!loadLocal());
+  const [paid, setPaid] = useState(false);
+  useEffect(() => { if (stage !== 'intro') return; getAccess(user?.id ?? null).then((a) => { setPaid(a.paid); if (a.scores) setHadPrev(true); }); }, [user?.id]); // eslint-disable-line
+  const retakeLocked = hadPrev && !paid && stage === 'intro';
 
   const q = QUESTIONS[idx];
   const opts = useMemo(() => q ? shuffle(q.o.map((t, i) => ({ t, ok: i === 0 }))) : [], [idx]); // eslint-disable-line
@@ -49,7 +54,13 @@ const Diagnostic = () => {
   return (
     <Layout>
       <section className="container mx-auto px-4 py-12 max-w-xl">
-        {stage === 'intro' && (
+        {retakeLocked && (
+          <div className="flex flex-col">
+            <Paywall signedIn={!!user} title="Retake your placement test" note="Your path is ready. Unlock full access to retake the test and open every lesson." onUnlocked={() => setPaid(true)} />
+            <Link to="/modules" className="text-sm text-center text-muted-foreground underline">Back to my lessons</Link>
+          </div>
+        )}
+        {stage === 'intro' && !retakeLocked && (
           <motion.div initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }} className="text-center">
             <div className="mx-auto w-16 h-16 rounded-2xl bg-primary/10 flex items-center justify-center mb-5"><Compass className="w-8 h-8 text-primary" /></div>
             <h1 className="text-3xl font-bold text-foreground">Find your starting point</h1>
