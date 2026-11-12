@@ -3,6 +3,7 @@ import { Link, useNavigate, useParams } from 'react-router-dom';
 import { ArrowLeft } from 'lucide-react';
 import { supabase } from '@/integrations/supabase/client';
 import { useAuth } from '@/hooks/useAuth';
+import Paywall from '@/components/learning/Paywall';
 import { LearningModule, loadModuleHtml, prepareModuleHtml, progressKey, shareSessionWithSimulator, summarize } from '@/lib/modules';
 
 const ModulePlayer = () => {
@@ -16,6 +17,7 @@ const ModulePlayer = () => {
   userRef.current = user;
   const userId = user?.id ?? null;
   const loadedKey = useRef('');
+  const [locked, setLocked] = useState(false);
 
   // Load module, restore saved progress, build the page.
   // Runs once per slug+sign-in state — background auth events (e.g. the
@@ -30,6 +32,13 @@ const ModulePlayer = () => {
       const { data: m } = await supabase.from('learning_modules').select('*').eq('slug', slug).maybeSingle();
       if (!m) { setError('This lesson could not be found.'); return; }
       setTitle((m as LearningModule).title);
+      // First lesson is a free sample; the rest need the K20 unlock.
+      const { data: first } = await supabase.from('learning_modules').select('slug').eq('is_published', true).order('sort_order').limit(1).maybeSingle();
+      if (first?.slug !== slug) {
+        const { data: access } = user ? await supabase.from('lesson_access').select('user_id').eq('user_id', user.id).maybeSingle() : { data: null };
+        if (!access) { setLocked(true); return; }
+      }
+      setLocked(false);
       if (user) {
         await shareSessionWithSimulator();
         const { data: p } = await supabase.from('module_progress').select('progress').eq('user_id', user.id).eq('module_slug', slug).maybeSingle();
@@ -94,7 +103,9 @@ const ModulePlayer = () => {
           <Link to="/login" className="ml-auto text-sm text-primary font-medium whitespace-nowrap">Sign in to save progress</Link>
         )}
       </div>
-      {error ? (
+      {locked ? (
+        <Paywall signedIn={!!user} onUnlocked={() => { loadedKey.current = ''; setLocked(false); window.location.reload(); }} />
+      ) : error ? (
         <div className="p-8 text-center text-muted-foreground">{error}</div>
       ) : src ? (
         <iframe key={src} src={src} title={title} className="flex-1 w-full border-0" allow="fullscreen; clipboard-write" />
