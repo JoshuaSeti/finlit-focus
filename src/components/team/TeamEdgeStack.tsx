@@ -1,6 +1,6 @@
 import { useEffect, useMemo, useRef, useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
-import { useNavigate } from "@tanstack/react-router";
+import { useNavigate } from "react-router-dom";
 import { X } from "lucide-react";
 import { shuffleWithinGroups, splitByGroup, type Member } from "@/lib/team";
 import { MemberPhoto } from "./MemberPhoto";
@@ -297,7 +297,7 @@ export function TeamEdgeStack({ members }: { members: Member[] }) {
             transition={{ duration: 0.7, ease: [0.32, 0.72, 0, 1] }}
             style={{ background: expanding.member.accent }}
             onAnimationComplete={() =>
-              navigate({ to: "/team/$slug", params: { slug: expanding.member.slug } })
+              navigate(`/team/${expanding.member.slug}`)
             }
           >
             <motion.div className="h-full w-full" animate={{ opacity: 0.25, scale: 1.1 }} transition={{ duration: 0.7 }}>

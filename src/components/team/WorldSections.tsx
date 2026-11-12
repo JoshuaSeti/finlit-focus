@@ -175,7 +175,7 @@ export function ThisOrThat({ member }: { member: Member }) {
                       whileTap={{ scale: 0.96 }}
                       animate={{ scale: picked ? 1.04 : chosen ? 0.96 : 1, opacity: chosen && !picked && !theirs ? 0.45 : 1 }}
                       className="relative flex min-h-40 items-center justify-center rounded-3xl border-2 p-4 text-center text-xl font-semibold md:min-h-52 md:text-2xl"
-                      style={{ borderColor: theirs ? "var(--member)" : "var(--border)", background: picked ? "color-mix(in oklab, var(--member) 14%, transparent)" : undefined }}
+                      style={{ borderColor: theirs ? "var(--member)" : "hsl(var(--border))", background: picked ? "color-mix(in oklab, var(--member) 14%, transparent)" : undefined }}
                     >
                       {duel[side]}
                       {theirs && (
