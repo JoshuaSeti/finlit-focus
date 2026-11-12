@@ -7,6 +7,7 @@ import { firstName, splitName } from "@/lib/team";
 import { memberQuery, teamQuery } from "@/lib/team.queries";
 import { MemberPhoto } from "@/components/team/MemberPhoto";
 import { FitName } from "@/components/team/FitName";
+import { ShareBar } from "@/components/share/ShareBar";
 import { VisitorWall } from "@/components/team/VisitorWall";
 import { MemberGallery } from "@/components/team/MemberGallery";
 import { SpotifyTracks } from "@/components/team/SpotifyTracks";
@@ -105,6 +106,8 @@ export default function MemberWorld() {
         <Link to="/about" className="absolute left-6 top-[max(1.5rem,env(safe-area-inset-top,0px))] z-20 inline-flex items-center gap-2 rounded-full bg-background/15 px-4 py-2 text-sm font-medium backdrop-blur-xl">
           <ArrowLeft className="h-4 w-4" /> About
         </Link>
+        <ShareBar kind="team" id={member.slug} title={`Step into ${member.name}'s world`} text={member.tagline || undefined} tone="onColor"
+          className="absolute right-4 top-[max(1.5rem,env(safe-area-inset-top,0px))] z-20 [&>span]:hidden [&_a]:px-3 [&_button]:px-3" />
         <div className="flex flex-1 flex-col items-center justify-center px-4 pb-6 pt-[calc(6rem+env(safe-area-inset-top,0px))]">
           <h1 className="sr-only">{member.name}</h1>
           <motion.div style={reduce ? undefined : { opacity: groupOpacity }} className="relative flex w-full flex-col items-center">
