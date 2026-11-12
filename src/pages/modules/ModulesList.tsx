@@ -20,7 +20,7 @@ const ModulesList = () => {
   const [prog, setProg] = useState<Record<string, Prog>>({});
   const [loading, setLoading] = useState(true);
   const [paid, setPaid] = useState(false);
-  const [scores, setScores] = useState<Scores | null>(() => loadLocal()?.scores ?? null);
+  const [scores, setScores] = useState<Scores | null>(null);
   const navigate = useNavigate();
   const [params] = useSearchParams();
 
@@ -37,8 +37,8 @@ const ModulesList = () => {
         setPaid(!!acc);
         const { data: pr } = await supabase.from('placement_results').select('scores,created_at').eq('user_id', user.id).order('created_at', { ascending: false }).limit(1);
         if (pr && pr[0]) { const sc = pr[0].scores as unknown as Scores; setScores(sc); saveLocal({ scores: sc, ts: Date.parse(pr[0].created_at) }); }
-        else if (!loadLocal() && !params.get('skip')) { navigate('/diagnostic', { replace: true }); return; }
-      } else if (!loadLocal() && !params.get('skip')) {
+        else if (!params.get('skip')) { navigate('/diagnostic', { replace: true }); return; }
+      } else if (!params.get('skip')) {
         navigate('/diagnostic', { replace: true }); return;
       }
       setLoading(false);
@@ -69,7 +69,7 @@ const ModulesList = () => {
     return null;
   }, [groups, prog]);
 
-  const free = freeSlug(scores);
+  const free = scores ? freeSlug(scores) : '';
   const isLocked = (slug: string) => !paid && slug !== free;
   const total = mods.length;
   const done = mods.filter((m) => prog[m.slug]?.completed_at).length;

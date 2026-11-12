@@ -36,7 +36,7 @@ const ModulePlayer = () => {
       setTitle((m as LearningModule).title);
       // Only the learner's recommended starting lesson is free; the rest need the K20 unlock.
       const acc = await getAccess(user?.id ?? null);
-      if (!acc.paid && slug !== freeSlug(acc.scores)) { setLocked(true); return; }
+      if (!acc.paid && (!acc.scores || slug !== freeSlug(acc.scores))) { setLocked(true); return; }
       setLocked(false);
       if (user) {
         await shareSessionWithSimulator();
