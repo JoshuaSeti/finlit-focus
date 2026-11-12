@@ -5,6 +5,7 @@ import { useQuery } from '@tanstack/react-query';
 import { Calendar, ArrowLeft } from 'lucide-react';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
+import { ShareBar } from '@/components/share/ShareBar';
 import { RichText } from '@/components/ui/rich-text';
 
 const BlogPost = () => {
@@ -65,6 +66,7 @@ const BlogPost = () => {
                 )}
               </div>
               <h1 className="text-3xl md:text-4xl font-bold text-foreground mb-6">{post.title}</h1>
+              <ShareBar kind="blog" id={post.id} title={post.title} className="mb-6" />
               {post.image_url && (
                 <img
                   src={post.image_url}
@@ -73,7 +75,10 @@ const BlogPost = () => {
                 />
               )}
               <RichText html={post.content} className="prose-lg text-foreground/90" />
-
+              <div className="mt-12 rounded-2xl border border-border bg-background/70 p-5">
+                <p className="font-semibold text-foreground mb-3">Found this useful? Share it with a friend.</p>
+                <ShareBar kind="blog" id={post.id} title={post.title} />
+              </div>
             </article>
           )}
         </div>
