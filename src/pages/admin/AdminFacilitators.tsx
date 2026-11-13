@@ -105,7 +105,7 @@ const AdminFacilitators = () => {
         variant: 'destructive',
       });
     } else {
-      toast({ title: 'Facilitator created successfully' });
+      toast({ title: data?.existing ? 'Existing account upgraded to facilitator (their current password stays the same)' : 'Facilitator created successfully' });
       setIsDialogOpen(false);
       setFormData({ email: '', password: '', fullName: '', schoolName: '' });
       fetchFacilitators();

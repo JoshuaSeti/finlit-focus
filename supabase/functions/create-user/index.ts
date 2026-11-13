@@ -63,29 +63,47 @@ Deno.serve(async (req) => {
       user_metadata: { full_name: fullName },
     });
 
+    let userId: string;
+    let existing = false;
     if (createError) {
-      return new Response(JSON.stringify({ error: createError.message }), { status: 400, headers: corsHeaders });
+      const exists = (createError as any).code === 'email_exists' || /already been registered/i.test(createError.message);
+      if (!exists) {
+        return new Response(JSON.stringify({ error: createError.message }), { status: 400, headers: corsHeaders });
+      }
+      // Account already exists (e.g. a learner who signed up) — grant the role instead
+      const { data: prof } = await supabaseAdmin
+        .from('profiles').select('user_id').ilike('email', String(email).trim()).maybeSingle();
+      if (!prof?.user_id) {
+        return new Response(JSON.stringify({ error: 'This email already has an account, but it could not be found to upgrade.' }), { status: 200, headers: { ...corsHeaders, 'Content-Type': 'application/json' } });
+      }
+      userId = prof.user_id;
+      existing = true;
+    } else {
+      userId = userData.user.id;
     }
 
-    const userId = userData.user.id;
-
     // Update profile
-    if (schoolName) {
+    if (existing) {
+      // keep existing name/password; only fill school if given
+      if (schoolName) await supabaseAdmin.from('profiles').update({ school_name: schoolName }).eq('user_id', userId);
+    } else if (schoolName) {
       await supabaseAdmin.from('profiles').update({ school_name: schoolName, full_name: fullName }).eq('user_id', userId);
     } else {
       await supabaseAdmin.from('profiles').update({ full_name: fullName }).eq('user_id', userId);
     }
 
-    // Assign role
-    const { error: roleError } = await supabaseAdmin
-      .from('user_roles')
-      .insert({ user_id: userId, role });
+    // Assign role (skip if already held)
+    const { data: hasRole } = await supabaseAdmin
+      .from('user_roles').select('role').eq('user_id', userId).eq('role', role).maybeSingle();
+    const { error: roleError } = hasRole
+      ? { error: null }
+      : await supabaseAdmin.from('user_roles').insert({ user_id: userId, role });
 
     if (roleError) {
       return new Response(JSON.stringify({ error: roleError.message }), { status: 400, headers: corsHeaders });
     }
 
-    return new Response(JSON.stringify({ success: true, userId }), { status: 200, headers: { ...corsHeaders, 'Content-Type': 'application/json' } });
+    return new Response(JSON.stringify({ success: true, userId, existing }), { status: 200, headers: { ...corsHeaders, 'Content-Type': 'application/json' } });
   } catch (err) {
     return new Response(JSON.stringify({ error: err.message }), { status: 500, headers: corsHeaders });
   }
