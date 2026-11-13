@@ -11,6 +11,8 @@ import { LearningModule } from '@/lib/modules';
 import { YungstaCompanion } from '@/components/learning/YungstaCompanion';
 import { CoinStreak } from '@/components/learning/CoinStreak';
 import { InstallPrompt } from '@/components/learning/InstallPrompt';
+import { HowItWorks } from '@/components/learning/HowItWorks';
+import { CalmBoard } from '@/components/learning/CalmBoard';
 
 type Prog = { module_slug: string; sections_done: number; sections_total: number; completed_at: string | null };
 type Tag = 'Start here' | 'Learn next' | 'Review' | null;
@@ -112,6 +114,8 @@ const ModulesList = () => {
                   <Link to={`/modules/${nextMod.slug}`} className="w-full sm:w-auto max-w-full"><Button size="lg" className="w-full sm:w-auto max-w-full h-auto min-h-11 py-3 whitespace-normal text-left justify-start"><Play className="w-4 h-4 mr-2 shrink-0" /><span className="min-w-0 break-words">Continue: {nextMod.title}</span></Button></Link>
                 )}
                 <Link to="/diagnostic" className="w-full sm:w-auto"><Button size="lg" variant="outline" className="w-full sm:w-auto">{scores && !paid ? <Lock className="w-4 h-4 mr-2" /> : <Compass className="w-4 h-4 mr-2" />}{scores ? 'Retake placement' : 'Placement test'}</Button></Link>
+                <HowItWorks defaultOpen />
+                {user && <Link to="/account" className="w-full sm:w-auto"><Button size="lg" variant="ghost" className="w-full sm:w-auto">My account</Button></Link>}
                 {!user && <Link to="/login" className="w-full sm:w-auto"><Button size="lg" variant="outline" className="w-full sm:w-auto">Sign in to save progress</Button></Link>}
               </div>
             </div>
@@ -181,6 +185,7 @@ const ModulesList = () => {
           <CoinStreak signedIn={!!user} />
           <InstallPrompt />
           <YungstaCompanion signedIn={!!user} />
+          <CalmBoard signedIn={!!user} />
         </div>
       </section>
     </Layout>
