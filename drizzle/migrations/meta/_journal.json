@@ -162,6 +162,13 @@
       "when": 1794563475754,
       "tag": "0022_learner_friends_avatars",
       "breakpoints": true
+    },
+    {
+      "idx": 23,
+      "version": "7",
+      "when": 1794564352433,
+      "tag": "0023_learner_card_link_access",
+      "breakpoints": true
     }
   ]
 }
