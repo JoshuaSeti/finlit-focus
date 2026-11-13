@@ -113,7 +113,7 @@ const AdminAccounts = () => {
         variant: 'destructive',
       });
     } else {
-      toast({ title: 'Admin created successfully' });
+      toast({ title: data?.existing ? 'Existing account upgraded to admin (their current password stays the same)' : 'Admin created successfully' });
       setIsDialogOpen(false);
       setFormData({ email: '', password: '', fullName: '', role: 'admin' });
       fetchAdmins();
