@@ -94,7 +94,7 @@ Deno.serve(async (req) => {
 
     // Assign role (skip if already held)
     const { data: hasRole } = await supabaseAdmin
-      .from('user_roles').select('id').eq('user_id', userId).eq('role', role).maybeSingle();
+      .from('user_roles').select('role').eq('user_id', userId).eq('role', role).maybeSingle();
     const { error: roleError } = hasRole
       ? { error: null }
       : await supabaseAdmin.from('user_roles').insert({ user_id: userId, role });
