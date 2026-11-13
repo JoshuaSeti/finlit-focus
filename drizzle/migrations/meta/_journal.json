@@ -155,6 +155,13 @@
       "when": 1794559393035,
       "tag": "0021_learner_age",
       "breakpoints": true
+    },
+    {
+      "idx": 22,
+      "version": "7",
+      "when": 1794563475754,
+      "tag": "0022_learner_friends_avatars",
+      "breakpoints": true
     }
   ]
 }
