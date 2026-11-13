@@ -20,17 +20,17 @@ export function HowItWorks({ defaultOpen = false }: { defaultOpen?: boolean }) {
         <HelpCircle className="w-4 h-4 mr-2" />How FinLit works
       </Button>
       <Dialog open={open} onOpenChange={close}>
-        <DialogContent className="max-w-lg max-h-[90vh] overflow-y-auto">
+        <DialogContent className="max-w-lg max-h-[90vh] overflow-y-auto rounded-3xl sm:rounded-3xl w-[calc(100%-2rem)]">
           <DialogHeader><DialogTitle>Welcome to FinLit lessons</DialogTitle></DialogHeader>
           <div className="space-y-4">
             {STEPS.map((s) => (
               <div key={s.title} className="flex gap-3">
-                <div className="w-10 h-10 shrink-0 rounded-xl bg-accent grid place-items-center"><s.icon className="w-5 h-5 text-primary" /></div>
+                <div className="w-10 h-10 shrink-0 rounded-full bg-accent grid place-items-center"><s.icon className="w-5 h-5 text-primary" /></div>
                 <div><p className="font-semibold text-foreground">{s.title}</p><p className="text-sm text-muted-foreground">{s.text}</p></div>
               </div>
             ))}
             <p className="text-sm text-muted-foreground border-t border-border pt-3">The panel beside your path holds your coin streak, the app install button and Yungsta. Tap “How FinLit works” any time to see this again.</p>
-            <Button className="w-full" onClick={() => close(false)}>Got it, let’s learn</Button>
+            <Button className="w-full rounded-full" onClick={() => close(false)}>Got it, let’s learn</Button>
           </div>
         </DialogContent>
       </Dialog>
