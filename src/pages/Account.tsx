@@ -9,22 +9,24 @@ import { Switch } from '@/components/ui/switch';
 import { useToast } from '@/hooks/use-toast';
 import { useAuth } from '@/hooks/useAuth';
 import { supabase } from '@/integrations/supabase/client';
+import { LearnerAvatar } from '@/components/community/LearnerAvatar';
+import { whatsappInvite } from '@/lib/invite';
 
 export const AVATARS = ['🦁', '🐘', '🦒', '🦓', '🐆', '🦅', '🐊', '🦬', '🌍', '🌻', '⚡', '🚀', '💡', '🎯', '🌳', '🪙'];
 
 const Account = () => {
   const { user, isLoading, signOut } = useAuth();
   const { toast } = useToast();
-  const [f, setF] = useState({ full_name: '', display_name: '', avatar: '🦁', town: '', age: '', bio: '', show_publicly: false });
+  const [f, setF] = useState({ full_name: '', display_name: '', avatar: '🦁', town: '', age: '', bio: '', show_publicly: false, avatar_url: '', id: '' });
   const [pw, setPw] = useState({ a: '', b: '' });
   const [busy, setBusy] = useState(false);
 
   useEffect(() => {
     if (!user) return;
-    supabase.from('profiles').select('full_name,display_name,avatar,town,age,bio,show_publicly').eq('user_id', user.id).maybeSingle()
+    supabase.from('profiles').select('id,full_name,display_name,avatar,avatar_url,town,age,bio,show_publicly').eq('user_id', user.id).maybeSingle()
       .then(({ data }) => data && setF({
         full_name: data.full_name || '', display_name: data.display_name || '', avatar: data.avatar || '🦁',
-        town: data.town || '', age: data.age ? String(data.age) : '', bio: data.bio || '', show_publicly: !!data.show_publicly,
+        town: data.town || '', age: data.age ? String(data.age) : '', bio: data.bio || '', show_publicly: !!data.show_publicly, avatar_url: data.avatar_url || '', id: data.id,
       }));
   }, [user?.id]);
 
@@ -36,7 +38,7 @@ const Account = () => {
     const { error } = await supabase.from('profiles').update({
       full_name: f.full_name.trim().slice(0, 80), display_name: f.display_name.trim().slice(0, 40) || null,
       avatar: f.avatar, town: f.town.trim().slice(0, 40) || null, age: (() => { const n = parseInt(f.age, 10); return n >= 5 && n <= 120 ? n : null; })(), bio: f.bio.trim().slice(0, 140) || null,
-      show_publicly: f.show_publicly,
+      show_publicly: f.show_publicly, avatar_url: f.avatar_url || null,
     }).eq('user_id', user.id);
     setBusy(false);
     toast(error ? { title: 'Could not save', description: error.message, variant: 'destructive' } : { title: 'Profile saved' });
@@ -50,13 +52,29 @@ const Account = () => {
     toast(error ? { title: 'Could not change password', description: error.message, variant: 'destructive' } : { title: 'Password changed' });
   };
 
+  const upload = async (file?: File) => {
+    if (!file) return;
+    if (!file.type.startsWith('image/')) return toast({ title: 'Please pick a photo', variant: 'destructive' });
+    if (file.size > 3 * 1024 * 1024) return toast({ title: 'Photo must be under 3MB', variant: 'destructive' });
+    setBusy(true);
+    const path = `${user.id}/${Date.now()}.${(file.name.split('.').pop() || 'jpg').toLowerCase()}`;
+    const { error } = await supabase.storage.from('avatars').upload(path, file, { contentType: file.type, upsert: true });
+    const signed = error ? null : await supabase.storage.from('avatars').createSignedUrl(path, 60 * 60 * 24 * 365 * 10);
+    const url = signed?.data?.signedUrl;
+    if (url) await supabase.from('profiles').update({ avatar_url: url }).eq('user_id', user.id);
+    setBusy(false);
+    if (!url) return toast({ title: 'Upload failed', description: error?.message, variant: 'destructive' });
+    setF((p) => ({ ...p, avatar_url: url }));
+    toast({ title: 'Photo updated' });
+  };
+
   const set = (k: keyof typeof f) => (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => setF({ ...f, [k]: e.target.value });
 
   return (
     <Layout>
       <section className="container mx-auto px-4 pt-32 pb-16 max-w-2xl space-y-8">
         <div className="flex items-center gap-4">
-          <div className="w-16 h-16 rounded-2xl bg-accent grid place-items-center text-4xl">{f.avatar}</div>
+          <LearnerAvatar url={f.avatar_url} emoji={f.avatar} size={64} />
           <div className="min-w-0">
             <h1 className="text-2xl font-bold text-foreground">My account</h1>
             <p className="text-sm text-muted-foreground break-all">{user.email}</p>
@@ -65,8 +83,16 @@ const Account = () => {
 
         <div className="bg-card rounded-2xl p-6 shadow-soft space-y-5">
           <h2 className="font-semibold text-foreground">Profile</h2>
+          <div className="flex items-center gap-4">
+            <LearnerAvatar url={f.avatar_url} emoji={f.avatar} size={80} />
+            <div className="space-y-2">
+              <Label htmlFor="photo" className="inline-flex cursor-pointer rounded-full border border-border px-4 py-2 text-sm font-medium hover:bg-accent">{f.avatar_url ? 'Change photo' : 'Upload a photo'}</Label>
+              <input id="photo" type="file" accept="image/*" className="hidden" onChange={(e) => upload(e.target.files?.[0])} />
+              {f.avatar_url && <button type="button" className="block text-xs text-muted-foreground underline" onClick={() => setF({ ...f, avatar_url: '' })}>Use an emoji instead (then save)</button>}
+            </div>
+          </div>
           <div>
-            <Label>Pick your avatar</Label>
+            <Label>Or pick an emoji</Label>
             <div className="grid grid-cols-8 gap-2 mt-2">
               {AVATARS.map((a) => (
                 <button key={a} type="button" onClick={() => setF({ ...f, avatar: a })} aria-label={`Avatar ${a}`}
@@ -90,6 +116,17 @@ const Account = () => {
           </div>
           <Button onClick={save} disabled={busy}>{busy ? 'Saving…' : 'Save profile'}</Button>
         </div>
+
+        {f.id && (
+          <div className="bg-card rounded-2xl p-6 shadow-soft space-y-3">
+            <h2 className="font-semibold text-foreground">Invite friends</h2>
+            <p className="text-sm text-muted-foreground">Share your FinLit card. Friends who add you can see your streak, lessons and Yungsta mood — never your email or age.</p>
+            <div className="flex flex-wrap gap-2">
+              <a href={whatsappInvite(f.id)} target="_blank" rel="noreferrer"><Button className="rounded-full">Share on WhatsApp</Button></a>
+              <Link to={`/u/${f.id}`}><Button variant="outline" className="rounded-full">View my card</Button></Link>
+            </div>
+          </div>
+        )}
 
         <div className="bg-card rounded-2xl p-6 shadow-soft space-y-4">
           <h2 className="font-semibold text-foreground">Change password</h2>

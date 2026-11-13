@@ -45,6 +45,7 @@ import ModulesList from "./pages/modules/ModulesList";
 import ModulePlayer from "./pages/modules/ModulePlayer";
 import LearnerAuth from "./pages/modules/LearnerAuth";
 import Account from "./pages/Account";
+import LearnerCard from "./pages/LearnerCard";
 import Diagnostic from "./pages/modules/Diagnostic";
 
 // Facilitator pages
@@ -81,6 +82,7 @@ const App = () => (
             <Route path="/modules/:slug" element={<ModulePlayer />} />
             <Route path="/login" element={<LearnerAuth />} />
             <Route path="/account" element={<Account />} />
+            <Route path="/u/:id" element={<LearnerCard />} />
             <Route path="/sandbox/*" element={<Navigate to="/modules" replace />} />
             <Route path="/learn/*" element={<Navigate to="/modules" replace />} />
             <Route path="/contact" element={<Contact />} />
