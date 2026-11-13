@@ -87,7 +87,7 @@ export default function AdminLearners() {
         <table className="w-full text-sm">
           <thead className="bg-muted/50 text-muted-foreground text-left">
             <tr>
-              <th className="p-3">Learner</th><th className="p-3">Age</th><th className="p-3">Joined</th><th className="p-3">Placement</th>
+              <th className="p-3">Learner</th><th className="p-3">Joined</th><th className="p-3">Age</th><th className="p-3">Placement</th>
               <th className="p-3">Access</th><th className="p-3">Lessons</th><th className="p-3">Streak</th><th className="p-3">Last active</th>
             </tr>
           </thead>
