@@ -3,6 +3,7 @@ import { WhoWeAreCarousel } from '@/components/home/WhoWeAreCarousel';
 import { MeetTheTeam } from '@/components/team/MeetTheTeam';
 import { MissionSection } from '@/components/home/MissionSection';
 import { motion } from 'framer-motion';
+import { FinLitLearners } from '@/components/team/FinLitLearners';
 
 const About = () => {
   return (
@@ -30,6 +31,7 @@ const About = () => {
       <WhoWeAreCarousel />
       <MissionSection />
       <MeetTheTeam />
+      <FinLitLearners />
     </Layout>
   );
 };

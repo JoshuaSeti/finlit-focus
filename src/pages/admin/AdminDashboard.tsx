@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
-import { Images, FileText, MessageSquare, TrendingUp, Users, BookOpen, Bell } from 'lucide-react';
+import { Images, FileText, MessageSquare, TrendingUp, Users, BookOpen, Bell, ClipboardList, UserPlus, Wallet, Compass } from 'lucide-react';
+import { Link } from 'react-router-dom';
 import { supabase } from '@/integrations/supabase/client';
 import { cn } from '@/lib/utils';
 
@@ -13,6 +14,7 @@ const AdminDashboard = () => {
     lessons: 0,
     notifications: 0,
   });
+  const [ls, setLs] = useState({ learners: 0, paid: 0, placed: 0, new_week: 0, applicants: 0, pending: 0 });
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
@@ -29,6 +31,8 @@ const AdminDashboard = () => {
       supabase.from('notifications').select('id', { count: 'exact' }).eq('is_active', true),
     ]);
 
+    const { data: l } = await supabase.rpc('admin_learner_stats');
+    if (l) setLs(l as any);
     const contacts = contactsRes.data || [];
     setStats({
       activeSlides: slidesRes.count || 0,
@@ -41,6 +45,13 @@ const AdminDashboard = () => {
     });
     setIsLoading(false);
   };
+
+  const topCards = [
+    { name: 'Program applicants', value: ls.applicants, sub: `${ls.pending} waiting for review`, icon: ClipboardList, to: '/admin/applications' },
+    { name: 'Learner accounts', value: ls.learners, sub: `${ls.new_week} new this week`, icon: UserPlus },
+    { name: 'Paid learners (K20)', value: ls.paid, sub: 'Full lesson access', icon: Wallet },
+    { name: 'Took placement test', value: ls.placed, sub: 'Learners with a roadmap', icon: Compass },
+  ];
 
   const statCards = [
     { name: 'Active Carousel Slides', value: stats.activeSlides, icon: Images },
@@ -65,6 +76,20 @@ const AdminDashboard = () => {
       <div>
         <h1 className="text-2xl font-bold text-foreground">Dashboard</h1>
         <p className="text-muted-foreground">Welcome to the FinLit admin panel.</p>
+      </div>
+
+      <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-4">
+        {topCards.map((c) => {
+          const body = (
+            <div className="bg-card rounded-xl p-6 shadow-soft border border-primary/20 h-full">
+              <div className="w-10 h-10 bg-primary/10 rounded-lg flex items-center justify-center"><c.icon className="w-5 h-5 text-primary" /></div>
+              <div className="mt-4 text-3xl font-bold text-foreground">{c.value}</div>
+              <div className="text-sm font-medium text-foreground">{c.name}</div>
+              <div className="text-xs text-muted-foreground">{c.sub}</div>
+            </div>
+          );
+          return c.to ? <Link key={c.name} to={c.to}>{body}</Link> : <div key={c.name}>{body}</div>;
+        })}
       </div>
 
       <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-4">

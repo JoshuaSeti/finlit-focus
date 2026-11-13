@@ -4,6 +4,7 @@ import { Menu, X, Users } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import finlitLogo from '@/assets/finlit-logo.png';
 import { cn } from '@/lib/utils';
+import { useAuth } from '@/hooks/useAuth';
 
 const navLinks = [
   { name: 'Home', href: '/' },
@@ -17,6 +18,8 @@ const navLinks = [
 export function Header() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const location = useLocation();
+  const { user, role } = useAuth();
+  const learner = !!user && !role;
 
   return (
     <header
@@ -46,6 +49,7 @@ export function Header() {
                 {link.name}
               </Link>
             ))}
+            {learner && <Link to="/account" className="text-sm font-semibold uppercase tracking-wide text-foreground/80 hover:text-primary">My account</Link>}
             <Link to="/facilitator/login">
               <Button variant="outline" size="sm" className="gap-2">
                 <Users size={16} />
@@ -83,6 +87,7 @@ export function Header() {
                   {link.name}
                 </Link>
               ))}
+              {learner && <Link to="/account" className="text-base font-semibold uppercase tracking-wide py-2 text-foreground/80" onClick={() => setMobileMenuOpen(false)}>My account</Link>}
               <Link
                 to="/facilitator/login"
                 className="text-base font-semibold uppercase tracking-wide py-2 text-primary"
