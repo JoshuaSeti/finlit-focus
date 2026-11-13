@@ -3216,7 +3216,9 @@ export type Database = {
         Args: { p_delta: number; p_profile_id: string; p_reason: string }
         Returns: number
       }
+      admin_learner_detail: { Args: { p_user: string }; Returns: Json }
       admin_learner_stats: { Args: never; Returns: Json }
+      admin_learners: { Args: never; Returns: Json }
       debt_apply_payment: {
         Args: { p: string; p_amount: number; p_debt_id: number }
         Returns: Json
