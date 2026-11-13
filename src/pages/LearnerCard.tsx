@@ -28,8 +28,13 @@ const LearnerCard = () => {
       <section className="container mx-auto px-4 pt-32 pb-16 max-w-md">
         {c === undefined ? null : !c ? (
           <div className="text-center space-y-3">
-            <p className="text-muted-foreground">Sign in to see this learner's card and add them as a friend.</p>
-            <Link to={`/login?mode=signup&next=/u/${id}`}><Button className="rounded-full">Join FinLit</Button></Link>
+            {user ? (<>
+              <p className="text-muted-foreground">We couldn't find this learner's card.</p>
+              <Button asChild className="rounded-full"><Link to="/modules">Back to my lessons</Link></Button>
+            </>) : (<>
+              <p className="text-muted-foreground">Sign in to see this learner's card and add them as a friend.</p>
+              <Button asChild className="rounded-full"><Link to={`/login?mode=signup&next=/u/${id}`}>Join FinLit</Link></Button>
+            </>)}
           </div>
         ) : (
           <div className="bg-card rounded-3xl p-6 shadow-soft text-center">
@@ -52,7 +57,7 @@ const LearnerCard = () => {
               ) : user ? (
                 <Button className="rounded-full" variant={c.is_friend ? 'outline' : 'default'} onClick={add}>{c.is_friend ? 'Remove friend' : 'Add as friend'}</Button>
               ) : (
-                <Link to={`/login?mode=signup&next=/u/${id}`}><Button className="rounded-full w-full">Join FinLit to add {c.name}</Button></Link>
+                <Button asChild className="rounded-full w-full"><Link to={`/login?mode=signup&next=/u/${id}`}>Join FinLit to add {c.name}</Link></Button>
               )}
             </div>
           </div>
