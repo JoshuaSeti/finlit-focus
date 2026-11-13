@@ -15,16 +15,16 @@ export const AVATARS = ['🦁', '🐘', '🦒', '🦓', '🐆', '🦅', '🐊', 
 const Account = () => {
   const { user, isLoading, signOut } = useAuth();
   const { toast } = useToast();
-  const [f, setF] = useState({ full_name: '', display_name: '', avatar: '🦁', town: '', bio: '', show_publicly: false });
+  const [f, setF] = useState({ full_name: '', display_name: '', avatar: '🦁', town: '', age: '', bio: '', show_publicly: false });
   const [pw, setPw] = useState({ a: '', b: '' });
   const [busy, setBusy] = useState(false);
 
   useEffect(() => {
     if (!user) return;
-    supabase.from('profiles').select('full_name,display_name,avatar,town,bio,show_publicly').eq('user_id', user.id).maybeSingle()
+    supabase.from('profiles').select('full_name,display_name,avatar,town,age,bio,show_publicly').eq('user_id', user.id).maybeSingle()
       .then(({ data }) => data && setF({
         full_name: data.full_name || '', display_name: data.display_name || '', avatar: data.avatar || '🦁',
-        town: data.town || '', bio: data.bio || '', show_publicly: !!data.show_publicly,
+        town: data.town || '', age: data.age ? String(data.age) : '', bio: data.bio || '', show_publicly: !!data.show_publicly,
       }));
   }, [user?.id]);
 
@@ -35,7 +35,7 @@ const Account = () => {
     setBusy(true);
     const { error } = await supabase.from('profiles').update({
       full_name: f.full_name.trim().slice(0, 80), display_name: f.display_name.trim().slice(0, 40) || null,
-      avatar: f.avatar, town: f.town.trim().slice(0, 40) || null, bio: f.bio.trim().slice(0, 140) || null,
+      avatar: f.avatar, town: f.town.trim().slice(0, 40) || null, age: (() => { const n = parseInt(f.age, 10); return n >= 5 && n <= 120 ? n : null; })(), bio: f.bio.trim().slice(0, 140) || null,
       show_publicly: f.show_publicly,
     }).eq('user_id', user.id);
     setBusy(false);
@@ -78,6 +78,7 @@ const Account = () => {
             <div><Label>Full name</Label><Input value={f.full_name} onChange={set('full_name')} maxLength={80} /></div>
             <div><Label>Name others see</Label><Input value={f.display_name} onChange={set('display_name')} maxLength={40} placeholder="e.g. Mwila" /></div>
             <div className="sm:col-span-2"><Label>Town (optional)</Label><Input value={f.town} onChange={set('town')} maxLength={40} placeholder="e.g. Kitwe" /></div>
+            <div className="sm:col-span-2"><Label>Age</Label><Input type="number" inputMode="numeric" min={5} max={120} value={f.age} onChange={set('age')} placeholder="e.g. 24" /></div>
             <div className="sm:col-span-2"><Label>A line about you (optional)</Label><Textarea value={f.bio} onChange={set('bio')} maxLength={140} rows={2} placeholder="e.g. Saving up for my first tuck shop" /></div>
           </div>
           <div className="flex items-start justify-between gap-4 rounded-xl bg-muted/50 p-4">

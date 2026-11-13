@@ -8,7 +8,7 @@ import { Coins, Search } from 'lucide-react';
 import { cn } from '@/lib/utils';
 
 type Learner = {
-  user_id: string; name: string; email: string; avatar: string | null; town: string | null; created_at: string;
+  user_id: string; name: string; email: string; avatar: string | null; town: string | null; age: number | null; created_at: string;
   placement: { correct: number; total: number; start_group: string; at: string } | null;
   paid_at: string | null; started: number; completed: number; certs: number;
   streak: number | null; last_active: string | null;
@@ -87,7 +87,7 @@ export default function AdminLearners() {
         <table className="w-full text-sm">
           <thead className="bg-muted/50 text-muted-foreground text-left">
             <tr>
-              <th className="p-3">Learner</th><th className="p-3">Joined</th><th className="p-3">Placement</th>
+              <th className="p-3">Learner</th><th className="p-3">Joined</th><th className="p-3">Age</th><th className="p-3">Placement</th>
               <th className="p-3">Access</th><th className="p-3">Lessons</th><th className="p-3">Streak</th><th className="p-3">Last active</th>
             </tr>
           </thead>
@@ -106,6 +106,7 @@ export default function AdminLearners() {
                   </div>
                 </td>
                 <td className="p-3 whitespace-nowrap">{fmt(r.created_at)}</td>
+                <td className="p-3">{r.age ?? <span className="text-muted-foreground">—</span>}</td>
                 <td className="p-3 whitespace-nowrap">{r.placement ? `${r.placement.correct}/${r.placement.total} · ${r.placement.start_group}` : <span className="text-muted-foreground">Not taken</span>}</td>
                 <td className="p-3">{r.paid_at ? <Badge>Paid K20</Badge> : <Badge variant="secondary">Free starter</Badge>}</td>
                 <td className="p-3 whitespace-nowrap">{r.completed}/{r.started} done{r.certs ? ` · ${r.certs} cert` : ''}</td>
