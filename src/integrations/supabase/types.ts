@@ -1850,29 +1850,44 @@ export type Database = {
       }
       profiles: {
         Row: {
+          avatar: string
+          bio: string | null
           created_at: string
+          display_name: string | null
           email: string
           full_name: string
           id: string
           school_name: string | null
+          show_publicly: boolean
+          town: string | null
           updated_at: string
           user_id: string
         }
         Insert: {
+          avatar?: string
+          bio?: string | null
           created_at?: string
+          display_name?: string | null
           email: string
           full_name: string
           id?: string
           school_name?: string | null
+          show_publicly?: boolean
+          town?: string | null
           updated_at?: string
           user_id: string
         }
         Update: {
+          avatar?: string
+          bio?: string | null
           created_at?: string
+          display_name?: string | null
           email?: string
           full_name?: string
           id?: string
           school_name?: string | null
+          show_publicly?: boolean
+          town?: string | null
           updated_at?: string
           user_id?: string
         }
@@ -3201,6 +3216,7 @@ export type Database = {
         Args: { p_delta: number; p_profile_id: string; p_reason: string }
         Returns: number
       }
+      admin_learner_stats: { Args: never; Returns: Json }
       debt_apply_payment: {
         Args: { p: string; p_amount: number; p_debt_id: number }
         Returns: Json
@@ -3256,6 +3272,16 @@ export type Database = {
       practice_start: { Args: { p_lesson: string }; Returns: Json }
       practice_status: { Args: { p_lesson: string }; Returns: Json }
       practice_title: { Args: { p_lesson: string }; Returns: string }
+      public_learners: {
+        Args: never
+        Returns: {
+          avatar: string
+          bio: string
+          id: string
+          name: string
+          town: string
+        }[]
+      }
       set_character: {
         Args: {
           p_avatar: string
