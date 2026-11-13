@@ -13,6 +13,7 @@ import { CoinStreak } from '@/components/learning/CoinStreak';
 import { InstallPrompt } from '@/components/learning/InstallPrompt';
 import { HowItWorks } from '@/components/learning/HowItWorks';
 import { CalmBoard } from '@/components/learning/CalmBoard';
+import { FriendsCircle } from '@/components/community/FriendsCircle';
 
 type Prog = { module_slug: string; sections_done: number; sections_total: number; completed_at: string | null };
 type Tag = 'Start here' | 'Learn next' | 'Review' | null;
@@ -186,6 +187,7 @@ const ModulesList = () => {
           <InstallPrompt />
           <YungstaCompanion signedIn={!!user} />
           <CalmBoard signedIn={!!user} />
+          {user && <FriendsCircle userId={user.id} />}
         </div>
       </section>
     </Layout>

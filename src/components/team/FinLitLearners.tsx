@@ -1,8 +1,9 @@
 import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { supabase } from '@/integrations/supabase/client';
+import { LearnerAvatar } from '@/components/community/LearnerAvatar';
 
-type L = { id: string; name: string; avatar: string; town: string | null; bio: string | null };
+type L = { id: string; name: string; avatar: string; avatar_url: string | null; town: string | null; bio: string | null };
 
 export function FinLitLearners() {
   const [list, setList] = useState<L[]>([]);
@@ -20,13 +21,13 @@ export function FinLitLearners() {
         ) : (
           <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4">
             {list.map((l) => (
-              <div key={l.id} className="bg-card rounded-2xl p-4 shadow-soft text-center min-w-0">
-                <div className="text-4xl">{l.avatar}</div>
+              <Link to={`/u/${l.id}`} key={l.id} className="bg-card rounded-2xl p-4 shadow-soft text-center min-w-0 block hover:shadow-md transition-shadow">
+                <div className="flex justify-center"><LearnerAvatar url={l.avatar_url} emoji={l.avatar} size={72} /></div>
                 <p className="font-semibold text-foreground mt-2 truncate">{l.name}</p>
                 <span className="inline-block mt-1 text-[11px] font-semibold rounded-full px-2 py-0.5 bg-primary/15 text-foreground">FinLit Learner</span>
                 {l.town && <p className="text-xs text-muted-foreground mt-1 truncate">{l.town}</p>}
                 {l.bio && <p className="text-xs text-muted-foreground mt-2 break-words">{l.bio}</p>}
-              </div>
+              </Link>
             ))}
           </div>
         )}

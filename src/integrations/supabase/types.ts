@@ -1123,6 +1123,24 @@ export type Database = {
           },
         ]
       }
+      learner_friends: {
+        Row: {
+          created_at: string
+          friend_id: string
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          friend_id: string
+          user_id: string
+        }
+        Update: {
+          created_at?: string
+          friend_id?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
       learner_lessons: {
         Row: {
           completed_at: string
@@ -1852,6 +1870,7 @@ export type Database = {
         Row: {
           age: number | null
           avatar: string
+          avatar_url: string | null
           bio: string | null
           created_at: string
           display_name: string | null
@@ -1867,6 +1886,7 @@ export type Database = {
         Insert: {
           age?: number | null
           avatar?: string
+          avatar_url?: string | null
           bio?: string | null
           created_at?: string
           display_name?: string | null
@@ -1882,6 +1902,7 @@ export type Database = {
         Update: {
           age?: number | null
           avatar?: string
+          avatar_url?: string | null
           bio?: string | null
           created_at?: string
           display_name?: string | null
@@ -3205,6 +3226,7 @@ export type Database = {
       [_ in never]: never
     }
     Functions: {
+      add_friend: { Args: { p_profile: string }; Returns: Json }
       adjust_cash_balance: {
         Args: {
           p_delta: number
@@ -3257,9 +3279,12 @@ export type Database = {
         Returns: Json
       }
       debt_tick: { Args: { p: string }; Returns: undefined }
+      learner_card: { Args: { p_profile: string }; Returns: Json }
+      learner_card_for: { Args: { p_user: string }; Returns: Json }
       mirror_advice: { Args: { p: string; p_lesson: string }; Returns: string }
       mirror_check: { Args: { p_done: boolean; p_id: number }; Returns: Json }
       mirror_due: { Args: never; Returns: Json }
+      my_friends: { Args: never; Returns: Json }
       practice_mirror_get: { Args: { p_lesson: string }; Returns: Json }
       practice_mirror_save: {
         Args: {
@@ -3281,12 +3306,14 @@ export type Database = {
         Args: never
         Returns: {
           avatar: string
+          avatar_url: string
           bio: string
           id: string
           name: string
           town: string
         }[]
       }
+      remove_friend: { Args: { p_profile: string }; Returns: Json }
       set_character: {
         Args: {
           p_avatar: string
