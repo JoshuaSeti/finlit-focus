@@ -48,9 +48,9 @@ const AdminDashboard = () => {
 
   const topCards = [
     { name: 'Program applicants', value: ls.applicants, sub: `${ls.pending} waiting for review`, icon: ClipboardList, to: '/admin/applications' },
-    { name: 'Learner accounts', value: ls.learners, sub: `${ls.new_week} new this week`, icon: UserPlus },
-    { name: 'Paid learners (K20)', value: ls.paid, sub: 'Full lesson access', icon: Wallet },
-    { name: 'Took placement test', value: ls.placed, sub: 'Learners with a roadmap', icon: Compass },
+    { name: 'Learner accounts', value: ls.learners, sub: `${ls.new_week} new this week`, icon: UserPlus, to: '/admin/learners' },
+    { name: 'Paid learners (K20)', value: ls.paid, sub: 'Full lesson access', icon: Wallet, to: '/admin/learners?filter=paid' },
+    { name: 'Took placement test', value: ls.placed, sub: 'Learners with a roadmap', icon: Compass, to: '/admin/learners?filter=placed' },
   ];
 
   const statCards = [

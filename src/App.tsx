@@ -38,6 +38,7 @@ import AdminPrograms from "./pages/admin/AdminPrograms";
 import AdminApplications from "./pages/admin/AdminApplications";
 import AdminAnnouncements from "./pages/admin/AdminAnnouncements";
 import AdminModules from "./pages/admin/AdminModules";
+import AdminLearners from "./pages/admin/AdminLearners";
 
 // Learner pages
 import ModulesList from "./pages/modules/ModulesList";
@@ -104,6 +105,7 @@ const App = () => (
               <Route path="admins" element={<AdminAccounts />} />
               <Route path="team-members" element={<AdminTeamMembers />} />
               <Route path="modules" element={<AdminModules />} />
+              <Route path="learners" element={<AdminLearners />} />
             </Route>
             
             {/* Facilitator Routes */}

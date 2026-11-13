@@ -16,7 +16,8 @@ import {
   UsersRound,
   GraduationCap,
   ClipboardList,
-  Megaphone
+  Megaphone,
+  UserCheck
 } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { useAuth } from '@/hooks/useAuth';
@@ -35,6 +36,7 @@ const navItems = [
 ];
 
 const learningItems = [
+  { name: 'Learners', href: '/admin/learners', icon: UserCheck },
   { name: 'Modules', href: '/admin/modules', icon: GraduationCap },
   { name: 'Programs', href: '/admin/programs', icon: GraduationCap },
   { name: 'Announcement Bar', href: '/admin/announcements', icon: Megaphone },
