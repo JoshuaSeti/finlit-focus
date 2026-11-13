@@ -20,7 +20,7 @@ type Tag = 'Start here' | 'Learn next' | 'Review' | null;
 type NodeState = 'done' | 'next' | 'progress' | 'upcoming';
 
 const ModulesList = () => {
-  const { user } = useAuth();
+  const { user, isLoading: authLoading } = useAuth();
   const [mods, setMods] = useState<LearningModule[]>([]);
   const [prog, setProg] = useState<Record<string, Prog>>({});
   const [loading, setLoading] = useState(true);
@@ -30,6 +30,7 @@ const ModulesList = () => {
   const [params] = useSearchParams();
 
   useEffect(() => {
+    if (authLoading) return;
     (async () => {
       const { data } = await supabase.from('learning_modules').select('*').eq('is_published', true).order('sort_order');
       setMods((data as LearningModule[]) || []);
@@ -48,7 +49,7 @@ const ModulesList = () => {
       }
       setLoading(false);
     })();
-  }, [user]);
+  }, [user, authLoading]);
 
   const groups = useMemo(() => {
     const g: Record<string, LearningModule[]> = {};

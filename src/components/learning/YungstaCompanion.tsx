@@ -19,14 +19,18 @@ export function YungstaCompanion({ signedIn }: { signedIn: boolean }) {
   useEffect(() => {
     if (!signedIn) return;
     (async () => {
-      const rpc = supabase.rpc as unknown as (fn: string, args?: object) => Promise<{ data: unknown }>;
-      const [a, b] = await Promise.all([rpc('story_pending'), rpc('stress_status')]);
-      setP((a.data as Pending) || null);
-      setS((b.data as Stress) || null);
-      const { data: u } = await supabase.auth.getUser();
-      if (u.user) {
-        const { data: prof } = await supabase.from('sim_profiles').select('cash_balance,character_name').eq('id', u.user.id).maybeSingle();
-        if (prof) { setCash(Number(prof.cash_balance)); setNamed(!!prof.character_name); }
+      try {
+        const { data: u } = await supabase.auth.getUser();
+        if (u.user) {
+          const { data: prof } = await supabase.from('sim_profiles').select('cash_balance,character_name').eq('id', u.user.id).maybeSingle();
+          if (prof) { setCash(Number(prof.cash_balance)); setNamed(!!prof.character_name); }
+        }
+        const call = (fn: string) => (supabase.rpc as any).call(supabase, fn) as Promise<{ data: unknown }>;
+        const [a, b] = await Promise.all([call('story_pending'), call('stress_status')]);
+        setP((a.data as Pending) || null);
+        setS((b.data as Stress) || null);
+      } catch (e) {
+        console.error('Yungsta load failed', e);
       }
     })();
   }, [signedIn]);
