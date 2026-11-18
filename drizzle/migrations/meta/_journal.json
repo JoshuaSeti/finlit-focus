@@ -169,6 +169,13 @@
       "when": 1794564352433,
       "tag": "0023_learner_card_link_access",
       "breakpoints": true
+    },
+    {
+      "idx": 24,
+      "version": "7",
+      "when": 1795008398421,
+      "tag": "0024_restrict_sim_content_reads",
+      "breakpoints": true
     }
   ]
 }
