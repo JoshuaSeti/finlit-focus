@@ -147,6 +147,9 @@ export default function AdminTeamMembers() {
     mutationFn: async (m: Member) => {
       const { error } = await supabase.from("team_members").delete().eq("id", m.id);
       if (error) throw error;
+      // Delete the photo files too, so previously shared links stop working.
+      const paths = [...JSON.stringify(m).matchAll(/team-photos\/([^?"\\]+)/g)].map((x) => decodeURIComponent(x[1]));
+      if (paths.length) await supabase.storage.from("team-photos").remove([...new Set(paths)]);
     },
     onSuccess: () => { toast.success("Removed"); setDeleting(null); refresh(); },
     onError: (e) => toast.error(e instanceof Error ? e.message : "Could not remove"),

@@ -106,6 +106,7 @@
 
   // Character simulator inside the module talks to its parent (this page) — pass it up.
   window.addEventListener('message', function (e) {
+    if (e.origin !== window.location.origin) return;
     var d = e.data || {};
     if (d.source === 'finlit-sim' && (d.type === 'practice-complete' || d.type === 'practice-unavailable')) {
       post('practice', { status: d.type });

@@ -3244,6 +3244,10 @@ export type Database = {
       admin_learner_detail: { Args: { p_user: string }; Returns: Json }
       admin_learner_stats: { Args: never; Returns: Json }
       admin_learners: { Args: never; Returns: Json }
+      check_job_token: {
+        Args: { p_name: string; p_token: string }
+        Returns: boolean
+      }
       debt_apply_payment: {
         Args: { p: string; p_amount: number; p_debt_id: number }
         Returns: Json

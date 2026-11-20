@@ -1,5 +1,5 @@
 // Hourly: sends a streak reminder to learners whose usual study hour is now (Lusaka) and who haven't studied today.
-// Safe to call publicly: each device gets at most one reminder per day.
+// Only the scheduled job (holding the job token) may run it.
 import webpush from "npm:web-push@3.6.7";
 import { createClient } from "npm:@supabase/supabase-js@2";
 
@@ -29,6 +29,9 @@ Deno.serve(async (req) => {
   if (req.method === "OPTIONS") return new Response(null, { headers: cors });
   webpush.setVapidDetails("mailto:info@finlit-zm.org", Deno.env.get("VAPID_PUBLIC_KEY")!, Deno.env.get("VAPID_PRIVATE_KEY")!);
   const db = createClient(Deno.env.get("SUPABASE_URL")!, Deno.env.get("SUPABASE_SERVICE_ROLE_KEY")!);
+  const token = req.headers.get("x-job-token") ?? "";
+  const { data: ok } = token ? await db.rpc("check_job_token", { p_name: "push-reminders", p_token: token }) : { data: false };
+  if (!ok) return new Response(JSON.stringify({ error: "Unauthorized" }), { status: 401, headers: cors });
   const { date, hour } = lusakaNow();
 
   const { data: streaks } = await db.from("learner_streaks").select("user_id,current_streak,last_active_date,usual_hour");

@@ -59,6 +59,7 @@ const ModulePlayer = () => {
   // Messages from the module.
   useEffect(() => {
     const onMsg = async (e: MessageEvent) => {
+      if (e.origin !== window.location.origin) return;
       const d = e.data || {};
       if (d.source !== 'finlit-module' || d.slug !== slug) return;
       if (d.type === 'home') return navigate('/modules');

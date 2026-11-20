@@ -40,6 +40,10 @@ const Account = () => {
       avatar: f.avatar, town: f.town.trim().slice(0, 40) || null, age: (() => { const n = parseInt(f.age, 10); return n >= 5 && n <= 120 ? n : null; })(), bio: f.bio.trim().slice(0, 140) || null,
       show_publicly: f.show_publicly, avatar_url: f.avatar_url || null,
     }).eq('user_id', user.id);
+    if (!error && !f.avatar_url) {
+      const { data: files } = await supabase.storage.from('avatars').list(user.id);
+      if (files?.length) await supabase.storage.from('avatars').remove(files.map((x) => `${user.id}/${x.name}`));
+    }
     setBusy(false);
     toast(error ? { title: 'Could not save', description: error.message, variant: 'destructive' } : { title: 'Profile saved' });
   };
@@ -52,6 +56,13 @@ const Account = () => {
     toast(error ? { title: 'Could not change password', description: error.message, variant: 'destructive' } : { title: 'Password changed' });
   };
 
+  // Deleting the old file makes any previously shared photo link stop working.
+  const removeOldAvatar = async (oldUrl: string, keep?: string) => {
+    const m = oldUrl?.match(/avatars\/([^?]+)/);
+    const old = m ? decodeURIComponent(m[1]) : null;
+    if (old && old !== keep && old.startsWith(`${user.id}/`)) await supabase.storage.from('avatars').remove([old]);
+  };
+
   const upload = async (file?: File) => {
     if (!file) return;
     if (!file.type.startsWith('image/')) return toast({ title: 'Please pick a photo', variant: 'destructive' });
@@ -61,7 +72,10 @@ const Account = () => {
     const { error } = await supabase.storage.from('avatars').upload(path, file, { contentType: file.type, upsert: true });
     const signed = error ? null : await supabase.storage.from('avatars').createSignedUrl(path, 60 * 60 * 24 * 365 * 10);
     const url = signed?.data?.signedUrl;
-    if (url) await supabase.from('profiles').update({ avatar_url: url }).eq('user_id', user.id);
+    if (url) {
+      await supabase.from('profiles').update({ avatar_url: url }).eq('user_id', user.id);
+      await removeOldAvatar(f.avatar_url, path);
+    }
     setBusy(false);
     if (!url) return toast({ title: 'Upload failed', description: error?.message, variant: 'destructive' });
     setF((p) => ({ ...p, avatar_url: url }));

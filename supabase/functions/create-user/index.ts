@@ -76,6 +76,11 @@ Deno.serve(async (req) => {
       if (!prof?.user_id) {
         return new Response(JSON.stringify({ error: 'This email already has an account, but it could not be found to upgrade.' }), { status: 200, headers: { ...corsHeaders, 'Content-Type': 'application/json' } });
       }
+      // Without mailbox proof, a self-registered account could belong to someone else — never grant roles to it.
+      const { data: hasRole } = await supabaseAdmin.from('user_roles').select('role').eq('user_id', prof.user_id).limit(1);
+      if (!hasRole?.length) {
+        return new Response(JSON.stringify({ error: 'This email is already used by a self-registered learner account, so it cannot be given staff access. Please use a different email.' }), { status: 200, headers: { ...corsHeaders, 'Content-Type': 'application/json' } });
+      }
       userId = prof.user_id;
       existing = true;
     } else {
