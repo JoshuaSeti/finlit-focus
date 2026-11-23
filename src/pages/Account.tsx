@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { Navigate, Link } from 'react-router-dom';
 import { Layout } from '@/components/layout/Layout';
 import { Button } from '@/components/ui/button';
@@ -20,14 +20,15 @@ const Account = () => {
   const [f, setF] = useState({ full_name: '', display_name: '', avatar: '🦁', town: '', age: '', bio: '', show_publicly: false, avatar_url: '', id: '' });
   const [pw, setPw] = useState({ a: '', b: '' });
   const [busy, setBusy] = useState(false);
+  const wasPublic = useRef(false);
 
   useEffect(() => {
     if (!user) return;
     supabase.from('profiles').select('id,full_name,display_name,avatar,avatar_url,town,age,bio,show_publicly').eq('user_id', user.id).maybeSingle()
-      .then(({ data }) => data && setF({
+      .then(({ data }) => { if (data) wasPublic.current = !!data.show_publicly; return data && setF({
         full_name: data.full_name || '', display_name: data.display_name || '', avatar: data.avatar || '🦁',
         town: data.town || '', age: data.age ? String(data.age) : '', bio: data.bio || '', show_publicly: !!data.show_publicly, avatar_url: data.avatar_url || '', id: data.id,
-      }));
+      }); });
   }, [user?.id]);
 
   if (isLoading) return null;
@@ -35,15 +36,28 @@ const Account = () => {
 
   const save = async () => {
     setBusy(true);
+    // Hiding the card: move the photo to a new file so links already copied stop working.
+    let avatarUrl = f.avatar_url;
+    if (wasPublic.current && !f.show_publicly && avatarUrl) {
+      const m = avatarUrl.match(/avatars\/([^?]+)/);
+      const old = m ? decodeURIComponent(m[1]) : null;
+      if (old && old.startsWith(`${user.id}/`)) {
+        const next = `${user.id}/${crypto.randomUUID()}.${old.split('.').pop() || 'jpg'}`;
+        const { error: mvErr } = await supabase.storage.from('avatars').move(old, next);
+        const signed = mvErr ? null : await supabase.storage.from('avatars').createSignedUrl(next, 60 * 60 * 24 * 365 * 10);
+        if (signed?.data?.signedUrl) avatarUrl = signed.data.signedUrl;
+      }
+    }
     const { error } = await supabase.from('profiles').update({
       full_name: f.full_name.trim().slice(0, 80), display_name: f.display_name.trim().slice(0, 40) || null,
       avatar: f.avatar, town: f.town.trim().slice(0, 40) || null, age: (() => { const n = parseInt(f.age, 10); return n >= 5 && n <= 120 ? n : null; })(), bio: f.bio.trim().slice(0, 140) || null,
-      show_publicly: f.show_publicly, avatar_url: f.avatar_url || null,
+      show_publicly: f.show_publicly, avatar_url: avatarUrl || null,
     }).eq('user_id', user.id);
     if (!error && !f.avatar_url) {
       const { data: files } = await supabase.storage.from('avatars').list(user.id);
       if (files?.length) await supabase.storage.from('avatars').remove(files.map((x) => `${user.id}/${x.name}`));
     }
+    if (!error) { wasPublic.current = f.show_publicly; if (avatarUrl !== f.avatar_url) setF((p) => ({ ...p, avatar_url: avatarUrl })); }
     setBusy(false);
     toast(error ? { title: 'Could not save', description: error.message, variant: 'destructive' } : { title: 'Profile saved' });
   };

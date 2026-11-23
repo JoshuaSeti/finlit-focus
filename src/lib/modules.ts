@@ -15,17 +15,13 @@ export type LearningModule = {
 
 export const progressKey = (slug: string) => `finlit-progress-${slug}`;
 
-/** Fetch the module's current HTML: an uploaded version wins over the built-in file. */
-export async function loadModuleHtml(m: Pick<LearningModule, 'storage_path' | 'default_path'>): Promise<string> {
-  if (m.storage_path) {
-    const { data, error } = await supabase.storage.from('modules').download(m.storage_path);
-    if (!error && data) return await data.text();
-    if (!m.default_path) throw error || new Error('Could not load module');
-  }
-  if (!m.default_path) throw new Error('This module has no content yet');
-  const r = await fetch(m.default_path, { cache: 'no-cache' });
-  if (!r.ok) throw new Error('Could not load module');
-  return await r.text();
+/** Fetch the module's HTML through the backend, which checks the learner may open it. */
+export async function loadModuleHtml(m: Pick<LearningModule, 'slug'>): Promise<string> {
+  const { data, error } = await supabase.functions.invoke('module-content', { body: { slug: m.slug } });
+  if (error) throw new Error('Could not load module');
+  if (typeof data === 'string') return data;
+  if (data instanceof Blob) return await data.text();
+  throw new Error('Could not load module');
 }
 
 /** Prepare module HTML to run inside the site: add the bridge, fix links that pointed at the old site. */

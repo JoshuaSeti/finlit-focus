@@ -32,6 +32,21 @@ Deno.serve(async (req) => {
       return json(await confirmPayment(parsed.data.referenceId));
     }
 
+    // Limit how often prompts can be sent so the endpoint can't be used to spam phones.
+    const since = new Date(Date.now() - 24 * 3600 * 1000).toISOString();
+    const { data: recent } = await db.from('lipila_payments').select('created_at,status,phone')
+      .eq('user_id', user.id).gte('created_at', since).order('created_at', { ascending: false });
+    const last = recent?.[0];
+    if (last && last.status === 'pending' && Date.now() - new Date(last.created_at).getTime() < 3 * 60 * 1000)
+      return json({ error: 'A payment prompt was just sent. Please wait a few minutes before trying again.' }, 429);
+    if ((recent?.length ?? 0) >= 5)
+      return json({ error: 'Too many payment attempts today. Please try again tomorrow.' }, 429);
+    const d0 = parsed.data.phone.replace(/^0/, '');
+    const norm = d0.startsWith('260') ? d0 : `260${d0}`;
+    const used = new Set((recent ?? []).map((r: any) => r.phone));
+    if (used.size >= 2 && !used.has(norm))
+      return json({ error: 'Too many different numbers used today. Please use a number you tried before.' }, 429);
+
     const digits = parsed.data.phone.replace(/^0/, '');
     const phone = digits.startsWith('260') ? digits : `260${digits}`;
     const referenceId = crypto.randomUUID();

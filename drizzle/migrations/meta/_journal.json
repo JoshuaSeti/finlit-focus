@@ -190,6 +190,13 @@
       "when": 1795427940493,
       "tag": "0026_security_batch_rewards_story_helpers",
       "breakpoints": true
+    },
+    {
+      "idx": 27,
+      "version": "7",
+      "when": 1795433650842,
+      "tag": "0027_lock_progress_unlocks_holdings",
+      "breakpoints": true
     }
   ]
 }
