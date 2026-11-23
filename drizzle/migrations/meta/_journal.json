@@ -183,6 +183,13 @@
       "when": 1795175858156,
       "tag": "0025_security_hardening_batch",
       "breakpoints": true
+    },
+    {
+      "idx": 26,
+      "version": "7",
+      "when": 1795427940493,
+      "tag": "0026_security_batch_rewards_story_helpers",
+      "breakpoints": true
     }
   ]
 }

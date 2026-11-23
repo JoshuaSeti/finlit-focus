@@ -3,7 +3,7 @@ import { confirmPayment } from '../_shared/lipila.ts';
 
 async function hmacOk(raw: string, sig: string | null) {
   const secret = Deno.env.get('LIPILA_WEBHOOK_SECRET');
-  if (!secret || !sig) return null; // no signature to compare
+  if (!secret || !sig) return false; // unsigned callbacks are rejected
   const key = await crypto.subtle.importKey('raw', new TextEncoder().encode(secret), { name: 'HMAC', hash: 'SHA-256' }, false, ['sign']);
   const mac = new Uint8Array(await crypto.subtle.sign('HMAC', key, new TextEncoder().encode(raw)));
   const hex = [...mac].map((b) => b.toString(16).padStart(2, '0')).join('');
@@ -16,7 +16,7 @@ Deno.serve(async (req) => {
   if (req.method === 'OPTIONS') return new Response('ok', { headers: corsHeaders });
   const raw = await req.text();
   const sig = req.headers.get('x-signature') ?? req.headers.get('x-lipila-signature') ?? req.headers.get('signature');
-  if ((await hmacOk(raw, sig)) === false) return new Response('bad signature', { status: 401, headers: corsHeaders });
+  if (!(await hmacOk(raw, sig))) return new Response('bad signature', { status: 401, headers: corsHeaders });
   let body: any = {};
   try { body = JSON.parse(raw); } catch { /* ignore */ }
   const ref = String(body?.referenceId ?? body?.data?.referenceId ?? '');

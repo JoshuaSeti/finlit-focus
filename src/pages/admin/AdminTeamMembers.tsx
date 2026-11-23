@@ -136,7 +136,19 @@ export default function AdminTeamMembers() {
 
   const toggle = useMutation({
     mutationFn: async (m: Member) => {
-      const { error } = await supabase.from("team_members").update({ is_active: !m.isActive }).eq("id", m.id);
+      const patch: { is_active: boolean; image_url?: string } = { is_active: !m.isActive };
+      // Hiding a member moves their photo so any previously shared link stops working.
+      const match = m.isActive ? /\/team-photos\/([^?]+)/.exec(m.photo ?? "") : null;
+      if (match) {
+        const oldPath = decodeURIComponent(match[1]);
+        const newPath = `${crypto.randomUUID()}.${oldPath.split(".").pop() ?? "jpg"}`;
+        const { error: mv } = await supabase.storage.from("team-photos").move(oldPath, newPath);
+        if (mv) throw mv;
+        const { data, error: e2 } = await supabase.storage.from("team-photos").createSignedUrl(newPath, 60 * 60 * 24 * 365 * 10);
+        if (e2) throw e2;
+        patch.image_url = data.signedUrl;
+      }
+      const { error } = await supabase.from("team_members").update(patch).eq("id", m.id);
       if (error) throw error;
     },
     onSuccess: refresh,
