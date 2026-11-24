@@ -39,7 +39,8 @@ import {
 const emptyScores = (): Scores => Object.fromEntries(ORDER.map((g) => [g, { c: 0, t: 0 }])) as Scores;
 
 const Diagnostic = () => {
-  const { user } = useAuth();
+ const { user, isAdmin } = useAuth();
+
   const navigate = useNavigate();
 
   // Stages: intro -> age -> situation (Part A) -> scenarios (Part B) -> reality (Part C) -> done
@@ -90,7 +91,8 @@ const Diagnostic = () => {
     });
   }, [user?.id]);
 
-  const retakeLocked = hadPrev && !paid && stage === 'intro';
+ const retakeLocked = !isAdmin && hadPrev && !paid && stage === 'intro';
+
 
   // 1. Submit Age
   const submitAge = async () => {
