@@ -12,7 +12,7 @@ import { LearningModule, loadModuleHtml, prepareModuleHtml, progressKey, shareSe
 const ModulePlayer = () => {
   const { slug = '' } = useParams();
   const navigate = useNavigate();
-  const { user, isLoading } = useAuth();
+ const { user, isAdmin, isLoading } = useAuth();
   const [src, setSrc] = useState<string | null>(null);
   const [title, setTitle] = useState('');
   const [error, setError] = useState('');
@@ -36,9 +36,12 @@ const ModulePlayer = () => {
       if (!m) { setError('This lesson could not be found.'); return; }
       setTitle((m as LearningModule).title);
       // Only the learner's recommended starting lesson is free; the rest need the K20 unlock.
-      const acc = await getAccess(user?.id ?? null);
-      if (!acc.paid && (!acc.scores || slug !== freeSlug(acc.scores))) { setLocked(true); return; }
-      setLocked(false);
+     const acc = await getAccess(user?.id ?? null);
+if (!isAdmin && !acc.paid && (!acc.scores || slug !== freeSlug(acc.scores))) { 
+  setLocked(true); 
+  return; 
+}
+
       if (user) {
         await shareSessionWithSimulator();
         const { data: p } = await supabase.from('module_progress').select('progress').eq('user_id', user.id).eq('module_slug', slug).maybeSingle();
