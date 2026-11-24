@@ -20,7 +20,7 @@ type Tag = 'Start here' | 'Learn next' | 'Review' | null;
 type NodeState = 'done' | 'next' | 'progress' | 'upcoming';
 
 const ModulesList = () => {
-  const { user, isLoading: authLoading } = useAuth();
+ const { user, isAdmin, isLoading: authLoading } = useAuth();
   const [mods, setMods] = useState<LearningModule[]>([]);
   const [prog, setProg] = useState<Record<string, Prog>>({});
   const [loading, setLoading] = useState(true);
@@ -76,7 +76,7 @@ const ModulesList = () => {
   }, [groups, prog]);
 
   const free = scores ? freeSlug(scores) : '';
-  const isLocked = (slug: string) => !paid && slug !== free;
+ const isLocked = (slug: string) => !isAdmin && !paid && slug !== free;
   const total = mods.length;
   const done = mods.filter((m) => prog[m.slug]?.completed_at).length;
   const pctAll = total ? Math.round((done / total) * 100) : 0;
