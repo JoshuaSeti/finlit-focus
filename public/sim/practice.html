@@ -112,7 +112,11 @@ function finish(d) {
   finished = true; clearInterval(pollTimer);
   $('peState').hidden = true; $('peDone').hidden = false;
   const q = d.questions || { total: 0, correct: 0 };
-  $('peDoneText').textContent = q.total ? 'You taught your yungsta ' + q.correct + ' of ' + q.total + ' correctly' + (d.scenario && d.scenario.has ? ' and made the call in a real-life moment.' : '.') + ' Go back to the lesson to continue.' : 'Go back to the lesson to continue.';
+  $('peDoneText').textContent = q.total
+    ? (d.passed === false
+      ? 'You taught your yungsta ' + q.correct + ' of ' + q.total + ' correctly. Review the lesson and practise again in 15 minutes to earn your simulator reward.'
+      : 'You taught your yungsta ' + q.correct + ' of ' + q.total + ' correctly' + (d.scenario && d.scenario.has ? ' and made the call in a real-life moment.' : '.') + ' Go back to the lesson to continue.')
+    : 'Go back to the lesson to continue.';
   post('practice-complete', { lesson: LESSON, available: d.available !== false, questions: q });
   // the lesson is already marked complete above; this step is optional and never holds anything back
   if (window.Mirror) Mirror.mountPractice($('peMirror'), LESSON);

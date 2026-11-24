@@ -47,4 +47,27 @@ live('selected security access rules', () => {
     const r = await request('/functions/v1/module-content', { slug: 'module-4-0' });
     expect(r.status).toBe(403);
   });
+  it('denies mobile-money payment prompt without a verified account phone', async () => {
+    const r = await request('/functions/v1/lipila-pay', { action: 'start' });
+    expect(r.status).toBe(403);
+    expect(r.data.code).toBe('phone_not_verified');
+  });
+  it('rejects caller-supplied arbitrary phone numbers on lipila-pay', async () => {
+    const r = await request('/functions/v1/lipila-pay', { action: 'start', phone: '260971234567' });
+    expect(r.status).toBe(403);
+    expect(r.data.code).toBe('phone_not_verified');
+  });
+  it('denies lesson reward claim for locked lesson via story_fire_lesson', async () => {
+    const r = await request('/rest/v1/rpc/story_fire_lesson', { p_lesson: '4-0' });
+    expect(r.data.error).toBe('lesson_locked');
+  });
+  it('does not grant reputation or learner_lessons from story_fire_lesson alone', async () => {
+    const r = await request('/rest/v1/rpc/story_fire_lesson', { p_lesson: '0a' });
+    expect(r.data.ok).toBe(true);
+    expect(r.data.reward_requires_practice).toBe(true);
+  });
+  it('denies direct calls to internal story_set_flag helper', async () => {
+    const r = await request('/rest/v1/rpc/story_set_flag', { p: user, f: 'learned_credit_scores', ev: null });
+    expect(r.status).toBe(403);
+  });
 });

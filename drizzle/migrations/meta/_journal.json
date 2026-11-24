@@ -204,6 +204,13 @@
       "when": 1795526788634,
       "tag": "0028_secure_selected_placement_and_simulator_paths",
       "breakpoints": true
+    },
+    {
+      "idx": 29,
+      "version": "7",
+      "when": 1795531361462,
+      "tag": "0029_secure_lesson_rewards_and_verified_practice",
+      "breakpoints": true
     }
   ]
 }

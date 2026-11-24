@@ -7,7 +7,7 @@ const json = (b: unknown, status = 200) =>
   new Response(JSON.stringify(b), { status, headers: { ...corsHeaders, 'Content-Type': 'application/json' } });
 
 const Body = z.union([
-  z.object({ action: z.literal('start'), phone: z.string().regex(/^(260|0)?[79]\d{8}$/) }),
+  z.object({ action: z.literal('start') }),
   z.object({ action: z.literal('check'), referenceId: z.string().uuid() }),
 ]);
 
@@ -22,7 +22,7 @@ Deno.serve(async (req) => {
     if (!user) return json({ error: 'Please sign in first.' }, 401);
 
     const parsed = Body.safeParse(await req.json());
-    if (!parsed.success) return json({ error: 'Please enter a valid Zambian mobile number.' }, 400);
+    if (!parsed.success) return json({ error: 'Invalid payment request.' }, 400);
     const db = admin();
 
     if (parsed.data.action === 'check') {
@@ -32,23 +32,34 @@ Deno.serve(async (req) => {
       return json(await confirmPayment(parsed.data.referenceId));
     }
 
+    // Do not send prompts if the account is already unlocked.
+    const { data: access } = await db.from('lesson_access').select('user_id').eq('user_id', user.id).maybeSingle();
+    if (access) return json({ error: 'Your account already has full lesson access.' }, 409);
+
+    // Only send a mobile-money prompt to a Zambian phone number verified on this account.
+    const verifiedDigits = user.phone_confirmed_at ? String(user.phone ?? '').replace(/\D/g, '') : '';
+    const phone = /^260[79]\d{8}$/.test(verifiedDigits) ? verifiedDigits : null;
+    if (!phone) {
+      return json({
+        error: 'Please verify your Zambian mobile number on your account before starting a payment.',
+        code: 'phone_not_verified',
+      }, 403);
+    }
+
     // Limit how often prompts can be sent so the endpoint can't be used to spam phones.
     const since = new Date(Date.now() - 24 * 3600 * 1000).toISOString();
-    const { data: recent } = await db.from('lipila_payments').select('created_at,status,phone')
+    const { data: recent } = await db.from('lipila_payments').select('created_at,status')
       .eq('user_id', user.id).gte('created_at', since).order('created_at', { ascending: false });
     const last = recent?.[0];
     if (last && last.status === 'pending' && Date.now() - new Date(last.created_at).getTime() < 3 * 60 * 1000)
       return json({ error: 'A payment prompt was just sent. Please wait a few minutes before trying again.' }, 429);
     if ((recent?.length ?? 0) >= 5)
       return json({ error: 'Too many payment attempts today. Please try again tomorrow.' }, 429);
-    const d0 = parsed.data.phone.replace(/^0/, '');
-    const norm = d0.startsWith('260') ? d0 : `260${d0}`;
-    const used = new Set((recent ?? []).map((r: any) => r.phone));
-    if (used.size >= 2 && !used.has(norm))
-      return json({ error: 'Too many different numbers used today. Please use a number you tried before.' }, 429);
+    const { count: phoneCount } = await db.from('lipila_payments').select('id', { count: 'exact', head: true })
+      .eq('phone', phone).gte('created_at', since);
+    if ((phoneCount ?? 0) >= 5)
+      return json({ error: 'Too many payment prompts were sent to this number today. Please try again tomorrow.' }, 429);
 
-    const digits = parsed.data.phone.replace(/^0/, '');
-    const phone = digits.startsWith('260') ? digits : `260${digits}`;
     const referenceId = crypto.randomUUID();
     await db.from('lipila_payments').insert({ user_id: user.id, reference_id: referenceId, amount: PRICE_ZMW, phone });
 
