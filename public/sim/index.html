@@ -150,7 +150,7 @@
   // ── Profile + cash ──────────────────────────────────────────
   const { data: profile } = await supabase
     .from('sim_profiles')
-    .select('display_name, character_name, relationship, avatar, backstory, cash_balance, reputation_score')
+    .select('display_name, character_name, relationship, avatar, backstory, cash_balance, reputation_score, stress')
     .eq('id', user.id)
     .single();
 
@@ -314,7 +314,7 @@ async function renderActionCard(profile) {
     }
 
     // 3. Default: Recommend continuing lessons on the roadmap
-    const name = profile?.name || 'your character';
+   const name = profile?.character_name || 'your character';
     container.innerHTML = `
       <div class="quest-card">
         <div class="quest-icon">🎯</div>
