@@ -238,7 +238,15 @@
 
   const repScore = profile?.reputation_score ?? 50;
   document.getElementById('repScore').textContent = Math.round(repScore);
-  document.getElementById('repLabel').textContent = reputationLabel(repScore);
+ document.getElementById('cashValue').textContent = fmtKwacha(profile?.cash_balance);
+// Populate Living Budget HUD
+document.getElementById('hudCash').textContent = fmtKwacha(profile?.cash_balance);
+if (profile?.backstory) {
+  const parts = profile.backstory.split('•');
+  if (parts[1]) document.getElementById('hudArchetypeTitle').textContent = parts[1].trim();
+  if (parts[0]) document.getElementById('hudBaseline').textContent = parts[0].trim();
+}
+
 
   // ── Holdings value ──────────────────────────────────────────
   const { data: holdings } = await supabase
