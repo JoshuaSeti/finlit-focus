@@ -12,7 +12,10 @@ export function FriendsCircle({ userId }: { userId: string }) {
   const [friends, setFriends] = useState<Card[]>([]);
   const [me, setMe] = useState<{ id: string; show_publicly: boolean } | null>(null);
   useEffect(() => {
-    supabase.rpc('my_friends').then(({ data }) => setFriends((data as unknown as Card[]) || []));
+    supabase.rpc('my_friends').then(({ data }) => {
+  const list = (data as unknown as Card[]) || [];
+  setFriends(list.filter((f): f is Card => Boolean(f && f.id)));
+});
     supabase.from('profiles').select('id,show_publicly').eq('user_id', userId).maybeSingle().then(({ data }) => data && setMe(data));
   }, [userId]);
 
