@@ -259,5 +259,77 @@ function drawChart(values) {
   ctx.fill();
 }
 </script>
+
+<script>
+async function renderActionCard(profile) {
+  const container = document.getElementById('actionCard');
+  if (!container || !window.supabase) return;
+
+  try {
+    const { data: session } = await window.supabase.auth.getSession();
+    const uid = session?.session?.user?.id;
+    if (!uid) return;
+
+    // 1. Check for urgent pending decision/call
+    const { data: pending } = await window.supabase
+      .from('story_calls')
+      .select('id, caller_name, topic, urgency')
+      .eq('player_id', uid)
+      .eq('status', 'pending')
+      .order('created_at', { ascending: false })
+      .limit(1)
+      .maybeSingle();
+
+    if (pending) {
+      container.innerHTML = `
+        <div class="quest-card urgent">
+          <div class="quest-icon">📞</div>
+          <div class="quest-content">
+            <div class="quest-kicker">Urgent Decision</div>
+            <div class="quest-title">${pending.caller_name || 'Incoming Call'}</div>
+            <div class="quest-desc">${pending.topic || 'A situation needs your financial judgment.'}</div>
+            <a href="calls.html" class="quest-btn">Answer Call &rarr;</a>
+          </div>
+        </div>
+      `;
+      return;
+    }
+
+    // 2. Check if stress is high (debt or cash emergency)
+    if (profile && profile.stress >= 65) {
+      container.innerHTML = `
+        <div class="quest-card warning">
+          <div class="quest-icon">⚠️</div>
+          <div class="quest-content">
+            <div class="quest-kicker">High Stress Alert</div>
+            <div class="quest-title">Stress at ${profile.stress}%</div>
+            <div class="quest-desc">Your financial pressure is rising. Check your debt schedule or explore ventures to stabilize.</div>
+            <a href="debts.html" class="quest-btn">Review Debts &rarr;</a>
+          </div>
+        </div>
+      `;
+      return;
+    }
+
+    // 3. Default: Recommend continuing lessons on the roadmap
+    const name = profile?.name || 'your character';
+    container.innerHTML = `
+      <div class="quest-card">
+        <div class="quest-icon">🎯</div>
+        <div class="quest-content">
+          <div class="quest-kicker">Next Mission</div>
+          <div class="quest-title">Continue your FinLit lessons</div>
+          <div class="quest-desc">Completing modules unlocks new income ventures, trading, and scenarios for ${name}.</div>
+          <a href="/modules" class="quest-btn">Go to Lessons &rarr;</a>
+        </div>
+      </div>
+    `;
+  } catch (err) {
+    console.warn('Action card guidance failed to render', err);
+  }
+}
+</script>
+
+  
 </body>
 </html>
