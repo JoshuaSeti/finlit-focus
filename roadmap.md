@@ -1,5 +1,7 @@
 # Roadmap
-- [x] Selected security findings: trusted placement, simulator flags, debt quotes, and practice ownership
+- [x] Selected security findings: trusted placement, debt quotes, and practice ownership
+- [ ] Simulator unlock flags — direct table writes are blocked, but callable flag-setting helpers remain; awaiting approval for the additional paths
+- [ ] Related review findings: external simulator lesson links, legacy dashboard reporting, and visit-based coin streaks — outside the selected fixes, awaiting scope approval
 - [ ] Lesson rewards — waiting for approval to pause rewards until independent answer checking exists
 - [ ] Payment phone ownership verification — waiting for approval of the extra payment step
 - [x] Password reset on learner, admin, facilitator, and simulator login pages, with a public recovery page
