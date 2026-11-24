@@ -1,175 +1,652 @@
-import { useEffect, useMemo, useState } from 'react';
-import Paywall from '@/components/learning/Paywall';
-import { getAccess } from '@/lib/access';
+import { useEffect, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { motion } from 'framer-motion';
-import { Compass, Clock, HelpCircle, ArrowRight } from 'lucide-react';
+import { motion, AnimatePresence } from 'framer-motion';
+import { 
+  Compass, 
+  Clock, 
+  ArrowRight, 
+  Sparkles, 
+  ShieldAlert, 
+  Gamepad2, 
+  Wallet, 
+  TrendingUp,
+  CheckCircle2,
+  PieChart
+} from 'lucide-react';
 import { Layout } from '@/components/layout/Layout';
 import { Button } from '@/components/ui/button';
 import { Progress } from '@/components/ui/progress';
 import { supabase } from '@/integrations/supabase/client';
 import { useAuth } from '@/hooks/useAuth';
-import { GROUPS, ORDER, QUESTIONS, roadmap, saveLocal, loadLocal, type Scores } from '@/lib/placement';
+import Paywall from '@/components/learning/Paywall';
+import { getAccess } from '@/lib/access';
+import {
+  GROUPS,
+  ORDER,
+  SITUATIONS,
+  SCENARIO_QUESTIONS,
+  REALITY_QUESTIONS,
+  TRAIT_DEFS,
+  roadmap,
+  saveLocal,
+  computeCharacterResult,
+  type Situation,
+  type TraitKey,
+  type Scores,
+  type CharacterResult
+} from '@/lib/placement';
 
-const shuffle = <T,>(a: T[]) => { const b = a.slice(); for (let i = b.length - 1; i > 0; i--) { const j = Math.floor(Math.random() * (i + 1)); [b[i], b[j]] = [b[j], b[i]]; } return b; };
-const empty = (): Scores => Object.fromEntries(ORDER.map((g) => [g, { c: 0, t: 0 }])) as Scores;
+const emptyScores = (): Scores => Object.fromEntries(ORDER.map((g) => [g, { c: 0, t: 0 }])) as Scores;
 
 const Diagnostic = () => {
   const { user } = useAuth();
   const navigate = useNavigate();
-  const [stage, setStage] = useState<'intro' | 'age' | 'quiz' | 'done'>('intro');
+
+  // Stages: intro -> age -> situation (Part A) -> scenarios (Part B) -> reality (Part C) -> done
+  const [stage, setStage] = useState<'intro' | 'age' | 'situation' | 'scenarios' | 'reality' | 'done'>('intro');
   const [age, setAge] = useState('');
   const ageNum = parseInt(age, 10);
   const ageOk = ageNum >= 5 && ageNum <= 120;
+
+  // State tracking
+  const [situation, setSituation] = useState<Situation>(SITUATIONS[0]);
+  const [scenarioIdx, setScenarioIdx] = useState(0);
+  const [realityIdx, setRealityIdx] = useState(0);
+  const [pickedOpt, setPickedOpt] = useState<number | null>(null);
+
+  // Traits and Debt flags
+  const [rawTraits, setRawTraits] = useState<Record<TraitKey, number>>({
+    IMP: 0, GEN: 0, SCM: 0, RSK: 0, PLN: 0, SAV: 0
+  });
+  const [hasDebtFlag, setHasDebtFlag] = useState(false);
+
+  // Q4 Allocation State (Total = 100%)
+  const [allocations, setAllocations] = useState({
+    savings: 20,
+    family: 20,
+    wants: 20,
+    investing: 20,
+    debts: 20
+  });
+
+  // RPC 15 answers array
+  const [rpcAnswers, setRpcAnswers] = useState<number[]>([]);
+  const [groupScores, setGroupScores] = useState<Scores>(emptyScores());
+  const [characterResult, setCharacterResult] = useState<CharacterResult | null>(null);
+
+  const [saving, setSaving] = useState(false);
+  const [saveError, setSaveError] = useState('');
+  const [hadPrev, setHadPrev] = useState(false);
+  const [paid, setPaid] = useState(false);
+
+  useEffect(() => {
+    if (!user) return;
+    getAccess(user.id).then((a) => {
+      setPaid(a.paid);
+      setHadPrev(!!a.scores);
+    });
+    supabase.from('profiles').select('age').eq('user_id', user.id).maybeSingle().then(({ data }) => {
+      if (data?.age) setAge(String(data.age));
+    });
+  }, [user?.id]);
+
+  const retakeLocked = hadPrev && !paid && stage === 'intro';
+
+  // 1. Submit Age
   const submitAge = async () => {
     if (!ageOk || !user) return;
     await supabase.from('profiles').update({ age: ageNum }).eq('user_id', user.id);
-    setScores(empty()); setIdx(0); setStage('quiz');
+    setStage('situation');
   };
-  const [idx, setIdx] = useState(0);
-  const [scores, setScores] = useState<Scores>(empty);
-  const [picked, setPicked] = useState<number | null>(null);
-  const [answers, setAnswers] = useState<number[]>([]);
-  const [saveError, setSaveError] = useState('');
-  const [saving, setSaving] = useState(false);
-  const [hadPrev, setHadPrev] = useState(false);
-  const [paid, setPaid] = useState(false);
-  useEffect(() => { if (stage !== 'intro') return; if (!user) return; getAccess(user.id).then((a) => { setPaid(a.paid); setHadPrev(!!a.scores); }); supabase.from('profiles').select('age').eq('user_id', user.id).maybeSingle().then(({ data }) => { if (data?.age) setAge(String(data.age)); }); }, [user?.id]); // eslint-disable-line
-  const retakeLocked = hadPrev && !paid && stage === 'intro';
 
-  const q = QUESTIONS[idx];
-  const opts = useMemo(() => q ? shuffle(q.o.map((t, i) => ({ t, ok: i === 0, original: i }))) : [], [idx]); // eslint-disable-line
+  // 2. Select Life Situation (Part A)
+  const chooseSituation = (s: Situation) => {
+    setSituation(s);
+    setStage('scenarios');
+    setScenarioIdx(0);
+  };
 
-  const saveResult = async (submitted: number[]) => {
+  // Q4 handler
+  const submitQ4Allocation = () => {
+    const total = allocations.savings + allocations.family + allocations.wants + allocations.investing + allocations.debts;
+    if (total !== 100) return;
+
+    const savPoints = Math.min(3, Math.floor(allocations.savings / 10));
+    const genPoints = Math.min(3, Math.floor(allocations.family / 10));
+    const impPoints = Math.min(3, Math.floor(allocations.wants / 10));
+    const rskPoints = Math.min(3, Math.floor(allocations.investing / 10));
+    const plnBonus = (allocations.savings + allocations.debts) >= 40 ? 2 : 0;
+
+    setRawTraits(prev => ({
+      ...prev,
+      SAV: prev.SAV + savPoints,
+      GEN: prev.GEN + genPoints,
+      IMP: prev.IMP + impPoints,
+      RSK: prev.RSK + rskPoints,
+      PLN: prev.PLN + plnBonus,
+    }));
+
+    // Record RPC answer: prudent if savings + debts >= 40%
+    setRpcAnswers(prev => [...prev, plnBonus > 0 ? 0 : 1]);
+    setScenarioIdx(prev => prev + 1);
+  };
+
+  // Answer standard scenario question (Part B)
+  const answerScenario = (optIdx: number) => {
+    if (pickedOpt !== null || saving) return;
+    setPickedOpt(optIdx);
+
+    const q = SCENARIO_QUESTIONS[scenarioIdx];
+    const opt = q.options[optIdx];
+
+    if (opt.points) {
+      setRawTraits(prev => {
+        const next = { ...prev };
+        Object.entries(opt.points!).forEach(([k, v]) => {
+          next[k as TraitKey] = (next[k as TraitKey] || 0) + (v || 0);
+        });
+        return next;
+      });
+    }
+
+    if (opt.flagDebt) setHasDebtFlag(true);
+
+    const nextRpc = [...rpcAnswers, opt.rpcValue];
+    setRpcAnswers(nextRpc);
+
+    setTimeout(() => {
+      setPickedOpt(null);
+      if (scenarioIdx + 1 < SCENARIO_QUESTIONS.length) {
+        setScenarioIdx(prev => prev + 1);
+      } else {
+        setStage('reality');
+        setRealityIdx(0);
+      }
+    }, 220);
+  };
+
+  // Answer reality question (Part C - Doubled points)
+  const answerReality = async (optIdx: number) => {
+    if (pickedOpt !== null || saving) return;
+    setPickedOpt(optIdx);
+
+    const q = REALITY_QUESTIONS[realityIdx];
+    const opt = q.options[optIdx];
+
+    let currentTraits = { ...rawTraits };
+    if (opt.points) {
+      Object.entries(opt.points).forEach(([k, v]) => {
+        currentTraits[k as TraitKey] = (currentTraits[k as TraitKey] || 0) + (v || 0) * 2; // Doubled
+      });
+      setRawTraits(currentTraits);
+    }
+
+    const nextRpc = [...rpcAnswers, opt.rpcValue];
+    setRpcAnswers(nextRpc);
+
+    setTimeout(async () => {
+      setPickedOpt(null);
+      if (realityIdx + 1 < REALITY_QUESTIONS.length) {
+        setRealityIdx(prev => prev + 1);
+      } else {
+        // Complete & finalize
+        const charRes = computeCharacterResult(situation, currentTraits, hasDebtFlag);
+        setCharacterResult(charRes);
+        await finalizeDiagnostic(nextRpc, charRes);
+      }
+    }, 220);
+  };
+
+  // Submit to backend RPC and initialize sim_profiles
+  const finalizeDiagnostic = async (answers: number[], charRes: CharacterResult) => {
     setSaving(true);
     setSaveError('');
+
     try {
-      const { data, error } = await supabase.rpc('submit_placement', { p_answers: submitted });
+      // Ensure exactly 15 answers for backend RPC
+      const submission = answers.slice(0, 15);
+      while (submission.length < 15) submission.push(0);
+
+      const { data, error } = await supabase.rpc('submit_placement', { p_answers: submission });
       if (error) throw error;
-      const result = data as unknown as { scores: Scores };
-      setScores(result.scores);
-      saveLocal({ scores: result.scores, ts: Date.now() });
+
+      const res = data as unknown as { scores: Scores };
+      setGroupScores(res.scores);
+      saveLocal({ scores: res.scores, ts: Date.now() });
+
+      // Initialize or update simulator profile with starting cash & archetype
+      if (user) {
+        await supabase.from('sim_profiles').upsert({
+          id: user.id,
+          display_name: user.email?.split('@')[0] || 'Learner',
+          character_name: 'Yungsta',
+          cash_balance: charRes.startingCash,
+          backstory: `${charRes.situation.title} • ${charRes.archetype.title}`,
+          avatar: 'casual',
+        });
+      }
+
       import('@/lib/streak').then((m) => m.touchStreak());
       setStage('done');
     } catch {
-      setSaveError('Your result could not be saved. Please try again. Retakes require full access.');
+      setSaveError('Your result could not be saved to your profile. Retakes require full access.');
     } finally {
       setSaving(false);
     }
   };
 
-  const answer = (i: number) => {
-    if (picked !== null || saving || answers.length === QUESTIONS.length) return;
-    setPicked(i);
-    const submitted = [...answers, i < 0 ? -1 : opts[i].original];
-    setAnswers(submitted);
-    const next = { ...scores, [q.g]: { c: scores[q.g].c + (i >= 0 && opts[i].ok ? 1 : 0), t: scores[q.g].t + 1 } };
-    setScores(next);
-    setTimeout(async () => {
-      setPicked(null);
-      if (idx + 1 < QUESTIONS.length) return setIdx(idx + 1);
-      if (user) await saveResult(submitted);
-    }, 220);
-  };
-
-  const r = roadmap(scores);
+  const r = roadmap(groupScores);
   const start = GROUPS[r.start];
 
   return (
     <Layout>
-      <section className="container mx-auto px-4 py-12 max-w-xl">
-        {saving && <p role="status" className="mb-4 text-muted-foreground">Saving your result…</p>}
-        {saveError && <div className="mb-5 space-y-3">
-          <p role="alert" className="text-destructive">{saveError}</p>
-          <Button onClick={() => saveResult(answers)} disabled={saving}>Try saving again</Button>
-        </div>}
-        {!user && (
-          <div className="text-center">
-            <div className="mx-auto w-16 h-16 rounded-2xl bg-primary/10 flex items-center justify-center mb-5"><Compass className="w-8 h-8 text-primary" /></div>
-            <h1 className="text-3xl font-bold text-foreground">Find your starting point</h1>
-            <p className="text-muted-foreground mt-3">Create a free account to take your placement test, save your path and open your free lesson.</p>
-            <Button size="lg" className="w-full mt-6" onClick={() => navigate('/login?next=/diagnostic')}>Create free account</Button>
-            <button className="text-sm text-primary mt-4 underline" onClick={() => navigate('/login?next=/diagnostic&mode=signin')}>I already have an account</button>
+      <section className="container mx-auto px-4 py-12 max-w-2xl">
+        {saving && (
+          <div className="text-center py-12">
+            <div className="w-10 h-10 border-4 border-primary border-t-transparent rounded-full animate-spin mx-auto mb-4" />
+            <p className="text-muted-foreground font-medium">Building your financial profile & character…</p>
           </div>
         )}
+
+        {saveError && (
+          <div className="mb-6 p-4 rounded-xl border border-destructive/40 bg-destructive/10 text-destructive space-y-3">
+            <p className="font-semibold text-sm">{saveError}</p>
+            <Button onClick={() => finalizeDiagnostic(rpcAnswers, characterResult!)} disabled={saving}>
+              Try saving again
+            </Button>
+          </div>
+        )}
+
+        {/* 1. Guest Gate */}
+        {!user && stage === 'intro' && (
+          <div className="text-center py-6">
+            <div className="mx-auto w-16 h-16 rounded-2xl bg-primary/10 flex items-center justify-center mb-5">
+              <Compass className="w-8 h-8 text-primary" />
+            </div>
+            <h1 className="text-3xl font-extrabold text-foreground">Find your starting point</h1>
+            <p className="text-muted-foreground mt-3 max-w-md mx-auto">
+              Create a free account to take your 17-question intake, map your money habits, and unlock your simulator profile.
+            </p>
+            <Button size="lg" className="w-full max-w-sm mt-6 rounded-full font-semibold" onClick={() => navigate('/login?next=/diagnostic')}>
+              Create free account
+            </Button>
+            <div className="mt-4">
+              <button className="text-sm text-primary underline" onClick={() => navigate('/login?next=/diagnostic&mode=signin')}>
+                I already have an account
+              </button>
+            </div>
+          </div>
+        )}
+
+        {/* 2. Retake Locked Paywall */}
         {user && retakeLocked && (
           <div className="flex flex-col">
             <Paywall signedIn={!!user} title="Retake your placement test" note="Your path is ready. Unlock full access to retake the test and open every lesson." onUnlocked={() => setPaid(true)} />
-            <Link to="/modules" className="text-sm text-center text-muted-foreground underline">Back to my lessons</Link>
+            <Link to="/modules" className="text-sm text-center text-muted-foreground underline mt-4">Back to my lessons</Link>
           </div>
         )}
+
+        {/* 3. Intro Screen */}
         {user && stage === 'intro' && !retakeLocked && (
-          <motion.div initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }} className="text-center">
-            <div className="mx-auto w-16 h-16 rounded-2xl bg-primary/10 flex items-center justify-center mb-5"><Compass className="w-8 h-8 text-primary" /></div>
-            <h1 className="text-3xl font-bold text-foreground">Find your starting point</h1>
-            <p className="text-muted-foreground mt-3">15 questions on money in Zambia. Your answers decide where your path begins.</p>
-            <ul className="text-left rounded-xl border border-border bg-card p-5 mt-8 space-y-3 text-sm">
-              <li className="flex gap-3"><Clock className="w-4 h-4 text-primary mt-0.5 shrink-0" />About 3 minutes. No marks, no pressure.</li>
-              <li className="flex gap-3"><HelpCircle className="w-4 h-4 text-primary mt-0.5 shrink-0" />Not sure? Tap "I don't know". That tells us where to start you.</li>
-              <li className="flex gap-3"><Compass className="w-4 h-4 text-primary mt-0.5 shrink-0" />This isn't a pass or fail test. Everyone goes through every lesson. It only picks where you start.</li>
-            </ul>
-            <Button size="lg" className="w-full mt-6" onClick={() => setStage('age')}>{hadPrev ? 'Retake the test' : 'Start'}</Button>
-            {hadPrev ? <p className="text-xs text-muted-foreground mt-3">Retaking replaces your current path.</p>
-              : <button className="text-xs text-muted-foreground mt-4 underline" onClick={() => navigate('/modules?skip=1')}>Skip for now</button>}
+          <motion.div initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }} className="text-center py-4">
+            <div className="mx-auto w-16 h-16 rounded-2xl bg-primary/10 flex items-center justify-center mb-5">
+              <Sparkles className="w-8 h-8 text-primary" />
+            </div>
+            <h1 className="text-3xl font-extrabold text-foreground">Financial Intake & Placement</h1>
+            <p className="text-muted-foreground mt-3 text-base">
+              17 real-world Zambian questions. Shapes your curriculum and builds your character in the Yungsta Simulator.
+            </p>
+            <div className="rounded-2xl border border-border bg-card p-6 mt-8 space-y-4 text-left text-sm">
+              <div className="flex items-start gap-3">
+                <Clock className="w-5 h-5 text-primary mt-0.5 shrink-0" />
+                <span>Takes about 3–4 minutes. There are no right or wrong answers—only real choices.</span>
+              </div>
+              <div className="flex items-start gap-3">
+                <Wallet className="w-5 h-5 text-primary mt-0.5 shrink-0" />
+                <span>Sets your starting cash, income, and life situation in the simulator.</span>
+              </div>
+              <div className="flex items-start gap-3">
+                <Compass className="w-5 h-5 text-primary mt-0.5 shrink-0" />
+                <span>Maps your 6 financial traits and unlocks your first recommended free lesson.</span>
+              </div>
+            </div>
+            <Button size="lg" className="w-full mt-8 rounded-full font-semibold" onClick={() => setStage('age')}>
+              {hadPrev ? 'Retake Intake Test' : 'Begin Intake'}
+            </Button>
           </motion.div>
         )}
 
+        {/* 4. Age Screen */}
         {user && stage === 'age' && (
-          <motion.div initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }} className="text-center">
+          <motion.div initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }} className="text-center py-6">
             <h1 className="text-2xl font-bold text-foreground">How old are you?</h1>
-            <p className="text-muted-foreground mt-2 text-sm">This helps us shape lessons for people like you.</p>
+            <p className="text-muted-foreground mt-2 text-sm">Helps us tailor practical scenarios for people in your age group.</p>
             <form onSubmit={(e) => { e.preventDefault(); submitAge(); }}>
-              <input type="number" inputMode="numeric" min={5} max={120} autoFocus value={age} onChange={(e) => setAge(e.target.value)} placeholder="e.g. 24" aria-label="Your age" className="mt-6 w-40 mx-auto block text-center text-3xl font-bold rounded-xl border-2 border-border bg-card p-4 focus:border-primary outline-none" />
+              <input 
+                type="number" 
+                inputMode="numeric" 
+                min={5} 
+                max={120} 
+                autoFocus 
+                value={age} 
+                onChange={(e) => setAge(e.target.value)} 
+                placeholder="24" 
+                aria-label="Your age" 
+                className="mt-6 w-36 mx-auto block text-center text-4xl font-extrabold rounded-2xl border-2 border-border bg-card p-4 focus:border-primary outline-none" 
+              />
               {age && !ageOk && <p className="text-xs text-destructive mt-2">Please enter an age between 5 and 120.</p>}
-              <Button type="submit" size="lg" className="w-full mt-6" disabled={!ageOk}>Continue <ArrowRight className="w-4 h-4 ml-2" /></Button>
+              <Button type="submit" size="lg" className="w-full mt-8 rounded-full font-semibold" disabled={!ageOk}>
+                Continue <ArrowRight className="w-4 h-4 ml-2" />
+              </Button>
             </form>
           </motion.div>
         )}
 
-        {stage === 'quiz' && q && (
-          <div>
-            <div className="text-xs font-semibold tracking-widest text-muted-foreground mb-2">{idx + 1} OF {QUESTIONS.length}</div>
-            <Progress value={(idx / QUESTIONS.length) * 100} className="h-2 mb-8" />
-            <motion.h2 key={idx} initial={{ opacity: 0, x: 16 }} animate={{ opacity: 1, x: 0 }} className="text-xl font-semibold text-foreground mb-6">{q.q}</motion.h2>
-            <div className="space-y-3">
-              {opts.map((o, i) => (
-                <button key={i} onClick={() => answer(i)} className={`w-full text-left rounded-xl border-2 p-4 transition-colors ${picked === i ? 'border-primary bg-primary/10' : 'border-border bg-card hover:border-primary/50'}`}>{o.t}</button>
+        {/* 5. Part A: Life Situation */}
+        {user && stage === 'situation' && (
+          <motion.div initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }}>
+            <div className="text-xs font-mono font-bold tracking-widest text-primary uppercase mb-2">
+              Part A: Your Starting Baseline
+            </div>
+            <h2 className="text-2xl font-bold text-foreground mb-2">
+              Which sounds most like your life right now?
+            </h2>
+            <p className="text-sm text-muted-foreground mb-6">
+              This sets your starting cash, monthly income, and living obligations in the Yungsta simulator.
+            </p>
+
+            <div className="space-y-3.5">
+              {SITUATIONS.map((s) => (
+                <button
+                  key={s.id}
+                  onClick={() => chooseSituation(s)}
+                  className="w-full text-left p-5 rounded-2xl border border-border/80 bg-card hover:border-primary/60 hover:bg-muted/30 transition-all group"
+                >
+                  <div className="flex justify-between items-start mb-1">
+                    <span className="font-bold text-foreground group-hover:text-primary transition-colors text-base">
+                      {s.title}
+                    </span>
+                    <span className="text-xs font-mono font-semibold px-2.5 py-1 rounded-md bg-muted text-foreground">
+                      Start: K{s.cash.toLocaleString()}
+                    </span>
+                  </div>
+                  <p className="text-xs text-muted-foreground mb-3">{s.subtitle}</p>
+                  <div className="flex gap-4 text-[11px] font-mono text-muted-foreground border-t border-border/50 pt-2">
+                    <span>Income: ~K{s.income.toLocaleString()}/mo</span>
+                    <span>Obligations: K{s.obligations.toLocaleString()}/mo</span>
+                  </div>
+                </button>
               ))}
-              <button onClick={() => answer(-1)} className={`w-full text-left rounded-xl border-2 border-dashed p-4 text-muted-foreground ${picked === -1 ? 'border-primary' : 'border-border'}`}>I don't know</button>
+            </div>
+          </motion.div>
+        )}
+
+        {/* 6. Part B: Scenario Dilemmas (Q2 to Q14) */}
+        {user && stage === 'scenarios' && (
+          <div>
+            <div className="flex items-center justify-between mb-2">
+              <span className="text-xs font-mono font-bold tracking-widest text-primary uppercase">
+                Part B: Scenarios • Question {scenarioIdx + 2} of 17
+              </span>
+              <span className="text-xs text-muted-foreground font-mono">
+                {Math.round(((scenarioIdx + 2) / 17) * 100)}%
+              </span>
+            </div>
+            <Progress value={((scenarioIdx + 2) / 17) * 100} className="h-2 mb-8" />
+
+            {/* Special Question 4: 100% Allocation Splitter */}
+            {scenarioIdx === 2 ? (
+              <div className="bg-card border border-border/80 rounded-2xl p-6 sm:p-7">
+                <div className="flex items-center gap-2 text-xs font-mono font-semibold text-primary uppercase mb-2">
+                  <PieChart className="w-4 h-4" /> Allocation Challenge
+                </div>
+                <h3 className="text-xl font-bold text-foreground mb-2">
+                  You earn a K5,000 unexpected bonus or profit.
+                </h3>
+                <p className="text-xs text-muted-foreground mb-6">
+                  Split 100% of the money across these buckets. Total must equal exactly 100%.
+                </p>
+
+                <div className="space-y-4 mb-6">
+                  {[
+                    { key: 'savings', label: 'Savings & Safety Buffer', value: allocations.savings },
+                    { key: 'family', label: 'Family & Relatives Assistance', value: allocations.family },
+                    { key: 'wants', label: 'Personal Wants & Enjoyment', value: allocations.wants },
+                    { key: 'investing', label: 'Investing & Small Business Stock', value: allocations.investing },
+                    { key: 'debts', label: 'Paying Down Debts / Prepaying Bills', value: allocations.debts },
+                  ].map((b) => (
+                    <div key={b.key} className="space-y-1.5">
+                      <div className="flex justify-between text-xs font-medium">
+                        <span>{b.label}</span>
+                        <span className="font-mono font-bold text-primary">{b.value}% (K{(5000 * b.value / 100).toLocaleString()})</span>
+                      </div>
+                      <input
+                        type="range"
+                        min="0"
+                        max="100"
+                        step="5"
+                        value={b.value}
+                        onChange={(e) => setAllocations({ ...allocations, [b.key]: parseInt(e.target.value, 10) })}
+                        className="w-full h-2 bg-muted rounded-lg appearance-none cursor-pointer accent-primary"
+                      />
+                    </div>
+                  ))}
+                </div>
+
+                {(() => {
+                  const total = allocations.savings + allocations.family + allocations.wants + allocations.investing + allocations.debts;
+                  return (
+                    <div className="pt-4 border-t border-border flex items-center justify-between">
+                      <span className={`text-xs font-mono font-bold ${total === 100 ? 'text-green-600' : 'text-destructive'}`}>
+                        Total: {total}% {total !== 100 && `(${100 - total}% remaining)`}
+                      </span>
+                      <Button onClick={submitQ4Allocation} disabled={total !== 100} className="rounded-full font-semibold">
+                        Confirm Split <ArrowRight className="w-4 h-4 ml-1.5" />
+                      </Button>
+                    </div>
+                  );
+                })()}
+              </div>
+            ) : (
+              <div>
+                <motion.h3 
+                  key={scenarioIdx} 
+                  initial={{ opacity: 0, x: 14 }} 
+                  animate={{ opacity: 1, x: 0 }} 
+                  className="text-xl font-bold text-foreground mb-6 leading-snug"
+                >
+                  {SCENARIO_QUESTIONS[scenarioIdx].question}
+                </motion.h3>
+
+                <div className="space-y-3">
+                  {SCENARIO_QUESTIONS[scenarioIdx].options.map((opt, i) => (
+                    <button
+                      key={i}
+                      onClick={() => answerScenario(i)}
+                      className={`w-full text-left p-4 sm:p-5 rounded-2xl border-2 transition-all ${
+                        pickedOpt === i 
+                          ? 'border-primary bg-primary/10 font-medium' 
+                          : 'border-border/80 bg-card hover:border-primary/50 text-foreground'
+                      }`}
+                    >
+                      <div className="flex items-start gap-3">
+                        <span className={`w-6 h-6 rounded-full border flex items-center justify-center text-xs font-bold mt-0.5 shrink-0 ${
+                          pickedOpt === i ? 'border-primary bg-primary text-primary-foreground' : 'border-muted-foreground/30'
+                        }`}>
+                          {String.fromCharCode(65 + i)}
+                        </span>
+                        <span className="text-sm sm:text-base leading-snug">{opt.text}</span>
+                      </div>
+                    </button>
+                  ))}
+                </div>
+              </div>
+            )}
+          </div>
+        )}
+
+        {/* 7. Part C: Reality Check (Fast Yes/No, Doubled) */}
+        {user && stage === 'reality' && (
+          <div>
+            <div className="flex items-center justify-between mb-2">
+              <span className="text-xs font-mono font-bold tracking-widest text-amber-600 uppercase">
+                Part C: Reality Check • Question {realityIdx + 15} of 17
+              </span>
+              <span className="text-xs text-muted-foreground font-mono">Points count ×2</span>
+            </div>
+            <Progress value={((realityIdx + 15) / 17) * 100} className="h-2 mb-8" />
+
+            <div className="p-4 rounded-xl bg-amber-500/10 border border-amber-500/20 text-amber-700 dark:text-amber-300 text-xs font-medium mb-6">
+              Answer honestly based on what you actually did over the last 30 days.
+            </div>
+
+            <motion.h3 
+              key={realityIdx} 
+              initial={{ opacity: 0, x: 14 }} 
+              animate={{ opacity: 1, x: 0 }} 
+              className="text-xl font-bold text-foreground mb-6 leading-snug"
+            >
+              {REALITY_QUESTIONS[realityIdx].question}
+            </motion.h3>
+
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+              {REALITY_QUESTIONS[realityIdx].options.map((opt, i) => (
+                <button
+                  key={i}
+                  onClick={() => answerReality(i)}
+                  className={`p-5 rounded-2xl border-2 text-left transition-all ${
+                    pickedOpt === i 
+                      ? 'border-primary bg-primary/10 font-semibold' 
+                      : 'border-border/80 bg-card hover:border-primary/50 text-foreground'
+                  }`}
+                >
+                  <span className="text-base font-bold block mb-1">
+                    {opt.text.startsWith('Yes') ? 'Yes' : 'No'}
+                  </span>
+                  <span className="text-xs text-muted-foreground">{opt.text}</span>
+                </button>
+              ))}
             </div>
           </div>
         )}
 
-        {stage === 'done' && (
-          <motion.div initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }}>
-            <div className="rounded-2xl bg-primary text-primary-foreground p-6">
-              <div className="text-xs uppercase tracking-widest opacity-80">Your recommended starting point</div>
-              <h2 className="text-2xl font-bold mt-1">Phase {start.n} · {start.name}</h2>
-              <p className="opacity-90 mt-2 text-sm">Every FinLit learner goes through the full course, every phase and every lesson. Your answers only decide where you begin, so you start where you have the most to gain.</p>
+        {/* 8. Done / Results Dashboard */}
+        {stage === 'done' && characterResult && (
+          <motion.div initial={{ opacity: 0, y: 14 }} animate={{ opacity: 1, y: 0 }} className="space-y-6">
+            
+            {/* Archetype Card */}
+            <div className="rounded-3xl bg-gradient-to-br from-primary to-green-800 text-primary-foreground p-7 shadow-xl">
+              <div className="flex items-center justify-between mb-4">
+                <span className="text-xs uppercase tracking-widest font-mono opacity-80">
+                  Your Financial Archetype
+                </span>
+                <span className="text-3xl">{characterResult.archetype.avatar}</span>
+              </div>
+              <h2 className="text-3xl font-extrabold">{characterResult.archetype.title}</h2>
+              <p className="text-sm font-medium opacity-90 mt-1 italic">
+                "{characterResult.archetype.tagline}"
+              </p>
+              <div className="mt-4 pt-4 border-t border-primary-foreground/20 text-xs opacity-95 leading-relaxed">
+                <span className="font-bold">Core Learning Focus:</span> {characterResult.archetype.focus}
+              </div>
             </div>
-            <div className="rounded-xl border border-border bg-card p-5 mt-5">
-              <div className="text-sm font-semibold text-foreground mb-3">Start here</div>
-              <div className="flex items-center gap-3"><span className="text-2xl">{start.icon}</span><div><div className="font-medium">{start.mod}</div><div className="text-xs text-muted-foreground">Phase {start.n} · {start.name}</div></div></div>
-              <Button className="w-full mt-4" onClick={() => navigate(`/modules/${start.slug}`)}>Start learning <ArrowRight className="w-4 h-4 ml-2" /></Button>
+
+            {/* 6 Trait Analysis */}
+            <div className="rounded-2xl border border-border/80 bg-card p-6">
+              <h3 className="font-bold text-foreground text-base mb-1">Your 6 Financial Traits</h3>
+              <p className="text-xs text-muted-foreground mb-5">
+                Normalized on a 0–10 scale based on your scenario responses and reality check.
+              </p>
+
+              <div className="space-y-3.5">
+                {(Object.entries(characterResult.normalizedTraits) as [TraitKey, number][]).map(([k, score]) => {
+                  const def = TRAIT_DEFS[k];
+                  const level = score >= 7 ? 'High' : score >= 4 ? 'Moderate' : 'Low';
+                  return (
+                    <div key={k} className="space-y-1">
+                      <div className="flex justify-between text-xs">
+                        <span className="font-semibold text-foreground">{def.name} ({k})</span>
+                        <span className="font-mono text-muted-foreground">{score}/10 · {level}</span>
+                      </div>
+                      <div className="w-full h-2 rounded-full bg-muted overflow-hidden">
+                        <div 
+                          className={`h-full rounded-full transition-all duration-500 ${
+                            score >= 7 ? 'bg-primary' : score >= 4 ? 'bg-primary/70' : 'bg-muted-foreground/40'
+                          }`}
+                          style={{ width: `${score * 10}%` }}
+                        />
+                      </div>
+                    </div>
+                  );
+                })}
+              </div>
             </div>
-            <div className="rounded-xl border border-border bg-card p-5 mt-5">
-              <div className="text-sm font-semibold text-foreground mb-1">Your full path</div>
-              <p className="text-xs text-muted-foreground mb-4">You'll complete all of these. The order is set for you.</p>
-              <ol className="space-y-3">
-                {r.order.map((g, i) => (
-                  <li key={g} className="flex items-center gap-3 text-sm">
-                    <span className={`w-6 h-6 rounded-full flex items-center justify-center text-xs font-semibold shrink-0 ${i === 0 ? 'bg-primary text-primary-foreground' : 'bg-muted text-muted-foreground'}`}>{i + 1}</span>
-                    <span className="flex-1">{GROUPS[g].icon} Phase {GROUPS[g].n} · {GROUPS[g].name}</span>
-                    <span className={`text-xs ${i === 0 ? 'text-primary font-semibold' : 'text-muted-foreground'}`}>{i === 0 ? 'Start here' : i === 1 ? 'Up next' : 'On your path'}</span>
-                  </li>
-                ))}
-              </ol>
+
+            {/* Simulator Starting Setup */}
+            <div className="rounded-2xl border border-border/80 bg-card p-6">
+              <div className="flex items-center gap-2 mb-3">
+                <Gamepad2 className="w-5 h-5 text-primary" />
+                <h3 className="font-bold text-foreground text-base">Yungsta Simulator Starting Setup</h3>
+              </div>
+
+              <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 text-center mb-4">
+                <div className="p-3 rounded-xl bg-muted/50 border border-border/50">
+                  <span className="text-[10px] font-mono text-muted-foreground uppercase block">Starting Cash</span>
+                  <span className="font-mono font-bold text-sm text-primary">K{characterResult.startingCash.toLocaleString()}</span>
+                </div>
+                <div className="p-3 rounded-xl bg-muted/50 border border-border/50">
+                  <span className="text-[10px] font-mono text-muted-foreground uppercase block">Est. Income</span>
+                  <span className="font-mono font-bold text-sm text-foreground">K{characterResult.monthlyIncome.toLocaleString()}/mo</span>
+                </div>
+                <div className="p-3 rounded-xl bg-muted/50 border border-border/50">
+                  <span className="text-[10px] font-mono text-muted-foreground uppercase block">Obligations</span>
+                  <span className="font-mono font-bold text-sm text-foreground">K{characterResult.monthlyObligations.toLocaleString()}/mo</span>
+                </div>
+                <div className="p-3 rounded-xl bg-muted/50 border border-border/50">
+                  <span className="text-[10px] font-mono text-muted-foreground uppercase block">Kaloba Debt</span>
+                  <span className={`font-mono font-bold text-sm ${characterResult.startingDebt > 0 ? 'text-destructive' : 'text-green-600'}`}>
+                    {characterResult.startingDebt > 0 ? `K${characterResult.startingDebt}` : 'None (K0)'}
+                  </span>
+                </div>
+              </div>
+
+              <Link to="/sim">
+                <Button variant="secondary" className="w-full rounded-full font-semibold">
+                  Open Yungsta Simulator With This Profile <ArrowRight className="w-4 h-4 ml-1.5" />
+                </Button>
+              </Link>
             </div>
-            <Link to="/modules"><Button variant="outline" className="w-full mt-4">See my full path</Button></Link>
+
+            {/* Recommended Course Module */}
+            <div className="rounded-2xl border border-primary/30 bg-primary/5 p-6">
+              <span className="text-xs font-mono font-bold text-primary uppercase tracking-wide block mb-1">
+                Curriculum Recommendation
+              </span>
+              <h3 className="text-xl font-bold text-foreground mb-2">
+                Phase {start.n} · {start.name}
+              </h3>
+              <p className="text-xs text-muted-foreground mb-4">
+                Based on your diagnostic score, this is where you have the highest immediate room to improve.
+              </p>
+
+              <div className="flex items-center gap-3 p-3 rounded-xl bg-card border border-border mb-4">
+                <span className="text-2xl">{start.icon}</span>
+                <div>
+                  <div className="font-semibold text-sm text-foreground">{start.mod}</div>
+                  <div className="text-xs text-primary font-medium">Free Placement Starter Lesson</div>
+                </div>
+              </div>
+
+              <Button className="w-full rounded-full font-semibold" onClick={() => navigate(`/modules/${start.slug}`)}>
+                Start Learning Now <ArrowRight className="w-4 h-4 ml-2" />
+              </Button>
+            </div>
+
           </motion.div>
         )}
       </section>
     </Layout>
   );
 };
+
 export default Diagnostic;
