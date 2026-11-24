@@ -93,6 +93,10 @@ const FacilitatorLogin = () => {
             </Button>
           </form>
 
+          <div className="mt-3 text-right">
+            <Button asChild variant="link" className="px-0"><Link to="/forgot-password?from=%2Ffacilitator%2Flogin">Forgot your password?</Link></Button>
+          </div>
+
           <div className="mt-6 text-center space-y-2">
             <p className="text-sm text-muted-foreground">
               Need an account? Contact your school administrator.

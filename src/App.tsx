@@ -21,6 +21,8 @@ import NotFound from "./pages/NotFound";
 // Auth pages
 import AdminLogin from "./pages/auth/AdminLogin";
 import FacilitatorLogin from "./pages/auth/FacilitatorLogin";
+import ForgotPassword from "./pages/auth/ForgotPassword";
+import ResetPassword from "./pages/auth/ResetPassword";
 
 // Admin pages
 import { AdminLayout } from "./components/admin/AdminLayout";
@@ -90,6 +92,8 @@ const App = () => (
             {/* Auth Routes */}
             <Route path="/admin/login" element={<AdminLogin />} />
             <Route path="/facilitator/login" element={<FacilitatorLogin />} />
+            <Route path="/forgot-password" element={<ForgotPassword />} />
+            <Route path="/reset-password" element={<ResetPassword />} />
             
             {/* Admin Routes */}
             <Route path="/admin" element={<AdminLayout />}>

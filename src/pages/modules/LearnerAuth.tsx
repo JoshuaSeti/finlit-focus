@@ -154,6 +154,10 @@ const LearnerAuth = () => {
             </Button>
           </form>
 
+          {mode === 'signin' && <div className="mt-3 text-right">
+            <Button asChild variant="link" className="px-0"><Link to="/forgot-password">Forgot your password?</Link></Button>
+          </div>}
+
           <div className="mt-6 text-center space-y-2">
             <button
               type="button"

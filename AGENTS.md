@@ -7,3 +7,4 @@
 - Team section: team_members rows power the About-page edge card stack and /team/:slug "worlds" (photos in private team-photos bucket via long-lived signed links, visitor notes in wall_notes) — why: ported from the team demo with its design intact.
 - Admin permissions: admins and super admins share every dashboard section; the only super-admin-only power is creating/removing admin accounts — why: owner's rule.
 - PWA install: Chrome's install offer is captured by an inline script in index.html and shared via src/lib/pwa.ts (useInstall); no app-shell service worker — why: SPA navigation otherwise misses the one-time event, and Chrome no longer requires a worker to install.
+- All login pages use shared public /forgot-password and /reset-password routes; password updates require a validated recovery session — why: learners and invited staff need one safe reset flow without changing account permissions.

@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, Link } from 'react-router-dom';
 import { Lock, Mail, AlertCircle } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -92,6 +92,10 @@ const AdminLogin = () => {
               {isLoading ? 'Signing in...' : 'Sign In'}
             </Button>
           </form>
+
+          <div className="mt-3 text-right">
+            <Button asChild variant="link" className="px-0"><Link to="/forgot-password?from=%2Fadmin%2Flogin">Forgot your password?</Link></Button>
+          </div>
 
           <div className="mt-6 text-center">
             <a href="/" className="text-sm text-muted-foreground hover:text-primary transition-colors">
