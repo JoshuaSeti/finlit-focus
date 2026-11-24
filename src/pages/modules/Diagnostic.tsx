@@ -29,30 +29,46 @@ const Diagnostic = () => {
   const [idx, setIdx] = useState(0);
   const [scores, setScores] = useState<Scores>(empty);
   const [picked, setPicked] = useState<number | null>(null);
+  const [answers, setAnswers] = useState<number[]>([]);
+  const [saveError, setSaveError] = useState('');
+  const [saving, setSaving] = useState(false);
   const [hadPrev, setHadPrev] = useState(false);
   const [paid, setPaid] = useState(false);
   useEffect(() => { if (stage !== 'intro') return; if (!user) return; getAccess(user.id).then((a) => { setPaid(a.paid); setHadPrev(!!a.scores); }); supabase.from('profiles').select('age').eq('user_id', user.id).maybeSingle().then(({ data }) => { if (data?.age) setAge(String(data.age)); }); }, [user?.id]); // eslint-disable-line
   const retakeLocked = hadPrev && !paid && stage === 'intro';
 
   const q = QUESTIONS[idx];
-  const opts = useMemo(() => q ? shuffle(q.o.map((t, i) => ({ t, ok: i === 0 }))) : [], [idx]); // eslint-disable-line
+  const opts = useMemo(() => q ? shuffle(q.o.map((t, i) => ({ t, ok: i === 0, original: i }))) : [], [idx]); // eslint-disable-line
+
+  const saveResult = async (submitted: number[]) => {
+    setSaving(true);
+    setSaveError('');
+    try {
+      const { data, error } = await supabase.rpc('submit_placement', { p_answers: submitted });
+      if (error) throw error;
+      const result = data as unknown as { scores: Scores };
+      setScores(result.scores);
+      saveLocal({ scores: result.scores, ts: Date.now() });
+      import('@/lib/streak').then((m) => m.touchStreak());
+      setStage('done');
+    } catch {
+      setSaveError('Your result could not be saved. Please try again. Retakes require full access.');
+    } finally {
+      setSaving(false);
+    }
+  };
 
   const answer = (i: number) => {
-    if (picked !== null) return;
+    if (picked !== null || saving || answers.length === QUESTIONS.length) return;
     setPicked(i);
+    const submitted = [...answers, i < 0 ? -1 : opts[i].original];
+    setAnswers(submitted);
     const next = { ...scores, [q.g]: { c: scores[q.g].c + (i >= 0 && opts[i].ok ? 1 : 0), t: scores[q.g].t + 1 } };
     setScores(next);
     setTimeout(async () => {
       setPicked(null);
       if (idx + 1 < QUESTIONS.length) return setIdx(idx + 1);
-      saveLocal({ scores: next, ts: Date.now() });
-      if (user) {
-        const r = roadmap(next);
-        const correct = ORDER.reduce((a, g) => a + next[g].c, 0);
-        await supabase.from('placement_results').insert({ user_id: user.id, scores: next as any, start_group: r.start, correct, total: QUESTIONS.length });
-        import('@/lib/streak').then((m) => m.touchStreak());
-      }
-      setStage('done');
+      if (user) await saveResult(submitted);
     }, 220);
   };
 
@@ -62,6 +78,11 @@ const Diagnostic = () => {
   return (
     <Layout>
       <section className="container mx-auto px-4 py-12 max-w-xl">
+        {saving && <p role="status" className="mb-4 text-muted-foreground">Saving your result…</p>}
+        {saveError && <div className="mb-5 space-y-3">
+          <p role="alert" className="text-destructive">{saveError}</p>
+          <Button onClick={() => saveResult(answers)} disabled={saving}>Try saving again</Button>
+        </div>}
         {!user && (
           <div className="text-center">
             <div className="mx-auto w-16 h-16 rounded-2xl bg-primary/10 flex items-center justify-center mb-5"><Compass className="w-8 h-8 text-primary" /></div>

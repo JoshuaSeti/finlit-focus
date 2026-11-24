@@ -1842,6 +1842,7 @@ export type Database = {
           created_at: string
           id: string
           scores: Json
+          server_scored: boolean
           start_group: string
           total: number
           user_id: string
@@ -1851,6 +1852,7 @@ export type Database = {
           created_at?: string
           id?: string
           scores?: Json
+          server_scored?: boolean
           start_group: string
           total?: number
           user_id: string
@@ -1860,6 +1862,7 @@ export type Database = {
           created_at?: string
           id?: string
           scores?: Json
+          server_scored?: boolean
           start_group?: string
           total?: number
           user_id?: string
@@ -3439,6 +3442,7 @@ export type Database = {
       stress_restart: { Args: { p_note?: string }; Returns: Json }
       stress_status: { Args: never; Returns: Json }
       stress_tick: { Args: { p: string }; Returns: Json }
+      submit_placement: { Args: { p_answers: number[] }; Returns: Json }
       yungsta_answer: {
         Args: { p_choice: number; p_id: number }
         Returns: Json

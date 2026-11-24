@@ -8,3 +8,4 @@
 - Admin permissions: admins and super admins share every dashboard section; the only super-admin-only power is creating/removing admin accounts — why: owner's rule.
 - PWA install: Chrome's install offer is captured by an inline script in index.html and shared via src/lib/pwa.ts (useInstall); no app-shell service worker — why: SPA navigation otherwise misses the one-time event, and Chrome no longer requires a worker to install.
 - All login pages use shared public /forgot-password and /reset-password routes; password updates require a validated recovery session — why: learners and invited staff need one safe reset flow without changing account permissions.
+- Placement submissions use the backend-scored answer endpoint and entitlement reads require its trusted marker; preserve only the earliest legacy placement — why: writable scores must not grant or rotate free lesson access.
