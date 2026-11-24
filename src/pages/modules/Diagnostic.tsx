@@ -397,30 +397,82 @@ const Diagnostic = () => {
             <Progress value={((scenarioIdx + 2) / 17) * 100} className="h-2 mb-8" />
 
             {/* Special Question 4: 100% Allocation Splitter */}
-            {scenarioIdx === 2 ? (
+
+
+                        {scenarioIdx === 2 ? (
               <div className="bg-card border border-border/80 rounded-2xl p-6 sm:p-7">
-                <div className="flex items-center gap-2 text-xs font-mono font-semibold text-primary uppercase mb-2">
+                <div className="flex items-center gap-2 text-xs font-semibold text-primary uppercase mb-2">
                   <PieChart className="w-4 h-4" /> Allocation Challenge
                 </div>
-                <h3 className="text-xl font-bold text-foreground mb-2">
-                  You earn a K5,000 unexpected bonus or profit.
+                <h3 className="text-xl font-bold text-foreground mb-1">
+                  You earn an unexpected K5,000 bonus or profit.
                 </h3>
-                <p className="text-xs text-muted-foreground mb-6">
-                  Split 100% of the money across these buckets. Total must equal exactly 100%.
+                <p className="text-xs text-muted-foreground mb-5">
+                  Pick a strategy below that reflects your instinct, or adjust the percentages:
                 </p>
 
-                <div className="space-y-4 mb-6">
+                {/* 1-Click Strategy Presets */}
+                <div className="grid grid-cols-2 gap-2.5 mb-6">
+                  {[
+                    {
+                      title: 'The Shield',
+                      subtitle: 'Buffer & Debt relief',
+                      alloc: { savings: 40, debts: 30, family: 15, investing: 10, wants: 5 }
+                    },
+                    {
+                      title: 'The Builder',
+                      subtitle: 'Business & Growth',
+                      alloc: { investing: 45, savings: 25, debts: 15, family: 10, wants: 5 }
+                    },
+                    {
+                      title: 'Family First',
+                      subtitle: 'Supporting relatives',
+                      alloc: { family: 40, savings: 25, debts: 20, investing: 10, wants: 5 }
+                    },
+                    {
+                      title: 'Balanced',
+                      subtitle: 'Even 20% split',
+                      alloc: { savings: 20, debts: 20, family: 20, investing: 20, wants: 20 }
+                    },
+                  ].map((preset) => {
+                    const isSelected = 
+                      allocations.savings === preset.alloc.savings &&
+                      allocations.debts === preset.alloc.debts &&
+                      allocations.family === preset.alloc.family &&
+                      allocations.investing === preset.alloc.investing &&
+                      allocations.wants === preset.alloc.wants;
+
+                    return (
+                      <button
+                        key={preset.title}
+                        type="button"
+                        onClick={() => setAllocations(preset.alloc)}
+                        className={`text-left p-3 rounded-xl border transition-all ${
+                          isSelected 
+                            ? 'border-primary bg-primary/10 shadow-sm ring-1 ring-primary' 
+                            : 'border-border/70 hover:border-border hover:bg-muted/40'
+                        }`}
+                      >
+                        <div className="font-bold text-sm text-foreground">{preset.title}</div>
+                        <div className="text-[11px] text-muted-foreground">{preset.subtitle}</div>
+                      </button>
+                    );
+                  })}
+                </div>
+
+                {/* Live Split Breakdown */}
+                <div className="space-y-3 mb-6 bg-muted/20 p-4 rounded-xl border border-border/50">
                   {[
                     { key: 'savings', label: 'Savings & Safety Buffer', value: allocations.savings },
-                    { key: 'family', label: 'Family & Relatives Assistance', value: allocations.family },
-                    { key: 'wants', label: 'Personal Wants & Enjoyment', value: allocations.wants },
-                    { key: 'investing', label: 'Investing & Small Business Stock', value: allocations.investing },
-                    { key: 'debts', label: 'Paying Down Debts / Prepaying Bills', value: allocations.debts },
+                    { key: 'debts', label: 'Paying Debts & Bills', value: allocations.debts },
+                    { key: 'investing', label: 'Business & Investing', value: allocations.investing },
+                    { key: 'family', label: 'Family & Relatives', value: allocations.family },
+                    { key: 'wants', label: 'Personal Wants / Lifestyle', value: allocations.wants },
                   ].map((b) => (
-                    <div key={b.key} className="space-y-1.5">
+                    <div key={b.key} className="space-y-1">
                       <div className="flex justify-between text-xs font-medium">
-                        <span>{b.label}</span>
-                        <span className="font-mono font-bold text-primary">{b.value}% (K{(5000 * b.value / 100).toLocaleString()})</span>
+                        <span className="text-foreground">{b.label}</span>
+                        <span className="font-semibold text-primary">{b.value}% (K{(5000 * b.value / 100).toLocaleString()})</span>
                       </div>
                       <input
                         type="range"
@@ -429,7 +481,7 @@ const Diagnostic = () => {
                         step="5"
                         value={b.value}
                         onChange={(e) => setAllocations({ ...allocations, [b.key]: parseInt(e.target.value, 10) })}
-                        className="w-full h-2 bg-muted rounded-lg appearance-none cursor-pointer accent-primary"
+                        className="w-full h-1.5 bg-muted rounded-lg appearance-none cursor-pointer accent-primary"
                       />
                     </div>
                   ))}
@@ -438,11 +490,11 @@ const Diagnostic = () => {
                 {(() => {
                   const total = allocations.savings + allocations.family + allocations.wants + allocations.investing + allocations.debts;
                   return (
-                    <div className="pt-4 border-t border-border flex items-center justify-between">
-                      <span className={`text-xs font-mono font-bold ${total === 100 ? 'text-green-600' : 'text-destructive'}`}>
+                    <div className="pt-2 flex items-center justify-between">
+                      <span className={`text-xs font-semibold ${total === 100 ? 'text-green-600 dark:text-green-400' : 'text-destructive'}`}>
                         Total: {total}% {total !== 100 && `(${100 - total}% remaining)`}
                       </span>
-                      <Button onClick={submitQ4Allocation} disabled={total !== 100} className="rounded-full font-semibold">
+                      <Button onClick={submitQ4Allocation} disabled={total !== 100} className="rounded-full font-semibold px-6">
                         Confirm Split <ArrowRight className="w-4 h-4 ml-1.5" />
                       </Button>
                     </div>
@@ -450,6 +502,8 @@ const Diagnostic = () => {
                 })()}
               </div>
             ) : (
+
+              
               <div>
                 <motion.h3 
                   key={scenarioIdx} 
