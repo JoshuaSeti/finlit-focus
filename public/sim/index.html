@@ -130,6 +130,39 @@
     <canvas id="nwChart" role="img" aria-label="Net worth over time"></canvas>
   </section>
 
+<!-- Living Budget & Cashflow HUD -->
+<section class="hud-card" id="hudCard" aria-label="Living Budget">
+  <div class="hud-header">
+    <div class="hud-archetype" id="hudArchetype">
+      <span>⚖️</span> <span id="hudArchetypeTitle">Financial Trainee</span>
+    </div>
+    <span class="text-xs text-muted-foreground" style="font-size: 11px; color: #64748B;" id="hudBaseline">
+      Life Situation
+    </span>
+  </div>
+
+  <div class="hud-grid">
+    <div class="hud-cell">
+      <span class="hud-kicker">Cash Reserve</span>
+      <div class="hud-val pos" id="hudCash">K 0.00</div>
+    </div>
+    <div class="hud-cell">
+      <span class="hud-kicker">Monthly In</span>
+      <div class="hud-val" id="hudIncome">K 0.00</div>
+    </div>
+    <div class="hud-cell">
+      <span class="hud-kicker">Obligations</span>
+      <div class="hud-val neg" id="hudObligations">K 0.00</div>
+    </div>
+  </div>
+
+  <div id="hudDebtAlert" class="hud-debt-alert" style="display: none;">
+    <span>⚠️ <b>Active Kaloba Debt:</b> High interest accruing.</span>
+    <a href="debts.html">Manage Repayment →</a>
+  </div>
+</section>
+
+  
   <div class="ios-title">Your money</div>
   <div class="ios-list">
     <a class="ios-row" href="history.html"><span class="ic">💵</span><span class="t">Cash at hand</span><span class="v" id="cashValue">—</span><i class="chev"></i></a>
