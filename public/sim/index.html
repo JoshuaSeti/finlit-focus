@@ -52,14 +52,21 @@
 <body>
 
 <header class="lh">
-  <div class="lh-top"><a class="lh-back" href="/modules">Lessons</a><button class="logout-btn" onclick="logOut()">Log out</button></div>
+  <div class="lh-top">
+    <a class="lh-back-pill" href="/modules">← Back to Lessons</a>
+    <button class="logout-btn" onclick="logOut()">Log out</button>
+  </div>
   <h1 class="lh-title" id="displayName">Loading…</h1>
   <div class="lh-sub" id="mentorLine"></div>
 </header>
 
 <div class="body">
 
+  <!-- Dynamic Next Action Card -->
+  <div id="actionCard"></div>
+
   <div id="stressCard"></div>
+
 
   <div id="mirrorCard" hidden></div>
 
