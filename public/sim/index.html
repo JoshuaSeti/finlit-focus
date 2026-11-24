@@ -6,6 +6,48 @@
 <title>Your Financial Character — FinLit Zambia</title>
 <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,wght@0,400;0,500;0,600;0,700;0,800;1,400&family=DM+Mono:wght@500&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="css/apple.css">
+
+  <style>
+  /* Header Back Navigation Pill */
+  .lh-top { display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; }
+  .lh-back-pill {
+    display: inline-flex; align-items: center; gap: 6px;
+    background: rgba(255, 255, 255, 0.15); color: #fff; text-decoration: none;
+    font-size: 13px; font-weight: 600; padding: 6px 12px; border-radius: 9999px;
+    border: 1px solid rgba(255, 255, 255, 0.25); transition: background 0.2s;
+  }
+  .lh-back-pill:hover { background: rgba(255, 255, 255, 0.25); color: #fff; }
+
+  /* Action & Guidance Quest Card */
+  .quest-card {
+    background: #ffffff; border-radius: 16px; padding: 16px 18px;
+    margin-bottom: 14px; border: 1.5px solid #E5E7EB;
+    box-shadow: 0 4px 14px rgba(0, 0, 0, 0.04);
+    display: flex; gap: 14px; align-items: center;
+  }
+  .quest-card.urgent { border-color: #22C55E; background: #F0FDF4; }
+  .quest-card.warning { border-color: #F59E0B; background: #FFFBEB; }
+  .quest-icon {
+    width: 42px; height: 42px; border-radius: 12px; flex: none;
+    display: flex; align-items: center; justify-content: center; font-size: 22px;
+    background: rgba(0, 0, 0, 0.05);
+  }
+  .quest-card.urgent .quest-icon { background: #DCFCE7; }
+  .quest-card.warning .quest-icon { background: #FEF3C7; }
+  .quest-content { flex: 1; min-width: 0; }
+  .quest-kicker { font-size: 11px; font-weight: 800; letter-spacing: 0.08em; text-transform: uppercase; color: #15803D; margin-bottom: 2px; }
+  .quest-card.warning .quest-kicker { color: #B45309; }
+  .quest-title { font-size: 15px; font-weight: 700; color: #111827; margin-bottom: 3px; }
+  .quest-desc { font-size: 12.5px; color: #4B5563; line-height: 1.4; margin-bottom: 8px; }
+  .quest-btn {
+    display: inline-flex; align-items: center; gap: 4px;
+    font-size: 12.5px; font-weight: 600; color: #15803D; text-decoration: none;
+  }
+  .quest-card.warning .quest-btn { color: #B45309; }
+  .quest-btn:hover { text-decoration: underline; }
+</style>
+
+
 </head>
 <body>
 
