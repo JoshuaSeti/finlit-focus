@@ -24,11 +24,14 @@ const Paywall = ({ signedIn, onUnlocked, title = 'Unlock every lesson', note }: 
     setVerified(verifiedZmPhone(user));
   }, [user?.phone, user?.phone_confirmed_at]);
 
-  const poll = async (referenceId: string) => {
-    for (let i = 0; i < 40; i++) {
-      await new Promise((r) => setTimeout(r, 4000));
-      const { data } = await supabase.functions.invoke('lipila-pay', { body: { action: 'check', referenceId } });
-      if (data?.status === 'completed') return onUnlocked();
+ const poll = async (referenceId: string) => {
+  for (let i = 0; i < 40; i++) {
+    await new Promise((r) => setTimeout(r, 4000));
+    const { data } = await supabase.functions.invoke('lipila-pay', { body: { action: 'check', referenceId } });
+    if (data?.status === 'completed') {
+      setShowCelebrate(true); // <--- Triggers celebration
+      setTimeout(() => onUnlocked(), 2000);
+      return;
       if (data?.status === 'failed') { setState('failed'); setMsg('The payment did not go through. Please try again.'); return; }
     }
     setState('failed');
