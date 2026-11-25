@@ -19,8 +19,13 @@ const LearnerCard = () => {
   useEffect(() => { if (!isLoading) load(); }, [id, isLoading, user?.id]);
 
   const add = async () => {
-    const { error } = await supabase.rpc(c?.is_friend ? 'remove_friend' : 'add_friend', { p_profile: id });
-    if (error) toast({ title: 'Something went wrong', description: error.message, variant: 'destructive' }); else load();
+    
+   const { error } = await supabase.rpc(c?.is_friend ? 'remove_friend' : 'add_friend', { p_profile: id });
+  if (error) {
+    toast({ title: 'Something went wrong', description: error.message, variant: 'destructive' });
+  } else {
+    if (!c?.is_friend) setShowCelebrate(true);
+    load();
   };
 
   return (
@@ -48,7 +53,7 @@ const LearnerCard = () => {
               <div className="rounded-2xl bg-muted/50 p-3"><p className="text-xl font-bold text-foreground">{c.lessons}</p><p className="text-xs text-muted-foreground">lessons done</p></div>
               <div className="rounded-2xl bg-muted/50 p-3"><p className="text-sm font-bold text-foreground leading-tight">{c.calm || '—'}</p><p className="text-xs text-muted-foreground">Yungsta mood</p></div>
             </div>
-            <div className="flex flex-col gap-2 mt-5">
+                       <div className="flex flex-col gap-2 mt-5">
               {c.is_me ? (
                 <>
                   <a href={whatsappInvite(id)} target="_blank" rel="noreferrer"><Button className="rounded-full w-full"><MessageCircle className="w-4 h-4 mr-1" />Share on WhatsApp</Button></a>
@@ -60,9 +65,25 @@ const LearnerCard = () => {
                 <Button asChild className="rounded-full w-full"><Link to={`/login?mode=signup&next=/u/${id}`}>Join FinLit to add {c.name}</Link></Button>
               )}
             </div>
+
+            {/* PASTE IT RIGHT HERE */}
+            {user && !c.is_me && (
+              <div className="mt-6 rounded-2xl bg-primary/10 border border-primary/20 p-4 text-left">
+                <p className="text-xs font-bold uppercase tracking-wider text-primary">Your Next Step</p>
+                <h4 className="text-sm font-semibold text-foreground mt-1">Start your financial journey</h4>
+                <p className="text-xs text-muted-foreground mt-1">
+                  Take the quick 3-minute diagnostic to find your starting lesson and level up together with {c.name}.
+                </p>
+                <Button asChild className="w-full mt-3 rounded-full h-10 text-xs font-bold" variant="default">
+                  <Link to="/diagnostic">Take Free Placement Diagnostic →</Link>
+                </Button>
+              </div>
+            )}
+
           </div>
         )}
       </section>
+
     </Layout>
   );
 };
