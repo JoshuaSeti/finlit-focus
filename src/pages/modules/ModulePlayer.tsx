@@ -7,12 +7,17 @@ import { touchStreak } from '@/lib/streak';
 import Paywall from '@/components/learning/Paywall';
 import { getAccess } from '@/lib/access';
 import { freeSlug } from '@/lib/placement';
+import { syncOrQueueProgress, useNetworkStatus } from '@/lib/offline-sync';
+import { WifiOff, Check } from 'lucide-react';
 import { LearningModule, loadModuleHtml, prepareModuleHtml, progressKey, shareSessionWithSimulator, summarize } from '@/lib/modules';
+
+
 
 const ModulePlayer = () => {
   const { slug = '' } = useParams();
   const navigate = useNavigate();
  const { user, isAdmin, isLoading } = useAuth();
+  const { isOnline, pendingCount } = useNetworkStatus();
   const [src, setSrc] = useState<string | null>(null);
   const [title, setTitle] = useState('');
   const [error, setError] = useState('');
@@ -69,21 +74,11 @@ if (!isAdmin && !acc.paid && (!acc.scores || slug !== freeSlug(acc.scores))) {
       if (d.type === 'open' && d.slug) return navigate(`/modules/${String(d.slug).replace(/-full$/, '')}`);
       const u = userRef.current;
       if (!u) return;
-      if (d.type === 'progress') {
+            if (d.type === 'progress') {
         const s = summarize(d.progress, d.sections || []);
-        const { data: existing } = await supabase.from('module_progress').select('completed_at').eq('user_id', u.id).eq('module_slug', slug).maybeSingle();
-        await supabase.from('module_progress').upsert({
-          user_id: u.id, module_slug: slug, progress: d.progress,
-          sections_done: s.sections_done, sections_total: s.sections_total,
-          quiz_correct: s.quiz_correct, quiz_total: s.quiz_total,
-          completed_at: existing?.completed_at ?? (s.complete ? new Date().toISOString() : null),
-        }, { onConflict: 'user_id,module_slug' });
-        if (s.complete && !existing?.completed_at) {
-          touchStreak();
-          await supabase.from('module_events').insert({ user_id: u.id, module_slug: slug, kind: 'module_complete', payload: { quiz_correct: s.quiz_correct, quiz_total: s.quiz_total } });
-          // Tell the character simulator: unlocks Yungsta questions, story scenarios and lesson flags.
-          await supabase.rpc('story_fire_lesson' as never, { p_lesson: slug.replace(/^module-/, '') } as never);
-        }
+        await syncOrQueueProgress(u.id, slug, d.progress, s);
+      }
+
       } else if (d.type === 'certificate') {
         await supabase.from('module_progress').upsert({ user_id: u.id, module_slug: slug, certificate_claimed_at: new Date().toISOString(), certificate_name: d.name || null }, { onConflict: 'user_id,module_slug' });
         await supabase.from('module_events').insert({ user_id: u.id, module_slug: slug, kind: 'certificate', payload: { name: d.name, score: d.score } });
@@ -104,10 +99,25 @@ if (!isAdmin && !acc.paid && (!acc.scores || slug !== freeSlug(acc.scores))) {
           <ArrowLeft className="w-4 h-4" /> Lessons
         </Link>
         <span className="text-sm font-medium text-foreground truncate">{title}</span>
-        {!isLoading && !user && (
-          <Link to="/login" className="ml-auto text-sm text-primary font-medium whitespace-nowrap">Sign in to save progress</Link>
-        )}
+
+        {/* Discreet Native Offline/Sync Status Pill */}
+        <div className="ml-auto flex items-center gap-2">
+          {!isOnline ? (
+            <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-medium bg-amber-500/10 text-amber-600 border border-amber-500/20">
+              <WifiOff className="w-3 h-3" /> Offline • Saved locally
+            </span>
+          ) : pendingCount > 0 ? (
+            <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-medium bg-primary/10 text-primary border border-primary/20">
+              Syncing...
+            </span>
+          ) : null}
+
+          {!isLoading && !user && (
+            <Link to="/login" className="text-sm text-primary font-medium whitespace-nowrap">Sign in to save progress</Link>
+          )}
+        </div>
       </div>
+
       {locked ? (
         <Paywall signedIn={!!user} onUnlocked={() => { loadedKey.current = ''; setLocked(false); window.location.reload(); }} />
       ) : error ? (
