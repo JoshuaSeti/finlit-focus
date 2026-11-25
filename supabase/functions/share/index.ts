@@ -4,7 +4,7 @@ import React from "https://esm.sh/react@18.2.0";
 import { avatarObjectPath } from "./avatar-source.ts";
 import { isPreviewCrawler } from "./preview-crawler.ts";
 
-const SITE = "https://finlit-empower-hub.lovable.app";
+const SITE = "https://finlit-zm.org";
 const FALLBACK_IMG = `${SITE}/og-image.png`;
 const db = createClient(Deno.env.get("SUPABASE_URL")!, Deno.env.get("SUPABASE_SERVICE_ROLE_KEY")!);
 
