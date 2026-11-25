@@ -131,6 +131,23 @@
   }
 }
 
+
+@layer base {
+  /* Prevent iOS Safari gray tap highlight box across the app */
+  * {
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  /* Smooth touch scrolling and tap response */
+  html, body {
+    touch-action: manipulation;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+}
+
+
+
 @layer components {
   .gradient-primary {
     background: var(--gradient-primary);
