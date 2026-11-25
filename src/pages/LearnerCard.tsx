@@ -8,8 +8,10 @@ import { useAuth } from '@/hooks/useAuth';
 import { supabase } from '@/integrations/supabase/client';
 import { LearnerAvatar } from '@/components/community/LearnerAvatar';
 import type { Card } from '@/components/community/FriendsCircle';
-import { profileLink, whatsappInvite } from '@/lib/invite';
+
 import { Celebration } from '@/components/Celebration';
+import { shareableProfileLink, whatsappInvite } from '@/lib/invite';
+
 
 const LearnerCard = () => {
   const { id = '' } = useParams();
