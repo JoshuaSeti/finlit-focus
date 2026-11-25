@@ -98,6 +98,25 @@ Deno.serve(async (req) => {
       const img = `${Deno.env.get("SUPABASE_URL")}/functions/v1/share?img=team&slug=${encodeURIComponent(slug)}`;
       return html(page({ title: `Step into ${m.full_name}'s world · FinLit`, desc: clip(m.tagline || `${m.role} at FinLit Zambia.`, 180), image: img, url, self, type: "profile" }));
     }
+
+    if (q.get("t") === "u") {
+      const id = q.get("id") ?? "";
+      const { data: p } = /^[0-9a-f-]{36}$/i.test(id)
+        ? await db.rpc("learner_card", { p_profile: id })
+        : { data: null };
+      const url = `${SITE}/u/${encodeURIComponent(id)}`;
+      if (!p) return Response.redirect(url, 302);
+
+      const title = `${p.name} · FinLit Learner (🪙 ${p.streak || 0} day streak)`;
+      const desc = p.bio || `Learn money skills with ${p.name} in Zambia on FinLit. Free placement diagnostic and lessons.`;
+      const img = p.avatar_url || FALLBACK_IMG;
+
+      return html(page({ title, desc, image: img, url, self, type: "profile" }));
+    }
+
+
+
+    
   } catch (e) {
     console.error("share failed", e);
   }
