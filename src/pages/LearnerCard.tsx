@@ -61,7 +61,18 @@ const LearnerCard = () => {
               {c.is_me ? (
                 <>
                   <a href={whatsappInvite(id)} target="_blank" rel="noreferrer"><Button className="rounded-full w-full"><MessageCircle className="w-4 h-4 mr-1" />Share on WhatsApp</Button></a>
-                  <Button variant="outline" className="rounded-full" onClick={() => { navigator.clipboard.writeText(profileLink(id)); toast({ title: 'Link copied' }); }}><Copy className="w-4 h-4 mr-1" />Copy my link</Button>
+                 <Button
+  variant="outline"
+  className="rounded-full"
+  onClick={() => {
+    navigator.clipboard.writeText(shareableProfileLink(id));
+    toast({ title: 'Link copied' });
+  }}
+>
+  <Copy className="w-4 h-4 mr-1" />
+  Copy my link
+</Button>
+
                 </>
               ) : user ? (
                 <Button className="rounded-full" variant={c.is_friend ? 'outline' : 'default'} onClick={add}>{c.is_friend ? 'Remove friend' : 'Add as friend'}</Button>
