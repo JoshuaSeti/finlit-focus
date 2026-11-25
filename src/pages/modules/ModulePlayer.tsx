@@ -74,11 +74,9 @@ if (!isAdmin && !acc.paid && (!acc.scores || slug !== freeSlug(acc.scores))) {
       if (d.type === 'open' && d.slug) return navigate(`/modules/${String(d.slug).replace(/-full$/, '')}`);
       const u = userRef.current;
       if (!u) return;
-            if (d.type === 'progress') {
+      if (d.type === 'progress') {
         const s = summarize(d.progress, d.sections || []);
         await syncOrQueueProgress(u.id, slug, d.progress, s);
-      }
-
       } else if (d.type === 'certificate') {
         await supabase.from('module_progress').upsert({ user_id: u.id, module_slug: slug, certificate_claimed_at: new Date().toISOString(), certificate_name: d.name || null }, { onConflict: 'user_id,module_slug' });
         await supabase.from('module_events').insert({ user_id: u.id, module_slug: slug, kind: 'certificate', payload: { name: d.name, score: d.score } });
