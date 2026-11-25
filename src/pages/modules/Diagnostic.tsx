@@ -20,6 +20,7 @@ import { supabase } from '@/integrations/supabase/client';
 import { useAuth } from '@/hooks/useAuth';
 import Paywall from '@/components/learning/Paywall';
 import { getAccess } from '@/lib/access';
+import { enablePush, pushSupported } from '@/lib/push';
 import {
   GROUPS,
   ORDER,
@@ -589,6 +590,41 @@ const Diagnostic = () => {
         {/* 8. Done / Results Dashboard */}
         {stage === 'done' && characterResult && (
           <motion.div initial={{ opacity: 0, y: 14 }} animate={{ opacity: 1, y: 0 }} className="space-y-6">
+
+
+
+{pushSupported() && typeof Notification !== 'undefined' && Notification.permission === 'default' && (
+  <div className="mt-6 rounded-2xl border border-primary/30 bg-primary/5 p-5 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
+    <div className="flex items-center gap-3">
+      <div className="w-10 h-10 rounded-xl bg-primary/15 flex items-center justify-center text-xl shrink-0">
+        🔔
+      </div>
+      <div>
+        <div className="font-bold text-sm text-foreground">
+          Never lose your daily coin streak
+        </div>
+        <p className="text-xs text-muted-foreground mt-0.5">
+          Get high-priority daily nudges before midnight to protect your progress.
+        </p>
+      </div>
+    </div>
+    <Button 
+      size="sm" 
+      onClick={async () => {
+        if (navigator.vibrate) navigator.vibrate([100, 50, 100]);
+        await enablePush();
+      }}
+      className="rounded-full px-5 font-semibold shrink-0"
+    >
+      Let us remind you
+    </Button>
+  </div>
+)}
+
+
+
+
+            
             
             {/* Archetype Card */}
             <div className="rounded-3xl bg-gradient-to-br from-primary to-green-800 text-primary-foreground p-7 shadow-xl">
