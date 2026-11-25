@@ -6,6 +6,7 @@ import { useAuth } from '@/hooks/useAuth';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { normalizeZmPhone } from '@/lib/placement';
+import { Celebration } from '@/components/Celebration';
 
 const verifiedZmPhone = (u: { phone?: string | null; phone_confirmed_at?: string | null } | null) =>
   u?.phone_confirmed_at ? normalizeZmPhone(u.phone ?? '') : null;
@@ -19,20 +20,26 @@ const Paywall = ({ signedIn, onUnlocked, title = 'Unlock every lesson', note }: 
   const [otp, setOtp] = useState('');
   const [state, setState] = useState<'idle' | 'sending_code' | 'verifying_code' | 'starting' | 'waiting' | 'failed'>('idle');
   const [msg, setMsg] = useState('');
+  const [showCelebrate, setShowCelebrate] = useState(false);
 
   useEffect(() => {
     setVerified(verifiedZmPhone(user));
   }, [user?.phone, user?.phone_confirmed_at]);
 
- const poll = async (referenceId: string) => {
-  for (let i = 0; i < 40; i++) {
-    await new Promise((r) => setTimeout(r, 4000));
-    const { data } = await supabase.functions.invoke('lipila-pay', { body: { action: 'check', referenceId } });
-    if (data?.status === 'completed') {
-      setShowCelebrate(true); // <--- Triggers celebration
-      setTimeout(() => onUnlocked(), 2000);
-      return;
-      if (data?.status === 'failed') { setState('failed'); setMsg('The payment did not go through. Please try again.'); return; }
+  const poll = async (referenceId: string) => {
+    for (let i = 0; i < 40; i++) {
+      await new Promise((r) => setTimeout(r, 4000));
+      const { data } = await supabase.functions.invoke('lipila-pay', { body: { action: 'check', referenceId } });
+      if (data?.status === 'completed') {
+        setShowCelebrate(true);
+        setTimeout(() => onUnlocked(), 2000);
+        return;
+      }
+      if (data?.status === 'failed') {
+        setState('failed');
+        setMsg('The payment did not go through. Please try again.');
+        return;
+      }
     }
     setState('failed');
     setMsg('We have not received confirmation yet. If you paid, refresh this page in a minute.');
@@ -133,6 +140,12 @@ const Paywall = ({ signedIn, onUnlocked, title = 'Unlock every lesson', note }: 
         )}
         {msg && <p className="text-sm text-destructive">{msg}</p>}
       </div>
+      <Celebration
+        active={showCelebrate}
+        onComplete={() => setShowCelebrate(false)}
+        title="Payment Confirmed! 🪙"
+        subtitle="All lessons, Yungsta practice and certificates are now unlocked."
+      />
     </div>
   );
 };

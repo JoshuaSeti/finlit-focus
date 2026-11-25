@@ -9,23 +9,25 @@ import { supabase } from '@/integrations/supabase/client';
 import { LearnerAvatar } from '@/components/community/LearnerAvatar';
 import type { Card } from '@/components/community/FriendsCircle';
 import { profileLink, whatsappInvite } from '@/lib/invite';
+import { Celebration } from '@/components/Celebration';
 
 const LearnerCard = () => {
   const { id = '' } = useParams();
   const { user, isLoading } = useAuth();
   const { toast } = useToast();
   const [c, setC] = useState<Card | null | undefined>(undefined);
+  const [showCelebrate, setShowCelebrate] = useState(false);
   const load = () => supabase.rpc('learner_card', { p_profile: id }).then(({ data }) => setC((data as unknown as Card) || null));
   useEffect(() => { if (!isLoading) load(); }, [id, isLoading, user?.id]);
 
   const add = async () => {
-    
-   const { error } = await supabase.rpc(c?.is_friend ? 'remove_friend' : 'add_friend', { p_profile: id });
-  if (error) {
-    toast({ title: 'Something went wrong', description: error.message, variant: 'destructive' });
-  } else {
-    if (!c?.is_friend) setShowCelebrate(true);
-    load();
+    const { error } = await supabase.rpc(c?.is_friend ? 'remove_friend' : 'add_friend', { p_profile: id });
+    if (error) {
+      toast({ title: 'Something went wrong', description: error.message, variant: 'destructive' });
+    } else {
+      if (!c?.is_friend) setShowCelebrate(true);
+      load();
+    }
   };
 
   return (
@@ -66,7 +68,6 @@ const LearnerCard = () => {
               )}
             </div>
 
-            {/* PASTE IT RIGHT HERE */}
             {user && !c.is_me && (
               <div className="mt-6 rounded-2xl bg-primary/10 border border-primary/20 p-4 text-left">
                 <p className="text-xs font-bold uppercase tracking-wider text-primary">Your Next Step</p>
@@ -83,7 +84,12 @@ const LearnerCard = () => {
           </div>
         )}
       </section>
-
+      <Celebration
+        active={showCelebrate}
+        onComplete={() => setShowCelebrate(false)}
+        title="Friend Added! 🎉"
+        subtitle={`You and ${c?.name ?? 'your friend'} are now connected on FinLit.`}
+      />
     </Layout>
   );
 };
