@@ -2566,6 +2566,7 @@ export type Database = {
           goal_cycle: number
           goal_started_at: string | null
           id: string
+          initial_situation: string | null
           last_guided_on: string | null
           last_pause_on: string | null
           neglect_through: string | null
@@ -2591,6 +2592,7 @@ export type Database = {
           goal_cycle?: number
           goal_started_at?: string | null
           id: string
+          initial_situation?: string | null
           last_guided_on?: string | null
           last_pause_on?: string | null
           neglect_through?: string | null
@@ -2616,6 +2618,7 @@ export type Database = {
           goal_cycle?: number
           goal_started_at?: string | null
           id?: string
+          initial_situation?: string | null
           last_guided_on?: string | null
           last_pause_on?: string | null
           neglect_through?: string | null
@@ -3286,6 +3289,10 @@ export type Database = {
         Returns: Json
       }
       debt_tick: { Args: { p: string }; Returns: undefined }
+      initialize_simulator: {
+        Args: { p_backstory?: string; p_situation: string }
+        Returns: Json
+      }
       learner_card: { Args: { p_profile: string }; Returns: Json }
       learner_card_for: { Args: { p_user: string }; Returns: Json }
       mirror_advice: { Args: { p: string; p_lesson: string }; Returns: string }

@@ -217,16 +217,13 @@ const Diagnostic = () => {
       setGroupScores(res.scores);
       saveLocal({ scores: res.scores, ts: Date.now() });
 
-      // Initialize or update simulator profile with starting cash & archetype
+      // The server chooses a fixed starting balance once; retakes cannot reset game money.
       if (user) {
-        await supabase.from('sim_profiles').upsert({
-          id: user.id,
-          display_name: user.email?.split('@')[0] || 'Learner',
-          character_name: 'Yungsta',
-          cash_balance: charRes.startingCash,
-          backstory: `${charRes.situation.title} • ${charRes.archetype.title}`,
-          avatar: 'casual',
+        const { error: setupError } = await supabase.rpc('initialize_simulator', {
+          p_situation: charRes.situation.id,
+          p_backstory: `${charRes.situation.title} • ${charRes.archetype.title}`,
         });
+        if (setupError) throw setupError;
       }
 
       import('@/lib/streak').then((m) => m.touchStreak());

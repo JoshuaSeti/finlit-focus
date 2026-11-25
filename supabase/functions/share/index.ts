@@ -1,6 +1,7 @@
 import { createClient } from "npm:@supabase/supabase-js@2";
 import { ImageResponse } from "https://deno.land/x/og_edge@0.0.6/mod.ts";
 import React from "https://esm.sh/react@18.2.0";
+import { avatarObjectPath } from "./avatar-source.ts";
 
 const SITE = "https://finlit-empower-hub.lovable.app";
 const FALLBACK_IMG = `${SITE}/og-image.png`;
@@ -58,6 +59,24 @@ function page(o: { title: string; desc: string; image: string; url: string; self
 
 const h = React.createElement;
 
+async function learnerPhoto(profile: { id: string; avatar_url?: string | null }): Promise<string | null> {
+  const origin = Deno.env.get("SUPABASE_URL");
+  if (!origin) return null;
+  const { data: owner } = await db.from("profiles").select("user_id").eq("id", profile.id).maybeSingle();
+  if (!owner) return null;
+  const path = avatarObjectPath(profile.avatar_url, origin, owner.user_id);
+  if (!path) return null;
+  // Download through the trusted storage client, never fetch a profile-provided address.
+  const { data: blob, error } = await db.storage.from("avatars").download(path);
+  if (error || !blob || blob.size > 3 * 1024 * 1024 || !['image/jpeg', 'image/png', 'image/webp'].includes(blob.type)) return null;
+  const bytes = new Uint8Array(await blob.arrayBuffer());
+  let binary = '';
+  for (let offset = 0; offset < bytes.length; offset += 8192) {
+    binary += String.fromCharCode(...bytes.subarray(offset, offset + 8192));
+  }
+  return `data:${blob.type};base64,${btoa(binary)}`;
+}
+
 Deno.serve(async (req) => {
   const q = new URL(req.url).searchParams;
   const self = `${Deno.env.get("SUPABASE_URL")}/functions/v1/share?${q.toString()}`;
@@ -89,14 +108,15 @@ Deno.serve(async (req) => {
         ? await db.rpc("learner_card", { p_profile: id })
         : { data: null };
       if (!p) return Response.redirect(FALLBACK_IMG, 302);
+      const photo = await learnerPhoto(p);
       const bg = "#064e3b", ink = "#f0fdf4";
       const first = (p.name || "LEARNER").split(/\s+/)[0].toUpperCase();
       const size = Math.min(380, Math.floor(1800 / Math.max(first.length, 3)));
       return new ImageResponse(
         h("div", { style: { width: "100%", height: "100%", display: "flex", position: "relative", background: bg, color: ink, fontFamily: "Inter", overflow: "hidden" } },
           h("div", { style: { position: "absolute", top: 0, left: 0, right: 0, bottom: 0, display: "flex", alignItems: "center", justifyContent: "center", fontSize: size, fontWeight: 900, letterSpacing: "-0.05em", lineHeight: 0.85, opacity: 0.25 } }, first),
-          p.avatar_url
-            ? h("img", { src: p.avatar_url, width: 400, height: 490, style: { position: "absolute", left: 400, bottom: 0, width: 400, height: 490, objectFit: "cover", borderRadius: "32px 32px 0 0", boxShadow: "0 25px 60px rgba(0,0,0,0.5)" } })
+          photo
+            ? h("img", { src: photo, width: 400, height: 490, style: { position: "absolute", left: 400, bottom: 0, width: 400, height: 490, objectFit: "cover", borderRadius: "32px 32px 0 0", boxShadow: "0 25px 60px rgba(0,0,0,0.5)" } })
             : h("div", { style: { position: "absolute", left: 440, bottom: 60, width: 320, height: 320, borderRadius: "50%", background: "rgba(255,255,255,0.1)", display: "flex", alignItems: "center", justifyContent: "center", fontSize: 160 } }, p.avatar || "🦁"),
           h("div", { style: { position: "absolute", left: 48, bottom: 44, display: "flex", flexDirection: "column", fontSize: 32, fontWeight: 900 } },
             h("div", { style: { display: "flex" } }, p.name),

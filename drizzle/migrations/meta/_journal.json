@@ -211,6 +211,13 @@
       "when": 1795531361462,
       "tag": "0029_secure_lesson_rewards_and_verified_practice",
       "breakpoints": true
+    },
+    {
+      "idx": 30,
+      "version": "7",
+      "when": 1795600918907,
+      "tag": "0030_secure_selected_simulator_and_submission_paths",
+      "breakpoints": true
     }
   ]
 }

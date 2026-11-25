@@ -11,3 +11,5 @@
 - Placement submissions use the backend-scored answer endpoint and entitlement reads require its trusted marker; preserve only the earliest legacy placement — why: writable scores must not grant or rotate free lesson access.
 - Lipila payment prompts use only the authenticated user's confirmed Auth phone number (`phone_confirmed_at`) and reject caller-supplied phone numbers — why: signed-in users must not trigger mobile-money prompts on someone else's phone.
 - Simulator lesson rewards (reputation, flags, unlocks) are granted only by server-verified practice completion and lesson entitlement (`private.award_verified_lesson`), never from client-writable `module_progress` — why: callers must not forge lesson completion to claim simulator rewards.
+- Simulator starting cash is assigned once by an authenticated, fixed-situation initializer; direct economy writes are denied — why: diagnostics and retakes must not mint or reset money.
+- Learner share images download only the selected owner's avatar from configured storage and embed image bytes — why: profile-written addresses must never become server-side fetch targets.
