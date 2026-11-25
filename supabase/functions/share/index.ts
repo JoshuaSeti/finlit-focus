@@ -99,7 +99,7 @@ Deno.serve(async (req) => {
       return html(page({ title: `Step into ${m.full_name}'s world · FinLit`, desc: clip(m.tagline || `${m.role} at FinLit Zambia.`, 180), image: img, url, self, type: "profile" }));
     }
 
-    if (q.get("t") === "u") {
+      if (q.get("t") === "u") {
       const id = q.get("id") ?? "";
       const { data: p } = /^[0-9a-f-]{36}$/i.test(id)
         ? await db.rpc("learner_card", { p_profile: id })
@@ -109,10 +109,13 @@ Deno.serve(async (req) => {
 
       const title = `${p.name} · FinLit Learner (🪙 ${p.streak || 0} day streak)`;
       const desc = p.bio || `Learn money skills with ${p.name} in Zambia on FinLit. Free placement diagnostic and lessons.`;
+      
+      // Use their uploaded photo if present, otherwise fallback to the branded OG image
       const img = p.avatar_url || FALLBACK_IMG;
 
       return html(page({ title, desc, image: img, url, self, type: "profile" }));
     }
+
 
 
 
