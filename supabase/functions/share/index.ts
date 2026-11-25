@@ -2,6 +2,7 @@ import { createClient } from "npm:@supabase/supabase-js@2";
 import { ImageResponse } from "https://deno.land/x/og_edge@0.0.6/mod.ts";
 import React from "https://esm.sh/react@18.2.0";
 import { avatarObjectPath } from "./avatar-source.ts";
+import { isPreviewCrawler } from "./preview-crawler.ts";
 
 const SITE = "https://finlit-empower-hub.lovable.app";
 const FALLBACK_IMG = `${SITE}/og-image.png`;
@@ -80,6 +81,7 @@ async function learnerPhoto(profile: { id: string; avatar_url?: string | null })
 Deno.serve(async (req) => {
   const q = new URL(req.url).searchParams;
   const self = `${Deno.env.get("SUPABASE_URL")}/functions/v1/share?${q.toString()}`;
+  const crawler = isPreviewCrawler(req.headers.get("user-agent"));
   try {
     // Rendered card for a team world
     if (q.get("img") === "team") {
@@ -130,28 +132,31 @@ Deno.serve(async (req) => {
 
     if (q.get("t") === "blog") {
       const id = q.get("id") ?? "";
-      const { data: p } = /^[0-9a-f-]{36}$/i.test(id) ? await db.from("blog_posts").select("title,excerpt,content,image_url").eq("id", id).eq("is_published", true).maybeSingle() : { data: null };
       const url = `${SITE}/blog/${encodeURIComponent(id)}`;
-      if (!p) return Response.redirect(url, 302);
+      if (!crawler) return redirect(url);
+      const { data: p } = /^[0-9a-f-]{36}$/i.test(id) ? await db.from("blog_posts").select("title,excerpt,content,image_url").eq("id", id).eq("is_published", true).maybeSingle() : { data: null };
+      if (!p) return redirect(url);
       return html(page({ title: p.title, desc: clip(strip(p.excerpt || p.content || "Read on FinLit Zambia."), 180), image: p.image_url || FALLBACK_IMG, url, self, type: "article" }));
     }
 
     if (q.get("t") === "team") {
       const slug = q.get("slug") ?? "";
-      const { data: m } = await db.from("team_members").select("full_name,role,tagline").eq("slug", slug).eq("is_active", true).maybeSingle();
       const url = `${SITE}/team/${encodeURIComponent(slug)}`;
-      if (!m) return Response.redirect(url, 302);
+      if (!crawler) return redirect(url);
+      const { data: m } = await db.from("team_members").select("full_name,role,tagline").eq("slug", slug).eq("is_active", true).maybeSingle();
+      if (!m) return redirect(url);
       const img = `${Deno.env.get("SUPABASE_URL")}/functions/v1/share?img=team&slug=${encodeURIComponent(slug)}`;
       return html(page({ title: `Step into ${m.full_name}'s world · FinLit`, desc: clip(m.tagline || `${m.role} at FinLit Zambia.`, 180), image: img, url, self, type: "profile" }));
     }
 
     if (q.get("t") === "u") {
       const id = q.get("id") ?? "";
+      const url = `${SITE}/u/${encodeURIComponent(id)}`;
+      if (!crawler) return redirect(url);
       const { data: p } = /^[0-9a-f-]{36}$/i.test(id)
         ? await db.rpc("learner_card", { p_profile: id })
         : { data: null };
-      const url = `${SITE}/u/${encodeURIComponent(id)}`;
-      if (!p) return Response.redirect(url, 302);
+      if (!p) return redirect(url);
 
       const title = `${p.name} · FinLit Learner`;
       const desc = p.bio || `Learn money skills with ${p.name} in Zambia on FinLit. Free placement diagnostic and lessons.`;
@@ -164,9 +169,18 @@ Deno.serve(async (req) => {
   } catch (e) {
     console.error("share failed", e);
   }
-  return Response.redirect(SITE, 302);
+  return redirect(SITE);
 });
 
+function redirect(url: string) {
+  return new Response(null, {
+    status: 302,
+    headers: { Location: url, "Cache-Control": "no-store", Vary: "User-Agent" },
+  });
+}
+
 function html(body: string) {
-  return new Response(body, { headers: { "Content-Type": "text/html; charset=utf-8", "Cache-Control": "public, max-age=600" } });
+  return new Response(body, {
+    headers: { "Content-Type": "text/html; charset=utf-8", "Cache-Control": "no-store", Vary: "User-Agent" },
+  });
 }
