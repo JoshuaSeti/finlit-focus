@@ -9,6 +9,32 @@
 
   <style>
 
+
+
+@keyframes pulse-urgent {
+  0%, 100% { transform: scale(1); box-shadow: 0 0 0 0 rgba(239, 68, 68, 0.4); }
+  50% { transform: scale(1.02); box-shadow: 0 0 0 8px rgba(239, 68, 68, 0); }
+}
+
+.hud-urgent-ping {
+  animation: pulse-urgent 2s infinite ease-in-out;
+  border: 1.5px solid #ef4444 !important;
+  background: #fef2f2 !important;
+  color: #991b1b !important;
+}
+
+@media (prefers-color-scheme: dark) {
+  .hud-urgent-ping {
+    background: rgba(239, 68, 68, 0.15) !important;
+    color: #fca5a5 !important;
+  }
+}
+
+
+
+
+
+    
 /* Living Budget & Archetype HUD */
 .hud-card {
   background: #ffffff; border-radius: 16px; padding: 16px 18px;
@@ -365,9 +391,16 @@ async function renderActionCard(profile) {
       .limit(1)
       .maybeSingle();
 
-    if (pending) {
+       if (pending) {
+      // 📳 GTA-style physical phone buzz for incoming dilemma
+      if (typeof navigator !== 'undefined' && 'vibrate' in navigator) {
+        try {
+          navigator.vibrate([150, 75, 150, 75, 300]);
+        } catch (e) {}
+      }
+
       container.innerHTML = `
-        <div class="quest-card urgent">
+        <div class="quest-card urgent hud-urgent-ping">
           <div class="quest-icon">📞</div>
           <div class="quest-content">
             <div class="quest-kicker">Urgent Decision</div>
