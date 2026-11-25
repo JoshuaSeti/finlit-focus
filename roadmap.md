@@ -1,5 +1,5 @@
 # Roadmap
-- [ ] Current selected security fixes: direct simulator writes, daily events, assessments, applications, wall moderation, advice privacy, and share-image validation
+- [x] Current selected security fixes: direct simulator writes, daily events, assessments, applications, wall moderation, advice privacy, and share-image validation
 - [ ] Selected behaviour-changing fixes: self-reported rewards, admin price editing, verified lesson completion, and replacing old photo links — awaiting confirmation
 - [x] Selected security findings: trusted placement, debt quotes, and practice ownership
 - [ ] Simulator unlock flags — direct table writes are blocked, but callable flag-setting helpers remain; awaiting approval for the additional paths
