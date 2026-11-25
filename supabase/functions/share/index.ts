@@ -10,7 +10,7 @@ const esc = (s: string) => s.replace(/[&<>"']/g, (c) => ({ "&": "&amp;", "<": "&
 const strip = (s: string) => s.replace(/<[^>]*>/g, " ").replace(/\s+/g, " ").trim();
 const clip = (s: string, n: number) => (s.length > n ? s.slice(0, n - 1).trimEnd() + "…" : s);
 
-/** Convert oklch()/hex colours (as stored for team accents) into hex the image renderer understands. */
+/** Convert oklch()/hex colours into hex the image renderer understands. */
 function toHex(c: string, fallback: string): string {
   const t = (c || "").trim();
   if (/^#[0-9a-f]{3,8}$/i.test(t)) return t;
@@ -62,7 +62,7 @@ Deno.serve(async (req) => {
   const q = new URL(req.url).searchParams;
   const self = `${Deno.env.get("SUPABASE_URL")}/functions/v1/share?${q.toString()}`;
   try {
-    // Rendered card for a team world: the member's photo over their huge name, in their colours.
+    // Rendered card for a team world
     if (q.get("img") === "team") {
       const slug = q.get("slug") ?? "";
       const { data: m } = await db.from("team_members").select("full_name,role,image_url,accent,accent_ink").eq("slug", slug).eq("is_active", true).maybeSingle();
@@ -77,6 +77,32 @@ Deno.serve(async (req) => {
           h("div", { style: { position: "absolute", left: 48, bottom: 40, display: "flex", flexDirection: "column", fontSize: 30, fontWeight: 900 } },
             h("div", { style: { display: "flex" } }, m.full_name), h("div", { style: { display: "flex", fontSize: 22, opacity: 0.8 } }, m.role || "FinLit Team")),
           h("div", { style: { position: "absolute", right: 48, top: 40, display: "flex", fontSize: 28, fontWeight: 900, padding: "8px 18px", border: `3px solid ${ink}`, borderRadius: 999 } }, "FinLit"),
+        ),
+        { width: 1200, height: 630, fonts: [{ name: "Inter", data: await blackFont(), weight: 900, style: "normal" }], headers: { "Cache-Control": "public, max-age=3600" } },
+      );
+    }
+
+    // Rendered card for a learner profile
+    if (q.get("img") === "u") {
+      const id = q.get("id") ?? "";
+      const { data: p } = /^[0-9a-f-]{36}$/i.test(id)
+        ? await db.rpc("learner_card", { p_profile: id })
+        : { data: null };
+      if (!p) return Response.redirect(FALLBACK_IMG, 302);
+      const bg = "#064e3b", ink = "#f0fdf4";
+      const first = (p.name || "LEARNER").split(/\s+/)[0].toUpperCase();
+      const size = Math.min(380, Math.floor(1800 / Math.max(first.length, 3)));
+      return new ImageResponse(
+        h("div", { style: { width: "100%", height: "100%", display: "flex", position: "relative", background: bg, color: ink, fontFamily: "Inter", overflow: "hidden" } },
+          h("div", { style: { position: "absolute", top: 0, left: 0, right: 0, bottom: 0, display: "flex", alignItems: "center", justifyContent: "center", fontSize: size, fontWeight: 900, letterSpacing: "-0.05em", lineHeight: 0.85, opacity: 0.25 } }, first),
+          p.avatar_url
+            ? h("img", { src: p.avatar_url, width: 400, height: 490, style: { position: "absolute", left: 400, bottom: 0, width: 400, height: 490, objectFit: "cover", borderRadius: "32px 32px 0 0", boxShadow: "0 25px 60px rgba(0,0,0,0.5)" } })
+            : h("div", { style: { position: "absolute", left: 440, bottom: 60, width: 320, height: 320, borderRadius: "50%", background: "rgba(255,255,255,0.1)", display: "flex", alignItems: "center", justifyContent: "center", fontSize: 160 } }, p.avatar || "🦁"),
+          h("div", { style: { position: "absolute", left: 48, bottom: 44, display: "flex", flexDirection: "column", fontSize: 32, fontWeight: 900 } },
+            h("div", { style: { display: "flex" } }, p.name),
+            h("div", { style: { display: "flex", fontSize: 20, opacity: 0.75, marginTop: 4 } }, p.town ? `FinLit Learner · ${p.town}` : "FinLit Learner"),
+          ),
+          h("div", { style: { position: "absolute", right: 48, top: 40, display: "flex", fontSize: 26, fontWeight: 900, padding: "8px 18px", border: `3px solid ${ink}`, borderRadius: 999 } }, "FinLit"),
         ),
         { width: 1200, height: 630, fonts: [{ name: "Inter", data: await blackFont(), weight: 900, style: "normal" }], headers: { "Cache-Control": "public, max-age=3600" } },
       );
@@ -99,7 +125,7 @@ Deno.serve(async (req) => {
       return html(page({ title: `Step into ${m.full_name}'s world · FinLit`, desc: clip(m.tagline || `${m.role} at FinLit Zambia.`, 180), image: img, url, self, type: "profile" }));
     }
 
-      if (q.get("t") === "u") {
+    if (q.get("t") === "u") {
       const id = q.get("id") ?? "";
       const { data: p } = /^[0-9a-f-]{36}$/i.test(id)
         ? await db.rpc("learner_card", { p_profile: id })
@@ -107,19 +133,14 @@ Deno.serve(async (req) => {
       const url = `${SITE}/u/${encodeURIComponent(id)}`;
       if (!p) return Response.redirect(url, 302);
 
-      const title = `${p.name} · FinLit Learner (🪙 ${p.streak || 0} day streak)`;
+      const title = `${p.name} · FinLit Learner`;
       const desc = p.bio || `Learn money skills with ${p.name} in Zambia on FinLit. Free placement diagnostic and lessons.`;
       
-      // Use their uploaded photo if present, otherwise fallback to the branded OG image
-      const img = p.avatar_url || FALLBACK_IMG;
+      // Dynamic lightweight social preview card (under 50KB for WhatsApp)
+      const img = `${Deno.env.get("SUPABASE_URL")}/functions/v1/share?img=u&id=${encodeURIComponent(id)}`;
 
       return html(page({ title, desc, image: img, url, self, type: "profile" }));
     }
-
-
-
-
-    
   } catch (e) {
     console.error("share failed", e);
   }
