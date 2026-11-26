@@ -17,11 +17,11 @@
   function post(type, data) {
     try { window.parent.postMessage(Object.assign({ source: 'finlit-module', type: type, slug: CFG.slug }, data || {}), '*'); } catch (e) {}
   }
-  var B = window.FinLitBridge = {
+var B = window.FinLitBridge = {
     slug: CFG.slug, user: CFG.user || null,
     track: function (kind, payload) { post('event', { kind: kind, payload: payload || {} }); },
-    home: function () { post('home'); },
-    open: function (slug) { post('open', { slug: slug }); },
+    home: function () { sync(); setTimeout(function () { post('home'); }, 60); },
+    open: function (slug) { sync(); setTimeout(function () { post('open', { slug: slug }); }, 60); },
     post: post,
   };
 
@@ -75,20 +75,29 @@
   }, true);
 
   // Progress: watch the module's own localStorage record and forward changes.
-  var last = '';
+ var last = '';
   function key() { var c = window.FINLIT_MODULE || {}; return 'finlit-progress-' + (c.moduleId || CFG.slug); }
   function sync() {
     var raw = null; try { raw = localStorage.getItem(key()); } catch (e) {}
-    if (!raw || raw === last) return;
+    if (!raw) return;
     last = raw;
     var p = null; try { p = JSON.parse(raw); } catch (e) { return; }
     var c = window.FINLIT_MODULE || {};
     post('progress', { progress: p, sections: c.sections || [] });
   }
   setInterval(sync, 2000);
-  window.addEventListener('hashchange', function () { setTimeout(sync, 300); });
+  window.addEventListener('hashchange', function () { setTimeout(sync, 100); });
   window.addEventListener('pagehide', sync);
+  window.addEventListener('beforeunload', sync);
 
+// Hook into finish button if present in DOM
+  document.addEventListener('click', function (e) {
+    var finishBtn = e.target && e.target.closest ? e.target.closest('#fin-finish, .fin-finish-btn') : null;
+    if (finishBtn) {
+      setTimeout(sync, 50);
+    }
+  }, true);
+   
   // Certificates keep working as-is; we just record the claim.
   window.addEventListener('load', function () {
     sync();
