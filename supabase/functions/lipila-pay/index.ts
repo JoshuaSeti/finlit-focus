@@ -7,7 +7,7 @@ const json = (b: unknown, status = 200) =>
   new Response(JSON.stringify(b), { status, headers: { ...corsHeaders, 'Content-Type': 'application/json' } });
 
 const Body = z.union([
-  z.object({ action: z.literal('start') }),
+  z.object({ action: z.literal('start'), phone: z.string() }),
   z.object({ action: z.literal('check'), referenceId: z.string().uuid() }),
 ]);
 
@@ -36,15 +36,17 @@ Deno.serve(async (req) => {
     const { data: access } = await db.from('lesson_access').select('user_id').eq('user_id', user.id).maybeSingle();
     if (access) return json({ error: 'Your account already has full lesson access.' }, 409);
 
-    // Only send a mobile-money prompt to a Zambian phone number verified on this account.
-    const verifiedDigits = user.phone_confirmed_at ? String(user.phone ?? '').replace(/\D/g, '') : '';
-    const phone = /^260[79]\d{8}$/.test(verifiedDigits) ? verifiedDigits : null;
-    if (!phone) {
-      return json({
-        error: 'Please verify your Zambian mobile number on your account before starting a payment.',
-        code: 'phone_not_verified',
-      }, 403);
-    }
+   // Replace lines 39-47 in supabase/functions/lipila-pay/index.ts:
+const rawDigits = String(parsed.data.phone ?? '').replace(/\D/g, '');
+const normalized = rawDigits.startsWith('0') ? `260${rawDigits.slice(1)}` : rawDigits.startsWith('260') ? rawDigits : `260${rawDigits}`;
+const phone = /^260[79]\d{8}$/.test(normalized) ? normalized : null;
+
+if (!phone) {
+  return json({
+    error: 'Please enter a valid Airtel, MTN, or Zamtel mobile number.',
+    code: 'invalid_phone',
+  }, 400);
+}
 
     // Limit how often prompts can be sent so the endpoint can't be used to spam phones.
     const since = new Date(Date.now() - 24 * 3600 * 1000).toISOString();
