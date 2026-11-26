@@ -184,7 +184,7 @@ export default function ModulesList() {
                 {done === 0 ? 'Start your journey.' : done === total ? 'Path Completed!' : 'Keep your momentum.'}
               </h1>
               <p className="text-muted-foreground text-sm md:text-base max-w-lg leading-relaxed">
-                Step-by-step financial literacy designed for Zambia. Learn real money principles, then practice risk-free with Yungsta.
+                Step-by-step financial literacy designed for you. Learn real money principles, then practice risk-free with your Yungsta.
               </p>
               
               {/* Overall Progress Meter */}
