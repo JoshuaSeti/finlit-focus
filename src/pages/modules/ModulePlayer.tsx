@@ -65,30 +65,59 @@ if (!isAdmin && !acc.paid && (!acc.scores || slug !== freeSlug(acc.scores))) {
   }, [slug, userId, isLoading]);
 
   // Messages from the module.
+  // Messages from the module.
   useEffect(() => {
     const onMsg = async (e: MessageEvent) => {
       if (e.origin !== window.location.origin) return;
       const d = e.data || {};
       if (d.source !== 'finlit-module' || d.slug !== slug) return;
-      if (d.type === 'home') return navigate('/modules');
-      if (d.type === 'open' && d.slug) return navigate(`/modules/${String(d.slug).replace(/-full$/, '')}`);
+      
       const u = userRef.current;
-      if (!u) return;
-      if (d.type === 'progress') {
+
+      if (d.type === 'progress' && u) {
         const s = summarize(d.progress, d.sections || []);
         await syncOrQueueProgress(u.id, slug, d.progress, s);
-      } else if (d.type === 'certificate') {
-        await supabase.from('module_progress').upsert({ user_id: u.id, module_slug: slug, certificate_claimed_at: new Date().toISOString(), certificate_name: d.name || null }, { onConflict: 'user_id,module_slug' });
-        await supabase.from('module_events').insert({ user_id: u.id, module_slug: slug, kind: 'certificate', payload: { name: d.name, score: d.score } });
-      } else if (d.type === 'practice') {
-        await supabase.from('module_events').insert({ user_id: u.id, module_slug: slug, kind: 'practice', payload: { status: d.status } });
-      } else if (d.type === 'event' && typeof d.kind === 'string') {
-        await supabase.from('module_events').insert({ user_id: u.id, module_slug: slug, kind: d.kind.slice(0, 60), payload: d.payload || {} });
+      } else if (d.type === 'certificate' && u) {
+        const now = new Date().toISOString();
+        await supabase.from('module_progress').upsert({
+          user_id: u.id,
+          module_slug: slug,
+          completed_at: now,
+          certificate_claimed_at: now,
+          certificate_name: d.name || null
+        }, { onConflict: 'user_id,module_slug' });
+        await supabase.from('module_events').insert({
+          user_id: u.id,
+          module_slug: slug,
+          kind: 'certificate',
+          payload: { name: d.name, score: d.score }
+        });
+      } else if (d.type === 'practice' && u) {
+        await supabase.from('module_events').insert({
+          user_id: u.id,
+          module_slug: slug,
+          kind: 'practice',
+          payload: { status: d.status }
+        });
+      } else if (d.type === 'event' && typeof d.kind === 'string' && u) {
+        await supabase.from('module_events').insert({
+          user_id: u.id,
+          module_slug: slug,
+          kind: d.kind.slice(0, 60),
+          payload: d.payload || {}
+        });
+      }
+
+      if (d.type === 'home') {
+        navigate('/modules');
+      } else if (d.type === 'open' && d.slug) {
+        navigate(`/modules/${String(d.slug).replace(/-full$/, '')}`);
       }
     };
     window.addEventListener('message', onMsg);
     return () => window.removeEventListener('message', onMsg);
   }, [slug, navigate]);
+
 
   return (
     <div className="fixed inset-0 flex flex-col bg-background">
