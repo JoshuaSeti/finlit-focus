@@ -1526,16 +1526,19 @@ export type Database = {
       }
       lesson_access: {
         Row: {
+          expires_at: string
           granted_at: string
           payment_reference: string | null
           user_id: string
         }
         Insert: {
+          expires_at?: string
           granted_at?: string
           payment_reference?: string | null
           user_id: string
         }
         Update: {
+          expires_at?: string
           granted_at?: string
           payment_reference?: string | null
           user_id?: string
