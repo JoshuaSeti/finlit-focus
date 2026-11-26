@@ -39,8 +39,8 @@ const ModulesList = () => {
         const map: Record<string, Prog> = {};
         (p || []).forEach((r: any) => (map[r.module_slug] = r));
         setProg(map);
-        const { data: acc } = await supabase.from('lesson_access').select('user_id').eq('user_id', user.id).maybeSingle();
-        setPaid(!!acc);
+                    const acc = await getAccess(user.id);
+        setPaid(acc.paid);
         const { data: pr } = await supabase.from('placement_results').select('scores,created_at').eq('user_id', user.id).eq('server_scored', true).order('created_at', { ascending: false }).limit(1);
         if (pr && pr[0]) { const sc = pr[0].scores as unknown as Scores; setScores(sc); saveLocal({ scores: sc, ts: Date.parse(pr[0].created_at) }); }
         else if (!params.get('skip')) { navigate('/diagnostic', { replace: true }); return; }
