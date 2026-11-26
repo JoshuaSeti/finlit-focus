@@ -144,7 +144,8 @@ export default function ModulesList() {
       {/* Editorial Apple-style Header */}
       <section className="border-b border-border bg-gradient-to-b from-card via-background to-background">
         <div className="container mx-auto px-4 pt-10 pb-8 max-w-6xl">
-                    <div className="text-xs text-muted-foreground font-medium">
+          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-6 border-b border-border/60">
+            <div className="text-xs text-muted-foreground font-medium">
               <span className="text-foreground font-semibold">{scores ? 'Diagnostic sequence' : 'Core syllabus'}</span>
               <span className="mx-2">·</span>
               <span>{done} of {total} completed ({pctAll}%)</span>
