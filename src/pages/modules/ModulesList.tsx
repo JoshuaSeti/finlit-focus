@@ -1,6 +1,7 @@
 import { useEffect, useMemo, useState } from 'react';
 import { Link, useNavigate, useSearchParams } from 'react-router-dom';
 import { motion } from 'framer-motion';
+import { getLearnerGreeting, Gender, GreetingTone } from '@/lib/greetings';
 import { 
   Compass, 
   Check, 
@@ -43,13 +44,13 @@ export default function ModulesList() {
   const [daysRemaining, setDaysRemaining] = useState<number | null>(null);
   const [scores, setScores] = useState<Scores | null>(null);
   const navigate = useNavigate();
-    const [userName, setUserName] = useState<string>('');
-  const greeting = useMemo(() => {
-    const hour = new Date().getHours();
-    if (hour < 12) return 'Good morning';
-    if (hour < 17) return 'Good afternoon';
-    return 'Good evening';
-  }, []);
+   const [userName, setUserName] = useState<string>('');
+  const [gender, setGender] = useState<Gender>(null);
+  const [greetingTone, setGreetingTone] = useState<GreetingTone>('friendly');
+
+  const greetingData = useMemo(() => {
+    return getLearnerGreeting(userName, gender, greetingTone);
+  }, [userName, gender, greetingTone]);
   const [params] = useSearchParams();
 
   useEffect(() => {
@@ -67,14 +68,16 @@ export default function ModulesList() {
         const initialName = (user.user_metadata?.full_name || user.user_metadata?.name || '').trim();
         if (initialName) setUserName(initialName.split(' ')[0]);
 
-        supabase
+               supabase
           .from('profiles')
-          .select('display_name, full_name')
+          .select('display_name, full_name, gender, greeting_tone')
           .eq('user_id', user.id)
           .maybeSingle()
-          .then(({ data }) => {
+          .then(({ data }: any) => {
             const raw = data?.display_name || data?.full_name || initialName;
             if (raw) setUserName(raw.trim().split(' ')[0]);
+            if (data?.gender) setGender(data.gender);
+            if (data?.greeting_tone) setGreetingTone(data.greeting_tone);
           });
 
         const { data: p } = await supabase
@@ -209,16 +212,16 @@ export default function ModulesList() {
                 FinLit Path
               </p>
 
-              <h1 className="text-3xl md:text-5xl font-extrabold tracking-tight text-foreground leading-[1.15]">
+                           <h1 className="text-3xl md:text-5xl font-extrabold tracking-tight text-foreground leading-[1.15]">
                 {user && userName ? (
                   <>
-                    {greeting}, <span className="text-primary">{userName}</span>.
+                    {greetingData.headlinePrefix}, <span className="text-primary">{greetingData.learnerName}</span>{greetingData.punctuation}
                     <span className="block text-2xl md:text-3xl font-semibold text-muted-foreground mt-1">
                       {done === 0 
                         ? 'Welcome to your path.' 
                         : done === total 
                         ? 'You have finished every lesson!' 
-                        : 'Continue where you left off?'}
+                        : greetingData.subtitle}
                     </span>
                   </>
                 ) : (
