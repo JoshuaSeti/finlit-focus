@@ -1413,6 +1413,7 @@ export type Database = {
       learning_modules: {
         Row: {
           category: string
+          cover_image_url: string | null
           created_at: string
           default_path: string | null
           description: string | null
@@ -1422,11 +1423,13 @@ export type Database = {
           slug: string
           sort_order: number
           storage_path: string | null
+          theme_color: string | null
           title: string
           updated_at: string
         }
         Insert: {
           category?: string
+          cover_image_url?: string | null
           created_at?: string
           default_path?: string | null
           description?: string | null
@@ -1436,11 +1439,13 @@ export type Database = {
           slug: string
           sort_order?: number
           storage_path?: string | null
+          theme_color?: string | null
           title: string
           updated_at?: string
         }
         Update: {
           category?: string
+          cover_image_url?: string | null
           created_at?: string
           default_path?: string | null
           description?: string | null
@@ -1450,6 +1455,7 @@ export type Database = {
           slug?: string
           sort_order?: number
           storage_path?: string | null
+          theme_color?: string | null
           title?: string
           updated_at?: string
         }
@@ -1882,6 +1888,8 @@ export type Database = {
           display_name: string | null
           email: string
           full_name: string
+          gender: string | null
+          greeting_tone: string
           id: string
           school_name: string | null
           show_publicly: boolean
@@ -1898,6 +1906,8 @@ export type Database = {
           display_name?: string | null
           email: string
           full_name: string
+          gender?: string | null
+          greeting_tone?: string
           id?: string
           school_name?: string | null
           show_publicly?: boolean
@@ -1914,6 +1924,8 @@ export type Database = {
           display_name?: string | null
           email?: string
           full_name?: string
+          gender?: string | null
+          greeting_tone?: string
           id?: string
           school_name?: string | null
           show_publicly?: boolean
