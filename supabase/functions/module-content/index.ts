@@ -37,8 +37,13 @@ Deno.serve(async (req) => {
     const { data: m } = await db.from('learning_modules').select('slug,is_published,storage_path,default_path').eq('slug', slug).maybeSingle();
     if (!m || (!m.is_published && !admin)) return json({ error: 'Not found' }, 404);
 
-    if (!admin) {
-      const { data: paid } = await db.from('lesson_access').select('user_id').eq('user_id', user.id).maybeSingle();
+        if (!admin) {
+      const { data: paid } = await db.from('lesson_access')
+        .select('user_id')
+        .eq('user_id', user.id)
+        .gt('expires_at', new Date().toISOString())
+        .maybeSingle();
+
       if (!paid) {
         const { data: pr } = await db.from('placement_results').select('scores').eq('user_id', user.id).eq('server_scored', true)
           .order('created_at', { ascending: false }).limit(1);
