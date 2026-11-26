@@ -24,7 +24,8 @@ const ModulesList = () => {
   const [mods, setMods] = useState<LearningModule[]>([]);
   const [prog, setProg] = useState<Record<string, Prog>>({});
   const [loading, setLoading] = useState(true);
-  const [paid, setPaid] = useState(false);
+   const [paid, setPaid] = useState(false);
+  const [daysRemaining, setDaysRemaining] = useState<number | null>(null);
   const [scores, setScores] = useState<Scores | null>(null);
   const navigate = useNavigate();
   const [params] = useSearchParams();
@@ -40,7 +41,8 @@ const ModulesList = () => {
         (p || []).forEach((r: any) => (map[r.module_slug] = r));
         setProg(map);
                     const acc = await getAccess(user.id);
-        setPaid(acc.paid);
+  setPaid(acc.paid);
+  setDaysRemaining(acc.paid ? acc.daysRemaining : 0);
         const { data: pr } = await supabase.from('placement_results').select('scores,created_at').eq('user_id', user.id).eq('server_scored', true).order('created_at', { ascending: false }).limit(1);
         if (pr && pr[0]) { const sc = pr[0].scores as unknown as Scores; setScores(sc); saveLocal({ scores: sc, ts: Date.parse(pr[0].created_at) }); }
         else if (!params.get('skip')) { navigate('/diagnostic', { replace: true }); return; }
@@ -127,6 +129,32 @@ const ModulesList = () => {
 
       <section className="container mx-auto px-4 py-10 max-w-6xl grid lg:grid-cols-[1fr_320px] gap-10">
         <div>
+               <section className="container mx-auto px-4 py-10 max-w-6xl grid lg:grid-cols-[1fr_320px] gap-10">
+        <div>
+          {/* Renewal notice when 7 or fewer days remain */}
+          {user && paid && daysRemaining !== null && daysRemaining <= 7 && (
+            <div className="mb-8 rounded-xl border border-amber-500/20 bg-amber-500/10 p-4 text-xs text-amber-950 dark:text-amber-100 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3">
+              <div className="space-y-0.5">
+                <p className="font-semibold text-sm flex items-center gap-1.5">
+                  <span>⏳</span>
+                  <span>{daysRemaining === 0 ? 'Subscription expires today' : `${daysRemaining} days remaining`}</span>
+                </p>
+                <p className="text-muted-foreground text-[11px]">
+                  Renew early and keep your momentum — 30 days will be added on top of your remaining days!
+                </p>
+              </div>
+              <Link to="/diagnostic">
+                <Button size="sm" className="bg-amber-600 hover:bg-amber-700 text-white shrink-0">
+                  Renew K20 (+30 Days)
+                </Button>
+              </Link>
+            </div>
+          )}
+
+          {loading ? (
+            <p className="text-muted-foreground">Loading your path…</p>
+...
+
           {loading ? (
             <p className="text-muted-foreground">Loading your path…</p>
           ) : (
