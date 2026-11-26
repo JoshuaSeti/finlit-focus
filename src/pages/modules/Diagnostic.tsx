@@ -46,7 +46,8 @@ const Diagnostic = () => {
 
   // Stages: intro -> age -> situation (Part A) -> scenarios (Part B) -> reality (Part C) -> done
   const [stage, setStage] = useState<'intro' | 'age' | 'situation' | 'scenarios' | 'reality' | 'done'>('intro');
-  const [age, setAge] = useState('');
+   const [age, setAge] = useState('');
+  const [gender, setGender] = useState<'female' | 'male' | ''>('');
   const ageNum = parseInt(age, 10);
   const ageOk = ageNum >= 5 && ageNum <= 120;
 
@@ -87,8 +88,9 @@ const Diagnostic = () => {
       setPaid(a.paid);
       setHadPrev(!!a.scores);
     });
-    supabase.from('profiles').select('age').eq('user_id', user.id).maybeSingle().then(({ data }) => {
+        supabase.from('profiles').select('age, gender').eq('user_id', user.id).maybeSingle().then(({ data }: any) => {
       if (data?.age) setAge(String(data.age));
+      if (data?.gender) setGender(data.gender);
     });
   }, [user?.id]);
 
@@ -96,9 +98,12 @@ const Diagnostic = () => {
 
 
   // 1. Submit Age
-  const submitAge = async () => {
+   const submitAge = async () => {
     if (!ageOk || !user) return;
-    await supabase.from('profiles').update({ age: ageNum }).eq('user_id', user.id);
+    await supabase.from('profiles').update({ 
+      age: ageNum,
+      gender: gender || null
+    } as any).eq('user_id', user.id);
     setStage('situation');
   };
 
@@ -322,7 +327,7 @@ const Diagnostic = () => {
             <h1 className="text-2xl font-bold text-foreground">How old are you?</h1>
             <p className="text-muted-foreground mt-2 text-sm">Helps us tailor practical scenarios for people in your age group.</p>
             <form onSubmit={(e) => { e.preventDefault(); submitAge(); }}>
-              <input 
+                           <input 
                 type="number" 
                 inputMode="numeric" 
                 min={5} 
@@ -335,6 +340,37 @@ const Diagnostic = () => {
                 className="mt-6 w-36 mx-auto block text-center text-4xl font-extrabold rounded-2xl border-2 border-border bg-card p-4 focus:border-primary outline-none" 
               />
               {age && !ageOk && <p className="text-xs text-destructive mt-2">Please enter an age between 5 and 120.</p>}
+
+              <div className="mt-6 max-w-xs mx-auto text-left">
+                <span className="text-xs font-semibold uppercase tracking-wider text-muted-foreground block mb-2 text-center">
+                  Gender (Optional)
+                </span>
+                <div className="grid grid-cols-2 gap-2">
+                  <button
+                    type="button"
+                    onClick={() => setGender(gender === 'female' ? '' : 'female')}
+                    className={`py-2 px-3 text-sm rounded-xl font-medium border transition-colors ${
+                      gender === 'female'
+                        ? 'border-primary bg-primary/10 text-primary font-semibold'
+                        : 'border-border bg-card text-muted-foreground hover:border-foreground/30'
+                    }`}
+                  >
+                    Female
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => setGender(gender === 'male' ? '' : 'male')}
+                    className={`py-2 px-3 text-sm rounded-xl font-medium border transition-colors ${
+                      gender === 'male'
+                        ? 'border-primary bg-primary/10 text-primary font-semibold'
+                        : 'border-border bg-card text-muted-foreground hover:border-foreground/30'
+                    }`}
+                  >
+                    Male
+                  </button>
+                </div>
+              </div>
+
               <Button type="submit" size="lg" className="w-full mt-8 rounded-full font-semibold" disabled={!ageOk}>
                 Continue <ArrowRight className="w-4 h-4 ml-2" />
               </Button>
