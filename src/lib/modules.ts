@@ -86,16 +86,48 @@ export function prepareModuleHtml(html: string, slug: string, user: { id: string
   return out;
 }
 
+export type LearningModule = {
+  id: string;
+  slug: string;
+  title: string;
+  description: string | null;
+  category: string;
+  sort_order: number;
+  is_published: boolean;
+  default_path: string | null;
+  storage_path: string | null;
+  practice_enabled: boolean;
+  cover_image_url?: string | null;
+  theme_color?: string | null;
+};
+
 export function summarize(progress: any, sections: string[]) {
-  const done = progress?.done ? Object.keys(progress.done).filter((k) => progress.done[k]) : [];
+  const doneMap = progress?.done || {};
+  const visitedMap = progress?.visited || {};
+  const finishedSections = sections.filter((s) => doneMap[s] || visitedMap[s]);
   const total = sections.length;
+
+  // Complete if all declared sections are visited/done, or explicit completion flag or certificate claimed
+  const hasCert = Boolean(progress?.certificate || progress?.certificate_claimed_at);
+  const quizPassed = Boolean(
+    progress?.quizScore &&
+    progress.quizScore.total > 0 &&
+    progress.quizScore.correct / progress.quizScore.total >= 0.7
+  );
+  const allSectionsFinished = total > 0 && sections.every((s) => doneMap[s] || visitedMap[s]);
+  const isExplicitComplete = progress?.complete === true || progress?.completed === true;
+
+  const isComplete = allSectionsFinished || isExplicitComplete || hasCert || (quizPassed && finishedSections.length > 0);
+
   return {
-    sections_done: done.length,
+    sections_done: finishedSections.length > 0 ? finishedSections.length : (progress?.sections_done ?? (isComplete ? total : 0)),
     sections_total: total,
     quiz_correct: progress?.quizScore?.correct ?? null,
     quiz_total: progress?.quizScore?.total ?? null,
-    complete: total > 0 && sections.every((s) => progress?.done?.[s]),
+    complete: isComplete,
   };
+}
+
 }
 
 /** Share the site's sign-in with the simulator pages (they read the standard browser key). */
