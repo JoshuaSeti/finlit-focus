@@ -56,7 +56,6 @@ export async function flushOfflineQueue(): Promise<boolean> {
         sections_total: item.summary.sections_total,
         quiz_correct: item.summary.quiz_correct,
         quiz_total: item.summary.quiz_total,
-        completed_at: existing?.completed_at ?? (item.summary.complete ? new Date(item.timestamp).toISOString() : null),
       }, { onConflict: 'user_id,module_slug' });
 
       if (error) throw error;
@@ -114,7 +113,6 @@ export async function syncOrQueueProgress(
       sections_total: summary.sections_total,
       quiz_correct: summary.quiz_correct,
       quiz_total: summary.quiz_total,
-      completed_at: existing?.completed_at ?? (summary.complete ? new Date().toISOString() : null),
     }, { onConflict: 'user_id,module_slug' });
 
     if (error) throw error;

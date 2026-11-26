@@ -1,6 +1,7 @@
 # Roadmap
 - [x] Current selected security fixes: direct simulator writes, daily events, assessments, applications, wall moderation, advice privacy, and share-image validation
-- [ ] Selected behaviour-changing fixes: self-reported rewards, admin price editing, verified lesson completion, and replacing old photo links — awaiting confirmation
+- [x] Selected security fixes: internal story helpers, expired placement retakes, admin instrument price edits, mirror check-in rewards, verified lesson completion/certificates, and per-request gated learner avatars
+- [ ] Payment phone ownership verification (`lipila-pay` action=start) — awaiting user confirmation because user previously removed OTP so parents/sponsors can pay
 - [x] Selected security findings: trusted placement, debt quotes, and practice ownership
 - [ ] Simulator unlock flags — direct table writes are blocked, but callable flag-setting helpers remain; awaiting approval for the additional paths
 - [ ] Related review findings: external simulator lesson links, legacy dashboard reporting, and visit-based coin streaks — outside the selected fixes, awaiting scope approval

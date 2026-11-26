@@ -42,7 +42,7 @@ export function FriendsCircle({ userId }: { userId: string }) {
           ? <p className="text-sm text-muted-foreground mt-2">Invite friends to learn with you and see each other's streaks and progress.</p>
           : <ul className="mt-3 space-y-3">{friends.map((f) => (
               <li key={f.id}><Link to={`/u/${f.id}`} className="flex items-center gap-3 min-w-0">
-                <LearnerAvatar url={f.avatar_url} emoji={f.avatar} size={40} />
+                <LearnerAvatar profileId={f.id} url={f.avatar_url} emoji={f.avatar} size={40} />
                 <div className="min-w-0 flex-1">
                   <p className="font-medium text-foreground truncate">{f.name}</p>
                   <p className="text-xs text-muted-foreground truncate">🪙 {f.streak}-day streak · {f.lessons} lessons{f.calm ? ` · ${f.calm}` : ''}</p>

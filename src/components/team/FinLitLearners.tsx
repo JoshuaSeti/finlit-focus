@@ -22,7 +22,7 @@ export function FinLitLearners() {
           <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4">
             {list.map((l) => (
               <Link to={`/u/${l.id}`} key={l.id} className="bg-card rounded-2xl p-4 shadow-soft text-center min-w-0 block hover:shadow-md transition-shadow">
-                <div className="flex justify-center"><LearnerAvatar url={l.avatar_url} emoji={l.avatar} size={72} /></div>
+                <div className="flex justify-center"><LearnerAvatar profileId={l.id} url={l.avatar_url} emoji={l.avatar} size={72} /></div>
                 <p className="font-semibold text-foreground mt-2 truncate">{l.name}</p>
                 <span className="inline-block mt-1 text-[11px] font-semibold rounded-full px-2 py-0.5 bg-primary/15 text-foreground">FinLit Learner</span>
                 {l.town && <p className="text-xs text-muted-foreground mt-1 truncate">{l.town}</p>}

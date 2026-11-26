@@ -3269,6 +3269,10 @@ export type Database = {
         Args: { p_name: string; p_token: string }
         Returns: boolean
       }
+      claim_module_certificate: {
+        Args: { p_name?: string; p_slug: string }
+        Returns: Json
+      }
       debt_apply_payment: {
         Args: { p: string; p_amount: number; p_debt_id: number }
         Returns: Json

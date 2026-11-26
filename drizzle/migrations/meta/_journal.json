@@ -218,6 +218,13 @@
       "when": 1795600918907,
       "tag": "0030_secure_selected_simulator_and_submission_paths",
       "breakpoints": true
+    },
+    {
+      "idx": 31,
+      "version": "7",
+      "when": 1795673585561,
+      "tag": "0031_harden_selected_security_findings",
+      "breakpoints": true
     }
   ]
 }

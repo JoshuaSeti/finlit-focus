@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Navigate, Link } from 'react-router-dom';
 import { Layout } from '@/components/layout/Layout';
 import { Button } from '@/components/ui/button';
@@ -32,17 +32,16 @@ const Account = () => {
   });
  const [pw, setPw] = useState({ a: '', b: '' });
   const [busy, setBusy] = useState(false);
-  const wasPublic = useRef(false);
 
   useEffect(() => {
     if (!user) return;
      supabase.from('profiles').select('id,full_name,display_name,avatar,avatar_url,town,age,bio,show_publicly,gender,greeting_tone').eq('user_id', user.id).maybeSingle()
-      .then(({ data }: any) => { if (data) wasPublic.current = !!data.show_publicly; return data && setF({
+      .then(({ data }: any) => data && setF({
         full_name: data.full_name || '', display_name: data.display_name || '', avatar: data.avatar || '🦁',
         town: data.town || '', age: data.age ? String(data.age) : '', bio: data.bio || '', show_publicly: !!data.show_publicly, avatar_url: data.avatar_url || '', id: data.id,
         gender: data.gender || '',
         greeting_tone: data.greeting_tone || 'friendly',
-      }); });
+      }));
   }, [user?.id]);
 
   if (isLoading) return null;
@@ -50,22 +49,10 @@ const Account = () => {
 
   const save = async () => {
     setBusy(true);
-    // Hiding the card: move the photo to a new file so links already copied stop working.
-    let avatarUrl = f.avatar_url;
-    if (wasPublic.current && !f.show_publicly && avatarUrl) {
-      const m = avatarUrl.match(/avatars\/([^?]+)/);
-      const old = m ? decodeURIComponent(m[1]) : null;
-      if (old && old.startsWith(`${user.id}/`)) {
-        const next = `${user.id}/${crypto.randomUUID()}.${old.split('.').pop() || 'jpg'}`;
-        const { error: mvErr } = await supabase.storage.from('avatars').move(old, next);
-        const signed = mvErr ? null : await supabase.storage.from('avatars').createSignedUrl(next, 60 * 60 * 24 * 365 * 10);
-        if (signed?.data?.signedUrl) avatarUrl = signed.data.signedUrl;
-      }
-    }
        const { error } = await supabase.from('profiles').update({
       full_name: f.full_name.trim().slice(0, 80), display_name: f.display_name.trim().slice(0, 40) || null,
       avatar: f.avatar, town: f.town.trim().slice(0, 40) || null, age: (() => { const n = parseInt(f.age, 10); return n >= 5 && n <= 120 ? n : null; })(), bio: f.bio.trim().slice(0, 140) || null,
-      show_publicly: f.show_publicly, avatar_url: avatarUrl || null,
+      show_publicly: f.show_publicly, avatar_url: f.avatar_url || null,
       gender: f.gender || null,
       greeting_tone: f.greeting_tone || 'friendly',
     } as any).eq('user_id', user.id);
@@ -73,7 +60,6 @@ const Account = () => {
       const { data: files } = await supabase.storage.from('avatars').list(user.id);
       if (files?.length) await supabase.storage.from('avatars').remove(files.map((x) => `${user.id}/${x.name}`));
     }
-    if (!error) { wasPublic.current = f.show_publicly; if (avatarUrl !== f.avatar_url) setF((p) => ({ ...p, avatar_url: avatarUrl })); }
     setBusy(false);
     toast(error ? { title: 'Could not save', description: error.message, variant: 'destructive' } : { title: 'Profile saved' });
   };
@@ -86,10 +72,10 @@ const Account = () => {
     toast(error ? { title: 'Could not change password', description: error.message, variant: 'destructive' } : { title: 'Password changed' });
   };
 
-  // Deleting the old file makes any previously shared photo link stop working.
-  const removeOldAvatar = async (oldUrl: string, keep?: string) => {
-    const m = oldUrl?.match(/avatars\/([^?]+)/);
-    const old = m ? decodeURIComponent(m[1]) : null;
+  const removeOldAvatar = async (oldVal: string, keep?: string) => {
+    if (!oldVal) return;
+    const m = oldVal.match(/avatars\/([^?]+)/);
+    const old = m ? decodeURIComponent(m[1]) : oldVal;
     if (old && old !== keep && old.startsWith(`${user.id}/`)) await supabase.storage.from('avatars').remove([old]);
   };
 
@@ -100,15 +86,13 @@ const Account = () => {
     setBusy(true);
     const path = `${user.id}/${Date.now()}.${(file.name.split('.').pop() || 'jpg').toLowerCase()}`;
     const { error } = await supabase.storage.from('avatars').upload(path, file, { contentType: file.type, upsert: true });
-    const signed = error ? null : await supabase.storage.from('avatars').createSignedUrl(path, 60 * 60 * 24 * 365 * 10);
-    const url = signed?.data?.signedUrl;
-    if (url) {
-      await supabase.from('profiles').update({ avatar_url: url }).eq('user_id', user.id);
+    const updateRes = error ? { error } : await supabase.from('profiles').update({ avatar_url: path }).eq('user_id', user.id);
+    if (!updateRes.error) {
       await removeOldAvatar(f.avatar_url, path);
     }
     setBusy(false);
-    if (!url) return toast({ title: 'Upload failed', description: error?.message, variant: 'destructive' });
-    setF((p) => ({ ...p, avatar_url: url }));
+    if (updateRes.error) return toast({ title: 'Upload failed', description: updateRes.error.message, variant: 'destructive' });
+    setF((p) => ({ ...p, avatar_url: path }));
     toast({ title: 'Photo updated' });
   };
 
@@ -118,7 +102,7 @@ const Account = () => {
     <Layout>
       <section className="container mx-auto px-4 pt-32 pb-16 max-w-2xl space-y-8">
         <div className="flex items-center gap-4">
-          <LearnerAvatar url={f.avatar_url} emoji={f.avatar} size={64} />
+          <LearnerAvatar profileId={f.id} url={f.avatar_url} emoji={f.avatar} size={64} />
           <div className="min-w-0">
             <h1 className="text-2xl font-bold text-foreground">My account</h1>
             <p className="text-sm text-muted-foreground break-all">{user.email}</p>
@@ -128,7 +112,7 @@ const Account = () => {
         <div className="bg-card rounded-2xl p-6 shadow-soft space-y-5">
           <h2 className="font-semibold text-foreground">Profile</h2>
           <div className="flex items-center gap-4">
-            <LearnerAvatar url={f.avatar_url} emoji={f.avatar} size={80} />
+            <LearnerAvatar profileId={f.id} url={f.avatar_url} emoji={f.avatar} size={80} />
             <div className="space-y-2">
               <Label htmlFor="photo" className="inline-flex cursor-pointer rounded-full border border-border px-4 py-2 text-sm font-medium hover:bg-accent">{f.avatar_url ? 'Change photo' : 'Upload a photo'}</Label>
               <input id="photo" type="file" accept="image/*" className="hidden" onChange={(e) => upload(e.target.files?.[0])} />

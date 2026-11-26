@@ -11,6 +11,7 @@ import { Celebration } from '@/components/Celebration';
 import { FitName } from '@/components/team/FitName';
 import { splitName } from '@/lib/team';
 import { shareableProfileLink, whatsappInvite } from '@/lib/invite';
+import { useLearnerAvatarUrl } from '@/lib/avatar';
 import type { Card } from '@/components/community/FriendsCircle';
 
 const nameClass =
@@ -22,6 +23,7 @@ const LearnerCard = () => {
   const { toast } = useToast();
   const [c, setC] = useState<Card | null | undefined>(undefined);
   const [showCelebrate, setShowCelebrate] = useState(false);
+  const avatarSrc = useLearnerAvatarUrl(c?.id, c?.avatar_url);
 
   const load = () =>
     supabase
@@ -96,9 +98,9 @@ const LearnerCard = () => {
               {/* Elevated Portrait Box */}
               <div className="relative z-10 my-1">
                 <div className="h-36 w-32 sm:h-40 sm:w-36 rounded-[2rem] overflow-hidden border-2 border-background/90 shadow-2xl ring-4 ring-primary/10 bg-gradient-to-b from-primary/15 to-primary/5 flex items-center justify-center mx-auto">
-                  {c.avatar_url ? (
+                  {avatarSrc ? (
                     <img
-                      src={c.avatar_url}
+                      src={avatarSrc}
                       alt={c.name}
                       className="h-full w-full object-cover"
                       loading="eager"

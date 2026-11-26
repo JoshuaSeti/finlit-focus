@@ -63,9 +63,9 @@ const h = React.createElement;
 async function learnerPhoto(profile: { id: string; avatar_url?: string | null }): Promise<string | null> {
   const origin = Deno.env.get("SUPABASE_URL");
   if (!origin) return null;
-  const { data: owner } = await db.from("profiles").select("user_id").eq("id", profile.id).maybeSingle();
-  if (!owner) return null;
-  const path = avatarObjectPath(profile.avatar_url, origin, owner.user_id);
+  const { data: owner } = await db.from("profiles").select("user_id,avatar_url,show_publicly").eq("id", profile.id).maybeSingle();
+  if (!owner || !owner.show_publicly) return null;
+  const path = avatarObjectPath(owner.avatar_url, origin, owner.user_id);
   if (!path) return null;
   // Download through the trusted storage client, never fetch a profile-provided address.
   const { data: blob, error } = await db.storage.from("avatars").download(path);

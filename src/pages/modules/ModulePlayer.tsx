@@ -78,21 +78,20 @@ if (!isAdmin && !acc.paid && (!acc.scores || slug !== freeSlug(acc.scores))) {
         const s = summarize(d.progress, d.sections || []);
         await syncOrQueueProgress(u.id, slug, d.progress, s);
       } else if (d.type === 'certificate' && u) {
-        const now = new Date().toISOString();
-        await supabase.from('module_progress').upsert({
-          user_id: u.id,
-          module_slug: slug,
-          completed_at: now,
-          certificate_claimed_at: now,
-          certificate_name: d.name || null
-        }, { onConflict: 'user_id,module_slug' });
-        await supabase.from('module_events').insert({
-          user_id: u.id,
-          module_slug: slug,
-          kind: 'certificate',
-          payload: { name: d.name, score: d.score }
-        });
+        const { data: claimed } = await supabase.rpc('claim_module_certificate' as never, {
+          p_slug: slug,
+          p_name: d.name || null,
+        } as never);
+        if ((claimed as { ok?: boolean } | null)?.ok) {
+          await supabase.from('module_events').insert({
+            user_id: u.id,
+            module_slug: slug,
+            kind: 'certificate',
+            payload: { name: d.name, score: d.score }
+          });
+        }
       } else if (d.type === 'practice' && u) {
+        if (d.status === 'practice-complete') touchStreak().catch(() => {});
         await supabase.from('module_events').insert({
           user_id: u.id,
           module_slug: slug,
