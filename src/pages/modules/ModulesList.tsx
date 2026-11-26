@@ -429,76 +429,115 @@ export default function ModulesList() {
                               : 'border-border bg-card hover:border-border/80'
                           }`}
                         >
-                          {/* Top Cover Artwork (Apple Music playlist inspired) */}
-                          <div className="relative aspect-[16/9] w-full overflow-hidden bg-slate-950">
-                            {m.cover_image_url ? (
-                              <img 
-                                src={m.cover_image_url} 
-                                alt={m.title}
-                                className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
-                              />
-                            ) : (
-                              <div className={`w-full h-full bg-gradient-to-br ${theme.bg} relative p-5 flex flex-col justify-between select-none overflow-hidden`}>
-                                {/* Subtle geometric background glow */}
-                                <div className="absolute -right-8 -bottom-8 w-40 h-40 rounded-full bg-white/5 blur-2xl pointer-events-none" />
-                                
-                                {/* Background Ghost Lesson Numeral */}
-                                <span className="absolute right-3 bottom-0 text-7xl font-black text-white/[0.07] tracking-tighter pointer-events-none">
-                                  {lessonCode}
-                                </span>
+                        {/* 2-Column Apple-Designed Editorial Cards Grid */}
+<div className="grid sm:grid-cols-2 gap-6">
+  {g.list.map((m, mIdx) => {
+    const st = stateOf(m);
+    const p = prog[m.slug];
+    const pct = p && p.sections_total ? Math.round((p.sections_done / p.sections_total) * 100) : 0;
+    const locked = isLocked(m.slug);
+    const lessonCode = getLessonTag(m.slug, mIdx);
 
-                                {/* Top Metadata inside cover */}
-                                <div className="relative z-10 flex items-center justify-between gap-2">
-                                  <span className="text-[10px] font-bold uppercase tracking-widest text-white/70 backdrop-blur-md bg-black/30 px-2.5 py-1 rounded-full border border-white/10">
-                                    {g.cat}
-                                  </span>
-                                </div>
+    return (
+      <Link
+        key={m.id}
+        to={`/modules/${m.slug}`}
+        className={`group flex flex-col rounded-3xl border overflow-hidden transition-all duration-300 hover:-translate-y-1 hover:shadow-xl bg-card ${
+          st === 'next'
+            ? 'border-primary/50 shadow-md ring-1 ring-primary/25'
+            : st === 'done'
+            ? 'border-border/80 bg-card/60 hover:bg-card'
+            : 'border-border hover:border-border/90'
+        }`}
+      >
+        {/* Apple Music Editorial Cover Artwork */}
+        <div className="relative aspect-[16/10] sm:aspect-[16/9] w-full overflow-hidden bg-slate-950 select-none">
+          {/* Background: Cover Image OR Curated Thematic Gradient */}
+          {m.cover_image_url ? (
+            <img 
+              src={m.cover_image_url} 
+              alt={m.title}
+              className="absolute inset-0 w-full h-full object-cover transition-transform duration-700 ease-out group-hover:scale-105"
+            />
+          ) : (
+            <div className={`absolute inset-0 w-full h-full bg-gradient-to-br ${theme.bg}`} />
+          )}
 
-                                {/* Bottom Title Highlight inside cover */}
-                                <div className="relative z-10">
-                                  <span className={`text-xs font-mono font-semibold ${theme.accent} tracking-wider uppercase block`}>
-                                    Lesson {lessonCode}
-                                  </span>
-                                </div>
-                              </div>
-                            )}
+          {/* Editorial Scrim Overlay for high legibility */}
+          <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/45 to-black/20" />
 
-                            {/* Overlaid Top-Right Status Badge */}
-                            <div className="absolute top-3 right-3 z-20">
-                              {st === 'done' ? (
-                                <span className="inline-flex items-center gap-1 text-[11px] font-semibold text-white backdrop-blur-md bg-emerald-600/80 border border-emerald-400/30 px-2.5 py-0.5 rounded-full shadow-sm">
-                                  <Check className="w-3 h-3 stroke-[3]" /> Done
-                                </span>
-                              ) : !paid && m.slug === free ? (
-                                <span className="inline-flex items-center gap-1 text-[11px] font-bold text-white backdrop-blur-md bg-primary/80 border border-primary/30 px-2.5 py-0.5 rounded-full shadow-sm">
-                                  <Sparkles className="w-3 h-3" /> Free Starter
-                                </span>
-                              ) : locked ? (
-                                <span className="inline-flex items-center gap-1 text-[11px] font-medium text-white/90 backdrop-blur-md bg-black/60 border border-white/15 px-2.5 py-0.5 rounded-full shadow-sm">
-                                  <Lock className="w-3 h-3" /> Locked
-                                </span>
-                              ) : st === 'next' ? (
-                                <span className="inline-flex items-center gap-1 text-[11px] font-bold text-white backdrop-blur-md bg-primary/90 border border-white/20 px-2.5 py-0.5 rounded-full shadow-sm">
-                                  <Play className="w-3 h-3 fill-current" /> Up Next
-                                </span>
-                              ) : null}
-                            </div>
-                          </div>
+          {/* Background Ghost Lesson Numeral */}
+          <span className="absolute right-3.5 bottom-1 text-7xl sm:text-8xl font-black text-white/[0.08] tracking-tighter pointer-events-none select-none font-mono">
+            {lessonCode}
+          </span>
 
-                          {/* Card Body & Details */}
-                          <div className="p-5 flex-1 flex flex-col justify-between space-y-4">
-                            <div className="space-y-1.5">
-                              <h3 className={`font-bold text-base md:text-lg leading-snug transition-colors line-clamp-2 ${
-                                st === 'done' ? 'text-muted-foreground group-hover:text-foreground' : 'text-foreground group-hover:text-primary'
-                              }`}>
-                                {m.title}
-                              </h3>
-                              {m.description && (
-                                <p className="text-xs text-muted-foreground line-clamp-2 leading-relaxed">
-                                  {m.description}
-                                </p>
-                              )}
-                            </div>
+          {/* Content Layer directly on the cover artwork */}
+          <div className="relative z-10 p-5 h-full flex flex-col justify-between">
+            {/* Top Bar: Category Pill & Status Tag */}
+            <div className="flex items-start justify-between gap-2">
+              <span className="text-[10px] font-bold uppercase tracking-widest text-white/80 backdrop-blur-md bg-black/40 px-2.5 py-1 rounded-full border border-white/10 shadow-sm">
+                {g.cat}
+              </span>
+
+              <div>
+                {st === 'done' ? (
+                  <span className="inline-flex items-center gap-1 text-[11px] font-semibold text-white backdrop-blur-md bg-emerald-600/90 border border-emerald-400/30 px-2.5 py-0.5 rounded-full shadow-sm">
+                    <Check className="w-3 h-3 stroke-[3]" /> Done
+                  </span>
+                ) : !paid && m.slug === free ? (
+                  <span className="inline-flex items-center gap-1 text-[11px] font-bold text-white backdrop-blur-md bg-primary/90 border border-primary/30 px-2.5 py-0.5 rounded-full shadow-sm">
+                    <Sparkles className="w-3 h-3" /> Free Starter
+                  </span>
+                ) : locked ? (
+                  <span className="inline-flex items-center gap-1 text-[11px] font-medium text-white/90 backdrop-blur-md bg-black/60 border border-white/15 px-2.5 py-0.5 rounded-full shadow-sm">
+                    <Lock className="w-3 h-3" /> Locked
+                  </span>
+                ) : st === 'next' ? (
+                  <span className="inline-flex items-center gap-1 text-[11px] font-bold text-primary-foreground backdrop-blur-md bg-primary px-2.5 py-0.5 rounded-full shadow-sm">
+                    Resume
+                  </span>
+                ) : st === 'progress' ? (
+                  <span className="inline-flex items-center gap-1 text-[11px] font-semibold text-white backdrop-blur-md bg-white/20 border border-white/15 px-2.5 py-0.5 rounded-full shadow-sm">
+                    {pct}%
+                  </span>
+                ) : null}
+              </div>
+            </div>
+
+            {/* Bottom: Lesson Code and Module Name displayed directly on the cover */}
+            <div className="space-y-1">
+              <span className={`text-[11px] font-mono font-semibold ${theme.accent} tracking-wider uppercase block drop-shadow-sm`}>
+                Lesson {lessonCode}
+              </span>
+              <h3 className="text-base sm:text-lg font-bold text-white leading-snug tracking-tight line-clamp-2 drop-shadow-sm group-hover:text-primary-foreground/90 transition-colors">
+                {m.title}
+              </h3>
+            </div>
+          </div>
+        </div>
+
+        {/* Bottom Card Footer: Clean Metadata & Actions */}
+        <div className="p-5 flex-1 flex flex-col justify-between space-y-4">
+          <p className="text-xs text-muted-foreground line-clamp-2 leading-relaxed">
+            {m.description || 'Master practical concepts and put decisions into practice.'}
+          </p>
+
+          <div className="pt-3 border-t border-border/60 flex items-center justify-between text-xs font-medium">
+            <span className="inline-flex items-center gap-1 text-muted-foreground">
+              <Clock className="w-3.5 h-3.5" /> ~ 10 min
+            </span>
+
+            <span className="inline-flex items-center gap-1 text-primary group-hover:translate-x-0.5 transition-transform">
+              {st === 'done' ? 'Review lesson' : st === 'next' ? 'Continue' : locked ? 'Unlock' : 'Start'}
+              <ArrowRight className="w-3.5 h-3.5" />
+            </span>
+          </div>
+        </div>
+      </Link>
+    );
+  })}
+</div>
+
 
                             {/* Card Footer Row */}
                             <div className="pt-3 border-t border-border/50 flex items-center justify-between text-xs text-muted-foreground">
