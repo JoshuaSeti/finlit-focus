@@ -144,17 +144,12 @@ export default function ModulesList() {
       {/* Editorial Apple-style Header */}
       <section className="border-b border-border bg-gradient-to-b from-card via-background to-background">
         <div className="container mx-auto px-4 pt-10 pb-8 max-w-6xl">
-          {/* Top Status & Utility Bar */}
-          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-6 border-b border-border/60">
-            <div className="flex items-center gap-2.5">
-              <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-semibold bg-primary/10 text-primary border border-primary/20">
-                <Sparkles className="w-3.5 h-3.5" />
-                {scores ? 'Personalized Path' : 'Standard Path'}
-              </span>
-              <span className="text-xs text-muted-foreground">
-                {done} of {total} completed ({pctAll}%)
-              </span>
+                    <div className="text-xs text-muted-foreground font-medium">
+              <span className="text-foreground font-semibold">{scores ? 'Diagnostic sequence' : 'Core syllabus'}</span>
+              <span className="mx-2">·</span>
+              <span>{done} of {total} completed ({pctAll}%)</span>
             </div>
+
 
             <div className="flex items-center gap-2 flex-wrap">
               <HowItWorks />
