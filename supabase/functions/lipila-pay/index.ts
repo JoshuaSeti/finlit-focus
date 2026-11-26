@@ -32,23 +32,31 @@ Deno.serve(async (req) => {
       return json(await confirmPayment(parsed.data.referenceId));
     }
 
-    // Do not send prompts if the account is already unlocked.
-    const { data: access } = await db.from('lesson_access').select('user_id').eq('user_id', user.id).maybeSingle();
-    if (access) return json({ error: 'Your account already has full lesson access.' }, 409);
+    // Subscription check: allow renewal if expired or within 7 days of expiry
+    const { data: access } = await db.from('lesson_access').select('expires_at').eq('user_id', user.id).maybeSingle();
+    if (access?.expires_at) {
+      const remainingMs = new Date(access.expires_at).getTime() - Date.now();
+      const sevenDaysMs = 7 * 24 * 3600 * 1000;
+      if (remainingMs > sevenDaysMs) {
+        const days = Math.ceil(remainingMs / (24 * 3600 * 1000));
+        return json({
+          error: `Your subscription is active for another ${days} days. You can renew when you have 7 days or less remaining.`,
+        }, 409);
+      }
+    }
 
-   // Replace lines 39-47 in supabase/functions/lipila-pay/index.ts:
-const rawDigits = String(parsed.data.phone ?? '').replace(/\D/g, '');
-const normalized = rawDigits.startsWith('0') ? `260${rawDigits.slice(1)}` : rawDigits.startsWith('260') ? rawDigits : `260${rawDigits}`;
-const phone = /^260[79]\d{8}$/.test(normalized) ? normalized : null;
+    const rawDigits = String(parsed.data.phone ?? '').replace(/\D/g, '');
+    const normalized = rawDigits.startsWith('0') ? `260${rawDigits.slice(1)}` : rawDigits.startsWith('260') ? rawDigits : `260${rawDigits}`;
+    const phone = /^260[79]\d{8}$/.test(normalized) ? normalized : null;
 
-if (!phone) {
-  return json({
-    error: 'Please enter a valid Airtel, MTN, or Zamtel mobile number.',
-    code: 'invalid_phone',
-  }, 400);
-}
+    if (!phone) {
+      return json({
+        error: 'Please enter a valid Airtel, MTN, or Zamtel mobile number.',
+        code: 'invalid_phone',
+      }, 400);
+    }
 
-    // Limit how often prompts can be sent so the endpoint can't be used to spam phones.
+    // Rate limits (5 attempts/day per user, 5 prompts/day per phone)
     const since = new Date(Date.now() - 24 * 3600 * 1000).toISOString();
     const { data: recent } = await db.from('lipila_payments').select('created_at,status')
       .eq('user_id', user.id).gte('created_at', since).order('created_at', { ascending: false });
@@ -73,23 +81,19 @@ if (!phone) {
         'x-api-key': Deno.env.get('LIPILA_API_KEY')!, callbackUrl,
       },
       body: JSON.stringify({
-        referenceId, amount: PRICE_ZMW, narration: 'FinLit full lesson access',
-        accountNumber: phone, currency: 'ZMW', email: user.email ?? '', referenceData: 'finlit-access',
+        referenceId, amount: PRICE_ZMW, narration: 'FinLit monthly subscription',
+        accountNumber: phone, currency: 'ZMW', email: user.email ?? '', referenceData: 'finlit-monthly',
       }),
     });
     const text = await res.text();
     let out: unknown = {};
     try { out = JSON.parse(text); } catch { out = { text }; }
-    // Lipila sometimes times out waiting on the mobile network even though the
-    // prompt still reaches the phone. Keep it pending; status checks settle it.
     const slow = res.status >= 500 || /did not arrive on time|timeout/i.test(text);
     if (!res.ok && slow) {
-      console.warn('lipila slow start, keeping pending', res.status, text.slice(0, 300));
       await db.from('lipila_payments').update({ raw: out }).eq('reference_id', referenceId);
       return json({ referenceId, status: 'pending' });
     }
     if (!res.ok) {
-      console.error('lipila start failed', res.status, lipilaBase(), text.slice(0, 500));
       await db.from('lipila_payments').update({ status: 'failed', raw: out }).eq('reference_id', referenceId);
       return json({ error: 'The payment could not be started. Please try again.' }, 502);
     }
