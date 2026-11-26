@@ -43,6 +43,13 @@ export default function ModulesList() {
   const [daysRemaining, setDaysRemaining] = useState<number | null>(null);
   const [scores, setScores] = useState<Scores | null>(null);
   const navigate = useNavigate();
+    const [userName, setUserName] = useState<string>('');
+  const greeting = useMemo(() => {
+    const hour = new Date().getHours();
+    if (hour < 12) return 'Good morning!';
+    if (hour < 17) return 'Good afternoon!';
+    return 'Good evening!';
+  }, []);
   const [params] = useSearchParams();
 
   useEffect(() => {
@@ -56,6 +63,20 @@ export default function ModulesList() {
       setMods((data as LearningModule[]) || []);
 
       if (user) {
+                // Fetch learner first name from profile or metadata
+        const initialName = (user.user_metadata?.full_name || user.user_metadata?.name || '').trim();
+        if (initialName) setUserName(initialName.split(' ')[0]);
+
+        supabase
+          .from('profiles')
+          .select('display_name, full_name')
+          .eq('user_id', user.id)
+          .maybeSingle()
+          .then(({ data }) => {
+            const raw = data?.display_name || data?.full_name || initialName;
+            if (raw) setUserName(raw.trim().split(' ')[0]);
+          });
+
         const { data: p } = await supabase
           .from('module_progress')
           .select('module_slug,sections_done,sections_total,completed_at')
@@ -144,13 +165,17 @@ export default function ModulesList() {
       {/* Editorial Apple-style Header */}
       <section className="border-b border-border bg-gradient-to-b from-card via-background to-background">
         <div className="container mx-auto px-4 pt-10 pb-8 max-w-6xl">
+              {/* Top Status & Utility Bar */}
           <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-6 border-b border-border/60">
-            <div className="text-xs text-muted-foreground font-medium">
-              <span className="text-foreground font-semibold">{scores ? 'Diagnostic sequence' : 'Core syllabus'}</span>
-              <span className="mx-2">·</span>
-              <span>{done} of {total} completed ({pctAll}%)</span>
+            <div className="flex items-center gap-2.5">
+              <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-semibold bg-secondary text-secondary-foreground border border-border">
+                <Compass className="w-3.5 h-3.5 text-primary" />
+                {scores ? 'Diagnostic sequence' : 'Core syllabus'}
+              </span>
+              <span className="text-xs text-muted-foreground">
+                {done} of {total} completed ({pctAll}%)
+              </span>
             </div>
-
 
             <div className="flex items-center gap-2 flex-wrap">
               <HowItWorks />
@@ -177,17 +202,38 @@ export default function ModulesList() {
             </div>
           </div>
 
-          {/* Hero Content: Title & Spotlight Next Lesson */}
+          {/* Hero Content: Personalized Greeting & Spotlight Next Lesson */}
           <div className="pt-8 grid lg:grid-cols-12 gap-8 items-center">
             <div className="lg:col-span-6 space-y-3">
-              <p className="text-xs font-bold uppercase tracking-widest text-primary">Financial Mastery Path</p>
-              <h1 className="text-3xl md:text-5xl font-extrabold tracking-tight text-foreground">
-                {done === 0 ? 'Start your journey.' : done === total ? 'Path Completed!' : 'Keep your momentum.'}
-              </h1>
-              <p className="text-muted-foreground text-sm md:text-base max-w-lg leading-relaxed">
-                Step-by-step financial literacy designed for you. Learn real money principles, then practice risk-free with your Yungsta.
+              <p className="text-xs font-bold uppercase tracking-widest text-primary flex items-center gap-1.5">
+                FinLit Path
               </p>
-              
+
+              <h1 className="text-3xl md:text-5xl font-extrabold tracking-tight text-foreground leading-[1.15]">
+                {user && userName ? (
+                  <>
+                    {greeting}, <span className="text-primary">{userName}</span>.
+                    <span className="block text-2xl md:text-3xl font-semibold text-muted-foreground mt-1">
+                      {done === 0 
+                        ? 'Welcome to your path.' 
+                        : done === total 
+                        ? 'You have finished every lesson!' 
+                        : 'Continue where you left off?'}
+                    </span>
+                  </>
+                ) : (
+                  <>
+                    {done === 0 ? 'Start your journey.' : done === total ? 'Path complete!' : 'Keep your momentum.'}
+                  </>
+                )}
+              </h1>
+
+              <p className="text-muted-foreground text-sm md:text-base max-w-lg leading-relaxed">
+                {done === 0
+                  ? 'Practical financial literacy built for you!. Learn real money principles, then guide Yungsta with what you discover.'
+                  : `You’ve completed ${done} of ${total} lessons. Pick up right here to keep your streak and sharpen your money decisions.`}
+              </p>
+
               {/* Overall Progress Meter */}
               <div className="pt-2 max-w-md">
                 <div className="flex justify-between text-xs text-muted-foreground font-medium mb-1.5">
