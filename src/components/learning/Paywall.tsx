@@ -65,7 +65,7 @@ const Paywall = ({ signedIn, onUnlocked, title = 'Unlock every lesson', note }: 
         <div className="mx-auto w-12 h-12 rounded-full bg-primary/10 flex items-center justify-center">
           <Lock className="w-5 h-5 text-primary" />
         </div>
-               <h2 className="text-xl font-semibold text-foreground">{title}</h2>
+        <h2 className="text-xl font-semibold text-foreground">{title}</h2>
         {note && <p className="text-sm text-muted-foreground">{note}</p>}
         <div className="space-y-1">
           <p className="text-2xl font-bold text-foreground">
@@ -73,16 +73,6 @@ const Paywall = ({ signedIn, onUnlocked, title = 'Unlock every lesson', note }: 
           </p>
           <p className="text-xs text-muted-foreground">
             Monthly learning subscription. Opens all lessons, your Yungsta character practice, and certificates.
-          </p>
-        </div>
-
-
-        <div className="space-y-1">
-          <p className="text-2xl font-bold text-foreground">
-            K20 <span className="text-xs font-normal text-muted-foreground">/ month</span>
-          </p>
-          <p className="text-xs text-muted-foreground">
-            Monthly learning subscription. Opens all lessons, Yungsta character practice, and certificates.
           </p>
         </div>
 

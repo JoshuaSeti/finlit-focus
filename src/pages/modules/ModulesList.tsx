@@ -8,6 +8,7 @@ import { Button } from '@/components/ui/button';
 import { supabase } from '@/integrations/supabase/client';
 import { useAuth } from '@/hooks/useAuth';
 import { LearningModule } from '@/lib/modules';
+import { getAccess } from '@/lib/access';
 import { YungstaCompanion } from '@/components/learning/YungstaCompanion';
 import { CoinStreak } from '@/components/learning/CoinStreak';
 import { InstallPrompt } from '@/components/learning/InstallPrompt';
@@ -129,8 +130,6 @@ const ModulesList = () => {
 
       <section className="container mx-auto px-4 py-10 max-w-6xl grid lg:grid-cols-[1fr_320px] gap-10">
         <div>
-               <section className="container mx-auto px-4 py-10 max-w-6xl grid lg:grid-cols-[1fr_320px] gap-10">
-        <div>
           {/* Renewal notice when 7 or fewer days remain */}
           {user && paid && daysRemaining !== null && daysRemaining <= 7 && (
             <div className="mb-8 rounded-xl border border-amber-500/20 bg-amber-500/10 p-4 text-xs text-amber-950 dark:text-amber-100 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3">
@@ -150,10 +149,6 @@ const ModulesList = () => {
               </Link>
             </div>
           )}
-
-          {loading ? (
-            <p className="text-muted-foreground">Loading your path…</p>
-...
 
           {loading ? (
             <p className="text-muted-foreground">Loading your path…</p>
