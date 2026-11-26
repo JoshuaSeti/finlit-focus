@@ -7,17 +7,14 @@ import {
   Check, 
   Play, 
   Trophy, 
-  BookOpen, 
   Lock, 
   Clock, 
-  Sparkles, 
   ArrowRight, 
-  Gamepad2, 
   User, 
-  Layers,
-  CheckCircle2
+  CheckCircle2,
+  Sparkles
 } from 'lucide-react';
-import { GROUPS, roadmap, freeSlug, loadLocal, saveLocal, type Scores, type GroupId } from '@/lib/placement';
+import { GROUPS, roadmap, freeSlug, saveLocal, type Scores, type GroupId } from '@/lib/placement';
 import { Layout } from '@/components/layout/Layout';
 import { Button } from '@/components/ui/button';
 import { supabase } from '@/integrations/supabase/client';
@@ -31,20 +28,50 @@ import { HowItWorks } from '@/components/learning/HowItWorks';
 import { CalmBoard } from '@/components/learning/CalmBoard';
 import { FriendsCircle } from '@/components/community/FriendsCircle';
 
+type ModuleWithCover = LearningModule & { cover_image_url?: string | null };
 type Prog = { module_slug: string; sections_done: number; sections_total: number; completed_at: string | null };
 type Tag = 'Start here' | 'Learn next' | 'Review' | null;
 type NodeState = 'done' | 'next' | 'progress' | 'upcoming';
 
+// Thematic Apple Music-inspired playlist gradient palettes by level
+const THEME_GRADIENTS: Record<string, { bg: string; accent: string; code: string }> = {
+  'Foundations': {
+    bg: 'from-emerald-900 via-teal-950 to-slate-950',
+    accent: 'text-emerald-400',
+    code: '00',
+  },
+  'Level 1': {
+    bg: 'from-amber-900 via-stone-900 to-zinc-950',
+    accent: 'text-amber-400',
+    code: '01',
+  },
+  'Level 2': {
+    bg: 'from-blue-950 via-slate-900 to-neutral-950',
+    accent: 'text-blue-400',
+    code: '02',
+  },
+  'Level 3': {
+    bg: 'from-teal-950 via-cyan-950 to-slate-950',
+    accent: 'text-teal-300',
+    code: '03',
+  },
+  'Level 4': {
+    bg: 'from-purple-950 via-neutral-950 to-stone-950',
+    accent: 'text-purple-300',
+    code: '04',
+  },
+};
+
 export default function ModulesList() {
   const { user, isAdmin, isLoading: authLoading } = useAuth();
-  const [mods, setMods] = useState<LearningModule[]>([]);
+  const [mods, setMods] = useState<ModuleWithCover[]>([]);
   const [prog, setProg] = useState<Record<string, Prog>>({});
   const [loading, setLoading] = useState(true);
   const [paid, setPaid] = useState(false);
   const [daysRemaining, setDaysRemaining] = useState<number | null>(null);
   const [scores, setScores] = useState<Scores | null>(null);
   const navigate = useNavigate();
-   const [userName, setUserName] = useState<string>('');
+  const [userName, setUserName] = useState<string>('');
   const [gender, setGender] = useState<Gender>(null);
   const [greetingTone, setGreetingTone] = useState<GreetingTone>('friendly');
 
@@ -61,14 +88,13 @@ export default function ModulesList() {
         .select('*')
         .eq('is_published', true)
         .order('sort_order');
-      setMods((data as LearningModule[]) || []);
+      setMods((data as ModuleWithCover[]) || []);
 
       if (user) {
-                // Fetch learner first name from profile or metadata
         const initialName = (user.user_metadata?.full_name || user.user_metadata?.name || '').trim();
         if (initialName) setUserName(initialName.split(' ')[0]);
 
-               supabase
+        supabase
           .from('profiles')
           .select('display_name, full_name, gender, greeting_tone')
           .eq('user_id', user.id)
@@ -117,7 +143,7 @@ export default function ModulesList() {
   }, [user, authLoading]);
 
   const groups = useMemo(() => {
-    const g: Record<string, LearningModule[]> = {};
+    const g: Record<string, ModuleWithCover[]> = {};
     mods.forEach((m) => (g[m.category] = g[m.category] || []).push(m));
     const entries = Object.entries(g);
     if (!scores) return entries.map(([c, l]) => ({ cat: c, list: l, tag: null as Tag }));
@@ -163,12 +189,18 @@ export default function ModulesList() {
     return 'upcoming';
   };
 
+  // Helper to extract a display lesson code like "0a", "1.2", or fallback to index
+  const getLessonTag = (slug: string, idx: number) => {
+    const match = slug.match(/module-(.*)/);
+    return match ? match[1].toUpperCase() : String(idx + 1).padStart(2, '0');
+  };
+
   return (
     <Layout>
-      {/* Editorial Apple-style Header */}
+      {/* Editorial Header */}
       <section className="border-b border-border bg-gradient-to-b from-card via-background to-background">
         <div className="container mx-auto px-4 pt-10 pb-8 max-w-6xl">
-              {/* Top Status & Utility Bar */}
+          {/* Top Status & Utility Bar */}
           <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-6 border-b border-border/60">
             <div className="flex items-center gap-2.5">
               <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-semibold bg-secondary text-secondary-foreground border border-border">
@@ -205,14 +237,14 @@ export default function ModulesList() {
             </div>
           </div>
 
-          {/* Hero Content: Personalized Greeting & Spotlight Next Lesson */}
+          {/* Hero Content: Personalized Greeting & Spotlight */}
           <div className="pt-8 grid lg:grid-cols-12 gap-8 items-center">
             <div className="lg:col-span-6 space-y-3">
               <p className="text-xs font-bold uppercase tracking-widest text-primary flex items-center gap-1.5">
                 FinLit Path
               </p>
 
-                           <h1 className="text-3xl md:text-5xl font-extrabold tracking-tight text-foreground leading-[1.15]">
+              <h1 className="text-3xl md:text-5xl font-extrabold tracking-tight text-foreground leading-[1.15]">
                 {user && userName ? (
                   <>
                     {greetingData.headlinePrefix}, <span className="text-primary">{greetingData.learnerName}</span>{greetingData.punctuation}
@@ -233,7 +265,7 @@ export default function ModulesList() {
 
               <p className="text-muted-foreground text-sm md:text-base max-w-lg leading-relaxed">
                 {done === 0
-                  ? 'Practical financial literacy built for you!. Learn real money principles, then guide Yungsta with what you discover.'
+                  ? 'Practical financial literacy built for you. Learn real money principles, then guide Yungsta with what you discover.'
                   : `You’ve completed ${done} of ${total} lessons. Pick up right here to keep your streak and sharpen your money decisions.`}
               </p>
 
@@ -267,8 +299,8 @@ export default function ModulesList() {
                     <span className="inline-flex items-center gap-1.5 text-xs font-bold uppercase tracking-wider text-primary bg-primary/10 px-3 py-1 rounded-full">
                       <Play className="w-3 h-3 fill-current" /> Up Next
                     </span>
-                    <span className="text-xs text-muted-foreground flex items-center gap-1">
-                      <Clock className="w-3.5 h-3.5" /> ~8 min read
+                    <span className="text-xs text-muted-foreground flex items-center gap-1 font-medium">
+                      <Clock className="w-3.5 h-3.5" /> ~ 10 min
                     </span>
                   </div>
 
@@ -279,14 +311,9 @@ export default function ModulesList() {
                     {nextMod.description || 'Master this module to unlock practical insights and guide Yungsta in the simulator.'}
                   </p>
 
-                  <div className="mt-6 flex flex-col sm:flex-row sm:items-center justify-between gap-4 pt-4 border-t border-border/60">
-                    <div className="flex items-center gap-2 text-xs text-muted-foreground">
-                      <Gamepad2 className="w-4 h-4 text-primary" />
-                      <span>Includes Yungsta practice</span>
-                    </div>
-
+                  <div className="mt-6 flex items-center justify-end pt-4 border-t border-border/60">
                     <Link to={`/modules/${nextMod.slug}`}>
-                      <Button size="lg" className="w-full sm:w-auto rounded-full font-semibold px-6 shadow-md hover:shadow-lg gap-2">
+                      <Button size="lg" className="rounded-full font-semibold px-6 shadow-md hover:shadow-lg gap-2">
                         Resume Lesson <ArrowRight className="w-4 h-4" />
                       </Button>
                     </Link>
@@ -335,18 +362,20 @@ export default function ModulesList() {
           )}
 
           {loading ? (
-            <div className="space-y-4">
-              <div className="h-8 w-48 bg-muted animate-pulse rounded-lg" />
-              <div className="h-32 bg-muted/60 animate-pulse rounded-3xl" />
-              <div className="h-32 bg-muted/60 animate-pulse rounded-3xl" />
+            <div className="grid sm:grid-cols-2 gap-5">
+              <div className="h-64 bg-muted/60 animate-pulse rounded-3xl" />
+              <div className="h-64 bg-muted/60 animate-pulse rounded-3xl" />
+              <div className="h-64 bg-muted/60 animate-pulse rounded-3xl" />
+              <div className="h-64 bg-muted/60 animate-pulse rounded-3xl" />
             </div>
           ) : (
             groups.map((g, gi) => {
               const gDone = g.list.filter((m) => prog[m.slug]?.completed_at).length;
               const isChapterComplete = gDone === g.list.length && g.list.length > 0;
+              const theme = THEME_GRADIENTS[g.cat] || THEME_GRADIENTS['Foundations'];
 
               return (
-                <div key={g.cat} className="space-y-4">
+                <div key={g.cat} className="space-y-5">
                   {/* Thematic Chapter / Series Header */}
                   <div className="flex items-center justify-between gap-4 pb-2 border-b border-border">
                     <div className="flex items-center gap-3">
@@ -374,93 +403,127 @@ export default function ModulesList() {
                           <CheckCircle2 className="w-4 h-4" /> Series Done
                         </span>
                       ) : (
-                        <span>{gDone} / {g.list.length} lessons</span>
+                        <span>{gDone} / {g.list.length} completed</span>
                       )}
                     </div>
                   </div>
 
-                  {/* Editorial Cards in Grid */}
-                  <div className="grid gap-3.5">
+                  {/* 2-Column Apple-Designed Editorial Cards Grid */}
+                  <div className="grid sm:grid-cols-2 gap-5">
                     {g.list.map((m, mIdx) => {
                       const st = stateOf(m);
                       const p = prog[m.slug];
                       const pct = p && p.sections_total ? Math.round((p.sections_done / p.sections_total) * 100) : 0;
                       const locked = isLocked(m.slug);
+                      const lessonCode = getLessonTag(m.slug, mIdx);
 
                       return (
                         <Link
                           key={m.id}
                           to={`/modules/${m.slug}`}
-                          className={`group block rounded-2xl border p-5 transition-all duration-200 hover:-translate-y-0.5 hover:shadow-md ${
+                          className={`group flex flex-col justify-between rounded-3xl border overflow-hidden transition-all duration-300 hover:-translate-y-1 hover:shadow-xl ${
                             st === 'next'
-                              ? 'border-primary/50 bg-card shadow-sm ring-1 ring-primary/20'
+                              ? 'border-primary/50 bg-card shadow-md ring-1 ring-primary/20'
                               : st === 'done'
-                              ? 'border-border bg-secondary/20 hover:bg-secondary/40'
+                              ? 'border-border/80 bg-card/60 hover:bg-card'
                               : 'border-border bg-card hover:border-border/80'
                           }`}
                         >
-                          <div className="flex items-start justify-between gap-4">
-                            <div className="flex items-start gap-3.5 min-w-0">
-                              {/* State Icon Indicator */}
-                              <div className={`w-8 h-8 rounded-full shrink-0 grid place-items-center text-xs font-semibold mt-0.5 ${
-                                st === 'done'
-                                  ? 'bg-primary text-primary-foreground'
-                                  : st === 'next'
-                                  ? 'bg-primary/20 text-primary ring-2 ring-primary/40 font-bold'
-                                  : 'bg-muted text-muted-foreground'
-                              }`}>
-                                {st === 'done' ? (
-                                  <Check className="w-4 h-4 stroke-[2.5]" />
-                                ) : st === 'next' ? (
-                                  <Play className="w-3.5 h-3.5 fill-current ml-0.5" />
-                                ) : (
-                                  <span>{mIdx + 1}</span>
-                                )}
-                              </div>
+                          {/* Top Cover Artwork (Apple Music playlist inspired) */}
+                          <div className="relative aspect-[16/9] w-full overflow-hidden bg-slate-950">
+                            {m.cover_image_url ? (
+                              <img 
+                                src={m.cover_image_url} 
+                                alt={m.title}
+                                className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
+                              />
+                            ) : (
+                              <div className={`w-full h-full bg-gradient-to-br ${theme.bg} relative p-5 flex flex-col justify-between select-none overflow-hidden`}>
+                                {/* Subtle geometric background glow */}
+                                <div className="absolute -right-8 -bottom-8 w-40 h-40 rounded-full bg-white/5 blur-2xl pointer-events-none" />
+                                
+                                {/* Background Ghost Lesson Numeral */}
+                                <span className="absolute right-3 bottom-0 text-7xl font-black text-white/[0.07] tracking-tighter pointer-events-none">
+                                  {lessonCode}
+                                </span>
 
-                              <div className="min-w-0 space-y-1">
-                                <div className="flex items-center gap-2 flex-wrap">
-                                  <h3 className={`font-semibold text-base transition-colors ${
-                                    st === 'done' ? 'text-muted-foreground group-hover:text-foreground' : 'text-foreground group-hover:text-primary'
-                                  }`}>
-                                    {m.title}
-                                  </h3>
+                                {/* Top Metadata inside cover */}
+                                <div className="relative z-10 flex items-center justify-between gap-2">
+                                  <span className="text-[10px] font-bold uppercase tracking-widest text-white/70 backdrop-blur-md bg-black/30 px-2.5 py-1 rounded-full border border-white/10">
+                                    {g.cat}
+                                  </span>
                                 </div>
-                                {m.description && (
-                                  <p className="text-xs md:text-sm text-muted-foreground line-clamp-2 leading-relaxed">
-                                    {m.description}
-                                  </p>
-                                )}
-                              </div>
-                            </div>
 
-                            {/* Right Status Badge */}
-                            <div className="shrink-0 flex items-center gap-2">
+                                {/* Bottom Title Highlight inside cover */}
+                                <div className="relative z-10">
+                                  <span className={`text-xs font-mono font-semibold ${theme.accent} tracking-wider uppercase block`}>
+                                    Lesson {lessonCode}
+                                  </span>
+                                </div>
+                              </div>
+                            )}
+
+                            {/* Overlaid Top-Right Status Badge */}
+                            <div className="absolute top-3 right-3 z-20">
                               {st === 'done' ? (
-                                <span className="text-[11px] font-medium text-secondary-foreground bg-secondary px-2.5 py-0.5 rounded-full">
-                                  Done
+                                <span className="inline-flex items-center gap-1 text-[11px] font-semibold text-white backdrop-blur-md bg-emerald-600/80 border border-emerald-400/30 px-2.5 py-0.5 rounded-full shadow-sm">
+                                  <Check className="w-3 h-3 stroke-[3]" /> Done
                                 </span>
                               ) : !paid && m.slug === free ? (
-                                <span className="text-[11px] font-bold text-primary-foreground bg-primary px-2.5 py-0.5 rounded-full">
-                                  Free Starter
+                                <span className="inline-flex items-center gap-1 text-[11px] font-bold text-white backdrop-blur-md bg-primary/80 border border-primary/30 px-2.5 py-0.5 rounded-full shadow-sm">
+                                  <Sparkles className="w-3 h-3" /> Free Starter
                                 </span>
                               ) : locked ? (
-                                <span className="text-xs text-muted-foreground flex items-center gap-1 bg-muted px-2 py-0.5 rounded-full">
+                                <span className="inline-flex items-center gap-1 text-[11px] font-medium text-white/90 backdrop-blur-md bg-black/60 border border-white/15 px-2.5 py-0.5 rounded-full shadow-sm">
                                   <Lock className="w-3 h-3" /> Locked
                                 </span>
-                              ) : (
-                                <ArrowRight className="w-4 h-4 text-muted-foreground group-hover:text-foreground group-hover:translate-x-0.5 transition-transform" />
+                              ) : st === 'next' ? (
+                                <span className="inline-flex items-center gap-1 text-[11px] font-bold text-white backdrop-blur-md bg-primary/90 border border-white/20 px-2.5 py-0.5 rounded-full shadow-sm">
+                                  <Play className="w-3 h-3 fill-current" /> Up Next
+                                </span>
+                              ) : null}
+                            </div>
+                          </div>
+
+                          {/* Card Body & Details */}
+                          <div className="p-5 flex-1 flex flex-col justify-between space-y-4">
+                            <div className="space-y-1.5">
+                              <h3 className={`font-bold text-base md:text-lg leading-snug transition-colors line-clamp-2 ${
+                                st === 'done' ? 'text-muted-foreground group-hover:text-foreground' : 'text-foreground group-hover:text-primary'
+                              }`}>
+                                {m.title}
+                              </h3>
+                              {m.description && (
+                                <p className="text-xs text-muted-foreground line-clamp-2 leading-relaxed">
+                                  {m.description}
+                                </p>
                               )}
+                            </div>
+
+                            {/* Card Footer Row */}
+                            <div className="pt-3 border-t border-border/50 flex items-center justify-between text-xs text-muted-foreground">
+                              <span className="flex items-center gap-1.5 font-medium">
+                                <Clock className="w-3.5 h-3.5" /> ~ 10 min
+                              </span>
+
+                              <div className="flex items-center gap-1.5 font-medium group-hover:text-foreground transition-colors">
+                                {st === 'done' ? (
+                                  <span className="text-xs font-semibold text-primary flex items-center gap-1">
+                                    Review <ArrowRight className="w-3.5 h-3.5 group-hover:translate-x-0.5 transition-transform" />
+                                  </span>
+                                ) : (
+                                  <span className="text-xs font-semibold flex items-center gap-1">
+                                    Start <ArrowRight className="w-3.5 h-3.5 group-hover:translate-x-0.5 transition-transform" />
+                                  </span>
+                                )}
+                              </div>
                             </div>
                           </div>
 
                           {/* Progress bar for partially completed lessons */}
                           {user && st !== 'done' && pct > 0 && (
-                            <div className="mt-4 pt-3 border-t border-border/50 flex items-center gap-3">
-                              <div className="flex-1 h-1.5 rounded-full bg-muted overflow-hidden">
-                                <div className="h-full bg-primary rounded-full" style={{ width: `${pct}%` }} />
-                              </div>
-                              <span className="text-[10px] text-muted-foreground font-medium">{pct}%</span>
+                            <div className="h-1 bg-muted w-full overflow-hidden">
+                              <div className="h-full bg-primary" style={{ width: `${pct}%` }} />
                             </div>
                           )}
                         </Link>
