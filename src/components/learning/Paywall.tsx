@@ -76,6 +76,29 @@ const Paywall = ({ signedIn, onUnlocked, title = 'Unlock every lesson', note }: 
           </p>
         </div>
 
+
+        <div className="space-y-1">
+          <p className="text-2xl font-bold text-foreground">
+            K20 <span className="text-xs font-normal text-muted-foreground">/ month</span>
+          </p>
+          <p className="text-xs text-muted-foreground">
+            Monthly learning subscription. Opens all lessons, Yungsta character practice, and certificates.
+          </p>
+        </div>
+
+        {/* Early renewal reassurance callout */}
+        <div className="rounded-xl bg-primary/5 border border-primary/15 p-3 text-left space-y-1 text-xs">
+          <div className="flex items-center gap-1.5 font-medium text-foreground">
+            <span className="inline-block w-2 h-2 rounded-full bg-primary" />
+            <span>30 days stacked automatically</span>
+          </div>
+          <p className="text-[11px] text-muted-foreground leading-relaxed">
+            Renewing before your month ends? Any remaining days stay yours — new days are added directly to your current balance.
+          </p>
+        </div>
+
+
+        
         {!signedIn ? (
           <Button asChild className="w-full">
             <Link to="/login">Sign in to unlock</Link>
