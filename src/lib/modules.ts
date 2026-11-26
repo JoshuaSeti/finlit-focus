@@ -1,18 +1,5 @@
 import { supabase } from '@/integrations/supabase/client';
 
-export type LearningModule = {
-  id: string;
-  slug: string;
-  title: string;
-  description: string | null;
-  category: string;
-  sort_order: number;
-  is_published: boolean;
-  default_path: string | null;
-  storage_path: string | null;
-  practice_enabled: boolean;
-};
-
 export const progressKey = (slug: string) => `finlit-progress-${slug}`;
 
 /** Fetch the module's HTML with transparent offline device cache fallback */
@@ -126,8 +113,6 @@ export function summarize(progress: any, sections: string[]) {
     quiz_total: progress?.quizScore?.total ?? null,
     complete: isComplete,
   };
-}
-
 }
 
 /** Share the site's sign-in with the simulator pages (they read the standard browser key). */
