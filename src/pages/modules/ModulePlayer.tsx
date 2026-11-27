@@ -238,12 +238,12 @@ const ModulePlayer = () => {
           {simulationStep === 'protege' && (
             <motion.div
               key="protege"
-              initial={{ opacity: 0, y: 12 }}
-              animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: -12 }}
-              transition={{ duration: 0.28, ease: [0.22, 1, 0.36, 1] }}
-              className="flex-1 overflow-y-auto px-4 py-6 sm:p-8 flex justify-center stage-backdrop-protege"
-            >
+              initial={{ opacity: 0, y: 8, filter: 'blur(4px)' }}
+    animate={{ opacity: 1, y: 0, filter: 'blur(0px)' }}
+    exit={{ opacity: 0, y: -8, filter: 'blur(4px)' }}
+    transition={{ duration: 0.35, ease: [0.16, 1, 0.3, 1] }}
+    className="flex-1 overflow-y-auto px-4 py-6 sm:p-8 flex justify-center"
+  >
               <ProtegeDialogueStage
                 protegeName={dilemmaData.protegeName}
                 beats={dilemmaData.beats}
