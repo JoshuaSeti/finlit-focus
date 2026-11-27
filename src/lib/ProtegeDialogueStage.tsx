@@ -140,26 +140,36 @@ export const ProtegeDialogueStage: React.FC<Props> = ({ protegeName, beats, onCo
                 : 'bg-secondary text-secondary-foreground';
 
               return (
-                <motion.button
-                  key={choice.id}
-                  type="button"
-                  whileTap={selectedChoice ? undefined : { scale: 0.985 }}
-                  disabled={!!selectedChoice}
-                  onClick={() => handleSelectChoice(choice)}
-                  className={`finlit-option-card w-full text-left p-4 sm:p-5 rounded-2xl flex items-start gap-3.5 ${cardTone}`}
-                >
-                  <span className={`w-8 h-8 rounded-full flex items-center justify-center text-xs font-bold shrink-0 mt-0.5 transition-colors ${badgeTone}`}>
-                    {isSelected ? (isSound ? <Check className="w-4 h-4" /> : <AlertTriangle className="w-3.5 h-3.5" />) : OPTION_LETTERS[idx]}
-                  </span>
-                  <div className="flex-1 space-y-1">
-                    <span className="text-[11px] font-semibold tracking-wide uppercase text-muted-foreground block">
-                      {choice.tag}
-                    </span>
-                    <p className="text-[15px] font-medium leading-snug text-foreground">
-                      “{choice.text}”
-                    </p>
-                  </div>
-                </motion.button>
+               // Option Card button styling:
+<motion.button
+  key={choice.id}
+  type="button"
+  whileTap={selectedChoice ? undefined : { scale: 0.99 }}
+  disabled={!!selectedChoice}
+  onClick={() => handleSelectChoice(choice)}
+  className={`w-full text-left p-4.5 rounded-2xl flex items-start gap-4 transition-all duration-200 ${
+    isSelected
+      ? isSound
+        ? 'bg-emeraldSoft/70 border-emerald-600/50 ring-1 ring-emerald-600/40 shadow-sm'
+        : 'bg-copper-soft/70 border-copper/50 ring-1 ring-copper/40 shadow-sm'
+      : selectedChoice
+      ? 'opacity-35 cursor-not-allowed border-border/40'
+      : 'bg-card hover:bg-secondary/40 border-border/70 hover:border-border cursor-pointer shadow-[0_1px_3px_rgba(0,0,0,0.04)]'
+  }`}
+>
+  <span className="w-7 h-7 rounded-full border border-border flex items-center justify-center text-xs font-semibold text-muted-foreground shrink-0 mt-0.5">
+    {OPTION_LETTERS[idx]}
+  </span>
+  <div className="flex-1 space-y-1">
+    <span className="text-[11px] font-medium tracking-wider uppercase text-muted-foreground/80 block">
+      {choice.tag}
+    </span>
+    <p className="text-[15px] font-medium leading-relaxed text-foreground tracking-tight">
+      {choice.text}
+    </p>
+  </div>
+</motion.button>
+
               );
             })}
           </div>
