@@ -1,15 +1,6 @@
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { 
-  ShieldCheck, 
-  Sparkles, 
-  AlertCircle, 
-  CheckCircle2, 
-  ArrowRight,
-  Heart,
-  TrendingDown,
-  TrendingUp
-} from 'lucide-react';
+import { ShieldCheck, ArrowRight, Compass, Check, AlertTriangle } from 'lucide-react';
 import { ProtegeDialogueBeat, ProtegeBeatChoice } from '@/lib/simulator-dilemmas';
 import { Button } from '@/components/ui/button';
 
@@ -19,28 +10,27 @@ interface Props {
   onComplete: (stats: { totalScore: number; protectedKwacha: number; habitName?: string }) => void;
 }
 
+const OPTION_LETTERS = ['A', 'B', 'C', 'D'];
+
 export const ProtegeDialogueStage: React.FC<Props> = ({ protegeName, beats, onComplete }) => {
   const [currentBeatIdx, setCurrentBeatIdx] = useState(0);
-  const [trust, setTrust] = useState(65);
+  const [rapport, setRapport] = useState(65);
   const [accumulatedScore, setAccumulatedScore] = useState(0);
   const [protectedKwacha, setProtectedKwacha] = useState(0);
   const [activeHabit, setActiveHabit] = useState<string | undefined>();
   const [selectedChoice, setSelectedChoice] = useState<ProtegeBeatChoice | null>(null);
 
   const beat = beats[currentBeatIdx];
-  const progressPct = ((currentBeatIdx + (selectedChoice ? 1 : 0.5)) / beats.length) * 100;
+  if (!beat) return null;
 
   const handleSelectChoice = (choice: ProtegeBeatChoice) => {
     setSelectedChoice(choice);
-    setTrust((prev) => Math.max(10, Math.min(100, prev + choice.telemetry.trustDelta)));
+    setRapport((prev) => Math.max(10, Math.min(100, prev + choice.telemetry.trustDelta)));
     setAccumulatedScore((prev) => prev + choice.score);
-
     if (choice.telemetry.protectedKwacha) {
-      setProtectedKwacha((prev) => prev + (choice.telemetry.protectedKwacha || 0));
+      setProtectedKwacha((prev) => prev + (choice.telemetry.protectedKwacha ?? 0));
     }
-    if (choice.telemetry.habitName) {
-      setActiveHabit(choice.telemetry.habitName);
-    }
+    if (choice.telemetry.habitName) setActiveHabit(choice.telemetry.habitName);
   };
 
   const handleNextBeat = () => {
@@ -48,186 +38,185 @@ export const ProtegeDialogueStage: React.FC<Props> = ({ protegeName, beats, onCo
     if (currentBeatIdx + 1 < beats.length) {
       setCurrentBeatIdx((prev) => prev + 1);
     } else {
-      const avgScore = Math.round(accumulatedScore / beats.length);
       onComplete({
-        totalScore: avgScore,
+        totalScore: Math.round(accumulatedScore / beats.length),
         protectedKwacha,
         habitName: activeHabit,
       });
     }
   };
 
-  const isGoodChoice = selectedChoice ? selectedChoice.score >= 70 : false;
+  const isSound = selectedChoice ? selectedChoice.score >= 70 : false;
 
   return (
-    <div className="w-full max-w-2xl mx-auto flex flex-col justify-between min-h-[calc(100vh-8rem)] pb-24 text-foreground relative">
-      
-      {/* 1. Duolingo Top Header: Progress Bar & Vitality Chip */}
-      <div className="w-full pt-2 pb-6 space-y-3">
-        <div className="flex items-center justify-between gap-4">
-          {/* Segmented / Smooth Progress Bar */}
-          <div className="flex-1 h-3.5 bg-muted rounded-full overflow-hidden p-0.5 border border-border">
-            <motion.div
-              className="h-full bg-primary rounded-full transition-all duration-300"
-              initial={{ width: '0%' }}
-              animate={{ width: `${progressPct}%` }}
-            />
+    <div className="w-full max-w-2xl mx-auto flex flex-col justify-between min-h-[calc(100vh-8rem)] pb-44 text-foreground font-apple">
+      {/* Apple-Style Segmented Beat Track & FinLit Telemetry */}
+      <div className="w-full pt-1 pb-5 space-y-3">
+        <div className="flex items-center justify-between gap-3">
+          <div className="flex-1 grid gap-1.5" style={{ gridTemplateColumns: `repeat(${beats.length}, minmax(0, 1fr))` }}>
+            {beats.map((b, i) => {
+              const filled = i < currentBeatIdx || (i === currentBeatIdx && !!selectedChoice);
+              const active = i === currentBeatIdx && !selectedChoice;
+              return (
+                <div key={b.beatNumber} className="h-1.5 rounded-full bg-border/80 overflow-hidden">
+                  <motion.div
+                    className={`h-full rounded-full ${filled ? 'bg-green-600' : active ? 'bg-copper' : 'bg-transparent'}`}
+                    initial={false}
+                    animate={{ width: filled ? '100%' : active ? '48%' : '0%' }}
+                    transition={{ type: 'spring', stiffness: 260, damping: 28 }}
+                  />
+                </div>
+              );
+            })}
           </div>
 
-          {/* Protected Capital Pill */}
-          <div className="flex items-center gap-1.5 px-3 py-1 rounded-full bg-emerald-500/10 border border-emerald-500/20 text-xs font-bold text-emerald-600 dark:text-emerald-400 shrink-0">
-            <ShieldCheck className="w-4 h-4" />
-            <span>K{protectedKwacha} Protected</span>
+          <div className="flex items-center gap-2 shrink-0">
+            <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-emeraldSoft border border-emeraldSoft-border text-xs font-semibold text-emeraldSoft-ink">
+              <ShieldCheck className="w-3.5 h-3.5" />
+              <span>K{protectedKwacha.toLocaleString()}</span>
+            </div>
+            <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-copper-soft border border-copper-border text-xs font-semibold text-copper">
+              <Compass className="w-3.5 h-3.5" />
+              <span>{rapport}% trust</span>
+            </div>
           </div>
-
-          {/* Protégé Trust Heart */}
-          <div className="flex items-center gap-1 px-3 py-1 rounded-full bg-rose-500/10 border border-rose-500/20 text-xs font-bold text-rose-500 shrink-0">
-            <Heart className="w-4 h-4 fill-current" />
-            <span>{trust}%</span>
-          </div>
-        </div>
-
-        <div className="text-center">
-          <span className="text-[11px] font-mono font-bold tracking-widest uppercase text-muted-foreground">
-            Dilemma {currentBeatIdx + 1} of {beats.length} • Guide {protegeName}
-          </span>
         </div>
       </div>
 
-      {/* 2. Character Stage & Comic Speech Bubble */}
-      <div className="flex-1 flex flex-col justify-center space-y-6 my-auto">
-        <div className="flex items-start gap-4">
-          
-          {/* Protégé Avatar Badge */}
-          <div className="relative shrink-0 flex flex-col items-center">
-            <div className="w-16 h-16 sm:w-20 sm:h-20 rounded-3xl bg-primary/10 border-2 border-primary/30 flex items-center justify-center text-primary font-black text-2xl shadow-md">
-              {protegeName.slice(0, 1)}
+      {/* Dimensional Botanical Forest Protégé Scene Card */}
+      <AnimatePresence mode="wait">
+        <motion.div
+          key={beat.beatNumber}
+          initial={{ opacity: 0, y: 14 }}
+          animate={{ opacity: 1, y: 0 }}
+          exit={{ opacity: 0, y: -12 }}
+          transition={{ duration: 0.32, ease: [0.22, 1, 0.36, 1] }}
+          className="space-y-6 my-auto"
+        >
+          <div className="finlit-scene-card rounded-[28px] p-6 sm:p-7 text-forest-foreground space-y-5">
+            <div className="flex items-center justify-between gap-3">
+              <div className="flex items-center gap-3.5">
+                <div className="w-12 h-12 rounded-2xl bg-primary/20 border border-primary/40 flex items-center justify-center text-primary font-bold text-lg shadow-sm">
+                  {protegeName.slice(0, 1).toUpperCase()}
+                </div>
+                <div>
+                  <div className="text-sm font-semibold tracking-tight text-forest-foreground">{protegeName}</div>
+                  <div className="text-xs text-forest-muted">Your Protégé · Lusaka</div>
+                </div>
+              </div>
+              <span className="px-3 py-1 rounded-full text-[11px] font-semibold tracking-wide bg-forest-foreground/10 border border-forest-foreground/15 text-forest-foreground/90">
+                Dilemma {currentBeatIdx + 1} of {beats.length}
+              </span>
             </div>
-            <span className="mt-1.5 text-xs font-bold text-muted-foreground uppercase tracking-wider">
-              {protegeName}
-            </span>
-          </div>
 
-          {/* Comic Speech Bubble */}
-          <div className="relative flex-1 bg-card border-2 border-border/80 rounded-3xl p-5 shadow-sm text-foreground">
-            {/* Speech bubble arrow pointer */}
-            <div className="absolute -left-2.5 top-6 w-4 h-4 bg-card border-l-2 border-b-2 border-border/80 rotate-45" />
-            
-            <p className="text-base sm:text-lg font-semibold leading-relaxed">
-              "{beat.prompt}"
+            <p className="text-[17px] sm:text-[19px] font-medium leading-[1.55] tracking-[-0.01em] text-forest-foreground/95">
+              “{beat.prompt}”
             </p>
           </div>
-        </div>
 
-        {/* 3. Tactile 3D Choice Cards (Duolingo Style) */}
-        <div className="space-y-3 pt-2">
-          <p className="text-xs font-bold uppercase tracking-wider text-muted-foreground px-1">
-            Choose what advice you give:
-          </p>
+          {/* Refined Apple-Precision Choice Cards */}
+          <div className="space-y-3">
+            <div className="flex items-center justify-between px-1">
+              <p className="text-xs font-semibold tracking-wide uppercase text-muted-foreground">
+                Your mentorship call
+              </p>
+              <span className="text-xs text-muted-foreground">Choose one path</span>
+            </div>
 
-          {beat.choices.map((choice, idx) => {
-            const isSelected = selectedChoice?.id === choice.id;
+            {beat.choices.map((choice, idx) => {
+              const isSelected = selectedChoice?.id === choice.id;
+              const cardTone = isSelected
+                ? isSound
+                  ? 'bg-emeraldSoft/80 border-green-600/60 ring-2 ring-primary/30'
+                  : 'bg-copper-soft/85 border-copper/60 ring-2 ring-copper/25'
+                : selectedChoice
+                ? 'opacity-45 cursor-not-allowed'
+                : 'cursor-pointer';
 
-            return (
-              <motion.button
-                key={choice.id}
-                whileTap={{ scale: 0.98 }}
-                disabled={!!selectedChoice}
-                onClick={() => handleSelectChoice(choice)}
-                className={`w-full text-left p-4 sm:p-5 rounded-2xl border-2 transition-all flex items-start gap-3 relative ${
-                  isSelected
-                    ? isGoodChoice
-                      ? 'border-emerald-500 bg-emerald-500/10 border-b-4'
-                      : 'border-amber-500 bg-amber-500/10 border-b-4'
-                    : selectedChoice
-                    ? 'border-border/60 opacity-50 bg-card cursor-not-allowed'
-                    : 'border-border border-b-4 hover:border-primary/50 bg-card hover:bg-secondary/40 active:border-b-2 active:translate-y-0.5 shadow-sm'
-                }`}
-              >
-                {/* Index Pill */}
-                <span className={`w-7 h-7 rounded-xl flex items-center justify-center text-xs font-bold shrink-0 border ${
-                  isSelected
-                    ? isGoodChoice
-                      ? 'bg-emerald-500 text-white border-emerald-600'
-                      : 'bg-amber-500 text-white border-amber-600'
-                    : 'bg-secondary text-secondary-foreground border-border'
-                }`}>
-                  {idx + 1}
-                </span>
+              const badgeTone = isSelected
+                ? isSound
+                  ? 'bg-green-700 text-forest-foreground'
+                  : 'bg-copper text-copper-foreground'
+                : 'bg-secondary text-secondary-foreground';
 
-                <div className="flex-1 space-y-1">
-                  <div className="flex items-center justify-between">
-                    <span className="text-[10px] font-mono font-bold uppercase tracking-wider text-muted-foreground">
+              return (
+                <motion.button
+                  key={choice.id}
+                  type="button"
+                  whileTap={selectedChoice ? undefined : { scale: 0.985 }}
+                  disabled={!!selectedChoice}
+                  onClick={() => handleSelectChoice(choice)}
+                  className={`finlit-option-card w-full text-left p-4 sm:p-5 rounded-2xl flex items-start gap-3.5 ${cardTone}`}
+                >
+                  <span className={`w-8 h-8 rounded-full flex items-center justify-center text-xs font-bold shrink-0 mt-0.5 transition-colors ${badgeTone}`}>
+                    {isSelected ? (isSound ? <Check className="w-4 h-4" /> : <AlertTriangle className="w-3.5 h-3.5" />) : OPTION_LETTERS[idx]}
+                  </span>
+                  <div className="flex-1 space-y-1">
+                    <span className="text-[11px] font-semibold tracking-wide uppercase text-muted-foreground block">
                       {choice.tag}
                     </span>
+                    <p className="text-[15px] font-medium leading-snug text-foreground">
+                      “{choice.text}”
+                    </p>
                   </div>
-                  <p className="text-sm sm:text-base font-semibold leading-snug">
-                    "{choice.text}"
-                  </p>
-                </div>
-              </motion.button>
-            );
-          })}
-        </div>
-      </div>
+                </motion.button>
+              );
+            })}
+          </div>
+        </motion.div>
+      </AnimatePresence>
 
-      {/* 4. Duolingo Signature Slide-Up Bottom Tray */}
+      {/* Floating Apple Frosted Insight Sheet (Uniquely FinLit, no Duolingo full-width dark banner) */}
       <AnimatePresence>
         {selectedChoice && (
           <motion.div
-            initial={{ y: 120, opacity: 0 }}
-            animate={{ y: 0, opacity: 1 }}
-            exit={{ y: 120, opacity: 0 }}
-            transition={{ type: 'spring', damping: 22, stiffness: 260 }}
-            className={`fixed inset-x-0 bottom-0 border-t-2 p-4 sm:p-6 shadow-2xl z-50 backdrop-blur-md ${
-              isGoodChoice
-                ? 'bg-emerald-950/95 border-emerald-500 text-emerald-100'
-                : 'bg-amber-950/95 border-amber-500 text-amber-100'
-            }`}
+            initial={{ y: 48, opacity: 0, scale: 0.97 }}
+            animate={{ y: 0, opacity: 1, scale: 1 }}
+            exit={{ y: 36, opacity: 0, scale: 0.98 }}
+            transition={{ type: 'spring', damping: 26, stiffness: 300 }}
+            className="fixed inset-x-3 sm:inset-x-6 bottom-3 sm:bottom-5 z-50 pointer-events-none"
           >
-            <div className="max-w-2xl mx-auto flex flex-col sm:flex-row sm:items-center justify-between gap-4">
-              <div className="space-y-1.5 flex-1">
-                <div className="flex items-center gap-2">
-                  {isGoodChoice ? (
-                    <>
-                      <CheckCircle2 className="w-5 h-5 text-emerald-400 shrink-0" />
-                      <span className="text-sm sm:text-base font-black uppercase tracking-wider text-emerald-400">
-                        Smart Mentorship!
+            <div className="finlit-glass-sheet pointer-events-auto max-w-2xl mx-auto rounded-[26px] p-4 sm:p-5 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+              <div className="flex items-start gap-3.5 flex-1">
+                <div className={`w-1.5 self-stretch rounded-full shrink-0 ${isSound ? 'bg-green-600' : 'bg-copper'}`} />
+                <div className="space-y-1.5">
+                  <div className="flex flex-wrap items-center gap-2">
+                    <span className={`text-xs font-bold uppercase tracking-wider ${isSound ? 'text-emeraldSoft-ink' : 'text-copper'}`}>
+                      {isSound ? 'Sound Mentorship' : 'Costly Detour'}
+                    </span>
+                    <span className="text-[11px] font-semibold px-2 py-0.5 rounded-full bg-secondary text-secondary-foreground">
+                      {selectedChoice.telemetry.trustDelta >= 0
+                        ? `+${selectedChoice.telemetry.trustDelta}% trust`
+                        : `${selectedChoice.telemetry.trustDelta}% trust`}
+                    </span>
+                    {selectedChoice.telemetry.protectedKwacha ? (
+                      <span className="text-[11px] font-semibold px-2 py-0.5 rounded-full bg-emeraldSoft text-emeraldSoft-ink">
+                        +K{selectedChoice.telemetry.protectedKwacha.toLocaleString()} protected
                       </span>
-                    </>
-                  ) : (
-                    <>
-                      <AlertCircle className="w-5 h-5 text-amber-400 shrink-0" />
-                      <span className="text-sm sm:text-base font-black uppercase tracking-wider text-amber-400">
-                        Risky Move!
-                      </span>
-                    </>
-                  )}
+                    ) : null}
+                  </div>
+                  <p className="text-sm text-foreground/90 leading-relaxed">
+                    “{selectedChoice.reaction}”
+                  </p>
                 </div>
-
-                <p className="text-xs sm:text-sm text-white/90 font-medium">
-                  "{selectedChoice.reaction}"
-                </p>
               </div>
 
-              {/* Big Chunky CONTINUE Button */}
               <Button
                 onClick={handleNextBeat}
                 size="lg"
-                className={`rounded-2xl font-bold px-8 py-6 text-base shadow-lg border-b-4 active:border-b-0 active:translate-y-1 transition-all shrink-0 ${
-                  isGoodChoice
-                    ? 'bg-emerald-500 hover:bg-emerald-400 text-white border-emerald-700'
-                    : 'bg-amber-500 hover:bg-amber-400 text-white border-amber-700'
+                className={`rounded-full font-semibold px-6 h-12 shrink-0 shadow-soft transition-transform active:scale-[0.98] ${
+                  isSound
+                    ? 'bg-forest hover:bg-forest-deep text-forest-foreground'
+                    : 'bg-copper hover:bg-copper/90 text-copper-foreground'
                 }`}
               >
-                {currentBeatIdx + 1 < beats.length ? 'Continue' : 'To Your Hot-Seat'}
-                <ArrowRight className="w-5 h-5 ml-2" />
+                {currentBeatIdx + 1 < beats.length ? 'Next Dilemma' : 'Step Into Your Hot-Seat'}
+                <ArrowRight className="w-4 h-4 ml-1.5" />
               </Button>
             </div>
           </motion.div>
         )}
       </AnimatePresence>
-
     </div>
   );
 };

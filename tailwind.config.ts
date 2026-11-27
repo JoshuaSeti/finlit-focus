@@ -74,6 +74,29 @@ export default {
           800: "hsl(var(--green-800))",
           900: "hsl(var(--green-900))",
         },
+        forest: {
+          DEFAULT: "hsl(var(--forest))",
+          deep: "hsl(var(--forest-deep))",
+          foreground: "hsl(var(--forest-foreground))",
+          muted: "hsl(var(--forest-muted))",
+        },
+        copper: {
+          DEFAULT: "hsl(var(--copper))",
+          foreground: "hsl(var(--copper-foreground))",
+          soft: "hsl(var(--copper-soft))",
+          border: "hsl(var(--copper-border))",
+        },
+        dusk: {
+          DEFAULT: "hsl(var(--dusk))",
+          deep: "hsl(var(--dusk-deep))",
+          foreground: "hsl(var(--dusk-foreground))",
+          muted: "hsl(var(--dusk-muted))",
+        },
+        emeraldSoft: {
+          DEFAULT: "hsl(var(--emerald-soft))",
+          border: "hsl(var(--emerald-border))",
+          ink: "hsl(var(--emerald-ink))",
+        },
       },
       borderRadius: {
         lg: "var(--radius)",

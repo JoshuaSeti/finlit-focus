@@ -26,34 +26,130 @@ var B = window.FinLitBridge = {
   };
 
 
-  // Hide every "Next lesson" button (completion card + bottom bar once a lesson is done).
-  // "Finish lesson" stays because it records progress.
+  // Hide "Next lesson" and "Back to path" buttons inside modules so learners flow
+  // smoothly from the lesson directly into the Protégé & Hot-Seat experience.
   (function () {
     var st = document.createElement('style');
-    st.textContent = '#fin-next{display:none!important}body.fin-hide-bar #fin-bar{display:none!important}body.fin-hide-bar{padding-bottom:0!important}';
+    st.textContent = [
+      '#fin-next,#fin-back{display:none!important}',
+      'body.fin-hide-bar #fin-bar{display:none!important}',
+      'body.fin-hide-bar{padding-bottom:0!important}',
+      '#fin-bar{background:rgba(255,255,255,0.9)!important;backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);border-top:1px solid rgba(20,83,45,0.12)!important}',
+      '#fin-bar button{border-radius:999px!important;box-shadow:0 8px 20px -8px rgba(20,83,45,0.38)!important;font-weight:700!important;letter-spacing:-0.01em}',
+      '#fin-bar button:active{transform:scale(0.985)!important;box-shadow:0 4px 12px -6px rgba(20,83,45,0.3)!important}',
+      '#fin-bar button[disabled]{box-shadow:none!important}'
+    ].join('');
     (document.head || document.documentElement).appendChild(st);
+
+    function getSections() {
+      var c = window.FINLIT_MODULE || {};
+      return Array.isArray(c.sections) && c.sections.length ? c.sections : ['s0', 's1', 's2', 's3', 's4'];
+    }
+
+    function currentSection() {
+      var ids = getSections();
+      var h = (location.hash || '').replace('#', '');
+      return ids.indexOf(h) > -1 ? h : null;
+    }
+
+    function renameYungstaLabels() {
+      var simBtn = document.getElementById('fin-sim');
+      if (simBtn && /yungsta/i.test(simBtn.textContent || '')) {
+        simBtn.textContent = 'Continue to Protégé →';
+      }
+      var pt = document.querySelector('#fl-practice .fl-practice-t');
+      if (pt && /yungsta/i.test(pt.textContent || '')) {
+        pt.textContent = pt.textContent.replace(/yungsta/gi, 'Protégé');
+      }
+      var ps = document.querySelector('#fl-practice .fl-practice-s');
+      if (ps && /yungsta/i.test(ps.textContent || '')) {
+        ps.textContent = ps.textContent.replace(/yungsta/gi, 'Protégé');
+      }
+    }
+
+    var handoffTimer = null;
+    function handleDoneOverlay() {
+      var done = document.getElementById('fin-done');
+      if (!done || !done.classList.contains('on')) return;
+      sync();
+      var ids = getSections();
+      var cur = currentSection();
+      var idx = cur ? ids.indexOf(cur) : -1;
+      var isLast = idx === ids.length - 1;
+      var simBtn = document.getElementById('fin-sim');
+      var simVisible = !!(simBtn && simBtn.style.display !== 'none');
+
+      if (simVisible || isLast) {
+        done.classList.remove('on');
+        if (!handoffTimer) {
+          handoffTimer = setTimeout(function () {
+            handoffTimer = null;
+            post('enter-protege');
+          }, 80);
+        }
+      } else if (idx > -1 && idx < ids.length - 1) {
+        // Intermediate section finished: dismiss overlay smoothly and move to next section
+        done.classList.remove('on');
+        location.hash = '#' + ids[idx + 1];
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      } else {
+        done.classList.remove('on');
+      }
+    }
+
     function check() {
       var b = document.getElementById('fin-finish');
-      if (!b || !document.body) return;
-      document.body.classList.toggle('fin-hide-bar', /next lesson/i.test(b.textContent || ''));
+      if (b && document.body) {
+        var txt = b.textContent || '';
+        if (/back to path/i.test(txt)) {
+          b.textContent = 'Continue to Protégé →';
+          b.dataset.finProtege = '1';
+          document.body.classList.remove('fin-hide-bar');
+        } else if (/continue to prot/i.test(txt)) {
+          b.dataset.finProtege = '1';
+          document.body.classList.remove('fin-hide-bar');
+        } else {
+          delete b.dataset.finProtege;
+          document.body.classList.toggle('fin-hide-bar', /next lesson/i.test(txt));
+        }
+      }
+      renameYungstaLabels();
+      handleDoneOverlay();
     }
+
     setInterval(check, 300);
-    document.addEventListener('click', function () { setTimeout(check, 50); setTimeout(check, 300); });
+    document.addEventListener('click', function () { setTimeout(check, 40); setTimeout(check, 220); });
+    window.addEventListener('load', function () {
+      check();
+      var done = document.getElementById('fin-done');
+      if (done && typeof MutationObserver !== 'undefined') {
+        new MutationObserver(handleDoneOverlay).observe(done, { attributes: true, attributeFilter: ['class'] });
+      }
+    });
+
+    // Intercept the end-of-module "Back to path" / "Continue to Protégé" bar button
+    document.addEventListener('click', function (e) {
+      var b = e.target && e.target.closest ? e.target.closest('#fin-finish') : null;
+      if (!b) return;
+      if (b.dataset.finProtege === '1' || /back to path|continue to prot/i.test(b.textContent || '')) {
+        e.preventDefault();
+        e.stopImmediatePropagation();
+        sync();
+        post('enter-protege');
+      }
+    }, true);
   })();
 
-  // Completion card "Practice with your yungsta": dismiss the card and start
-  // practice directly, instead of the module's hash jump that only scrolled.
+  // Completion card "Practice with your yungsta / Protégé": smoothly transition to Protégé stage.
   document.addEventListener('click', function (e) {
     var b = e.target && e.target.closest ? e.target.closest('#fin-sim') : null;
     if (!b) return;
     e.preventDefault();
-    e.stopPropagation();
+    e.stopImmediatePropagation();
     var done = document.getElementById('fin-done');
     if (done) done.classList.remove('on');
-    var sec = document.getElementById('fl-practice');
-    if (sec) sec.scrollIntoView({ behavior: 'smooth', block: 'start' });
-    var go = document.getElementById('fl-practice-go');
-    if (go) setTimeout(function () { go.click(); }, 350);
+    sync();
+    post('enter-protege');
   }, true);
 
   // Hash links: the page uses <base>, so keep "#section" links inside this page.
