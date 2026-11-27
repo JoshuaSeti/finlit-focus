@@ -30,14 +30,13 @@ var B = window.FinLitBridge = {
   // smoothly from the lesson directly into the Protégé & Hot-Seat experience.
   (function () {
     var st = document.createElement('style');
+    // Replace lines 33-41 in public/finlit-bridge.js with:
+    var st = document.createElement('style');
     st.textContent = [
-      '#fin-next,#fin-back{display:none!important}',
+      '#fin-next,#fin-back,#fin-finish{display:none!important}',
       'body.fin-hide-bar #fin-bar{display:none!important}',
       'body.fin-hide-bar{padding-bottom:0!important}',
-      '#fin-bar{background:rgba(255,255,255,0.9)!important;backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);border-top:1px solid rgba(20,83,45,0.12)!important}',
-      '#fin-bar button{border-radius:999px!important;box-shadow:0 8px 20px -8px rgba(20,83,45,0.38)!important;font-weight:700!important;letter-spacing:-0.01em}',
-      '#fin-bar button:active{transform:scale(0.985)!important;box-shadow:0 4px 12px -6px rgba(20,83,45,0.3)!important}',
-      '#fin-bar button[disabled]{box-shadow:none!important}'
+      '#fin-bar{display:none!important}' // Module footer bar completely hidden in favor of player transitions
     ].join('');
     (document.head || document.documentElement).appendChild(st);
 
