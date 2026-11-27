@@ -32,7 +32,7 @@ export const PersonalMirrorHotSeat: React.FC<Props> = ({ hotSeat, onDecision }) 
   };
 
   return (
-    <div className="w-full max-w-2xl mx-auto flex flex-col justify-between min-h-[calc(100vh-8rem)] pb-44 space-y-6 font-apple">
+    <div className="w-full max-w-2xl mx-auto flex flex-col gap-6 pb-44 font-apple">
       {/* Twilight Dusk & Zambian Copper Apple Notification Card */}
       <div className="finlit-hotseat-card rounded-[28px] p-6 sm:p-7 text-dusk-foreground space-y-4">
         <div className="flex flex-wrap items-center justify-between gap-2">
@@ -139,7 +139,7 @@ export const PersonalMirrorHotSeat: React.FC<Props> = ({ hotSeat, onDecision }) 
             animate={{ y: 0, opacity: 1, scale: 1 }}
             exit={{ y: 36, opacity: 0, scale: 0.98 }}
             transition={{ type: 'spring', damping: 26, stiffness: 300 }}
-            className="fixed inset-x-3 sm:inset-x-6 bottom-3 sm:bottom-5 z-50 pointer-events-none"
+            className="fixed inset-x-3 sm:inset-x-6 bottom-4 sm:bottom-6 z-[60] pointer-events-none"
           >
             <div className="finlit-glass-sheet pointer-events-auto max-w-2xl mx-auto rounded-[26px] p-4 sm:p-5 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
               <div className="flex items-start gap-3.5 flex-1">

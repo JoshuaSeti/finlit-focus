@@ -49,7 +49,7 @@ export const ProtegeDialogueStage: React.FC<Props> = ({ protegeName, beats, onCo
   const isSound = selectedChoice ? selectedChoice.score >= 70 : false;
 
   return (
-    <div className="w-full max-w-2xl mx-auto flex flex-col justify-between min-h-[calc(100vh-8rem)] pb-44 text-foreground font-apple">
+    <div className="w-full max-w-2xl mx-auto flex flex-col gap-5 pb-44 text-foreground font-apple">
       {/* Apple-Style Segmented Beat Track & FinLit Telemetry */}
       <div className="w-full pt-1 pb-5 space-y-3">
         <div className="flex items-center justify-between gap-3">
@@ -91,7 +91,7 @@ export const ProtegeDialogueStage: React.FC<Props> = ({ protegeName, beats, onCo
           animate={{ opacity: 1, y: 0 }}
           exit={{ opacity: 0, y: -12 }}
           transition={{ duration: 0.32, ease: [0.22, 1, 0.36, 1] }}
-          className="space-y-6 my-auto"
+          className="space-y-6"
         >
           <div className="finlit-scene-card rounded-[28px] p-6 sm:p-7 text-forest-foreground space-y-5">
             <div className="flex items-center justify-between gap-3">
@@ -174,7 +174,7 @@ export const ProtegeDialogueStage: React.FC<Props> = ({ protegeName, beats, onCo
             animate={{ y: 0, opacity: 1, scale: 1 }}
             exit={{ y: 36, opacity: 0, scale: 0.98 }}
             transition={{ type: 'spring', damping: 26, stiffness: 300 }}
-            className="fixed inset-x-3 sm:inset-x-6 bottom-3 sm:bottom-5 z-50 pointer-events-none"
+            className="fixed inset-x-3 sm:inset-x-6 bottom-4 sm:bottom-6 z-[60] pointer-events-none"
           >
             <div className="finlit-glass-sheet pointer-events-auto max-w-2xl mx-auto rounded-[26px] p-4 sm:p-5 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
               <div className="flex items-start gap-3.5 flex-1">
