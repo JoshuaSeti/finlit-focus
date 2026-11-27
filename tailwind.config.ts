@@ -14,8 +14,23 @@ export default {
     },
        extend: {
       fontFamily: {
-        sans: ["DM Sans", "system-ui", "sans-serif"],
-        mono: ["DM Sans", "system-ui", "sans-serif"],
+        sans: [
+          "-apple-system",
+          "BlinkMacSystemFont",
+          '"SF Pro Display"',
+          '"SF Pro Text"',
+          '"DM Sans"',
+          "system-ui",
+          "sans-serif",
+        ],
+        apple: [
+          "-apple-system",
+          "BlinkMacSystemFont",
+          '"SF Pro Display"',
+          '"SF Pro Text"',
+          '"DM Sans"',
+          "sans-serif",
+        ],
       },
 
       colors: {
