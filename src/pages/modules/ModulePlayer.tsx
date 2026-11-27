@@ -144,42 +144,78 @@ const ModulePlayer = () => {
 
   return (
     <div className="fixed inset-0 flex flex-col bg-background">
-      <div className="flex items-center gap-3 px-4 h-12 border-b border-border shrink-0">
-        <Link to="/modules" className="flex items-center gap-1 text-sm text-muted-foreground hover:text-foreground">
-          <ArrowLeft className="w-4 h-4" /> Lessons
+      {/* 3-Stage Progress Header (Duolingo Stepper + Apple Cleanliness) */}
+      <div className="flex items-center justify-between px-4 sm:px-6 h-14 border-b border-border bg-card shrink-0">
+        
+        {/* Left: Exit to Modules */}
+        <Link 
+          to="/modules" 
+          className="flex items-center gap-1.5 text-xs font-semibold text-muted-foreground hover:text-foreground transition-colors"
+        >
+          <ArrowLeft className="w-4 h-4" /> 
+          <span className="hidden sm:inline">Exit Lesson</span>
         </Link>
-        <span className="text-sm font-medium text-foreground truncate">{title}</span>
 
-        {/* Quick test toggle for Protégé stage */}
-        {simulationStep === 'reading' && !locked && (
-          <Button
-            variant="ghost"
-            size="sm"
-            onClick={() => setSimulationStep('protege')}
-            className="text-xs text-primary font-medium hover:bg-primary/10 rounded-full h-7 px-2.5 ml-2"
-          >
-            Test Protégé Dilemma
-          </Button>
-        )}
+        {/* Center: 3-Beat Stepper */}
+        <div className="flex items-center gap-1.5 sm:gap-3 text-xs font-bold">
+          <div className={`flex items-center gap-1.5 px-3 py-1 rounded-full border transition-all ${
+            simulationStep === 'reading'
+              ? 'bg-primary text-primary-foreground border-primary shadow-sm'
+              : 'bg-muted/50 text-muted-foreground border-border'
+          }`}>
+            <span>1</span>
+            <span className="hidden sm:inline">Core Concept</span>
+          </div>
 
-        {/* Discreet Native Offline/Sync Status Pill */}
-        <div className="ml-auto flex items-center gap-2">
+          <span className="text-muted-foreground">→</span>
+
+          <div className={`flex items-center gap-1.5 px-3 py-1 rounded-full border transition-all ${
+            simulationStep === 'protege'
+              ? 'bg-primary text-primary-foreground border-primary shadow-sm'
+              : 'bg-muted/50 text-muted-foreground border-border'
+          }`}>
+            <span>2</span>
+            <span className="hidden sm:inline">Mentor Protégé</span>
+          </div>
+
+          <span className="text-muted-foreground">→</span>
+
+          <div className={`flex items-center gap-1.5 px-3 py-1 rounded-full border transition-all ${
+            simulationStep === 'hotseat' || simulationStep === 'debrief'
+              ? 'bg-primary text-primary-foreground border-primary shadow-sm'
+              : 'bg-muted/50 text-muted-foreground border-border'
+          }`}>
+            <span>3</span>
+            <span className="hidden sm:inline">Your Hot-Seat</span>
+          </div>
+        </div>
+
+        {/* Right: Quick Test Shortcut & Sync Status */}
+        <div className="flex items-center gap-2">
+          {simulationStep === 'reading' && !locked && (
+            <Button
+              variant="outline"
+              size="sm"
+              onClick={() => setSimulationStep('protege')}
+              className="text-xs rounded-full h-8 px-3 text-primary border-primary/30 hover:bg-primary/10 font-semibold"
+            >
+              Mentor Protégé →
+            </Button>
+          )}
+
           {!isOnline ? (
             <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-medium bg-amber-500/10 text-amber-600 border border-amber-500/20">
-              <WifiOff className="w-3 h-3" /> Offline • Saved locally
+              <WifiOff className="w-3 h-3" /> Offline
             </span>
           ) : pendingCount > 0 ? (
             <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-medium bg-primary/10 text-primary border border-primary/20">
               Syncing...
             </span>
           ) : null}
-
-          {!isLoading && !user && (
-            <Link to="/login" className="text-sm text-primary font-medium whitespace-nowrap">Sign in to save progress</Link>
-          )}
         </div>
       </div>
 
+      {/* Main Body */}
       {locked ? (
         <Paywall signedIn={!!user} onUnlocked={() => { loadedKey.current = ''; setLocked(false); window.location.reload(); }} />
       ) : error ? (
@@ -226,6 +262,8 @@ const ModulePlayer = () => {
       )}
     </div>
   );
+
+  
 };
 
 export default ModulePlayer;
