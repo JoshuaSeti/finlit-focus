@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from 'react';
 import { Link, useNavigate, useParams } from 'react-router-dom';
-import { ArrowLeft } from 'lucide-react';
+import { ArrowLeft, WifiOff } from 'lucide-react';
 import { supabase } from '@/integrations/supabase/client';
 import { useAuth } from '@/hooks/useAuth';
 import { touchStreak } from '@/lib/streak';
@@ -8,15 +8,17 @@ import Paywall from '@/components/learning/Paywall';
 import { getAccess } from '@/lib/access';
 import { freeSlug } from '@/lib/placement';
 import { syncOrQueueProgress, useNetworkStatus } from '@/lib/offline-sync';
-import { WifiOff, Check } from 'lucide-react';
 import { LearningModule, loadModuleHtml, prepareModuleHtml, progressKey, shareSessionWithSimulator, summarize } from '@/lib/modules';
-
-
+import { getLesson1Dilemma } from '@/lib/simulator-dilemmas';
+import { ProtegeDialogueStage } from '@/lib/ProtegeDialogueStage';
+import { PersonalMirrorHotSeat } from '@/lib/PersonalMirrorHotSeat';
+import { AlignmentScorecard } from '@/lib/AlignmentScorecard';
+import { Button } from '@/components/ui/button';
 
 const ModulePlayer = () => {
   const { slug = '' } = useParams();
   const navigate = useNavigate();
- const { user, isAdmin, isLoading } = useAuth();
+  const { user, isAdmin, isLoading } = useAuth();
   const { isOnline, pendingCount } = useNetworkStatus();
   const [src, setSrc] = useState<string | null>(null);
   const [title, setTitle] = useState('');
@@ -27,9 +29,29 @@ const ModulePlayer = () => {
   const loadedKey = useRef('');
   const [locked, setLocked] = useState(false);
 
-  // Load module, restore saved progress, build the page.
-  // Runs once per slug+sign-in state — background auth events (e.g. the
-  // simulator iframe refreshing its token) must NOT reload the lesson.
+  // Simulation flow: 'reading' | 'protege' | 'hotseat' | 'debrief'
+  const [simulationStep, setSimulationStep] = useState<'reading' | 'protege' | 'hotseat' | 'debrief'>('reading');
+  const [dilemmaData, setDilemmaData] = useState(() => getLesson1Dilemma('employee', 'spender', 'Protégé'));
+  const [mentorshipResult, setMentorshipResult] = useState<{ totalScore: number; protectedKwacha: number; habitName?: string } | null>(null);
+  const [personalResult, setPersonalResult] = useState<{ alignmentScore: number; verdict: string } | null>(null);
+
+  // Sync situation from user's sim profile if logged in
+  useEffect(() => {
+    if (!user) return;
+    (async () => {
+      const { data: prof } = await supabase
+        .from('sim_profiles')
+        .select('initial_situation, character_name')
+        .eq('id', user.id)
+        .maybeSingle();
+
+      const situation = (prof?.initial_situation as any) || 'employee';
+      const name = prof?.character_name || 'Protégé';
+      setDilemmaData(getLesson1Dilemma(situation, 'spender', name));
+    })();
+  }, [user]);
+
+  // Load module, restore saved progress, build the page
   useEffect(() => {
     if (isLoading) return;
     const key = `${slug}:${userId ?? 'guest'}`;
@@ -40,12 +62,12 @@ const ModulePlayer = () => {
       const { data: m } = await supabase.from('learning_modules').select('*').eq('slug', slug).maybeSingle();
       if (!m) { setError('This lesson could not be found.'); return; }
       setTitle((m as LearningModule).title);
-      // Only the learner's recommended starting lesson is free; the rest need the K20 unlock.
-     const acc = await getAccess(user?.id ?? null);
-if (!isAdmin && !acc.paid && (!acc.scores || slug !== freeSlug(acc.scores))) { 
-  setLocked(true); 
-  return; 
-}
+
+      const acc = await getAccess(user?.id ?? null);
+      if (!isAdmin && !acc.paid && (!acc.scores || slug !== freeSlug(acc.scores))) { 
+        setLocked(true); 
+        return; 
+      }
 
       if (user) {
         await shareSessionWithSimulator();
@@ -64,8 +86,7 @@ if (!isAdmin && !acc.paid && (!acc.scores || slug !== freeSlug(acc.scores))) {
     })();
   }, [slug, userId, isLoading]);
 
-  // Messages from the module.
-  // Messages from the module.
+  // Handle messages from the lesson bridge
   useEffect(() => {
     const onMsg = async (e: MessageEvent) => {
       if (e.origin !== window.location.origin) return;
@@ -91,7 +112,11 @@ if (!isAdmin && !acc.paid && (!acc.scores || slug !== freeSlug(acc.scores))) {
           });
         }
       } else if (d.type === 'practice' && u) {
-        if (d.status === 'practice-complete') touchStreak().catch(() => {});
+        if (d.status === 'practice-complete') {
+          touchStreak().catch(() => {});
+          // Trigger Protégé simulator dilemma
+          setSimulationStep('protege');
+        }
         await supabase.from('module_events').insert({
           user_id: u.id,
           module_slug: slug,
@@ -117,7 +142,6 @@ if (!isAdmin && !acc.paid && (!acc.scores || slug !== freeSlug(acc.scores))) {
     return () => window.removeEventListener('message', onMsg);
   }, [slug, navigate]);
 
-
   return (
     <div className="fixed inset-0 flex flex-col bg-background">
       <div className="flex items-center gap-3 px-4 h-12 border-b border-border shrink-0">
@@ -125,6 +149,18 @@ if (!isAdmin && !acc.paid && (!acc.scores || slug !== freeSlug(acc.scores))) {
           <ArrowLeft className="w-4 h-4" /> Lessons
         </Link>
         <span className="text-sm font-medium text-foreground truncate">{title}</span>
+
+        {/* Quick test toggle for Protégé stage */}
+        {simulationStep === 'reading' && !locked && (
+          <Button
+            variant="ghost"
+            size="sm"
+            onClick={() => setSimulationStep('protege')}
+            className="text-xs text-primary font-medium hover:bg-primary/10 rounded-full h-7 px-2.5 ml-2"
+          >
+            Test Protégé Dilemma
+          </Button>
+        )}
 
         {/* Discreet Native Offline/Sync Status Pill */}
         <div className="ml-auto flex items-center gap-2">
@@ -148,6 +184,41 @@ if (!isAdmin && !acc.paid && (!acc.scores || slug !== freeSlug(acc.scores))) {
         <Paywall signedIn={!!user} onUnlocked={() => { loadedKey.current = ''; setLocked(false); window.location.reload(); }} />
       ) : error ? (
         <div className="p-8 text-center text-muted-foreground">{error}</div>
+      ) : simulationStep === 'protege' ? (
+        <div className="flex-1 overflow-y-auto p-4 md:p-8 flex justify-center bg-background">
+          <ProtegeDialogueStage
+            protegeName={dilemmaData.protegeName}
+            beats={dilemmaData.beats}
+            onComplete={(stats) => {
+              setMentorshipResult(stats);
+              setSimulationStep('hotseat');
+            }}
+          />
+        </div>
+      ) : simulationStep === 'hotseat' ? (
+        <div className="flex-1 overflow-y-auto p-4 md:p-8 flex justify-center bg-background">
+          <PersonalMirrorHotSeat
+            hotSeat={dilemmaData.hotSeat}
+            onDecision={(result) => {
+              setPersonalResult(result);
+              setSimulationStep('debrief');
+            }}
+          />
+        </div>
+      ) : simulationStep === 'debrief' ? (
+        <div className="flex-1 overflow-y-auto p-4 md:p-8 flex justify-center bg-background">
+          <AlignmentScorecard
+            protegeName={dilemmaData.protegeName}
+            mentorshipScore={mentorshipResult?.totalScore ?? 80}
+            personalScore={personalResult?.alignmentScore ?? 75}
+            protectedKwacha={mentorshipResult?.protectedKwacha ?? 600}
+            habitName={mentorshipResult?.habitName}
+            verdict={personalResult?.verdict ?? 'Balanced Discipline'}
+            onFinish={() => {
+              navigate('/modules');
+            }}
+          />
+        </div>
       ) : src ? (
         <iframe key={src} src={src} title={title} className="flex-1 w-full border-0" allow="fullscreen; clipboard-write" />
       ) : (
