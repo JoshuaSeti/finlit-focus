@@ -30,8 +30,7 @@ var B = window.FinLitBridge = {
   // smoothly from the lesson directly into the Protégé & Hot-Seat experience.
   (function () {
     var st = document.createElement('style');
-    // Replace lines 33-41 in public/finlit-bridge.js with:
-    var st = document.createElement('style');
+
     st.textContent = [
       '#fin-next,#fin-back,#fin-finish{display:none!important}',
       'body.fin-hide-bar #fin-bar{display:none!important}',
