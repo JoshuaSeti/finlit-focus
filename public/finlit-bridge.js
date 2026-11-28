@@ -158,6 +158,68 @@ var B = window.FinLitBridge = {
       '}',
     ].join('\n');
     (document.head || document.documentElement).appendChild(st);
+  // ── FinLit Site Button Styling Inside Modules ──
+  (function injectSiteButtons() {
+    var st = document.createElement('style');
+    st.textContent = [
+      // Remove legacy glossy reflections
+      '.btn::after, .cta-btn::after, .fl-practice-go::after { display: none !important; }',
+
+      // Base Apple button physics across all module buttons
+      'button, .btn, .cta-btn, .fl-practice-go, .fl-cert-claim-btn, .fl-myth-btn, .fl-myth-next-btn {',
+      '  font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", system-ui, sans-serif !important;',
+      '  font-weight: 600 !important;',
+      '  letter-spacing: -0.015em !important;',
+      '  border-radius: 9999px !important;',
+      '  touch-action: manipulation !important;',
+      '  user-select: none !important;',
+      '  transition: all 150ms cubic-bezier(0.16, 1, 0.3, 1) !important;',
+      '}',
+      'button:active, .btn:active, .cta-btn:active, .fl-practice-go:active {',
+      '  transform: scale(0.96) !important;',
+      '}',
+
+      // Primary Button (matches site default variant: emerald + subtle specular glow)
+      '.btn-p, .cta-btn, .fl-practice-go:not(.alt), .fl-cert-claim-btn, .fl-myth-next-btn {',
+      '  background: #22C55E !important;',
+      '  color: #04240F !important;',
+      '  border: 1px solid rgba(255, 255, 255, 0.35) !important;',
+      '  box-shadow: inset 0 1px 0 0 rgba(255, 255, 255, 0.45), 0 3px 12px -2px rgba(34, 197, 94, 0.35) !important;',
+      '}',
+      '.btn-p:hover, .cta-btn:hover, .fl-practice-go:not(.alt):hover {',
+      '  filter: brightness(1.04) !important;',
+      '  box-shadow: inset 0 1px 0 0 rgba(255, 255, 255, 0.55), 0 6px 18px -3px rgba(34, 197, 94, 0.45) !important;',
+      '}',
+
+      // Secondary / Outline Button (matches site outline variant: frosted background + border)
+      '.btn-s, .btn-alt, .fl-practice-go.alt, .apple-reset-btn, button.alt {',
+      '  background: rgba(255, 255, 255, 0.85) !important;',
+      '  backdrop-filter: blur(12px) !important;',
+      '  -webkit-backdrop-filter: blur(12px) !important;',
+      '  color: #1F2937 !important;',
+      '  border: 1px solid rgba(229, 231, 235, 0.9) !important;',
+      '  box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05) !important;',
+      '}',
+      '.btn-s:hover, .fl-practice-go.alt:hover, button.alt:hover {',
+      '  background: #F3F4F6 !important;',
+      '  color: #111827 !important;',
+      '}',
+
+      // Interactive quiz / myth selection buttons
+      '.fl-myth-btn {',
+      '  border: 1px solid rgba(229, 231, 235, 0.8) !important;',
+      '  background: #FFFFFF !important;',
+      '  color: #374151 !important;',
+      '  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04) !important;',
+      '}',
+      '.fl-myth-btn:hover {',
+      '  border-color: #22C55E !important;',
+      '  color: #15803D !important;',
+      '  background: #F0FDF4 !important;',
+      '}'
+    ].join('\n');
+    (document.head || document.documentElement).appendChild(st);
+  })();
 
     // Clean up emojis from metadata pills to match Apple minimalism
     function sanitizePills() {
