@@ -1,6 +1,6 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { motion } from 'framer-motion';
-import { ArrowRight, ShieldCheck, RefreshCw, Award } from 'lucide-react';
+import { Award, Gamepad2, ArrowRight } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 
 interface Props {
@@ -8,179 +8,93 @@ interface Props {
   mentorshipScore: number;
   personalScore: number;
   protectedKwacha: number;
-  habitName?: string;
   verdict: string;
-  onFinish: () => void;
+  onClaimCertificate: () => void;
+  onEnterSimulator: () => void;
+  onReturnToLessons: () => void;
 }
-
-const ScoreRing = ({
-  value,
-  label,
-  subtitle,
-  strokeClass,
-}: {
-  value: number;
-  label: string;
-  subtitle: string;
-  strokeClass: string;
-}) => {
-  const r = 34;
-  const circ = 2 * Math.PI * r;
-  const offset = circ - (Math.max(0, Math.min(100, value)) / 100) * circ;
-
-  return (
-    <div className="bg-card border border-border/80 rounded-2xl p-4 sm:p-5 flex items-center gap-4 shadow-soft">
-      <div className="relative w-20 h-20 shrink-0">
-        <svg viewBox="0 0 84 84" className="w-full h-full -rotate-90">
-          <circle cx="42" cy="42" r={r} fill="none" stroke="currentColor" strokeWidth="7" className="text-muted/70" />
-          <motion.circle
-            cx="42"
-            cy="42"
-            r={r}
-            fill="none"
-            strokeWidth="7"
-            strokeLinecap="round"
-            strokeDasharray={circ}
-            initial={{ strokeDashoffset: circ }}
-            animate={{ strokeDashoffset: offset }}
-            transition={{ duration: 0.9, ease: [0.22, 1, 0.36, 1] }}
-            className={strokeClass}
-          />
-        </svg>
-        <div className="absolute inset-0 flex items-center justify-center text-base font-bold tracking-tight text-foreground">
-          {value}%
-        </div>
-      </div>
-      <div className="min-w-0 space-y-0.5">
-        <div className="text-xs font-semibold uppercase tracking-wide text-muted-foreground">{label}</div>
-        <div className="text-sm font-medium text-foreground/90 leading-snug">{subtitle}</div>
-      </div>
-    </div>
-  );
-};
 
 export const AlignmentScorecard: React.FC<Props> = ({
   protegeName,
   mentorshipScore,
   personalScore,
   protectedKwacha,
-  habitName,
-  verdict,
-  onFinish,
+  onClaimCertificate,
+  onEnterSimulator,
+  onReturnToLessons,
 }) => {
-  const alignmentGap = Math.max(0, mentorshipScore - personalScore);
-  const aligned = alignmentGap <= 25;
+  const alignmentGap = Math.abs(mentorshipScore - personalScore);
 
   return (
     <motion.div
-      initial={{ opacity: 0, y: 16 }}
-      animate={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.36, ease: [0.22, 1, 0.36, 1] }}
-      className="w-full max-w-2xl mx-auto my-auto space-y-5 font-apple text-foreground pb-10"
+      initial={{ opacity: 0, scale: 0.98 }}
+      animate={{ opacity: 1, scale: 1 }}
+      className="w-full max-w-2xl mx-auto flex flex-col gap-6 py-4 pb-20 font-sans"
     >
-      {/* Editorial Botanical Forest Summary Banner */}
-      <div className="finlit-scene-card rounded-[28px] p-6 sm:p-8 text-forest-foreground space-y-4">
-        <div className="flex flex-wrap items-center justify-between gap-2">
-          <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-primary/20 border border-primary/35 text-primary text-xs font-semibold">
-            <Award className="w-3.5 h-3.5" /> Character Debrief
-          </span>
-          <span className={`px-3 py-1 rounded-full text-xs font-semibold ${
-            aligned ? 'bg-primary/20 text-primary' : 'bg-copper/25 text-copper'
-          }`}>
-            {verdict}
-          </span>
+      <div className="text-center space-y-2">
+        <h2 className="text-2xl sm:text-3xl font-bold text-foreground">Decision Alignment Debrief</h2>
+        <p className="text-sm text-muted-foreground">
+          Comparing the advice you gave {protegeName} with the choices you made yourself.
+        </p>
+      </div>
+
+      <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+        <div className="bg-card border border-border/80 rounded-2xl p-5 text-center space-y-1">
+          <span className="text-xs text-muted-foreground uppercase font-semibold">Mentorship Score</span>
+          <div className="text-3xl font-bold text-primary">{mentorshipScore}%</div>
+          <p className="text-xs text-muted-foreground">Guiding {protegeName}</p>
         </div>
-        <div className="space-y-1.5">
-          <h2 className="text-2xl sm:text-3xl font-bold tracking-tight">Advice vs. Action</h2>
-          <p className="text-sm text-forest-muted leading-relaxed">
-            {aligned
-              ? 'You practiced the exact financial discipline you taught your Protégé.'
-              : `You advised ${protegeName} with clarity, but live temptation pulled your own decision off course.`}
-          </p>
+
+        <div className="bg-card border border-border/80 rounded-2xl p-5 text-center space-y-1">
+          <span className="text-xs text-muted-foreground uppercase font-semibold">Hot-Seat Score</span>
+          <div className="text-3xl font-bold text-foreground">{personalScore}%</div>
+          <p className="text-xs text-muted-foreground">Your own execution</p>
         </div>
       </div>
-      {/* Apple Action Area: Certificate Claim & Return */}
-      <div className="flex flex-col sm:flex-row items-center justify-center gap-3 pt-3">
+
+      <div className="bg-card border border-border/80 rounded-2xl p-5 space-y-2">
+        <div className="flex items-center justify-between text-sm">
+          <span className="font-semibold text-foreground">Say–Do Alignment Gap</span>
+          <span className="font-bold text-primary">{alignmentGap}%</span>
+        </div>
+        <p className="text-sm text-muted-foreground leading-relaxed">
+          {alignmentGap <= 15
+            ? `You practiced what you preached. The discipline you advised ${protegeName} to follow is the discipline you displayed when your own money was tested.`
+            : `Notice the gap between your coaching and your personal decision. High-stress situations often tempt us away from principles we know intellectually.`}
+        </p>
+      </div>
+
+      {/* Connected Action Buttons: Simulator + Certificate + Roadmap */}
+      <div className="space-y-3 pt-2">
         <Button
-          onClick={() => {
-            // Trigger certificate claim
-            window.parent.postMessage(
-              {
-                source: 'finlit-module',
-                type: 'certificate',
-                score: Math.round((mentorshipScore + personalScore) / 2),
-              },
-              '*'
-            );
-            onFinish();
-          }}
-          className="w-full sm:w-auto rounded-full px-7 h-12 text-sm font-semibold shadow-md bg-primary text-primary-foreground hover:brightness-105"
+          onClick={onEnterSimulator}
+          size="lg"
+          className="w-full bg-primary hover:bg-primary/90 text-primary-foreground font-semibold rounded-full h-12 flex items-center justify-center gap-2"
         >
-          <Award className="w-4 h-4 mr-2" />
-          Claim Module Certificate
+          <Gamepad2 className="w-5 h-5" />
+          <span>Enter {protegeName}’s World (Live Simulator)</span>
         </Button>
 
-        <Button
-          variant="outline"
-          onClick={onFinish}
-          className="w-full sm:w-auto rounded-full px-6 h-12 text-sm font-semibold text-muted-foreground hover:text-foreground"
-        >
-          Back to Lessons
-          <ArrowRight className="w-4 h-4 ml-2" />
-        </Button>
-      </div>
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+          <Button
+            onClick={onClaimCertificate}
+            variant="outline"
+            className="rounded-full h-11 border-border/80 font-medium flex items-center justify-center gap-2"
+          >
+            <Award className="w-4 h-4" />
+            <span>Claim Certificate</span>
+          </Button>
 
-      {/* Apple-Style Dual Progress Rings */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 gap-3.5">
-        <ScoreRing
-          value={mentorshipScore}
-          label="Mentorship"
-          subtitle={`Guiding ${protegeName}`}
-          strokeClass="stroke-green-600"
-        />
-        <ScoreRing
-          value={personalScore}
-          label="Your Hot-Seat"
-          subtitle="Under live temptation"
-          strokeClass="stroke-copper"
-        />
-      </div>
-
-      {/* Alignment Gap & Takeaway Strip */}
-      <div className="bg-card border border-border/80 rounded-2xl p-5 space-y-3.5 shadow-soft">
-        <div className="flex items-center justify-between gap-2">
-          <span className="text-xs font-semibold uppercase tracking-wide text-muted-foreground">
-            Say–Do Alignment Gap
-          </span>
-          <span className={`text-sm font-bold ${aligned ? 'text-emeraldSoft-ink' : 'text-copper'}`}>
-            {alignmentGap === 0 ? '0% · Walked the Talk' : `${alignmentGap}% Gap`}
-          </span>
-        </div>
-
-        <div className="flex flex-wrap gap-2">
-          {protectedKwacha > 0 && (
-            <span className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-semibold bg-emeraldSoft border border-emeraldSoft-border text-emeraldSoft-ink">
-              <ShieldCheck className="w-3.5 h-3.5" />
-              K{protectedKwacha.toLocaleString()} protected for {protegeName}
-            </span>
-          )}
-          {habitName && (
-            <span className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-semibold bg-copper-soft border border-copper-border text-copper">
-              <RefreshCw className="w-3.5 h-3.5" />
-              Habit instilled: {habitName}
-            </span>
-          )}
+          <Button
+            onClick={onReturnToLessons}
+            variant="ghost"
+            className="rounded-full h-11 text-muted-foreground hover:text-foreground flex items-center justify-center gap-2"
+          >
+            <span>Back to Lessons</span>
+            <ArrowRight className="w-4 h-4" />
+          </Button>
         </div>
       </div>
-
-      <Button
-        onClick={onFinish}
-        size="lg"
-        className="w-full rounded-full h-13 py-3.5 text-sm font-semibold bg-forest hover:bg-forest-deep text-forest-foreground shadow-soft"
-      >
-        Complete Lesson & Return to Lessons
-        <ArrowRight className="w-4 h-4 ml-1.5" />
-      </Button>
     </motion.div>
   );
 };
