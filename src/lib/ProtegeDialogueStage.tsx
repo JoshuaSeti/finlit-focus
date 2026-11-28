@@ -125,16 +125,6 @@ export const ProtegeDialogueStage: React.FC<Props> = ({ protegeName, beats, onCo
 
             {beat.choices.map((choice, idx) => {
               const isSelected = selectedChoice?.id === choice.id;
-              const cardTone = isSelected
-                ? isSound
-                  ? 'bg-emeraldSoft/80 border-green-600/60 ring-2 ring-primary/30'
-                  : 'bg-copper-soft/85 border-copper/60 ring-2 ring-copper/25'
-                : selectedChoice
-                ? 'opacity-45 cursor-not-allowed'
-                : 'cursor-pointer';
-
-                        {beat.choices.map((choice, idx) => {
-              const isSelected = selectedChoice?.id === choice.id;
 
               return (
                 <motion.button
