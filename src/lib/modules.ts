@@ -60,11 +60,27 @@ export async function loadModuleHtml(m: Pick<LearningModule, 'slug'>): Promise<s
 
 
 /** Prepare module HTML to run inside the site: add the bridge, fix links that pointed at the old site. */
-export function prepareModuleHtml(html: string, slug: string, user: { id: string; email?: string | null } | null) {
+export function prepareModuleHtml(
+  html: string,
+  slug: string,
+  user: { id: string; email?: string | null } | null,
+  meta?: Partial<LearningModule> | null
+) {
   const origin = window.location.origin;
-  const cfg = JSON.stringify({ slug, user: user ? { id: user.id, email: user.email ?? null } : null });
+  const cfg = JSON.stringify({
+    slug,
+    user: user ? { id: user.id, email: user.email ?? null } : null,
+    meta: meta
+      ? {
+          title: meta.title,
+          description: meta.description,
+          cover_image_url: meta.cover_image_url,
+          category: meta.category,
+        }
+      : null,
+  });
   const head =
-        `<script>window.__FINLIT_BRIDGE__=${cfg};</script>` +
+    `<script>window.__FINLIT_BRIDGE__=${cfg};</script>` +
     `<script src="${origin}/finlit-bridge.js"></script>`;
   let out = html
     .replace(/location\.href\s*=\s*['"](?:\.\/)?index\.html[^'"]*['"]/g, 'window.FinLitBridge.home()')
@@ -72,6 +88,7 @@ export function prepareModuleHtml(html: string, slug: string, user: { id: string
   out = /<head[^>]*>/i.test(out) ? out.replace(/<head[^>]*>/i, (m) => m + head) : head + out;
   return out;
 }
+
 
 export type LearningModule = {
   id: string;
