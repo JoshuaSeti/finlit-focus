@@ -1,32 +1,21 @@
-/* FinLit module bridge — injected into every lesson module at load time.
-   Lets standalone HTML modules talk to the main site without changing their code.
-
-   Module → site messages (window.parent.postMessage, source "finlit-module"):
-     progress     { progress, sections }      lesson progress object (auto-synced from localStorage)
-     certificate  { name, score }             learner generated a certificate
-     practice     { status }                  yungsta practice finished inside the module
-     event        { kind, payload }           any custom event a module wants recorded
-     home                                      go back to the lessons list
-     open         { slug }                     open another module
-
-   Modules may also call these directly:
-     FinLitBridge.track(kind, payload)  FinLitBridge.home()  FinLitBridge.open(slug)  FinLitBridge.user (when signed in)
-*/
+/* FinLit module bridge — injected into every lesson module at load time. */
 (function () {
   var CFG = window.__FINLIT_BRIDGE__ || {};
   function post(type, data) {
     try { window.parent.postMessage(Object.assign({ source: 'finlit-module', type: type, slug: CFG.slug }, data || {}), '*'); } catch (e) {}
   }
-var B = window.FinLitBridge = {
-    slug: CFG.slug, user: CFG.user || null,
+
+  var B = window.FinLitBridge = {
+    slug: CFG.slug,
+    user: CFG.user || null,
     track: function (kind, payload) { post('event', { kind: kind, payload: payload || {} }); },
     home: function () { sync(); setTimeout(function () { post('home'); }, 60); },
     open: function (slug) { sync(); setTimeout(function () { post('open', { slug: slug }); }, 60); },
     post: post,
   };
 
-  // ── Apple-Style Editorial Intro Cover ──
-  (function initAppleCover() {
+  // ── 1. Apple-Style Editorial Intro Cover & Site Buttons ──
+  (function initAppleStyles() {
     var meta = CFG.meta || {};
     var hasCoverImage = meta.cover_image_url && typeof meta.cover_image_url === 'string';
 
@@ -51,7 +40,7 @@ var B = window.FinLitBridge = {
       '  text-align: center !important;',
       '  font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "SF Pro Text", system-ui, sans-serif !important;',
       hasCoverImage
-        ? '  background: linear-gradient(180deg, rgba(6,16,10,0.68) 0%, rgba(6,16,10,0.88) 55%, rgba(6,16,10,0.98) 100%), url("' +
+        ? '  background: linear-gradient(180deg, rgba(6,16,10,0.72) 0%, rgba(6,16,10,0.90) 55%, rgba(6,16,10,0.98) 100%), url("' +
           meta.cover_image_url +
           '") center/cover no-repeat !important;'
         : '  background: radial-gradient(ellipse 1100px 700px at 50% -10%, rgba(34,197,94,0.18) 0%, transparent 60%), linear-gradient(180deg, #09170e 0%, #061009 100%) !important;',
@@ -136,36 +125,8 @@ var B = window.FinLitBridge = {
       '  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.15) !important;',
       '}',
 
-      // Apple primary CTA button
-      '.cta-btn {',
-      '  background: #22C55E !important;',
-      '  color: #04240F !important;',
-      '  font-weight: 600 !important;',
-      '  font-size: 15px !important;',
-      '  letter-spacing: -0.01em !important;',
-      '  border-radius: 9999px !important;',
-      '  padding: 13px 34px !important;',
-      '  border: 1px solid rgba(255, 255, 255, 0.35) !important;',
-      '  box-shadow: 0 4px 20px rgba(34, 197, 94, 0.35), inset 0 1px 0 rgba(255, 255, 255, 0.45) !important;',
-      '  transition: transform 0.22s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.22s ease !important;',
-      '}',
-      '.cta-btn:hover {',
-      '  transform: scale(1.02) !important;',
-      '  box-shadow: 0 6px 24px rgba(34, 197, 94, 0.48), inset 0 1px 0 rgba(255, 255, 255, 0.55) !important;',
-      '}',
-      '.cta-btn:active {',
-      '  transform: scale(0.98) !important;',
-      '}',
-    ].join('\n');
-    (document.head || document.documentElement).appendChild(st);
-  // ── FinLit Site Button Styling Inside Modules ──
-  (function injectSiteButtons() {
-    var st = document.createElement('style');
-    st.textContent = [
-      // Remove legacy glossy reflections
+      // ── Site Button Styling Across the Module ──
       '.btn::after, .cta-btn::after, .fl-practice-go::after { display: none !important; }',
-
-      // Base Apple button physics across all module buttons
       'button, .btn, .cta-btn, .fl-practice-go, .fl-cert-claim-btn, .fl-myth-btn, .fl-myth-next-btn {',
       '  font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", system-ui, sans-serif !important;',
       '  font-weight: 600 !important;',
@@ -178,8 +139,6 @@ var B = window.FinLitBridge = {
       'button:active, .btn:active, .cta-btn:active, .fl-practice-go:active {',
       '  transform: scale(0.96) !important;',
       '}',
-
-      // Primary Button (matches site default variant: emerald + subtle specular glow)
       '.btn-p, .cta-btn, .fl-practice-go:not(.alt), .fl-cert-claim-btn, .fl-myth-next-btn {',
       '  background: #22C55E !important;',
       '  color: #04240F !important;',
@@ -190,8 +149,6 @@ var B = window.FinLitBridge = {
       '  filter: brightness(1.04) !important;',
       '  box-shadow: inset 0 1px 0 0 rgba(255, 255, 255, 0.55), 0 6px 18px -3px rgba(34, 197, 94, 0.45) !important;',
       '}',
-
-      // Secondary / Outline Button (matches site outline variant: frosted background + border)
       '.btn-s, .btn-alt, .fl-practice-go.alt, .apple-reset-btn, button.alt {',
       '  background: rgba(255, 255, 255, 0.85) !important;',
       '  backdrop-filter: blur(12px) !important;',
@@ -203,30 +160,14 @@ var B = window.FinLitBridge = {
       '.btn-s:hover, .fl-practice-go.alt:hover, button.alt:hover {',
       '  background: #F3F4F6 !important;',
       '  color: #111827 !important;',
-      '}',
-
-      // Interactive quiz / myth selection buttons
-      '.fl-myth-btn {',
-      '  border: 1px solid rgba(229, 231, 235, 0.8) !important;',
-      '  background: #FFFFFF !important;',
-      '  color: #374151 !important;',
-      '  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04) !important;',
-      '}',
-      '.fl-myth-btn:hover {',
-      '  border-color: #22C55E !important;',
-      '  color: #15803D !important;',
-      '  background: #F0FDF4 !important;',
       '}'
     ].join('\n');
     (document.head || document.documentElement).appendChild(st);
-  })();
 
-    // Clean up emojis from metadata pills to match Apple minimalism
     function sanitizePills() {
       var pills = document.querySelectorAll('.cover-pills .pill');
       for (var i = 0; i < pills.length; i++) {
         var el = pills[i];
-        // Strip emojis and leading/trailing whitespace
         var clean = (el.textContent || '')
           .replace(/[\u{1F300}-\u{1FAFF}\u{2600}-\u{26FF}\u{2700}-\u{27BF}]/gu, '')
           .trim();
@@ -240,16 +181,14 @@ var B = window.FinLitBridge = {
     }
   })();
 
-  // Hide "Next lesson" and "Back to path" buttons inside modules so learners flow
-  // smoothly from the lesson directly into the Protégé & Hot-Seat experience.
+  // ── 2. Hide Redundant Buttons & Handle Smooth Handoff ──
   (function () {
     var st = document.createElement('style');
-
     st.textContent = [
       '#fin-next,#fin-back,#fin-finish{display:none!important}',
       'body.fin-hide-bar #fin-bar{display:none!important}',
       'body.fin-hide-bar{padding-bottom:0!important}',
-      '#fin-bar{display:none!important}' // Module footer bar completely hidden in favor of player transitions
+      '#fin-bar{display:none!important}'
     ].join('');
     (document.head || document.documentElement).appendChild(st);
 
@@ -262,21 +201,6 @@ var B = window.FinLitBridge = {
       var ids = getSections();
       var h = (location.hash || '').replace('#', '');
       return ids.indexOf(h) > -1 ? h : null;
-    }
-
-    function renameYungstaLabels() {
-      var simBtn = document.getElementById('fin-sim');
-      if (simBtn && /yungsta/i.test(simBtn.textContent || '')) {
-        simBtn.textContent = 'Continue to Protégé →';
-      }
-      var pt = document.querySelector('#fl-practice .fl-practice-t');
-      if (pt && /yungsta/i.test(pt.textContent || '')) {
-        pt.textContent = pt.textContent.replace(/yungsta/gi, 'Protégé');
-      }
-      var ps = document.querySelector('#fl-practice .fl-practice-s');
-      if (ps && /yungsta/i.test(ps.textContent || '')) {
-        ps.textContent = ps.textContent.replace(/yungsta/gi, 'Protégé');
-      }
     }
 
     var handoffTimer = null;
@@ -300,7 +224,6 @@ var B = window.FinLitBridge = {
           }, 80);
         }
       } else if (idx > -1 && idx < ids.length - 1) {
-        // Intermediate section finished: dismiss overlay smoothly and move to next section
         done.classList.remove('on');
         location.hash = '#' + ids[idx + 1];
         window.scrollTo({ top: 0, behavior: 'smooth' });
@@ -310,27 +233,10 @@ var B = window.FinLitBridge = {
     }
 
     function check() {
-      var b = document.getElementById('fin-finish');
-      if (b && document.body) {
-        var txt = b.textContent || '';
-        if (/back to path/i.test(txt)) {
-          b.textContent = 'Continue to Protégé →';
-          b.dataset.finProtege = '1';
-          document.body.classList.remove('fin-hide-bar');
-        } else if (/continue to prot/i.test(txt)) {
-          b.dataset.finProtege = '1';
-          document.body.classList.remove('fin-hide-bar');
-        } else {
-          delete b.dataset.finProtege;
-          document.body.classList.toggle('fin-hide-bar', /next lesson/i.test(txt));
-        }
-      }
-      renameYungstaLabels();
       handleDoneOverlay();
     }
 
     setInterval(check, 300);
-    document.addEventListener('click', function () { setTimeout(check, 40); setTimeout(check, 220); });
     window.addEventListener('load', function () {
       check();
       var done = document.getElementById('fin-done');
@@ -339,32 +245,17 @@ var B = window.FinLitBridge = {
       }
     });
 
-    // Intercept the end-of-module "Back to path" / "Continue to Protégé" bar button
     document.addEventListener('click', function (e) {
       var b = e.target && e.target.closest ? e.target.closest('#fin-finish') : null;
       if (!b) return;
-      if (b.dataset.finProtege === '1' || /back to path|continue to prot/i.test(b.textContent || '')) {
-        e.preventDefault();
-        e.stopImmediatePropagation();
-        sync();
-        post('enter-protege');
-      }
+      e.preventDefault();
+      e.stopImmediatePropagation();
+      sync();
+      post('enter-protege');
     }, true);
   })();
 
-  // Completion card "Practice with your yungsta / Protégé": smoothly transition to Protégé stage.
-  document.addEventListener('click', function (e) {
-    var b = e.target && e.target.closest ? e.target.closest('#fin-sim') : null;
-    if (!b) return;
-    e.preventDefault();
-    e.stopImmediatePropagation();
-    var done = document.getElementById('fin-done');
-    if (done) done.classList.remove('on');
-    sync();
-    post('enter-protege');
-  }, true);
-
-  // Hash links: the page uses <base>, so keep "#section" links inside this page.
+  // ── 3. Hash Links & Progress Syncing ──
   document.addEventListener('click', function (e) {
     var a = e.target && e.target.closest ? e.target.closest('a[href]') : null;
     if (!a) return;
@@ -382,13 +273,10 @@ var B = window.FinLitBridge = {
     }
   }, true);
 
-  // Progress: watch the module's own localStorage record and forward changes.
- var last = '';
   function key() { var c = window.FINLIT_MODULE || {}; return 'finlit-progress-' + (c.moduleId || CFG.slug); }
   function sync() {
     var raw = null; try { raw = localStorage.getItem(key()); } catch (e) {}
     if (!raw) return;
-    last = raw;
     var p = null; try { p = JSON.parse(raw); } catch (e) { return; }
     var c = window.FINLIT_MODULE || {};
     post('progress', { progress: p, sections: c.sections || [] });
@@ -397,36 +285,4 @@ var B = window.FinLitBridge = {
   window.addEventListener('hashchange', function () { setTimeout(sync, 100); });
   window.addEventListener('pagehide', sync);
   window.addEventListener('beforeunload', sync);
-
-// Hook into finish button if present in DOM
-  document.addEventListener('click', function (e) {
-    var finishBtn = e.target && e.target.closest ? e.target.closest('#fin-finish, .fin-finish-btn') : null;
-    if (finishBtn) {
-      setTimeout(sync, 50);
-    }
-  }, true);
-   
-  // Certificates keep working as-is; we just record the claim.
-  window.addEventListener('load', function () {
-    sync();
-    if (typeof window.openCertModal === 'function') {
-      var orig = window.openCertModal;
-      window.openCertModal = function () {
-        var name = ((document.getElementById('fl-cert-name-input') || {}).value || '').trim();
-        var score = null;
-        try { var p = JSON.parse(localStorage.getItem(key()) || '{}'); if (p.quizScore) score = Math.round(p.quizScore.correct / p.quizScore.total * 100); } catch (e) {}
-        post('certificate', { name: name, score: score });
-        return orig.apply(this, arguments);
-      };
-    }
-  });
-
-  // Character simulator inside the module talks to its parent (this page) — pass it up.
-  window.addEventListener('message', function (e) {
-    if (e.origin !== window.location.origin) return;
-    var d = e.data || {};
-    if (d.source === 'finlit-sim' && (d.type === 'practice-complete' || d.type === 'practice-unavailable')) {
-      post('practice', { status: d.type });
-    }
-  });
 })();
