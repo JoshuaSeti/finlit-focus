@@ -78,8 +78,8 @@ const ModulePlayer = () => {
           localStorage.setItem(progressKey(slug), JSON.stringify(p.progress));
         }
       }
-      try {
-        const html = prepareModuleHtml(await loadModuleHtml(m as LearningModule), slug, user);
+           try {
+        const html = prepareModuleHtml(await loadModuleHtml(m as LearningModule), slug, user, m as LearningModule);
         sessionStorage.setItem(`finlit-module-html:${slug}`, html);
         setSrc(`/module-host.html?slug=${encodeURIComponent(slug)}&v=${Date.now()}`);
       } catch (e: any) {
