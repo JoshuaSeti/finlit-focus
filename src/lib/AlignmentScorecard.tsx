@@ -99,6 +99,36 @@ export const AlignmentScorecard: React.FC<Props> = ({
           </p>
         </div>
       </div>
+      {/* Apple Action Area: Certificate Claim & Return */}
+      <div className="flex flex-col sm:flex-row items-center justify-center gap-3 pt-3">
+        <Button
+          onClick={() => {
+            // Trigger certificate claim
+            window.parent.postMessage(
+              {
+                source: 'finlit-module',
+                type: 'certificate',
+                score: Math.round((mentorshipScore + personalScore) / 2),
+              },
+              '*'
+            );
+            onFinish();
+          }}
+          className="w-full sm:w-auto rounded-full px-7 h-12 text-sm font-semibold shadow-md bg-primary text-primary-foreground hover:brightness-105"
+        >
+          <Award className="w-4 h-4 mr-2" />
+          Claim Module Certificate
+        </Button>
+
+        <Button
+          variant="outline"
+          onClick={onFinish}
+          className="w-full sm:w-auto rounded-full px-6 h-12 text-sm font-semibold text-muted-foreground hover:text-foreground"
+        >
+          Back to Lessons
+          <ArrowRight className="w-4 h-4 ml-2" />
+        </Button>
+      </div>
 
       {/* Apple-Style Dual Progress Rings */}
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-3.5">
