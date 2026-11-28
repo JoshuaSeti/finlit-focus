@@ -81,7 +81,7 @@ export function prepareModuleHtml(
   });
   const head =
     `<script>window.__FINLIT_BRIDGE__=${cfg};</script>` +
-    `<script src="${origin}/finlit-bridge.js"></script>`;
+  <script src="${origin}/finlit-bridge.js?v=${Date.now()}"></script>`;
   let out = html
     .replace(/location\.href\s*=\s*['"](?:\.\/)?index\.html[^'"]*['"]/g, 'window.FinLitBridge.home()')
     .replace(/<script src="\/(?:fee-bar|gate|referral)\.js"[^>]*><\/script>/g, '');
