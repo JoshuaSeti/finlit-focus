@@ -133,43 +133,43 @@ export const ProtegeDialogueStage: React.FC<Props> = ({ protegeName, beats, onCo
                 ? 'opacity-45 cursor-not-allowed'
                 : 'cursor-pointer';
 
-              const badgeTone = isSelected
-                ? isSound
-                  ? 'bg-green-700 text-forest-foreground'
-                  : 'bg-copper text-copper-foreground'
-                : 'bg-secondary text-secondary-foreground';
+                        {beat.choices.map((choice, idx) => {
+              const isSelected = selectedChoice?.id === choice.id;
 
               return (
-               // Option Card button styling:
-<motion.button
-  key={choice.id}
-  type="button"
-  whileTap={selectedChoice ? undefined : { scale: 0.99 }}
-  disabled={!!selectedChoice}
-  onClick={() => handleSelectChoice(choice)}
-  className={`w-full text-left p-4.5 rounded-2xl flex items-start gap-4 transition-all duration-200 ${
-    isSelected
-      ? isSound
-        ? 'bg-emeraldSoft/70 border-emerald-600/50 ring-1 ring-emerald-600/40 shadow-sm'
-        : 'bg-copper-soft/70 border-copper/50 ring-1 ring-copper/40 shadow-sm'
-      : selectedChoice
-      ? 'opacity-35 cursor-not-allowed border-border/40'
-      : 'bg-card hover:bg-secondary/40 border-border/70 hover:border-border cursor-pointer shadow-[0_1px_3px_rgba(0,0,0,0.04)]'
-  }`}
->
-  <span className="w-7 h-7 rounded-full border border-border flex items-center justify-center text-xs font-semibold text-muted-foreground shrink-0 mt-0.5">
-    {OPTION_LETTERS[idx]}
-  </span>
-  <div className="flex-1 space-y-1">
-    <span className="text-[11px] font-medium tracking-wider uppercase text-muted-foreground/80 block">
-      {choice.tag}
-    </span>
-    <p className="text-[15px] font-medium leading-relaxed text-foreground tracking-tight">
-      {choice.text}
-    </p>
-  </div>
-</motion.button>
-
+                <motion.button
+                  key={choice.id}
+                  type="button"
+                  whileTap={selectedChoice ? undefined : { scale: 0.99 }}
+                  disabled={!!selectedChoice}
+                  onClick={() => handleSelectChoice(choice)}
+                  className={`w-full text-left p-4.5 rounded-2xl flex items-center gap-4 transition-all duration-200 border ${
+                    isSelected
+                      ? isSound
+                        ? 'bg-emeraldSoft/80 border-primary/60 ring-2 ring-primary/20 shadow-sm'
+                        : 'bg-copper-soft/80 border-copper/60 ring-2 ring-copper/20 shadow-sm'
+                      : selectedChoice
+                      ? 'opacity-40 cursor-not-allowed border-border/40 bg-card/60'
+                      : 'bg-card hover:bg-secondary/50 border-border/70 hover:border-border cursor-pointer shadow-[0_1px_3px_rgba(0,0,0,0.03)]'
+                  }`}
+                >
+                  <span
+                    className={`w-8 h-8 rounded-full border flex items-center justify-center text-xs font-semibold shrink-0 transition-colors ${
+                      isSelected
+                        ? isSound
+                          ? 'bg-primary text-primary-foreground border-primary'
+                          : 'bg-copper text-copper-foreground border-copper'
+                        : 'border-border/80 bg-background/80 text-muted-foreground'
+                    }`}
+                  >
+                    {OPTION_LETTERS[idx]}
+                  </span>
+                  <div className="flex-1">
+                    <p className="text-[15px] font-medium leading-relaxed text-foreground tracking-tight">
+                      {choice.text}
+                    </p>
+                  </div>
+                </motion.button>
               );
             })}
           </div>
