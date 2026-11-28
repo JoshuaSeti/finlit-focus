@@ -25,6 +25,158 @@ var B = window.FinLitBridge = {
     post: post,
   };
 
+  // ── Apple-Style Editorial Intro Cover ──
+  (function initAppleCover() {
+    var meta = CFG.meta || {};
+    var hasCoverImage = meta.cover_image_url && typeof meta.cover_image_url === 'string';
+
+    var st = document.createElement('style');
+    st.textContent = [
+      // Hide legacy orbs and noise grain
+      '.cover .orb, .cover .grain, .cover .vignette { display: none !important; }',
+
+      // Full-bleed Apple canvas (no cramped 680px card)
+      '.cover {',
+      '  box-sizing: border-box !important;',
+      '  width: 100% !important;',
+      '  max-width: 100% !important;',
+      '  min-height: calc(100vh - 14px) !important;',
+      '  margin: 0 !important;',
+      '  border-radius: 0 !important;',
+      '  padding: clamp(48px, 10vh, 96px) 24px 48px !important;',
+      '  display: flex !important;',
+      '  flex-direction: column !important;',
+      '  justify-content: center !important;',
+      '  align-items: center !important;',
+      '  text-align: center !important;',
+      '  font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "SF Pro Text", system-ui, sans-serif !important;',
+      hasCoverImage
+        ? '  background: linear-gradient(180deg, rgba(6,16,10,0.68) 0%, rgba(6,16,10,0.88) 55%, rgba(6,16,10,0.98) 100%), url("' +
+          meta.cover_image_url +
+          '") center/cover no-repeat !important;'
+        : '  background: radial-gradient(ellipse 1100px 700px at 50% -10%, rgba(34,197,94,0.18) 0%, transparent 60%), linear-gradient(180deg, #09170e 0%, #061009 100%) !important;',
+      '}',
+
+      // Apple micro-caps kicker
+      '.cover-tag {',
+      '  font-size: 11px !important;',
+      '  font-weight: 700 !important;',
+      '  letter-spacing: 0.12em !important;',
+      '  text-transform: uppercase !important;',
+      '  color: #34D399 !important;',
+      '  background: rgba(52, 211, 153, 0.12) !important;',
+      '  border: 1px solid rgba(52, 211, 153, 0.28) !important;',
+      '  border-radius: 9999px !important;',
+      '  padding: 6px 16px !important;',
+      '  margin-bottom: 24px !important;',
+      '  display: inline-flex !important;',
+      '}',
+
+      // Title & typography hierarchy
+      '.cover-content {',
+      '  max-width: 680px !important;',
+      '  display: flex !important;',
+      '  flex-direction: column !important;',
+      '  align-items: center !important;',
+      '  gap: 12px !important;',
+      '}',
+      '.cover-headline {',
+      '  font-size: clamp(34px, 5.5vw, 56px) !important;',
+      '  line-height: 1.08 !important;',
+      '  font-weight: 700 !important;',
+      '  letter-spacing: -0.035em !important;',
+      '  color: #FFFFFF !important;',
+      '  margin: 0 !important;',
+      '}',
+      '.cover-headline-accent {',
+      '  color: #6EE7B7 !important;',
+      '  font-weight: 700 !important;',
+      '}',
+      '.cover-subline {',
+      '  font-size: 15px !important;',
+      '  font-weight: 500 !important;',
+      '  line-height: 1.5 !important;',
+      '  color: rgba(255, 255, 255, 0.72) !important;',
+      '  max-width: 520px !important;',
+      '  margin: 4px 0 0 !important;',
+      '}',
+
+      // Bottom bar & metadata dock
+      '.cover-bottom-bar {',
+      '  display: flex !important;',
+      '  flex-direction: column !important;',
+      '  align-items: center !important;',
+      '  gap: 28px !important;',
+      '  border-top: none !important;',
+      '  width: 100% !important;',
+      '  max-width: 560px !important;',
+      '  padding: 0 !important;',
+      '  margin-top: 40px !important;',
+      '}',
+      '.cover-pills {',
+      '  display: flex !important;',
+      '  align-items: center !important;',
+      '  justify-content: center !important;',
+      '  gap: 8px !important;',
+      '  flex-wrap: wrap !important;',
+      '}',
+
+      // Frosted Apple metadata badges (no chunky border or shadow)
+      '.cover-pills .pill {',
+      '  background: rgba(255, 255, 255, 0.08) !important;',
+      '  backdrop-filter: blur(20px) saturate(180%) !important;',
+      '  -webkit-backdrop-filter: blur(20px) saturate(180%) !important;',
+      '  border: 1px solid rgba(255, 255, 255, 0.14) !important;',
+      '  color: rgba(255, 255, 255, 0.88) !important;',
+      '  font-size: 12px !important;',
+      '  font-weight: 600 !important;',
+      '  letter-spacing: -0.01em !important;',
+      '  border-radius: 9999px !important;',
+      '  padding: 6px 14px !important;',
+      '  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.15) !important;',
+      '}',
+
+      // Apple primary CTA button
+      '.cta-btn {',
+      '  background: #22C55E !important;',
+      '  color: #04240F !important;',
+      '  font-weight: 600 !important;',
+      '  font-size: 15px !important;',
+      '  letter-spacing: -0.01em !important;',
+      '  border-radius: 9999px !important;',
+      '  padding: 13px 34px !important;',
+      '  border: 1px solid rgba(255, 255, 255, 0.35) !important;',
+      '  box-shadow: 0 4px 20px rgba(34, 197, 94, 0.35), inset 0 1px 0 rgba(255, 255, 255, 0.45) !important;',
+      '  transition: transform 0.22s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.22s ease !important;',
+      '}',
+      '.cta-btn:hover {',
+      '  transform: scale(1.02) !important;',
+      '  box-shadow: 0 6px 24px rgba(34, 197, 94, 0.48), inset 0 1px 0 rgba(255, 255, 255, 0.55) !important;',
+      '}',
+      '.cta-btn:active {',
+      '  transform: scale(0.98) !important;',
+      '}',
+    ].join('\n');
+    (document.head || document.documentElement).appendChild(st);
+
+    // Clean up emojis from metadata pills to match Apple minimalism
+    function sanitizePills() {
+      var pills = document.querySelectorAll('.cover-pills .pill');
+      for (var i = 0; i < pills.length; i++) {
+        var el = pills[i];
+        // Strip emojis and leading/trailing whitespace
+        var clean = (el.textContent || '')
+          .replace(/[\u{1F300}-\u{1FAFF}\u{2600}-\u{26FF}\u{2700}-\u{27BF}]/gu, '')
+          .trim();
+        if (clean) el.textContent = clean;
+      }
+    }
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', sanitizePills);
+    } else {
+      sanitizePills();
+    }
+  })();
 
   // Hide "Next lesson" and "Back to path" buttons inside modules so learners flow
   // smoothly from the lesson directly into the Protégé & Hot-Seat experience.
