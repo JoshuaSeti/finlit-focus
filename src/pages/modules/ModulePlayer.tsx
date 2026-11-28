@@ -283,17 +283,29 @@ const ModulePlayer = () => {
               transition={{ duration: 0.28, ease: [0.22, 1, 0.36, 1] }}
               className="flex-1 overflow-y-auto px-4 py-6 sm:p-8 flex justify-center stage-backdrop-debrief"
             >
-              <AlignmentScorecard
+                          <AlignmentScorecard
                 protegeName={dilemmaData.protegeName}
                 mentorshipScore={mentorshipResult?.totalScore ?? 80}
                 personalScore={personalResult?.alignmentScore ?? 75}
                 protectedKwacha={mentorshipResult?.protectedKwacha ?? 600}
-                habitName={mentorshipResult?.habitName}
                 verdict={personalResult?.verdict ?? 'Balanced Discipline'}
-                onFinish={() => {
+                onEnterSimulator={() => {
+                  window.location.href = '/sim/index.html';
+                }}
+                onClaimCertificate={async () => {
+                  if (user) {
+                    await supabase.rpc('claim_module_certificate' as never, {
+                      p_slug: slug,
+                      p_name: user.email || null,
+                    } as never);
+                  }
+                  navigate('/account');
+                }}
+                onReturnToLessons={() => {
                   navigate('/modules');
                 }}
               />
+
             </motion.div>
           )}
         </AnimatePresence>
