@@ -14,172 +14,123 @@
     post: post,
   };
 
-  // ── 1. Apple-Style Editorial Intro Cover & Site Buttons ──
-  (function initAppleStyles() {
+   // ── 1. Minimalist Editorial Cover with Smooth Fade-Out (No Scroll) ──
+  (function initCoverStyles() {
     var meta = CFG.meta || {};
     var hasCoverImage = meta.cover_image_url && typeof meta.cover_image_url === 'string';
 
     var st = document.createElement('style');
     st.textContent = [
-      // Hide legacy orbs and noise grain
-      '.cover .orb, .cover .grain, .cover .vignette { display: none !important; }',
+      // Hide legacy decorative noise, orbs, and generic pills entirely
+      '.cover .orb, .cover .grain, .cover .vignette, .cover-tag, .cover-pills, .pills { display: none !important; }',
 
-      // Full-bleed Apple canvas (no cramped 680px card)
+      // Clean editorial hero cover
       '.cover {',
       '  box-sizing: border-box !important;',
       '  width: 100% !important;',
       '  max-width: 100% !important;',
-      '  min-height: calc(100vh - 14px) !important;',
+      '  min-height: 100vh !important;',
       '  margin: 0 !important;',
       '  border-radius: 0 !important;',
-      '  padding: clamp(48px, 10vh, 96px) 24px 48px !important;',
+      '  padding: clamp(48px, 12vh, 96px) 24px 48px !important;',
       '  display: flex !important;',
       '  flex-direction: column !important;',
       '  justify-content: center !important;',
       '  align-items: center !important;',
       '  text-align: center !important;',
-      '  font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "SF Pro Text", system-ui, sans-serif !important;',
+      '  opacity: 1;',
+      '  transition: opacity 0.35s cubic-bezier(0.16, 1, 0.3, 1), transform 0.35s cubic-bezier(0.16, 1, 0.3, 1) !important;',
       hasCoverImage
-        ? '  background: linear-gradient(180deg, rgba(6,16,10,0.72) 0%, rgba(6,16,10,0.90) 55%, rgba(6,16,10,0.98) 100%), url("' +
+        ? '  background: linear-gradient(180deg, rgba(6,16,10,0.78) 0%, rgba(6,16,10,0.92) 60%, rgba(6,16,10,0.98) 100%), url("' +
           meta.cover_image_url +
           '") center/cover no-repeat !important;'
-        : '  background: radial-gradient(ellipse 1100px 700px at 50% -10%, rgba(34,197,94,0.18) 0%, transparent 60%), linear-gradient(180deg, #09170e 0%, #061009 100%) !important;',
+        : '  background: radial-gradient(ellipse 1100px 700px at 50% -10%, rgba(34,197,94,0.12) 0%, transparent 60%), linear-gradient(180deg, #09170e 0%, #061009 100%) !important;',
       '}',
 
-      // Apple micro-caps kicker
-      '.cover-tag {',
-      '  font-size: 11px !important;',
-      '  font-weight: 700 !important;',
-      '  letter-spacing: 0.12em !important;',
-      '  text-transform: uppercase !important;',
-      '  color: #34D399 !important;',
-      '  background: rgba(52, 211, 153, 0.12) !important;',
-      '  border: 1px solid rgba(52, 211, 153, 0.28) !important;',
-      '  border-radius: 9999px !important;',
-      '  padding: 6px 16px !important;',
-      '  margin-bottom: 24px !important;',
-      '  display: inline-flex !important;',
+      '.cover.faded-out {',
+      '  opacity: 0 !important;',
+      '  transform: scale(0.98) !important;',
+      '  pointer-events: none !important;',
       '}',
 
-      // Title & typography hierarchy
       '.cover-content {',
       '  max-width: 680px !important;',
       '  display: flex !important;',
       '  flex-direction: column !important;',
       '  align-items: center !important;',
-      '  gap: 12px !important;',
+      '  gap: 16px !important;',
       '}',
       '.cover-headline {',
-      '  font-size: clamp(34px, 5.5vw, 56px) !important;',
-      '  line-height: 1.08 !important;',
+      '  font-size: clamp(32px, 5vw, 52px) !important;',
+      '  line-height: 1.12 !important;',
       '  font-weight: 700 !important;',
-      '  letter-spacing: -0.035em !important;',
+      '  letter-spacing: -0.03em !important;',
       '  color: #FFFFFF !important;',
       '  margin: 0 !important;',
       '}',
-      '.cover-headline-accent {',
-      '  color: #6EE7B7 !important;',
-      '  font-weight: 700 !important;',
-      '}',
       '.cover-subline {',
-      '  font-size: 15px !important;',
-      '  font-weight: 500 !important;',
-      '  line-height: 1.5 !important;',
+      '  font-size: 16px !important;',
+      '  font-weight: 400 !important;',
+      '  line-height: 1.55 !important;',
       '  color: rgba(255, 255, 255, 0.72) !important;',
       '  max-width: 520px !important;',
-      '  margin: 4px 0 0 !important;',
+      '  margin: 0 !important;',
       '}',
 
-      // Bottom bar & metadata dock
       '.cover-bottom-bar {',
+      '  margin-top: 36px !important;',
       '  display: flex !important;',
-      '  flex-direction: column !important;',
-      '  align-items: center !important;',
-      '  gap: 28px !important;',
-      '  border-top: none !important;',
-      '  width: 100% !important;',
-      '  max-width: 560px !important;',
-      '  padding: 0 !important;',
-      '  margin-top: 40px !important;',
-      '}',
-      '.cover-pills {',
-      '  display: flex !important;',
-      '  align-items: center !important;',
       '  justify-content: center !important;',
-      '  gap: 8px !important;',
-      '  flex-wrap: wrap !important;',
       '}',
 
-      // Frosted Apple metadata badges (no chunky border or shadow)
-      '.cover-pills .pill {',
-      '  background: rgba(255, 255, 255, 0.08) !important;',
-      '  backdrop-filter: blur(20px) saturate(180%) !important;',
-      '  -webkit-backdrop-filter: blur(20px) saturate(180%) !important;',
-      '  border: 1px solid rgba(255, 255, 255, 0.14) !important;',
-      '  color: rgba(255, 255, 255, 0.88) !important;',
-      '  font-size: 12px !important;',
-      '  font-weight: 600 !important;',
-      '  letter-spacing: -0.01em !important;',
-      '  border-radius: 9999px !important;',
-      '  padding: 6px 14px !important;',
-      '  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.15) !important;',
-      '}',
-
-      // ── Site Button Styling Across the Module ──
-      '.btn::after, .cta-btn::after, .fl-practice-go::after { display: none !important; }',
-      'button, .btn, .cta-btn, .fl-practice-go, .fl-cert-claim-btn, .fl-myth-btn, .fl-myth-next-btn {',
-      '  font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", system-ui, sans-serif !important;',
-      '  font-weight: 600 !important;',
-      '  letter-spacing: -0.015em !important;',
-      '  border-radius: 9999px !important;',
-      '  touch-action: manipulation !important;',
-      '  user-select: none !important;',
-      '  transition: all 150ms cubic-bezier(0.16, 1, 0.3, 1) !important;',
-      '}',
-      'button:active, .btn:active, .cta-btn:active, .fl-practice-go:active {',
-      '  transform: scale(0.96) !important;',
-      '}',
-      '.btn-p, .cta-btn, .fl-practice-go:not(.alt), .fl-cert-claim-btn, .fl-myth-next-btn {',
+      // FinLit Site Button Styling
+      '.btn::after, .cta-btn::after { display: none !important; }',
+      '.cta-btn, .btn-p {',
       '  background: #22C55E !important;',
       '  color: #04240F !important;',
-      '  border: 1px solid rgba(255, 255, 255, 0.35) !important;',
-      '  box-shadow: inset 0 1px 0 0 rgba(255, 255, 255, 0.45), 0 3px 12px -2px rgba(34, 197, 94, 0.35) !important;',
+      '  font-weight: 600 !important;',
+      '  font-size: 15px !important;',
+      '  border-radius: 9999px !important;',
+      '  padding: 12px 32px !important;',
+      '  border: none !important;',
+      '  cursor: pointer !important;',
+      '  box-shadow: 0 4px 14px rgba(34, 197, 94, 0.3) !important;',
+      '  transition: transform 0.15s ease, filter 0.15s ease !important;',
       '}',
-      '.btn-p:hover, .cta-btn:hover, .fl-practice-go:not(.alt):hover {',
-      '  filter: brightness(1.04) !important;',
-      '  box-shadow: inset 0 1px 0 0 rgba(255, 255, 255, 0.55), 0 6px 18px -3px rgba(34, 197, 94, 0.45) !important;',
+      '.cta-btn:hover, .btn-p:hover {',
+      '  filter: brightness(1.05) !important;',
+      '  transform: scale(1.02) !important;',
       '}',
-      '.btn-s, .btn-alt, .fl-practice-go.alt, .apple-reset-btn, button.alt {',
-      '  background: rgba(255, 255, 255, 0.85) !important;',
-      '  backdrop-filter: blur(12px) !important;',
-      '  -webkit-backdrop-filter: blur(12px) !important;',
-      '  color: #1F2937 !important;',
-      '  border: 1px solid rgba(229, 231, 235, 0.9) !important;',
-      '  box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05) !important;',
-      '}',
-      '.btn-s:hover, .fl-practice-go.alt:hover, button.alt:hover {',
-      '  background: #F3F4F6 !important;',
-      '  color: #111827 !important;',
+      '.cta-btn:active, .btn-p:active {',
+      '  transform: scale(0.98) !important;',
       '}'
     ].join('\n');
     (document.head || document.documentElement).appendChild(st);
 
-    function sanitizePills() {
-      var pills = document.querySelectorAll('.cover-pills .pill');
-      for (var i = 0; i < pills.length; i++) {
-        var el = pills[i];
-        var clean = (el.textContent || '')
-          .replace(/[\u{1F300}-\u{1FAFF}\u{2600}-\u{26FF}\u{2700}-\u{27BF}]/gu, '')
-          .trim();
-        if (clean) el.textContent = clean;
-      }
+    // Fade cover out cleanly and reset scroll to top (no scrolling down to section)
+    function attachFadeHandler() {
+      var cover = document.querySelector('.cover');
+      var cta = document.querySelector('.cta-btn');
+      if (!cover || !cta) return;
+
+      cta.addEventListener('click', function (e) {
+        e.preventDefault();
+        cover.classList.add('faded-out');
+        setTimeout(function () {
+          cover.style.display = 'none';
+          location.hash = '#s0';
+          window.scrollTo(0, 0);
+        }, 350);
+      });
     }
+
     if (document.readyState === 'loading') {
-      document.addEventListener('DOMContentLoaded', sanitizePills);
+      document.addEventListener('DOMContentLoaded', attachFadeHandler);
     } else {
-      sanitizePills();
+      attachFadeHandler();
     }
   })();
+
 
   // ── 2. Hide Redundant Buttons & Handle Smooth Handoff ──
   (function () {
